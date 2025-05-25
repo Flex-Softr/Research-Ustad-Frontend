@@ -27,12 +27,6 @@ const AboutSection = () => {
               knowledge, facilitating access to research data, and guiding
               individuals toward higher studies and diverse opportunities.
             </p>
-            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Through mutual support and resource sharing, we aim to nurture a
-              culture of innovation, academic excellence, and global impact. We
-              bridge the gap between individuals and opportunities, fostering
-              innovation through teamwork.
-            </p>
 
             <div className="grid grid-cols-2 gap-6">
               {stats.map((stat, index) => (
@@ -40,7 +34,7 @@ const AboutSection = () => {
                   key={index}
                   className="text-center border-0 shadow-md hover:shadow-lg transition-shadow"
                 >
-                  <CardContent className="p-6">
+                  <CardContent className="p-4">
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                       <stat.icon className="h-6 w-6 text-blue-600" />
                     </div>
@@ -60,7 +54,7 @@ const AboutSection = () => {
               <img
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                 alt="Students collaborating"
-                className="w-full h-64 object-cover rounded-xl"
+                className="w-full h-[400px] object-cover rounded-xl"
               />
               <div className="mt-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">

@@ -6,7 +6,7 @@ const team = [
     name: "Sarah Johnson",
     role: "CEO & Co-Founder",
     image:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
     bio: "Former VP of Analytics at Fortune 500 company. 15+ years in data science and business strategy.",
   },
   {

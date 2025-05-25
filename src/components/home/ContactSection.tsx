@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 
 const contactInfo = [
   {
@@ -18,12 +18,7 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    details: ["hello@datapro.com", "support@datapro.com"],
-  },
-  {
-    icon: Clock,
-    title: "Business Hours",
-    details: ["Mon - Fri: 9:00 AM - 6:00 PM", "Weekend: By appointment"],
+    details: ["hello@ResearchUstad.com", "support@ResearchUstad.com"],
   },
 ];
 
@@ -114,7 +109,7 @@ const ContactSection = () => {
                 key={index}
                 className="border-0 shadow-lg hover:shadow-xl transition-shadow"
               >
-                <CardContent className="p-6">
+                <CardContent className="p-3">
                   <div className="flex items-start">
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
                       <info.icon className="h-6 w-6 text-blue-600" />

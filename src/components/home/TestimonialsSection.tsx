@@ -4,7 +4,7 @@ import { Quote, Star } from "lucide-react";
 const testimonials = [
   {
     content:
-      "DataPro transformed our decision-making process. We went from gut feelings to data-driven insights that increased our revenue by 40% in just 6 months.",
+      "ResearchUstad transformed our decision-making process. We went from gut feelings to data-driven insights that increased our revenue by 40% in just 6 months.",
     author: "Jennifer Walsh",
     role: "VP of Operations",
     company: "TechCorp Inc.",
@@ -24,7 +24,7 @@ const testimonials = [
   },
   {
     content:
-      "Implementation was seamless, and the support team is exceptional. DataPro scales perfectly with our growing business needs.",
+      "Implementation was seamless, and the support team is exceptional. ResearchUstad scales perfectly with our growing business needs.",
     author: "Lisa Rodriguez",
     role: "CEO",
     company: "StartupX",
@@ -43,12 +43,12 @@ const TestimonialsSection = () => {
             What Our
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {" "}
-              Customers Say
+              Students Say
             </span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join thousands of satisfied customers who have transformed their
-            business with DataPro.
+            Join thousands of satisfied Students who have transformed their
+            business with ResearchUstad.
           </p>
         </div>
 
