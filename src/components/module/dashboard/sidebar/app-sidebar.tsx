@@ -1,21 +1,20 @@
 "use client";
 
-import * as React from "react";
 import {
-  LayoutDashboard,
-  UserPlus,
+  Bot,
+  Briefcase,
   CalendarPlus,
   FileText,
-  Users,
-  Sliders,
-  HelpCircle,
-  MessageSquare,
-  Briefcase,
-  ShoppingCart,
   Globe,
-  Bot,
-  Settings,
+  HelpCircle,
+  LayoutDashboard,
+  MessageSquare,
+  ShoppingCart,
+  Sliders,
+  UserPlus,
+  Users,
 } from "lucide-react";
+import * as React from "react";
 
 import {
   Sidebar,
@@ -26,10 +25,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { GetMe } from "@/services/singleUser";
+import Link from "next/link";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
-import Link from "next/link";
-import { GetMe } from "@/services/singleUser";
 
 interface User {
   _id: string;
@@ -52,8 +51,13 @@ const adminRoute = {
       isActive: true,
     },
     {
-      title: "Create Events",
-      url: "/admin/dashboard/createevents",
+      title: "Manage Events",
+      url: "/admin/dashboard/manageevent",
+      icon: CalendarPlus,
+    },
+    {
+      title: "Manage Courses",
+      url: "/admin/dashboard/managecourse",
       icon: CalendarPlus,
     },
 
@@ -104,7 +108,7 @@ const adminRoute = {
     //   url: "#",
     //   icon: Settings,
     //   items: [
-      
+
     //   ],
     // },
     {
@@ -136,7 +140,6 @@ const adminRoute = {
           title: "Profile",
           url: "/admin/dashboard/profile",
         },
-
       ],
     },
   ],
@@ -240,43 +243,40 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   if (isLoading) {
     return (
-     
-       <Sidebar>
-         <div className="px-4">
-    <div className="w-full   my-10 h-5 bg-gray-200 rounded-md animate-pulse"></div>
-    <div className="w-25  h-5 bg-gray-200 rounded-md animate-pulse"></div>
+      <Sidebar>
+        <div className="px-4">
+          <div className="w-full   my-10 h-5 bg-gray-200 rounded-md animate-pulse"></div>
+          <div className="w-25  h-5 bg-gray-200 rounded-md animate-pulse"></div>
 
-  <div className="space-y-4 mt-4 ">
-  <div className="flex items-center justify-center space-x-3">
-   <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-   <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
- </div>
- <div className="flex items-center justify-center space-x-3">
-   <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-   <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
- </div>
- <div className="flex items-center justify-center space-x-3">
-   <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-   <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
- </div>
- <div className="flex items-center justify-center space-x-3">
-   <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-   <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
- </div>
- <div className="flex items-center justify-center space-x-3">
-   <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-   <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
- </div>
- <div className="flex items-center justify-center space-x-3">
-   <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-   <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
- </div>
-{/* Skeleton Items */}
-
-</div>
+          <div className="space-y-4 mt-4 ">
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+            {/* Skeleton Items */}
+          </div>
         </div>
-       </Sidebar>
-  
+      </Sidebar>
     );
   }
 
@@ -285,7 +285,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }
 
   const data =
-    user.role === "superAdmin" || user.role === "admin" ? adminRoute : userRoute;
+    user.role === "superAdmin" || user.role === "admin"
+      ? adminRoute
+      : userRoute;
 
   return (
     <Sidebar collapsible="icon" {...props}>

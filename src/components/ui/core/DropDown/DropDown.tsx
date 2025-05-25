@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
+import Link from "next/link";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 import {
   NavigationMenu,
@@ -13,11 +13,10 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import { Card, CardDescription, CardFooter, CardTitle } from "../../card"
-import { Button } from "../../button"
-import { GetAllResearchPaperPublic } from "@/services/allreserchPaper"
-import { ResearchPaper } from "@/type"
+} from "@/components/ui/navigation-menu";
+import { GetAllResearchPaperPublic } from "@/services/allreserchPaper";
+import { ResearchPaper } from "@/type";
+import { Card, CardDescription, CardTitle } from "../../card";
 
 const components: { title: string; href: string; description: string }[] = [
   // {
@@ -35,16 +34,14 @@ const components: { title: string; href: string; description: string }[] = [
   {
     title: "Publications",
     href: "/allpapers",
-    description:
-      "Explore a collection of research papers and articles.",
+    description: "Explore a collection of research papers and articles.",
   },
   {
     title: "Achievements",
     href: "/achievements",
     description: "Showcase key milestones and accomplishments.",
-  }
-
-]
+  },
+];
 
 export function DroopDown() {
   const [papers, setPapers] = React.useState([]);
@@ -52,16 +49,16 @@ export function DroopDown() {
   React.useEffect(() => {
     const fetchData = async () => {
       const data = await GetAllResearchPaperPublic();
-      setPapers(data?.data); 
+      setPapers(data?.data);
     };
-  
-    fetchData(); 
+
+    fetchData();
   }, []);
 
   return (
     <NavigationMenu>
       <NavigationMenuList>
-      <NavigationMenuItem>
+        <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Home
@@ -72,29 +69,33 @@ export function DroopDown() {
           <NavigationMenuTrigger>Recent ResearchPaper</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] grid-cols-2">
-    
-
-                 {papers?.slice(0,3).map((paper:ResearchPaper) => (
-                   <Link  key={paper?._id} href={paper?.visitLink} target="_blank">
-                    <Card className="max-w-sm py-1  rounded-lg bg-white">
+              {papers?.slice(0, 3).map((paper: ResearchPaper) => (
+                <Link key={paper?._id} href={paper?.visitLink} target="_blank">
+                  <Card className="max-w-sm py-1  rounded-lg bg-white">
                     <div className="p-4">
-                      <CardTitle className="text-lg font-semibold">{paper.title}</CardTitle>
+                      <CardTitle className="text-lg font-semibold">
+                        {paper.title}
+                      </CardTitle>
                       <CardDescription className="text-sm text-gray-600">
                         <p>Authors: {paper.authors.join(", ")}</p>
                         <p>Journal: {paper.journal}</p>
                       </CardDescription>
                     </div>
                   </Card>
-                    
-                   </Link>
-                    ))}
-               <Card className=" justify-center h-fit  items-center ">
-               <Link className=" hover:underline hover:text-blue-400" href={'allpapers'}>See more</Link>
-               </Card>
+                </Link>
+              ))}
+              <Card className=" justify-center h-fit  items-center ">
+                <Link
+                  className=" hover:underline hover:text-blue-400"
+                  href={"allpapers"}
+                >
+                  See more
+                </Link>
+              </Card>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* <NavigationMenuItem>
           <NavigationMenuTrigger>Our Wings</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
@@ -109,11 +110,11 @@ export function DroopDown() {
               ))}
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
+        </NavigationMenuItem> */}
         <NavigationMenuItem>
           <Link href="/team-members" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-             Our Researchers
+              Our Researchers
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -125,15 +126,29 @@ export function DroopDown() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/event&course" legacyBehavior passHref>
+          <Link href="/course" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Event & Course
+              Courses
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/event" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Events
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/contact" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Contact Us
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  )
+  );
 }
 
 const ListItem = React.forwardRef<
@@ -158,6 +173,6 @@ const ListItem = React.forwardRef<
         </a>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = "ListItem"
+  );
+});
+ListItem.displayName = "ListItem";

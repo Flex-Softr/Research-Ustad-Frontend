@@ -17,17 +17,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 const navLinks = [
   { name: "Home", href: "/" },
-  // {
-  //   name: "Our Wings",
-  //   subLinks: [
-  //     { name: "Publications", href: "/allpapers" },
-  //     { name: "Achievements", href: "/achievements" },
-  //   ],
-  // },
   { name: "Our Researchers", href: "/team-members" },
   { name: "Our Blogs", href: "/blog" },
   { name: "Event", href: "/event" },
-  { name: "course", href: "/course" },
+  { name: "Course", href: "/course" },
+  { name: "Contact Us", href: "/contact" },
 ];
 interface NavItem {
   label: string;

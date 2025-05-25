@@ -63,7 +63,7 @@ const events = [
     category: "Business",
   },
   {
-    id: "2",
+    id: "3",
     title: "Startup Summit 2025",
     description: "An event to connect entrepreneurs and investors.",
     startDate: "2025-09-10T09:30:00Z",
