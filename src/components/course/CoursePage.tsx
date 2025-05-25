@@ -23,7 +23,7 @@ const courses = [
     fee: 100,
   },
   {
-    id: "1",
+    id: "2",
     title: "Course 1",
     startDate: "2025-03-15T04:40:00Z",
     location: "Online",
@@ -35,7 +35,7 @@ const courses = [
     fee: 100,
   },
   {
-    id: "1",
+    id: "3",
     title: "Course 1",
     startDate: "2025-03-15T04:40:00Z",
     location: "Online",
