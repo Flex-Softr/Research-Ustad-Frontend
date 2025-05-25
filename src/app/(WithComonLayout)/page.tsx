@@ -1,20 +1,31 @@
 "use client";
-import Achievement from "@/components/module/home/Achievement/Achievement";
-import BlogSection from "@/components/module/home/BlogSection/BlogSection";
-import Hero from "@/components/module/home/Hero/Hero";
-import OurTeam from "@/components/module/home/ourTeam/OurTeam";
-import ResearchArea from "@/components/module/home/ResearchArea/ResearchArea";
+
+import AboutSection from "@/components/home/AboutSection";
+import BlogSection from "@/components/home/BlogSection";
+import ContactSection from "@/components/home/ContactSection";
+import CoursesSection from "@/components/home/CourseSection";
+import EventsSection from "@/components/home/EventSection";
+import FeaturesSection from "@/components/home/FeatureSection";
+import HeroSection from "@/components/home/HeroSection";
+import ServicesSection from "@/components/home/ServiceSection";
+import StatsSection from "@/components/home/StatsSection";
+import TeamSection from "@/components/home/TeamSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 
 const HomePage = () => {
   return (
     <div className=" md:space-y-16 space-y-8">
-      <Hero />
-      <Achievement />
-      <ResearchArea />
-      <OurTeam></OurTeam>
-      {/* <RecentPublishSection></RecentPublishSection> */}
-      <BlogSection></BlogSection>
-      {/* <Pricing></Pricing>  */}
+      <HeroSection />
+      <FeaturesSection />
+      <ServicesSection />
+      <AboutSection />
+      <CoursesSection />
+      <EventsSection />
+      <TeamSection />
+      <TestimonialsSection />
+      <StatsSection />
+      <BlogSection />
+      <ContactSection />
     </div>
   );
 };

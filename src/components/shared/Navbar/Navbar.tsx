@@ -1,34 +1,32 @@
 "use client";
 import { AiOutlineLogin } from "react-icons/ai";
 
-import {  useEffect, useState } from "react";
-import Link from "next/link";
+import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {  getCurrentUser, logout } from "@/services/AuthService";
-import { useRouter } from "next/navigation";
-import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
-import { Menu, X, ChevronDown } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { getCurrentUser, logout } from "@/services/AuthService";
+import { ChevronDown, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 const navLinks = [
   { name: "Home", href: "/" },
-  { 
-    name: "Our Wings", 
+  {
+    name: "Our Wings",
     subLinks: [
       { name: "Publications", href: "/allpapers" },
       { name: "Achievements", href: "/achievements" },
-    ]
+    ],
   },
   { name: "Our Researchers", href: "/team-members" },
   { name: "Our Blogs", href: "/blog" },
-  { name: "Event & Course", href: "/event&course" }
-
+  { name: "Event & Course", href: "/event&course" },
 ];
 interface NavItem {
   label: string;
@@ -48,15 +46,15 @@ type UserToken = {
   email: string;
   role: "user" | "admin" | "supperAdmin";
   iat: number;
-  exp: number;
-}
+  exp: number;
+};
 const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<UserToken | null>(null);
   const [openDropdown, setOpenDropdown] = useState(null);
-  const router = useRouter()
-  const toggleDropdown = (index:any) => {
+  const router = useRouter();
+  const toggleDropdown = (index: any) => {
     setOpenDropdown(openDropdown === index ? null : index);
   };
   useEffect(() => {
@@ -66,7 +64,7 @@ const Navbar = () => {
     };
 
     fetchData();
-  }, []);
+  }, []);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -80,20 +78,20 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []); 
+  }, []);
   const handleLogOut = () => {
     logout();
-    setUser(null)
+    setUser(null);
     router.push("/");
   };
 
   return (
-    <nav className={`sticky top-0 z-50 ${
-      scrolling
-        ? "bg-white shadow-md backdrop-blur-md"
-        : "bg-white"
-    }`}>
-      <div className="container sm:w-[90%] mx-auto hidden lg:flex  justify-between items-center py-4">
+    <nav
+      className={`sticky top-0 z-50 ${
+        scrolling ? "bg-white shadow-md backdrop-blur-md" : "bg-white"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto  hidden lg:flex  justify-between items-center py-4 px-6">
         <Link href="/">
           <h2 className="font-bold text-[22px] flex">
             Research{" "}
@@ -101,118 +99,143 @@ const Navbar = () => {
           </h2>
         </Link>
 
-    
-
-        <div
-          className={`md:flex items-center space-x-8`}
-        >
+        <div className={`md:flex items-center space-x-8`}>
           <div>
-            <DroopDown/>
+            <DroopDown />
           </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger title="User">
               <AiOutlineLogin size={30} />
             </DropdownMenuTrigger>
-
             <DropdownMenuContent>
-              {
-                user && <DropdownMenuItem>
-                {user && <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>}
-              </DropdownMenuItem>
-              }
-             {user && <DropdownMenuSeparator />}
-             
-                {user ? (
-                 <DropdownMenuItem onClick={handleLogOut} className="bg-red-500 cursor-pointer"> <span >Logout</span></DropdownMenuItem>
-                ) : (
-                   <Link href={"/login"}><DropdownMenuItem className="bg-red-500 cursor-pointer">Login</DropdownMenuItem></Link>
-                )}
-              
-            </DropdownMenuContent>
-          </DropdownMenu>
-    </div>
-    </div>
-    <div>
-    <div className="p-4 lg:hidden block bg-white shadow-md">
-      <div className="flex justify-between items-center">
-      <Link href="/">
-          <h2 className="font-bold text-[22px] flex">
-            Research{" "}
-            <span className="text-[#bc986b] hover:text-yellow-500">Ustad</span>
-          </h2>
-        </Link>              
-        <div className="flex justify-center items-center gap-1">
-          <DropdownMenu>
-            <DropdownMenuTrigger title="User">
-              <AiOutlineLogin size={24} />
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent>
-             
-            {
-                user && <DropdownMenuItem>
-                {user && <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>}
-              </DropdownMenuItem>
-              }
-             {user && <DropdownMenuSeparator />}
-              <DropdownMenuItem className="bg-red-500 cursor-pointer">
-              {user ? (
-                 <DropdownMenuItem onClick={handleLogOut} className="bg-red-500 cursor-pointer"> <span >Logout</span></DropdownMenuItem>
-                ) : (
-                   <Link href={"/login"}><DropdownMenuItem className="bg-red-500 cursor-pointer">Login</DropdownMenuItem></Link>
-                )}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
- <div className="flex items-center justify-end gap-4">
-  
-        <Sheet  open={open} onOpenChange={setOpen}>
-          <SheetTrigger className=" focus:outline-none cursor-pointer">
-            {open ? <X size={24} /> : <Menu size={24} />}
-          </SheetTrigger>
-          <SheetContent side="left" className="w-64 p-4">
-            <nav className="flex flex-col space-y-4">
-              {navLinks.map((link, index) => (
-                <div key={link.name}>
-                  {link.subLinks ? (
-                    <div>
-                      <button 
-                        className="text-lg font-medium w-full text-left flex justify-between items-center" 
-                        onClick={() => toggleDropdown(index)}
-                      >
-                        {link.name} <ChevronDown size={20} className={`transition-transform ${openDropdown === index ? "rotate-180" : ""}`} />
-                      </button>
-                      {openDropdown === index && (
-                        <div className="pl-4 mt-2 space-y-2">
-                          {link.subLinks.map((subLink) => (
-                            <a key={subLink.name} href={subLink.href} className="block">
-                              {subLink.name}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <a href={link.href} className="text-lg font-medium">
-                      {link.name}
-                    </a>
+              {user && (
+                <DropdownMenuItem>
+                  {user && (
+                    <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
                   )}
-                </div>
-              ))}
-            </nav>
-         
-          </SheetContent>
-        </Sheet>
-        <div>
-      
- </div>
+                </DropdownMenuItem>
+              )}
+              {user && <DropdownMenuSeparator />}
+
+              {user ? (
+                <DropdownMenuItem
+                  onClick={handleLogOut}
+                  className="bg-red-500 cursor-pointer"
+                >
+                  {" "}
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              ) : (
+                <Link href={"/login"}>
+                  <DropdownMenuItem className="bg-red-500 cursor-pointer">
+                    Login
+                  </DropdownMenuItem>
+                </Link>
+              )}
+            </DropdownMenuContent>
+             
+          </DropdownMenu>
         </div>
-       </div>
       </div>
-      
-    </div>
-    </div>
+      <div>
+        <div className="p-4 lg:hidden block bg-white shadow-md">
+          <div className="flex justify-between items-center">
+            <Link href="/">
+              <h2 className="font-bold text-[22px] flex">
+                Research{" "}
+                <span className="text-[#bc986b] hover:text-yellow-500">
+                  Ustad
+                </span>
+              </h2>
+            </Link>
+            <div className="flex justify-center items-center gap-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger title="User">
+                  <AiOutlineLogin size={24} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {user && (
+                    <DropdownMenuItem>
+                      {user && (
+                        <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
+                      )}
+                    </DropdownMenuItem>
+                  )}
+                  {user && <DropdownMenuSeparator />}
+                  <DropdownMenuItem className="bg-red-500 cursor-pointer">
+                    {user ? (
+                      <DropdownMenuItem
+                        onClick={handleLogOut}
+                        className="bg-red-500 cursor-pointer"
+                      >
+                        {" "}
+                        <span>Logout</span>
+                      </DropdownMenuItem>
+                    ) : (
+                      <Link href={"/login"}>
+                        <DropdownMenuItem className="bg-red-500 cursor-pointer">
+                          Login
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+                 
+              </DropdownMenu>
+              <div className="flex items-center justify-end gap-4">
+                <Sheet open={open} onOpenChange={setOpen}>
+                  <SheetTrigger className=" focus:outline-none cursor-pointer">
+                    {open ? <X size={24} /> : <Menu size={24} />}
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-64 p-4">
+                    <nav className="flex flex-col space-y-4">
+                      {navLinks.map((link, index) => (
+                        <div key={link.name}>
+                          {link.subLinks ? (
+                            <div>
+                              <button
+                                className="text-lg font-medium w-full text-left flex justify-between items-center"
+                                onClick={() => toggleDropdown(index)}
+                              >
+                                {link.name}{" "}
+                                <ChevronDown
+                                  size={20}
+                                  className={`transition-transform ${
+                                    openDropdown === index ? "rotate-180" : ""
+                                  }`}
+                                />
+                              </button>
+                              {openDropdown === index && (
+                                <div className="pl-4 mt-2 space-y-2">
+                                  {link.subLinks.map((subLink) => (
+                                    <a
+                                      key={subLink.name}
+                                      href={subLink.href}
+                                      className="block"
+                                    >
+                                      {subLink.name}
+                                    </a>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <a href={link.href} className="text-lg font-medium">
+                              {link.name}
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </nav>
+                  </SheetContent>
+                </Sheet>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };
