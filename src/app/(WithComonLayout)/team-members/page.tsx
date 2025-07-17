@@ -1,11 +1,11 @@
 "use client"; // Ensures this is a client component
 
-import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import Team from "@/components/module/home/ourTeam/Team";
 import { Input } from "@/components/ui/input";
 import { GetAllResearchAssociate } from "@/services/reserarchers";
 import { UserProfile } from "@/type";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [data, setData] = useState<UserProfile[]>([]);
@@ -32,7 +32,9 @@ const Page = () => {
 
   // Filter by Specific Designation
   const filterByDesignation = (designation: string) => {
-    return filteredData.filter((associate) => associate.designation === designation);
+    return filteredData.filter(
+      (associate) => associate.designation === designation
+    );
   };
 
   // Handle Search
@@ -58,45 +60,46 @@ const Page = () => {
           Our <span className="text-yellow-500">Team Members</span>
         </h2>
         <div className="text-white flex gap-3">
-          <a href="/home" className="text-white hover:text-green-500">HOME</a>
+          <a href="/home" className="text-white hover:text-green-500">
+            HOME
+          </a>
           <span>/</span>
           <span className="uppercase">Team-member</span>
         </div>
       </div>
 
-     <div className="container sm:w-[90%] mx-auto py-10">
-     <div className="mx-2 md:mx-0">
-        {/* Search Input */}
-        <div className="flex justify-end mb-6">
-          <Input
-            className="md:w-64 w-full"
-            placeholder="Search Name or Designation"
-            value={searchQuery}
-            onChange={handleSearch}
-          />
-        </div>
+      <div className="max-w-6xl mx-auto py-10">
+        <div className="mx-2 md:mx-0">
+          <div className="flex justify-end mb-6">
+            <Input
+              className="md:w-64 w-full"
+              placeholder="Search Name or Designation"
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+          </div>
 
-        {/* Team Sections */}
-        <div className="grid grid-cols-1 gap-10">
-          {[
-            { title: "Our Advisor", key: "Advisor" },
-            { title: "Our Lead Members", key: "Lead" },
-            { title: "Our Research Associates", key: "Research_Associate" },
-            { title: "Mentor Panel", key: "Mentor_Panel" },
-          ].map(({ title, key }) => {
-            const members = filterByDesignation(key);
-            return (
-              <div key={key}>
-               {members.length > 0 && <h3 className="text-3xl font-semibold mb-5">{title}</h3>}
-                {members.length > 0 &&
-                  <Team allMembers={members} />
-                  }
-              </div>
-            );
-          })}
+          {/* Team Sections */}
+          <div className="grid grid-cols-1 gap-10">
+            {[
+              { title: "Our Advisor", key: "Advisor" },
+              { title: "Our Lead Members", key: "Lead" },
+              { title: "Our Research Associates", key: "Research_Associate" },
+              { title: "Mentor Panel", key: "Mentor_Panel" },
+            ].map(({ title, key }) => {
+              const members = filterByDesignation(key);
+              return (
+                <div key={key}>
+                  {members.length > 0 && (
+                    <h3 className="text-3xl font-semibold mb-5">{title}</h3>
+                  )}
+                  {members.length > 0 && <Team allMembers={members} />}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-     </div>
     </div>
   );
 };

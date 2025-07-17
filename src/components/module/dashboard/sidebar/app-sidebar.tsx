@@ -1,20 +1,22 @@
 "use client";
 
 import {
-  Bot,
   Briefcase,
-  CalendarPlus,
+  CalendarCheck,
+  FileStack,
   FileText,
   Globe,
+  GraduationCap,
   HelpCircle,
   LayoutDashboard,
   MessageSquare,
-  ShoppingCart,
-  Sliders,
+  NotebookPen,
+  PenSquare,
+  SlidersHorizontal,
+  User,
   UserPlus,
   Users,
 } from "lucide-react";
-import * as React from "react";
 
 import {
   Sidebar,
@@ -25,8 +27,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+
 import { GetMe } from "@/services/singleUser";
 import Link from "next/link";
+import React from "react";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 
@@ -53,33 +57,34 @@ const adminRoute = {
     {
       title: "Manage Events",
       url: "/admin/dashboard/manageevent",
-      icon: CalendarPlus,
+      icon: CalendarCheck,
     },
     {
       title: "Manage Courses",
       url: "/admin/dashboard/managecourse",
-      icon: CalendarPlus,
+      icon: GraduationCap,
     },
-
     {
       title: "Manage Blog",
       url: "#",
-      icon: CalendarPlus,
+      icon: NotebookPen,
       items: [
         {
           title: "All Blogs",
           url: "/admin/dashboard/allblogs",
+          icon: FileText,
         },
       ],
     },
     {
       title: "Manage Research Paper",
       url: "#",
-      icon: FileText,
+      icon: FileStack,
       items: [
         {
           title: "All Research Paper",
           url: "/admin/dashboard/allresearchpaper",
+          icon: FileText,
         },
       ],
     },
@@ -91,54 +96,49 @@ const adminRoute = {
         {
           title: "Create Membar",
           url: "/admin/dashboard/createassociate",
-          icon: Bot,
+          icon: UserPlus,
         },
         {
           title: "All Users",
           url: "/admin/dashboard/allusers",
+          icon: User,
         },
         {
           title: "Manage Members",
           url: "/admin/dashboard/members",
+          icon: Users,
         },
       ],
     },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings,
-    //   items: [
-
-    //   ],
-    // },
     {
       title: "Personal Working",
       url: "#",
-      icon: Sliders,
+      icon: SlidersHorizontal,
       items: [
         {
           title: "My ResearchPaper",
           url: "/admin/dashboard/myresearchpaper",
-          icon: Bot,
+          icon: FileText,
         },
         {
           title: "Create ResearchPaper",
           url: "/admin/dashboard/createresearchPaper",
-          icon: Bot,
+          icon: PenSquare,
         },
         {
           title: "Blog Post",
           url: "/admin/dashboard/blogpost",
-          icon: Bot,
+          icon: PenSquare,
         },
         {
           title: "Show All Blog",
           url: "/admin/dashboard/allblog",
-          icon: Bot,
+          icon: NotebookPen,
         },
         {
           title: "Profile",
           url: "/admin/dashboard/profile",
+          icon: User,
         },
       ],
     },
@@ -164,7 +164,7 @@ const adminRoute = {
     {
       name: "Sales & Marketing",
       url: "#",
-      icon: ShoppingCart,
+      icon: Globe,
     },
     {
       name: "Travel",
@@ -190,17 +190,17 @@ const userRoute = {
     {
       title: "My All Papers",
       url: "/user/dashboard/mypapers",
-      icon: FileText,
+      icon: FileStack,
     },
     {
       title: "Post a Blog",
       url: "/user/dashboard/createblog",
-      icon: CalendarPlus,
+      icon: PenSquare,
     },
     {
       title: "My All Blogs",
       url: "/user/dashboard/myallblog",
-      icon: FileText,
+      icon: NotebookPen,
     },
     {
       title: "Add Research Paper",
@@ -210,11 +210,12 @@ const userRoute = {
     {
       title: "Settings",
       url: "#",
-      icon: Sliders,
+      icon: SlidersHorizontal,
       items: [
         {
           title: "Profile",
           url: "/user/dashboard/profileinfo",
+          icon: User,
         },
       ],
     },
@@ -223,7 +224,6 @@ const userRoute = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user, setUser] = React.useState<User | null>(null);
-
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -245,44 +245,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
       <Sidebar>
         <div className="px-4">
-          <div className="w-full   my-10 h-5 bg-gray-200 rounded-md animate-pulse"></div>
-          <div className="w-25  h-5 bg-gray-200 rounded-md animate-pulse"></div>
-
-          <div className="space-y-4 mt-4 ">
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
-            </div>
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
-            </div>
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
-            </div>
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
-            </div>
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
-            </div>
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
-              <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
-            </div>
-            {/* Skeleton Items */}
+          <div className="w-full my-10 h-5 bg-gray-200 rounded-md animate-pulse"></div>
+          <div className="w-25 h-5 bg-gray-200 rounded-md animate-pulse"></div>
+          <div className="space-y-4 mt-4">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-center space-x-3"
+              >
+                <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
+                <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
+              </div>
+            ))}
           </div>
         </div>
       </Sidebar>
     );
   }
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   const data =
     user.role === "superAdmin" || user.role === "admin"
@@ -296,12 +277,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="/">
-                <div className="flex items-center justify-center"></div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <h2 className="font-bold text-xl">
-                    Research <span className="text-red-400">Ustad</span>
-                  </h2>
-                </div>
+                <h2 className="font-bold text-[22px] flex">
+                  Research{" "}
+                  <span className="text-[#bc986b] hover:text-yellow-500">
+                    Ustad
+                  </span>
+                </h2>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

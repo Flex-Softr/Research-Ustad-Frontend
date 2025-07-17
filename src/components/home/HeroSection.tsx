@@ -35,7 +35,7 @@ const HeroSection = () => {
               className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 group shadow-lg"
               asChild
             >
-              <Link href="/dashboard">
+              <Link href="/admin/dashboard">
                 Join Our Community
                 <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
               </Link>

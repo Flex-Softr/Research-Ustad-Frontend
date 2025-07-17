@@ -1,7 +1,6 @@
-"use client"
+"use client";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
-import { DeleteBlog, GetAllBlog} from "@/services/blogs";
-import { GetAllUsers, PromoteRole } from "@/services/Users";
+import { DeleteBlog, GetAllBlog } from "@/services/blogs";
 import { TUser } from "@/type";
 import { useEffect, useState } from "react";
 
@@ -11,8 +10,8 @@ const AllBlogs = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await GetAllBlog()       
-         setData(response?.data || []);
+        const response = await GetAllBlog();
+        setData(response?.data || []);
       } catch (error) {
         console.error("Error fetching research papers:", error);
       } finally {
@@ -25,22 +24,21 @@ const AllBlogs = () => {
     { label: "Title", value: "title" },
     { label: "PublishedDate", value: "publishedDate" },
   ];
-const handledeleted= async(id:string)=>{
+  const handledeleted = async (id: string) => {
     console.log(id);
-  const res = await DeleteBlog(id)
-  if(res.success){
-    await GetAllBlog() 
-  }
-}
-
+    const res = await DeleteBlog(id);
+    if (res.success) {
+      await GetAllBlog();
+    }
+  };
 
   return (
-    <div className=" lg:w-[990px] p-4">
+    <div className=" lg:w-full p-4">
       <ManageTable
-        data={data} 
-        isvalue="blog" 
-        columns={columns} 
-        loading={loading} 
+        data={data}
+        isvalue="blog"
+        columns={columns}
+        loading={loading}
         onDelete={handledeleted}
       />
     </div>

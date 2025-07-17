@@ -1,12 +1,19 @@
-"use client"
+"use client";
 import TableSkeleton from "@/components/Skeleton/Hompage/DashboardTableSkeleton";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { ApprovePaper } from "@/services/allreserchPaper";
 import { PromoteRole } from "@/services/Users";
 import { ShieldCheck } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface Column {
@@ -60,28 +67,29 @@ const ManageTable: React.FC<ManageTableProps> = ({
     const res = await ApprovePaper(id);
     console.log(res);
   };
-  const handleRoleChange = async (id:string, currentRole:string) => {
+  const handleRoleChange = async (id: string, currentRole: string) => {
     try {
-     if(currentRole =="superAdmin"){
-       toast.error('superAdmin can not be change');
-       return
-       }
-     if(currentRole =="user" || currentRole ==="admin"){
-       const res = await PromoteRole(id);
-      if(res.data){
-      console.log(res.data.role)
-      toast.success(`Promoted ${res?.data?.fullName} to ${res?.data?.role}`);
+      if (currentRole == "superAdmin") {
+        toast.error("superAdmin can not be change");
+        return;
       }
-     }
+      if (currentRole == "user" || currentRole === "admin") {
+        const res = await PromoteRole(id);
+        if (res.data) {
+          console.log(res.data.role);
+          toast.success(
+            `Promoted ${res?.data?.fullName} to ${res?.data?.role}`
+          );
+        }
+      }
     } catch (error) {
-     console.log(error)
+      console.log(error);
     }
-     };
+  };
 
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
-
 
   if (loading) {
     return <TableSkeleton />;
@@ -112,7 +120,9 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   {column.label}
                 </TableHead>
               ))}
-              {isvalue !== "userOrder" && <TableHead className="text-black">Actions</TableHead>}
+              {isvalue !== "userOrder" && (
+                <TableHead className="text-black">Actions</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody className="text-gray-500">
@@ -132,7 +142,10 @@ const ManageTable: React.FC<ManageTableProps> = ({
                     ) : (
                       column.value
                         .split(".")
-                        .reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item)
+                        .reduce(
+                          (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                          item
+                        )
                     )}
                   </TableCell>
                 ))}
@@ -140,17 +153,28 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   {isvalue === "paperadmin" && (
                     <button
                       onClick={() => handleApprove(item._id)}
-                      className={`px-2 py-1 cursor-pointer transition border rounded-md ${item.isApproved ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
+                      className={`px-2 py-1 cursor-pointer transition border rounded-md ${
+                        item.isApproved
+                          ? "bg-green-500 text-white"
+                          : "bg-red-500 text-white"
+                      }`}
                     >
                       {item.isApproved ? "Approved" : "Approve"}
                     </button>
                   )}
 
-               {
-                isvalue =="userRole" &&  <Button variant="outline" size="sm" onClick={() => handleRoleChange(item?._id, item?.role)}>
-                <ShieldCheck className="w-4 h-4" /> {item.role === "admin" ? "Promot to User" : "Promote to Admin"}
-              </Button>
-               }
+                  {isvalue == "userRole" && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleRoleChange(item?._id, item?.role)}
+                    >
+                      <ShieldCheck className="w-4 h-4" />{" "}
+                      {item.role === "admin"
+                        ? "Promot to User"
+                        : "Promote to Admin"}
+                    </Button>
+                  )}
                   {isvalue == "paperadmin" && (
                     <button
                       onClick={() => onDelete(item._id)}
@@ -159,7 +183,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
                       Delete
                     </button>
                   )}
-                    {isvalue == "researhMembar" && (
+                  {isvalue == "researhMembar" && (
                     <button
                       onClick={() => onDelete(item._id)}
                       className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
@@ -167,7 +191,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
                       Delete
                     </button>
                   )}
-                    {isvalue == "blog" && (
+                  {isvalue == "blog" && (
                     <button
                       onClick={() => onDelete(item._id)}
                       className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
@@ -175,10 +199,10 @@ const ManageTable: React.FC<ManageTableProps> = ({
                       Delete
                     </button>
                   )}
-                    {isvalue == "researhMembar" && (
-                     <Link className="btn" href={`members/${item?._id}`}>
-                     <Button>  Update</Button>
-                     </Link>
+                  {isvalue == "researhMembar" && (
+                    <Link className="btn" href={`members/${item?._id}`}>
+                      <Button> Update</Button>
+                    </Link>
                   )}
                 </TableCell>
               </TableRow>
@@ -203,7 +227,9 @@ const ManageTable: React.FC<ManageTableProps> = ({
             Page {currentPage} of {totalPages}
           </span>
           <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
             disabled={currentPage === totalPages}
             className="px-3 py-1 border rounded-md disabled:opacity-50"
           >

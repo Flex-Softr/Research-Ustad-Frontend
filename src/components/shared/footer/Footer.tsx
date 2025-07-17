@@ -7,10 +7,14 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg"></div>
-              <span className="text-xl font-bold">ResearchUstad</span>
-            </div>
+            <Link href="/">
+              <h2 className="font-bold text-[22px] flex">
+                Research{" "}
+                <span className="text-[#bc986b] hover:text-yellow-500">
+                  Ustad
+                </span>
+              </h2>
+            </Link>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Empowering businesses with intelligent analytics and data-driven
               insights to accelerate growth and innovation.

@@ -1,11 +1,10 @@
-"use client"
-import { TResearchAssociate } from "@/type";
-import { DeleteMember, GetAllResearchAssociate } from "@/services/reserarchers";
-import { useEffect, useState } from "react";
+"use client";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
+import { DeleteMember, GetAllResearchAssociate } from "@/services/reserarchers";
+import { TResearchAssociate } from "@/type";
+import { useEffect, useState } from "react";
 
 const Members = () => {
-
   const [data, setData] = useState<TResearchAssociate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -41,21 +40,20 @@ const Members = () => {
   const columns = [
     { label: "Name", value: "fullName" },
     { label: "Designation", value: "designation" },
-    { label: "Email", value: "email" }, 
+    { label: "Email", value: "email" },
     { label: "ContactNo", value: "contactNo" },
   ];
 
   return (
-    <div className=" lg:w-[990px]">
+    <div className=" w-full">
       <ManageTable
-        data={data} 
-        isvalue="researhMembar" 
-        columns={columns} 
-        loading={loading} 
-        onDelete={handleDelete} 
+        data={data}
+        isvalue="researhMembar"
+        columns={columns}
+        loading={loading}
+        onDelete={handleDelete}
       />
     </div>
   );
-
-}
+};
 export default Members;

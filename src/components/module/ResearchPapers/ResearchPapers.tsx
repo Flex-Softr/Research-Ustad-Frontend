@@ -1,8 +1,8 @@
 "use client";
-import { TPapers } from "@/type";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
 import { DeletePaper, GetAllResearchPaperMy } from "@/services/allreserchPaper";
-import { useState, useEffect } from "react";
+import { TPapers } from "@/type";
+import { useEffect, useState } from "react";
 
 const ResearchPapers = () => {
   const [data, setData] = useState<TPapers[]>([]);
@@ -36,12 +36,11 @@ const ResearchPapers = () => {
       console.error("Error deleting paper:", error);
     }
   };
-  
 
   const columns = [
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
-    { label: "Authors", value: "authors" }, 
+    { label: "Authors", value: "authors" },
     { label: "Journal", value: "journal" },
     { label: "Volume", value: "volume" },
     { label: "Impact Factor", value: "impactFactor" },
@@ -51,13 +50,13 @@ const ResearchPapers = () => {
   ];
 
   return (
-    <div className=" lg:w-[990px]">
-      <ManageTable 
-        data={data} 
-        isvalue="paper" 
-        columns={columns} 
-        loading={loading} 
-        onDelete={handleDelete} 
+    <div className=" w-full">
+      <ManageTable
+        data={data}
+        isvalue="paper"
+        columns={columns}
+        loading={loading}
+        onDelete={handleDelete}
       />
     </div>
   );
