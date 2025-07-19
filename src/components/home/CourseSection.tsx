@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Clock, DollarSign, MapPin, User } from "lucide-react";
+  Clock,
+  DollarSign,
+  MapPin,
+  User,
+  ArrowRight,
+  Star,
+} from "lucide-react";
 import Link from "next/link";
+import { Container } from "@/components/ui/core";
 
 const courses = [
   {
@@ -50,77 +51,119 @@ const courses = [
 
 const CoursesSection = () => {
   return (
-    <section id="courses" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+    <section className=" bg-gradient-to-br from-green-50 via-white to-blue-100 relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
+
+      <Container>
+        {/* Header Section */}
+        <div className="text-center ">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-6 py-3 rounded-full text-sm font-bold mb-6 shadow-lg">
+            <Star className="w-4 h-4" />
             Featured Courses
+          </div>
+          <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-6 leading-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-purple-600 to-brand-secondary">
+              Expert-Led
+            </span>
+
+            <span className="text-gray-900">Courses</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Enhance your skills with our expert-led courses designed for
             students and researchers.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => (
-            <Card
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
+          {courses.map((course, index) => (
+            <div
               key={course.id}
-              className="group hover:shadow-lg transition-shadow"
+              className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/50 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
             >
-              <div className="relative overflow-hidden rounded-t-lg">
+              {/* Image Section */}
+              <div className="relative overflow-hidden">
                 <img
                   src={course.image}
                   alt={course.title}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 <div className="absolute top-4 left-4">
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
                     {course.category}
                   </span>
                 </div>
+                <div className="absolute top-4 right-4">
+                  <div className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+                    <Star className="w-4 h-4 text-brand-primary fill-current" />
+                  </div>
+                </div>
               </div>
 
-              <CardHeader>
-                <CardTitle className="text-xl font-bold">
-                  {course.title}
-                </CardTitle>
-                <CardDescription>{course.syllabus}</CardDescription>
-              </CardHeader>
-
-              <CardContent className="space-y-3">
-                <div className="flex items-center text-sm text-gray-600">
-                  <User className="h-4 w-4 mr-2" />
-                  <span>Instructor: {course.instruction}</span>
+              {/* Content Section */}
+              <div className="p-6">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-primary transition-colors duration-300">
+                    {course.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {course.syllabus}
+                  </p>
                 </div>
 
-                <div className="flex items-center text-sm text-gray-600">
-                  <Clock className="h-4 w-4 mr-2" />
-                  <span>
-                    Starts: {new Date(course.startDate).toLocaleDateString()}
-                  </span>
+                {/* Course Details */}
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                      <User className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <span className="font-medium">
+                      Instructor: {course.instruction}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                    <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                      <Clock className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <span className="font-medium">
+                      Starts: {new Date(course.startDate).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                      <MapPin className="h-4 w-4 text-green-600" />
+                    </div>
+                    <span className="font-medium">{course.location}</span>
+                  </div>
                 </div>
 
-                <div className="flex items-center text-sm text-gray-600">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  <span>{course.location}</span>
-                </div>
-
-                <div className="flex items-center justify-between pt-4">
-                  <div className="flex items-center text-lg font-bold text-blue-600">
-                    <DollarSign className="h-5 w-5 mr-1" />
+                {/* Price and CTA */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex items-center text-2xl font-black text-brand-primary">
+                    <DollarSign className="h-6 w-6 mr-1" />
                     <span>{course.fee}</span>
                   </div>
 
-                  <Button asChild>
-                    <Link href={`/course/${course.id}`}>View Details</Link>
-                  </Button>
+                  <Link
+                    href={`/course/${course.id}`}
+                    className="group/btn inline-flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-6 py-3 rounded-full text-sm font-bold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  >
+                    <span>View Details</span>
+                    <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </Link>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+
+              {/* Hover Indicator */}
+              <div className="absolute top-4 right-4 w-2 h-2 bg-brand-secondary rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+            </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

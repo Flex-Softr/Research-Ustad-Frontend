@@ -1,11 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Globe, GraduationCap, TrendingUp } from "lucide-react";
+import {
+  BookOpen,
+  Globe,
+  GraduationCap,
+  TrendingUp,
+  ArrowRight,
+} from "lucide-react";
+import { Container } from "@/components/ui/core";
 
 const wings = [
   {
     icon: BookOpen,
-    title: "Research Wings",
+    title: "Research ",
     description:
       "Engage in ongoing innovative research initiatives and contribute to scholarly publications.",
     features: [
@@ -18,7 +24,7 @@ const wings = [
   },
   {
     icon: TrendingUp,
-    title: "Trending Wings",
+    title: "Trending ",
     description:
       "Specialized training courses in the most in-demand technologies and skills.",
     features: [
@@ -31,7 +37,7 @@ const wings = [
   },
   {
     icon: GraduationCap,
-    title: "Higher Study Wings",
+    title: "Higher Study ",
     description:
       "Resources and guidance for international education and scholarship opportunities.",
     features: [
@@ -44,7 +50,7 @@ const wings = [
   },
   {
     icon: Globe,
-    title: "Language Wings",
+    title: "Language ",
     description:
       "Language proficiency training for global academic and professional opportunities.",
     features: [
@@ -59,78 +65,129 @@ const wings = [
 
 const ServicesSection = () => {
   return (
-    <section
-      id="services"
-      className="py-20 bg-gradient-to-br from-gray-50 to-blue-50"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className=" bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+      <Container>
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="inline-flex items-center gap-2 bg-brand-secondary/10 border border-brand-secondary/20 text-brand-secondary px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <TrendingUp className="w-4 h-4" />
+            Our Specialized Programs
+          </div>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight flex items-center justify-center gap-2">
             Our
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              {" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary ml-2">
               Wings
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Explore our specialized programs designed to support your academic
             journey and professional development.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
           {wings.map((wing, index) => (
-            <Card
+            <div
               key={index}
-              className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg"
+              className="group relative bg-white shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 rounded-2xl p-6 overflow-hidden"
             >
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <wing.icon className="h-8 w-8 text-white" />
-                    </div>
-                    <CardTitle className="text-2xl text-gray-900">
-                      {wing.title}
-                    </CardTitle>
-                  </div>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      wing.status === "Active"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
+              {/* Visible Hover Background */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div
+                  className={`absolute inset-0 rounded-2xl ${
+                    index === 0
+                      ? "bg-blue-100/80"
+                      : index === 1
+                      ? "bg-orange-100/80"
+                      : index === 2
+                      ? "bg-purple-100/80"
+                      : "bg-green-100/80"
+                  }`}
+                ></div>
+              </div>
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg ${
+                      index === 0
+                        ? "bg-gradient-to-br from-blue-100 to-blue-200 group-hover:from-blue-200 group-hover:to-blue-300"
+                        : index === 1
+                        ? "bg-gradient-to-br from-orange-100 to-orange-200 group-hover:from-orange-200 group-hover:to-orange-300"
+                        : index === 2
+                        ? "bg-gradient-to-br from-purple-100 to-purple-200 group-hover:from-purple-200 group-hover:to-purple-300"
+                        : "bg-gradient-to-br from-green-100 to-green-200 group-hover:from-green-200 group-hover:to-green-300"
                     }`}
                   >
-                    {wing.status}
-                  </span>
+                    <wing.icon
+                      className={`h-8 w-8 ${
+                        index === 0
+                          ? "text-blue-600 group-hover:text-blue-700"
+                          : index === 1
+                          ? "text-orange-600 group-hover:text-orange-700"
+                          : index === 2
+                          ? "text-purple-600 group-hover:text-purple-700"
+                          : "text-green-600 group-hover:text-green-700"
+                      }`}
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 group-hover:text-gray-800 transition-colors duration-300">
+                    {wing.title}
+                  </h3>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 mb-6 text-lg leading-relaxed">
+
+                {/* Description */}
+                <p className="text-gray-600 mb-6 text-base leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
                   {wing.description}
                 </p>
-                <ul className="space-y-2 mb-6">
+
+                {/* Features List */}
+                <ul className="space-y-3 mb-8">
                   {wing.features.map((feature, featureIndex) => (
                     <li
                       key={featureIndex}
-                      className="flex items-center text-gray-700"
+                      className="flex items-center text-gray-700 text-sm"
                     >
-                      <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                      <div
+                        className={`w-2 h-2 rounded-full mr-3 ${
+                          index === 0
+                            ? "bg-blue-500"
+                            : index === 1
+                            ? "bg-orange-500"
+                            : index === 2
+                            ? "bg-purple-500"
+                            : "bg-green-500"
+                        }`}
+                      ></div>
                       {feature}
                     </li>
                   ))}
                 </ul>
-                <Button
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  disabled={wing.status === "Coming Soon"}
-                >
-                  {wing.status === "Active" ? "Explore Now" : "Coming Soon"}
-                </Button>
-              </CardContent>
-            </Card>
+
+                {/* Action Button */}
+                <div className="flex w-full items-center justify-between pt-6 border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300">
+                  <Button className="w-full text-sm font-semibold px-4 py-2 h-auto bg-brand-primary hover:bg-brand-primary/90 text-white transition-all duration-300">
+                    Explore Now
+                  </Button>
+
+                  {/* Hover Indicator */}
+                  <div
+                    className={`w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 ${
+                      index === 0
+                        ? "bg-blue-500"
+                        : index === 1
+                        ? "bg-orange-500"
+                        : index === 2
+                        ? "bg-purple-500"
+                        : "bg-green-500"
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

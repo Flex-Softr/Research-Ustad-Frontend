@@ -8,13 +8,13 @@ import EventsSection from "@/components/home/EventSection";
 import FeaturesSection from "@/components/home/FeatureSection";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServiceSection";
-import StatsSection from "@/components/home/StatsSection";
+
 import TeamSection from "@/components/home/TeamSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 
 const HomePage = () => {
   return (
-    <div className=" md:space-y-16 space-y-8">
+    <div className=" md:space-y-4 space-y-4">
       <HeroSection />
       <FeaturesSection />
       <ServicesSection />
@@ -23,7 +23,7 @@ const HomePage = () => {
       <EventsSection />
       <TeamSection />
       <TestimonialsSection />
-      <StatsSection />
+
       <BlogSection />
       <ContactSection />
     </div>
