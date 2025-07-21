@@ -1,0 +1,226 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import {
+  Calendar,
+  MapPin,
+  Users,
+  Clock,
+  ExternalLink,
+  DollarSign,
+} from "lucide-react";
+import { type Event } from "@/services/events";
+
+interface EventSidebarProps {
+  event: Event;
+}
+
+const EventSidebar = ({ event }: EventSidebarProps) => {
+  const getEventStatus = (event: Event) => {
+    const now = new Date();
+    const startDate = new Date(event.startDate);
+
+    if (startDate > now) {
+      const daysUntil = Math.ceil(
+        (startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      return {
+        status: "upcoming",
+        text: `${daysUntil} days away`,
+        color: "text-green-600",
+      };
+    } else {
+      return {
+        status: "past",
+        text: "Event completed",
+        color: "text-gray-500",
+      };
+    }
+  };
+
+  const statusInfo = getEventStatus(event);
+  const registrationPercentage = Math.round(
+    (event.registered / event.capacity) * 100
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Event Information Card */}
+      <Card className="sticky top-24 bg-white/80 backdrop-blur-sm border border-gray-100">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center text-gray-900">
+            Event Information
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Price */}
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2">
+              <DollarSign className="h-5 w-5 text-brand-secondary" />
+              <span className="text-3xl font-bold text-brand-secondary">
+                {event.price}
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mt-1">Registration Fee</p>
+          </div>
+
+          {/* Event Details */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-3">
+              <Calendar className="h-5 w-5 text-brand-secondary" />
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">Date</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(event.startDate).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                  {new Date(event.startDate).toDateString() !==
+                    new Date(event.endDate).toDateString() && (
+                    <>
+                      {" "}
+                      -{" "}
+                      {new Date(event.endDate).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <Clock className="h-5 w-5 text-brand-secondary" />
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">Time</p>
+                <p className="text-sm text-gray-600">
+                  {new Date(event.startDate).toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}{" "}
+                  -{" "}
+                  {new Date(event.endDate).toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <MapPin className="h-5 w-5 text-brand-secondary" />
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">Location</p>
+                <p className="text-sm text-gray-600">{event.location}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-3">
+              <Users className="h-5 w-5 text-brand-secondary" />
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">Speakers</p>
+                <p className="text-sm text-gray-600">
+                  {event.speakers.length} featured speakers
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Registration Progress */}
+          {statusInfo.status === "upcoming" && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="font-medium text-gray-900">Registration</span>
+                <span className="text-gray-600">
+                  {event.registered}/{event.capacity}
+                </span>
+              </div>
+              <Progress
+                value={registrationPercentage}
+                className="h-2"
+                indicatorClassName="bg-brand-secondary"
+              />
+              <p className="text-xs text-gray-500 text-center">
+                {event.capacity - event.registered} spots remaining
+              </p>
+            </div>
+          )}
+
+          {/* Status */}
+          <div className="text-center">
+            <p className={`text-sm font-medium ${statusInfo.color}`}>
+              {statusInfo.text}
+            </p>
+          </div>
+
+          {/* Registration Button */}
+          <Button
+            asChild
+            className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
+            disabled={statusInfo.status === "past"}
+          >
+            <a
+              href={event.registrationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {statusInfo.status === "upcoming"
+                ? "Register Now"
+                : "Event Ended"}
+              <ExternalLink className="h-4 w-4 ml-2" />
+            </a>
+          </Button>
+
+          {/* Additional Info */}
+          <div className="text-center">
+            <p className="text-xs text-gray-500">
+              By registering, you agree to our terms and conditions
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Quick Stats */}
+      <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
+        <CardHeader>
+          <CardTitle className="text-lg font-bold text-gray-900">
+            Event Stats
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Category</span>
+            <span className="font-medium text-gray-900">{event.category}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Status</span>
+            <span
+              className={`font-medium ${
+                statusInfo.status === "upcoming"
+                  ? "text-green-600"
+                  : "text-gray-500"
+              }`}
+            >
+              {statusInfo.status === "upcoming" ? "Upcoming" : "Past"}
+            </span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Capacity</span>
+            <span className="font-medium text-gray-900">{event.capacity}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-gray-600">Registered</span>
+            <span className="font-medium text-gray-900">
+              {event.registered}
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default EventSidebar;

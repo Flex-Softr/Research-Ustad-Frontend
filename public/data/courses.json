@@ -2,234 +2,8 @@
   "courses": [
     {
       "id": "1",
-      "title": "Advanced JavaScript: From Fundamentals to Modern Development",
-      "description": "Master the fundamentals of JavaScript programming with hands-on projects and real-world applications. This comprehensive course covers variables, functions, DOM manipulation, and modern ES6+ features.",
-      "startDate": "2025-03-15T04:40:00Z",
-      "endDate": "2025-06-15T04:40:00Z",
-      "location": "Online",
-      "duration": "12 weeks",
-      "level": "Intermediate",
-      "category": "Technology",
-      "fee": 299,
-      "originalFee": 399,
-      "enrolled": 1245,
-      "capacity": 2000,
-      "rating": 4.7,
-      "totalReviews": 892,
-      "language": "English",
-      "certificate": true,
-      "lifetimeAccess": true,
-      "imageUrl": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "curriculum": "<h2>Course Overview</h2><p>This comprehensive JavaScript course is designed to take you from the fundamentals to advanced concepts in modern web development. Whether you're a complete beginner or have some programming experience, this course will provide you with the skills needed to build dynamic, interactive web applications.</p><h3>What You'll Learn</h3><ul><li>Master JavaScript fundamentals and advanced concepts</li><li>Build real-world applications with modern JavaScript</li><li>Understand asynchronous programming with Promises and async/await</li><li>Create interactive web applications with DOM manipulation</li><li>Implement ES6+ features in your projects</li><li>Debug and optimize JavaScript code effectively</li><li>Work with modern development tools and practices</li><li>Prepare for JavaScript interviews and assessments</li></ul><h3>Course Structure</h3><p>The course is organized into 4 main modules, each focusing on specific aspects of JavaScript development:</p><div class=\"mb-6 p-4 bg-gray-50 rounded-lg\"><h4 class=\"text-lg font-semibold text-gray-900 mb-2\">Module 1: JavaScript Fundamentals</h4><p class=\"text-gray-600 mb-3\">This module covers essential concepts and practical applications.</p><ul class=\"space-y-1\"><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Introduction to Modern JavaScript <span class=\"text-gray-500\">(45 min)</span><span class=\"px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full\">Free</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Variables and Data Types <span class=\"text-gray-500\">(60 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Functions and Scope <span class=\"text-gray-500\">(75 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Practice Exercise: Basic Functions <span class=\"text-gray-500\">(30 min)</span></li></ul></div><div class=\"mb-6 p-4 bg-gray-50 rounded-lg\"><h4 class=\"text-lg font-semibold text-gray-900 mb-2\">Module 2: Advanced Concepts</h4><p class=\"text-gray-600 mb-3\">This module covers essential concepts and practical applications.</p><ul class=\"space-y-1\"><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Closures and Higher-Order Functions <span class=\"text-gray-500\">(90 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Promises and Async/Await <span class=\"text-gray-500\">(120 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Error Handling <span class=\"text-gray-500\">(60 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Project: Async Data Fetching <span class=\"text-gray-500\">(45 min)</span></li></ul></div><div class=\"mb-6 p-4 bg-gray-50 rounded-lg\"><h4 class=\"text-lg font-semibold text-gray-900 mb-2\">Module 3: DOM Manipulation</h4><p class=\"text-gray-600 mb-3\">This module covers essential concepts and practical applications.</p><ul class=\"space-y-1\"><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Understanding the DOM <span class=\"text-gray-500\">(60 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Event Handling <span class=\"text-gray-500\">(75 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Dynamic Content Creation <span class=\"text-gray-500\">(90 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Interactive Quiz <span class=\"text-gray-500\">(30 min)</span></li></ul></div><div class=\"mb-6 p-4 bg-gray-50 rounded-lg\"><h4 class=\"text-lg font-semibold text-gray-900 mb-2\">Module 4: Modern JavaScript</h4><p class=\"text-gray-600 mb-3\">This module covers essential concepts and practical applications.</p><ul class=\"space-y-1\"><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>ES6+ Features <span class=\"text-gray-500\">(120 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Modules and Imports <span class=\"text-gray-500\">(60 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Final Project: Web Application <span class=\"text-gray-500\">(180 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Course Assessment <span class=\"text-gray-500\">(60 min)</span></li></ul></div><h3>Learning Outcomes</h3><p>By the end of this course, you will have:</p><ul><li>Mastered the core concepts and principles of JavaScript</li><li>Gained hands-on experience through practical projects</li><li>Developed problem-solving skills in real-world scenarios</li><li>Built a strong foundation for advanced learning</li><li>Created interactive web applications from scratch</li><li>Understood modern JavaScript development practices</li></ul><h3>Assessment and Certification</h3><p>Throughout the course, you'll complete various assessments including quizzes, projects, and a final evaluation. Upon successful completion, you'll receive a certificate of achievement that demonstrates your JavaScript proficiency.</p><div class=\"bg-brand-secondary/10 border border-brand-secondary/20 rounded-lg p-4 mt-6\"><h4 class=\"font-semibold text-brand-secondary mb-2\">Course Features</h4><ul class=\"text-sm space-y-1\"><li>✓ HD video lectures with expert instructors</li><li>✓ Downloadable resources and materials</li><li>✓ Interactive quizzes and assessments</li><li>✓ Hands-on projects and exercises</li><li>✓ Certificate of completion</li><li>✓ Lifetime access to course materials</li><li>✓ Community support and discussions</li><li>✓ Regular updates with latest JavaScript features</li></ul></div>",
-      "courseFeatures": [
-        {
-          "title": "Video Lectures",
-          "description": "HD quality videos",
-          "icon": "Video"
-        },
-        {
-          "title": "Downloadable Resources",
-          "description": "Code files & materials",
-          "icon": "FileText"
-        },
-        {
-          "title": "Certificate",
-          "description": "Course completion",
-          "icon": "Award"
-        },
-        {
-          "title": "Lifetime Access",
-          "description": "Learn at your pace",
-          "icon": "Clock"
-        }
-      ],
-      "learningOutcomes": [
-        "Mastered the core concepts and principles",
-        "Gained hands-on experience through practical projects",
-        "Developed problem-solving skills in real-world scenarios",
-        "Built a strong foundation for advanced learning",
-        "Created interactive web applications from scratch",
-        "Understood modern JavaScript development practices"
-      ],
-      "assessmentInfo": "Throughout the course, you'll complete various assessments including quizzes, projects, and a final evaluation. Upon successful completion, you'll receive a certificate of achievement that demonstrates your JavaScript proficiency.",
-      "instructor": {
-        "name": "Dr. Sarah Johnson",
-        "imageUrl": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        "specialization": "Senior Software Engineer at Google",
-        "experience": "8+ years",
-        "rating": 4.8,
-        "students": 12450,
-        "bio": "Dr. Sarah Johnson is a senior JavaScript developer with over 8 years of experience in web development. She has worked with major tech companies and has helped thousands of students master JavaScript. Her teaching approach focuses on practical, real-world applications and modern development practices."
-      },
-      "tags": ["JavaScript", "Web Development", "ES6", "DOM"],
-      "modules": [
-        {
-          "title": "Module 1: JavaScript Fundamentals",
-          "description": "Build a solid foundation in JavaScript programming with essential concepts and syntax.",
-          "lessons": [
-            {
-              "title": "Introduction to Modern JavaScript",
-              "duration": "45 min",
-              "type": "video",
-              "free": true
-            },
-            {
-              "title": "Variables and Data Types",
-              "duration": "60 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Functions and Scope",
-              "duration": "75 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Practice Exercise: Basic Functions",
-              "duration": "30 min",
-              "type": "exercise",
-              "free": false
-            }
-          ]
-        },
-        {
-          "title": "Module 2: Advanced Concepts",
-          "description": "Master advanced JavaScript concepts including closures, promises, and async programming.",
-          "lessons": [
-            {
-              "title": "Closures and Higher-Order Functions",
-              "duration": "90 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Promises and Async/Await",
-              "duration": "120 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Error Handling",
-              "duration": "60 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Project: Async Data Fetching",
-              "duration": "45 min",
-              "type": "project",
-              "free": false
-            }
-          ]
-        },
-        {
-          "title": "Module 3: DOM Manipulation",
-          "description": "Learn to interact with web pages by manipulating the Document Object Model.",
-          "lessons": [
-            {
-              "title": "Understanding the DOM",
-              "duration": "60 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Event Handling",
-              "duration": "75 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Dynamic Content Creation",
-              "duration": "90 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Interactive Quiz",
-              "duration": "30 min",
-              "type": "quiz",
-              "free": false
-            }
-          ]
-        },
-        {
-          "title": "Module 4: Modern JavaScript",
-          "description": "Explore modern JavaScript features and best practices for contemporary development.",
-          "lessons": [
-            {
-              "title": "ES6+ Features",
-              "duration": "120 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Modules and Imports",
-              "duration": "60 min",
-              "type": "video",
-              "free": false
-            },
-            {
-              "title": "Final Project: Web Application",
-              "duration": "180 min",
-              "type": "project",
-              "free": false
-            },
-            {
-              "title": "Course Assessment",
-              "duration": "60 min",
-              "type": "assessment",
-              "free": false
-            }
-          ]
-        }
-      ],
-      "whatYouWillLearn": [
-        "Master JavaScript fundamentals and advanced concepts",
-        "Build real-world applications with modern JavaScript",
-        "Understand asynchronous programming with Promises and async/await",
-        "Create interactive web applications with DOM manipulation",
-        "Implement ES6+ features in your projects",
-        "Debug and optimize JavaScript code effectively",
-        "Work with modern development tools and practices",
-        "Prepare for JavaScript interviews and assessments"
-      ],
-      "requirements": [
-        "Basic understanding of HTML and CSS",
-        "No prior JavaScript experience required",
-        "A computer with internet connection",
-        "Willingness to learn and practice coding"
-      ],
-      "reviews": [
-        {
-          "id": 1,
-          "user": "Alex Chen",
-          "rating": 5,
-          "date": "2024-01-15",
-          "comment": "Excellent course! The instructor explains complex concepts in a very clear way. The projects are practical and helped me understand JavaScript much better."
-        },
-        {
-          "id": 2,
-          "user": "Maria Garcia",
-          "rating": 5,
-          "date": "2024-01-10",
-          "comment": "This course exceeded my expectations. The hands-on projects and real-world examples made learning JavaScript enjoyable and practical."
-        },
-        {
-          "id": 3,
-          "user": "David Kim",
-          "rating": 4,
-          "date": "2024-01-08",
-          "comment": "Great content and structure. The instructor is knowledgeable and the course materials are well-organized. Highly recommended!"
-        }
-      ]
-    },
-    {
-      "id": "2",
       "title": "Data Science Fundamentals with Python",
       "description": "Learn the essential concepts of data science using Python. This course covers data analysis, machine learning, and statistical modeling with hands-on projects.",
-      "startDate": "2025-02-20T04:40:00Z",
-      "endDate": "2025-05-20T04:40:00Z",
       "location": "Online",
       "duration": "10 weeks",
       "level": "Beginner",
@@ -243,35 +17,26 @@
       "language": "English",
       "certificate": true,
       "lifetimeAccess": true,
-      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "instructor": {
-        "name": "Dr. Michael Chen",
-        "imageUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        "specialization": "Data Scientist at Microsoft",
-        "experience": "10+ years",
-        "rating": 4.9,
-        "students": 18750
-      },
-      "tags": ["Python", "Data Science", "Machine Learning", "Statistics"],
-      "modules": [
+      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
         {
-          "title": "Module 1: Python Basics for Data Science",
-          "lessons": [
-            {
-              "title": "Introduction to Python",
-              "duration": "60 min",
-              "type": "video",
-              "free": true
-            },
-            {
-              "title": "Data Structures and Libraries",
-              "duration": "90 min",
-              "type": "video",
-              "free": false
-            }
-          ]
+          "name": "Dr. Michael Chen",
+          "imageUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Data Scientist at Microsoft",
+          "experience": "10+ years",
+          "rating": 4.9,
+          "students": 18750
+        },
+        {
+          "name": "Dr. Abdur Razzak",
+          "imageUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Software",
+          "experience": "15+ years",
+          "rating": 4.9,
+          "students": 18750
         }
       ],
+      "tags": ["Python", "Data Science", "Machine Learning", "Statistics"],
       "whatYouWillLearn": [
         "Master Python programming for data science",
         "Learn data analysis and visualization",
@@ -282,306 +47,469 @@
         "Basic computer skills",
         "No programming experience required",
         "Curiosity about data and analytics"
-      ],
-      "reviews": [
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Web Development Bootcamp",
+      "description": "Become a full-stack web developer. Learn HTML, CSS, JavaScript, React, Node.js, and build real-world web applications.",
+      "location": "Online",
+      "duration": "12 weeks",
+      "level": "Beginner",
+      "category": "Technology",
+      "fee": 299,
+      "originalFee": 399,
+      "enrolled": 3200,
+      "capacity": 4000,
+      "rating": 4.7,
+      "totalReviews": 980,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
         {
-          "id": 1,
-          "user": "Emma Wilson",
-          "rating": 5,
-          "date": "2024-01-12",
-          "comment": "Fantastic introduction to data science. The instructor makes complex topics accessible."
+          "name": "Sarah Lee",
+          "imageUrl": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Full Stack Developer",
+          "experience": "8+ years",
+          "rating": 4.8,
+          "students": 21000
+        },
+        {
+          "name": "James Patel",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Frontend Engineer",
+          "experience": "6+ years",
+          "rating": 4.7,
+          "students": 15000
         }
+      ],
+      "tags": ["HTML", "CSS", "JavaScript", "React", "Node.js"],
+      "whatYouWillLearn": [
+        "Build responsive websites",
+        "Develop dynamic web applications",
+        "Work with databases",
+        "Deploy web projects"
+      ],
+      "requirements": [
+        "No prior coding experience required",
+        "A computer with internet access"
       ]
     },
     {
       "id": "3",
-      "title": "Digital Marketing Strategy",
-      "description": "Comprehensive digital marketing course covering SEO, social media, content marketing, and analytics. Learn to create effective marketing campaigns.",
-      "startDate": "2025-04-10T04:40:00Z",
-      "endDate": "2025-07-10T04:40:00Z",
+      "title": "Introduction to Artificial Intelligence",
+      "description": "Explore the basics of AI, including neural networks, deep learning, and natural language processing.",
       "location": "Online",
       "duration": "8 weeks",
+      "level": "Intermediate",
+      "category": "Science",
+      "fee": 349,
+      "originalFee": 449,
+      "enrolled": 1800,
+      "capacity": 2500,
+      "rating": 4.6,
+      "totalReviews": 870,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "Dr. Priya Nair",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "AI Researcher",
+          "experience": "12+ years",
+          "rating": 4.7,
+          "students": 15000
+        },
+        {
+          "name": "Dr. Kevin Wu",
+          "imageUrl": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Machine Learning Engineer",
+          "experience": "9+ years",
+          "rating": 4.6,
+          "students": 12000
+        }
+      ],
+      "tags": ["AI", "Neural Networks", "Deep Learning", "NLP"],
+      "whatYouWillLearn": [
+        "Understand AI concepts",
+        "Build simple neural networks",
+        "Explore deep learning techniques",
+        "Work with NLP tools"
+      ],
+      "requirements": ["Basic programming knowledge", "Interest in AI"]
+    },
+    {
+      "id": "4",
+      "title": "Business Analytics with Excel",
+      "description": "Learn to analyze business data using Excel. Covers formulas, pivot tables, dashboards, and data visualization.",
+      "location": "Online",
+      "duration": "6 weeks",
+      "level": "Beginner",
+      "category": "Business",
+      "fee": 149,
+      "originalFee": 249,
+      "enrolled": 2700,
+      "capacity": 3500,
+      "rating": 4.5,
+      "totalReviews": 650,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1515168833906-d2a3b82b1a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "John Smith",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Business Analyst",
+          "experience": "7+ years",
+          "rating": 4.6,
+          "students": 12000
+        },
+        {
+          "name": "Maria Garcia",
+          "imageUrl": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Excel Specialist",
+          "experience": "5+ years",
+          "rating": 4.5,
+          "students": 8000
+        }
+      ],
+      "tags": ["Excel", "Business Analytics", "Data Visualization"],
+      "whatYouWillLearn": [
+        "Master Excel formulas",
+        "Create pivot tables",
+        "Build business dashboards",
+        "Visualize data effectively"
+      ],
+      "requirements": ["Basic computer skills", "Microsoft Excel installed"]
+    },
+    {
+      "id": "5",
+      "title": "Digital Marketing Masterclass",
+      "description": "Comprehensive guide to digital marketing: SEO, social media, email marketing, and analytics.",
+      "location": "Online",
+      "duration": "9 weeks",
       "level": "Beginner",
       "category": "Marketing",
       "fee": 199,
       "originalFee": 299,
-      "enrolled": 892,
-      "capacity": 1500,
-      "rating": 4.6,
-      "totalReviews": 567,
+      "enrolled": 3100,
+      "capacity": 4000,
+      "rating": 4.7,
+      "totalReviews": 1100,
       "language": "English",
       "certificate": true,
       "lifetimeAccess": true,
-      "imageUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "curriculum": "<h2>Digital Marketing Strategy</h2><p>Master the art of digital marketing with this comprehensive course that covers all aspects of modern marketing strategies. From SEO to social media, you'll learn to create campaigns that drive real results.</p><h3>What You'll Master</h3><ul><li>Search Engine Optimization (SEO) techniques</li><li>Social media marketing strategies</li><li>Content marketing and storytelling</li><li>Email marketing automation</li><li>Analytics and performance tracking</li><li>Paid advertising campaigns</li></ul><h3>Course Structure</h3><div class=\"mb-6 p-4 bg-gray-50 rounded-lg\"><h4 class=\"text-lg font-semibold text-gray-900 mb-2\">Module 1: Marketing Fundamentals</h4><p class=\"text-gray-600 mb-3\">Build a solid foundation in digital marketing principles.</p><ul class=\"space-y-1\"><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Introduction to Digital Marketing <span class=\"text-gray-500\">(45 min)</span><span class=\"px-2 py-1 bg-green-100 text-green-600 text-xs rounded-full\">Free</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Marketing Psychology <span class=\"text-gray-500\">(60 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Customer Journey Mapping <span class=\"text-gray-500\">(75 min)</span></li></ul></div><div class=\"mb-6 p-4 bg-gray-50 rounded-lg\"><h4 class=\"text-lg font-semibold text-gray-900 mb-2\">Module 2: SEO & Content</h4><p class=\"text-gray-600 mb-3\">Learn to optimize content for search engines and users.</p><ul class=\"space-y-1\"><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>SEO Fundamentals <span class=\"text-gray-500\">(90 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Content Strategy <span class=\"text-gray-500\">(120 min)</span></li><li class=\"flex items-center gap-2 text-sm\"><span class=\"w-2 h-2 bg-brand-secondary rounded-full\"></span>Keyword Research <span class=\"text-gray-500\">(60 min)</span></li></ul></div><h3>Real-World Applications</h3><p>Throughout the course, you'll work on:</p><ul><li>Creating a complete marketing strategy</li><li>Building a content calendar</li><li>Setting up analytics tracking</li><li>Running A/B tests</li><li>Developing social media campaigns</li></ul><h3>Industry Tools You'll Learn</h3><ul><li>Google Analytics & Search Console</li><li>Social media management platforms</li><li>Email marketing tools</li><li>SEO analysis tools</li><li>Content creation software</li></ul><div class=\"bg-brand-secondary/10 border border-brand-secondary/20 rounded-lg p-4 mt-6\"><h4 class=\"font-semibold text-brand-secondary mb-2\">Career Support</h4><ul class=\"text-sm space-y-1\"><li>✓ Resume building workshop</li><li>✓ Portfolio development</li><li>✓ Industry networking events</li><li>✓ Job placement assistance</li><li>✓ Ongoing mentorship</li></ul></div>",
-      "courseFeatures": [
+      "imageUrl": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
         {
-          "title": "Video Lectures",
-          "description": "HD quality videos",
-          "icon": "Video"
+          "name": "Emily Carter",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Digital Marketing Expert",
+          "experience": "9+ years",
+          "rating": 4.8,
+          "students": 18000
         },
         {
-          "title": "Downloadable Resources",
-          "description": "Marketing templates & tools",
-          "icon": "FileText"
-        },
-        {
-          "title": "Certificate",
-          "description": "Course completion",
-          "icon": "Award"
-        },
-        {
-          "title": "Lifetime Access",
-          "description": "Learn at your pace",
-          "icon": "Clock"
+          "name": "Tom Nguyen",
+          "imageUrl": "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "SEO Specialist",
+          "experience": "7+ years",
+          "rating": 4.7,
+          "students": 9500
         }
       ],
-      "learningOutcomes": [
-        "Master digital marketing strategies and techniques",
-        "Create effective marketing campaigns",
-        "Analyze and optimize marketing performance",
-        "Build a professional marketing portfolio",
-        "Understand customer behavior and psychology",
-        "Develop data-driven marketing decisions"
-      ],
-      "assessmentInfo": "Throughout the course, you'll complete various assessments including marketing strategy projects, campaign analysis, and a final portfolio presentation. Upon successful completion, you'll receive a certificate of achievement in Digital Marketing Strategy.",
-      "instructor": {
-        "name": "Lisa Rodriguez",
-        "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        "specialization": "Digital Marketing Director",
-        "experience": "12+ years",
-        "rating": 4.7,
-        "students": 8900
-      },
-      "tags": ["Digital Marketing", "SEO", "Social Media", "Analytics"],
-      "modules": [
-        {
-          "title": "Module 1: Marketing Fundamentals",
-          "lessons": [
-            {
-              "title": "Introduction to Digital Marketing",
-              "duration": "45 min",
-              "type": "video",
-              "free": true
-            }
-          ]
-        }
-      ],
+      "tags": ["SEO", "Social Media", "Email Marketing", "Analytics"],
       "whatYouWillLearn": [
-        "Create effective digital marketing strategies",
-        "Master SEO and social media marketing",
-        "Analyze marketing performance",
-        "Build successful campaigns"
+        "SEO fundamentals",
+        "Social media strategies",
+        "Email marketing campaigns",
+        "Analyze marketing data"
       ],
-      "requirements": [
-        "Basic computer skills",
-        "Interest in marketing",
-        "No prior experience needed"
-      ],
-      "reviews": [
-        {
-          "id": 1,
-          "user": "John Smith",
-          "rating": 4,
-          "date": "2024-01-14",
-          "comment": "Great practical course with real-world examples."
-        }
-      ]
-    },
-    {
-      "id": "4",
-      "title": "UI/UX Design Masterclass",
-      "description": "Learn modern UI/UX design principles, tools, and techniques. Create beautiful, user-friendly interfaces and improve user experience.",
-      "startDate": "2025-01-25T04:40:00Z",
-      "endDate": "2025-04-25T04:40:00Z",
-      "location": "Online",
-      "duration": "14 weeks",
-      "level": "Advanced",
-      "category": "Design",
-      "fee": 349,
-      "originalFee": 449,
-      "enrolled": 567,
-      "capacity": 1000,
-      "rating": 4.9,
-      "totalReviews": 234,
-      "language": "English",
-      "certificate": true,
-      "lifetimeAccess": true,
-      "imageUrl": "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "instructor": {
-        "name": "Alex Thompson",
-        "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        "specialization": "Senior UX Designer at Apple",
-        "experience": "15+ years",
-        "rating": 4.9,
-        "students": 5600
-      },
-      "tags": ["UI/UX", "Design", "Figma", "User Research"],
-      "modules": [
-        {
-          "title": "Module 1: Design Fundamentals",
-          "lessons": [
-            {
-              "title": "Introduction to UI/UX Design",
-              "duration": "60 min",
-              "type": "video",
-              "free": true
-            }
-          ]
-        }
-      ],
-      "whatYouWillLearn": [
-        "Master UI/UX design principles",
-        "Use modern design tools effectively",
-        "Conduct user research and testing",
-        "Create professional design systems"
-      ],
-      "requirements": [
-        "Basic design sense",
-        "Computer with design software",
-        "Portfolio project mindset"
-      ],
-      "reviews": [
-        {
-          "id": 1,
-          "user": "Sarah Davis",
-          "rating": 5,
-          "date": "2024-01-16",
-          "comment": "Incredible course! The instructor's expertise is evident throughout."
-        }
-      ]
-    },
-    {
-      "id": "5",
-      "title": "Business Analytics and Strategy",
-      "description": "Learn to analyze business data and make strategic decisions. Master Excel, SQL, and business intelligence tools for data-driven insights.",
-      "startDate": "2025-03-01T04:40:00Z",
-      "endDate": "2025-06-01T04:40:00Z",
-      "location": "Online",
-      "duration": "10 weeks",
-      "level": "Intermediate",
-      "category": "Business",
-      "fee": 279,
-      "originalFee": 379,
-      "enrolled": 1345,
-      "capacity": 2000,
-      "rating": 4.5,
-      "totalReviews": 678,
-      "language": "English",
-      "certificate": true,
-      "lifetimeAccess": true,
-      "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "instructor": {
-        "name": "Dr. Robert Wilson",
-        "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        "specialization": "Business Analytics Professor",
-        "experience": "20+ years",
-        "rating": 4.6,
-        "students": 12300
-      },
-      "tags": ["Business Analytics", "Excel", "SQL", "Strategy"],
-      "modules": [
-        {
-          "title": "Module 1: Business Analytics Fundamentals",
-          "lessons": [
-            {
-              "title": "Introduction to Business Analytics",
-              "duration": "45 min",
-              "type": "video",
-              "free": true
-            }
-          ]
-        }
-      ],
-      "whatYouWillLearn": [
-        "Analyze business data effectively",
-        "Make data-driven decisions",
-        "Master Excel and SQL for analytics",
-        "Create business intelligence reports"
-      ],
-      "requirements": [
-        "Basic Excel knowledge",
-        "Business background helpful",
-        "Analytical thinking"
-      ],
-      "reviews": [
-        {
-          "id": 1,
-          "user": "Mike Johnson",
-          "rating": 4,
-          "date": "2024-01-13",
-          "comment": "Practical course with real business applications."
-        }
-      ]
+      "requirements": ["No prior experience required", "Willingness to learn"]
     },
     {
       "id": "6",
-      "title": "Mobile App Development with React Native",
-      "description": "Build cross-platform mobile applications using React Native. Learn to create iOS and Android apps with a single codebase.",
-      "startDate": "2025-02-15T04:40:00Z",
-      "endDate": "2025-05-15T04:40:00Z",
+      "title": "Graphic Design for Beginners",
+      "description": "Start your journey in graphic design. Learn Photoshop, Illustrator, and design principles.",
       "location": "Online",
-      "duration": "12 weeks",
-      "level": "Advanced",
-      "category": "Technology",
-      "fee": 329,
-      "originalFee": 429,
-      "enrolled": 789,
-      "capacity": 1200,
-      "rating": 4.7,
-      "totalReviews": 445,
+      "duration": "7 weeks",
+      "level": "Beginner",
+      "category": "Design",
+      "fee": 179,
+      "originalFee": 259,
+      "enrolled": 1900,
+      "capacity": 2500,
+      "rating": 4.6,
+      "totalReviews": 720,
       "language": "English",
       "certificate": true,
       "lifetimeAccess": true,
-      "imageUrl": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "instructor": {
-        "name": "Jennifer Park",
-        "imageUrl": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-        "specialization": "Mobile App Developer at Facebook",
-        "experience": "8+ years",
-        "rating": 4.8,
-        "students": 7800
-      },
-      "tags": [
-        "React Native",
-        "Mobile Development",
-        "JavaScript",
-        "iOS",
-        "Android"
-      ],
-      "modules": [
+      "imageUrl": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
         {
-          "title": "Module 1: React Native Basics",
-          "lessons": [
-            {
-              "title": "Introduction to React Native",
-              "duration": "60 min",
-              "type": "video",
-              "free": true
-            }
-          ]
+          "name": "Alex Kim",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Graphic Designer",
+          "experience": "6+ years",
+          "rating": 4.7,
+          "students": 9000
+        },
+        {
+          "name": "Jessica Brown",
+          "imageUrl": "https://images.unsplash.com/photo-1465101178521-c1a9136a3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Illustrator Expert",
+          "experience": "8+ years",
+          "rating": 4.8,
+          "students": 9500
         }
       ],
+      "tags": ["Photoshop", "Illustrator", "Design Principles"],
       "whatYouWillLearn": [
-        "Build cross-platform mobile apps",
-        "Master React Native framework",
-        "Deploy to iOS and Android",
-        "Create professional mobile applications"
+        "Use Photoshop and Illustrator",
+        "Understand design principles",
+        "Create stunning graphics",
+        "Build a design portfolio"
       ],
       "requirements": [
-        "JavaScript fundamentals",
-        "React basics",
-        "Mobile development interest"
-      ],
-      "reviews": [
-        {
-          "id": 1,
-          "user": "Tom Anderson",
-          "rating": 5,
-          "date": "2024-01-11",
-          "comment": "Excellent course for mobile development. Very comprehensive."
-        }
+        "A computer with design software",
+        "Creativity and passion"
       ]
+    },
+    {
+      "id": "7",
+      "title": "Project Management Professional (PMP) Prep",
+      "description": "Prepare for the PMP certification exam with comprehensive project management training.",
+      "location": "Online",
+      "duration": "11 weeks",
+      "level": "Advanced",
+      "category": "Business",
+      "fee": 399,
+      "originalFee": 499,
+      "enrolled": 950,
+      "capacity": 1200,
+      "rating": 4.9,
+      "totalReviews": 540,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1503676382389-4809596d5290?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "Linda Brown",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "PMP Certified Trainer",
+          "experience": "14+ years",
+          "rating": 4.9,
+          "students": 7000
+        },
+        {
+          "name": "Carlos Martinez",
+          "imageUrl": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Project Manager",
+          "experience": "12+ years",
+          "rating": 4.8,
+          "students": 6000
+        }
+      ],
+      "tags": ["PMP", "Project Management", "Certification"],
+      "whatYouWillLearn": [
+        "Project management processes",
+        "Exam strategies",
+        "Risk and resource management",
+        "Agile methodologies"
+      ],
+      "requirements": [
+        "Project management experience recommended",
+        "Commitment to study"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Mobile App Development with Flutter",
+      "description": "Build beautiful mobile apps for Android and iOS using Flutter and Dart.",
+      "location": "Online",
+      "duration": "10 weeks",
+      "level": "Intermediate",
+      "category": "Technology",
+      "fee": 269,
+      "originalFee": 369,
+      "enrolled": 1600,
+      "capacity": 2000,
+      "rating": 4.7,
+      "totalReviews": 610,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "Mohammed Ali",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Mobile App Developer",
+          "experience": "9+ years",
+          "rating": 4.8,
+          "students": 11000
+        },
+        {
+          "name": "Priya Singh",
+          "imageUrl": "https://images.unsplash.com/photo-1515168833906-d2a3b82b1a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Flutter Instructor",
+          "experience": "7+ years",
+          "rating": 4.7,
+          "students": 9000
+        }
+      ],
+      "tags": ["Flutter", "Dart", "Mobile Apps"],
+      "whatYouWillLearn": [
+        "Build cross-platform apps",
+        "Use Flutter widgets",
+        "Integrate APIs",
+        "Publish apps to stores"
+      ],
+      "requirements": [
+        "Basic programming knowledge",
+        "A computer with internet"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Cybersecurity Essentials",
+      "description": "Understand the fundamentals of cybersecurity, including network security, cryptography, and threat management.",
+      "location": "Online",
+      "duration": "8 weeks",
+      "level": "Beginner",
+      "category": "Technology",
+      "fee": 229,
+      "originalFee": 329,
+      "enrolled": 1400,
+      "capacity": 2000,
+      "rating": 4.6,
+      "totalReviews": 530,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "David Green",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Cybersecurity Analyst",
+          "experience": "11+ years",
+          "rating": 4.7,
+          "students": 9500
+        },
+        {
+          "name": "Anna Ivanova",
+          "imageUrl": "https://images.unsplash.com/photo-1464983953574-0892a716854b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Network Security Expert",
+          "experience": "8+ years",
+          "rating": 4.6,
+          "students": 7000
+        }
+      ],
+      "tags": ["Cybersecurity", "Network Security", "Cryptography"],
+      "whatYouWillLearn": [
+        "Network security basics",
+        "Cryptography fundamentals",
+        "Threat detection",
+        "Incident response"
+      ],
+      "requirements": ["Interest in cybersecurity", "Basic computer skills"]
+    },
+    {
+      "id": "10",
+      "title": "Financial Modeling & Valuation",
+      "description": "Learn financial modeling, company valuation, and Excel skills for finance professionals.",
+      "location": "Online",
+      "duration": "8 weeks",
+      "level": "Intermediate",
+      "category": "Finance",
+      "fee": 259,
+      "originalFee": 359,
+      "enrolled": 1200,
+      "capacity": 1800,
+      "rating": 4.8,
+      "totalReviews": 480,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1464983953574-0892a716854b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "Rachel Adams",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Financial Analyst",
+          "experience": "10+ years",
+          "rating": 4.8,
+          "students": 8000
+        },
+        {
+          "name": "Michael Lee",
+          "imageUrl": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Valuation Specialist",
+          "experience": "8+ years",
+          "rating": 4.7,
+          "students": 6000
+        }
+      ],
+      "tags": ["Finance", "Modeling", "Valuation", "Excel"],
+      "whatYouWillLearn": [
+        "Build financial models",
+        "Company valuation techniques",
+        "Advanced Excel for finance",
+        "Scenario analysis"
+      ],
+      "requirements": ["Basic Excel knowledge", "Interest in finance"]
+    },
+    {
+      "id": "11",
+      "title": "Creative Writing Workshop",
+      "description": "Unlock your creativity and improve your writing skills with expert guidance and peer feedback.",
+      "location": "Online",
+      "duration": "5 weeks",
+      "level": "Beginner",
+      "category": "Arts",
+      "fee": 99,
+      "originalFee": 149,
+      "enrolled": 800,
+      "capacity": 1200,
+      "rating": 4.5,
+      "totalReviews": 320,
+      "language": "English",
+      "certificate": true,
+      "lifetimeAccess": true,
+      "imageUrl": "https://images.unsplash.com/photo-1465101178521-c1a9136a3c5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      "instructors": [
+        {
+          "name": "Samantha White",
+          "imageUrl": "https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Author & Writing Coach",
+          "experience": "8+ years",
+          "rating": 4.7,
+          "students": 5000
+        },
+        {
+          "name": "David Miller",
+          "imageUrl": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+          "specialization": "Poet & Editor",
+          "experience": "10+ years",
+          "rating": 4.6,
+          "students": 3500
+        }
+      ],
+      "tags": ["Writing", "Creativity", "Storytelling"],
+      "whatYouWillLearn": [
+        "Creative writing techniques",
+        "Story structure",
+        "Peer review and feedback",
+        "Publish your work"
+      ],
+      "requirements": ["Passion for writing", "Willingness to share work"]
     }
   ]
 }

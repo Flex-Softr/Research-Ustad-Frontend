@@ -1,13 +1,18 @@
 "use client";
 
-import { GetSingleMember, GetSinglePersonalMember, UpdateMember, UpdatePersonalMember } from "@/services/reserarchers";
+import {
+  GetSingleMember,
+  GetSinglePersonalMember,
+  UpdateMember,
+  UpdatePersonalMember,
+} from "@/services/reserarchers";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,7 +73,12 @@ const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setMember] = useState<MemberData | null>(null);
   type FormData = z.infer<typeof formSchema>;
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
@@ -153,18 +163,42 @@ const UpdateInfo = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label>
               Institution
-              <Input type="text" {...register("currentInstitution")} placeholder="Enter current institution" />
-              {errors.currentInstitution && <p className="text-red-500 text-sm">{errors.currentInstitution.message}</p>}
+              <Input
+                type="text"
+                {...register("currentInstitution")}
+                placeholder="Enter current institution"
+              />
+              {errors.currentInstitution && (
+                <p className="text-red-500 text-sm">
+                  {errors.currentInstitution.message}
+                </p>
+              )}
             </label>
             <label>
               Department
-              <Input type="text" {...register("currentDepartment")} placeholder="Enter current department" />
-              {errors.currentDepartment && <p className="text-red-500 text-sm">{errors.currentDepartment.message}</p>}
+              <Input
+                type="text"
+                {...register("currentDepartment")}
+                placeholder="Enter current department"
+              />
+              {errors.currentDepartment && (
+                <p className="text-red-500 text-sm">
+                  {errors.currentDepartment.message}
+                </p>
+              )}
             </label>
             <label>
               Degree
-              <Input type="text" {...register("currentDegree")} placeholder="Enter current degree" />
-              {errors.currentDegree && <p className="text-red-500 text-sm">{errors.currentDegree.message}</p>}
+              <Input
+                type="text"
+                {...register("currentDegree")}
+                placeholder="Enter current degree"
+              />
+              {errors.currentDegree && (
+                <p className="text-red-500 text-sm">
+                  {errors.currentDegree.message}
+                </p>
+              )}
             </label>
           </div>
 
@@ -172,64 +206,138 @@ const UpdateInfo = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label>
               Degree
-              <Input type="text" {...register("educationDegree")} placeholder="Enter education degree" />
-              {errors.educationDegree && <p className="text-red-500 text-sm">{errors.educationDegree.message}</p>}
+              <Input
+                type="text"
+                {...register("educationDegree")}
+                placeholder="Enter education degree"
+              />
+              {errors.educationDegree && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationDegree.message}
+                </p>
+              )}
             </label>
             <label>
               Field
-              <Input type="text" {...register("educationField")} placeholder="Enter field of study" />
-              {errors.educationField && <p className="text-red-500 text-sm">{errors.educationField.message}</p>}
+              <Input
+                type="text"
+                {...register("educationField")}
+                placeholder="Enter field of study"
+              />
+              {errors.educationField && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationField.message}
+                </p>
+              )}
             </label>
             <label>
               Institution
-              <Input type="text" {...register("educationInstitution")} placeholder="Enter education institution" />
-              {errors.educationInstitution && <p className="text-red-500 text-sm">{errors.educationInstitution.message}</p>}
+              <Input
+                type="text"
+                {...register("educationInstitution")}
+                placeholder="Enter education institution"
+              />
+              {errors.educationInstitution && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationInstitution.message}
+                </p>
+              )}
             </label>
             <label>
-  Status
-  <select {...register("educationStatus")} className="border rounded p-2 w-full">
-    <option value="Ongoing">Ongoing</option>
-    <option value="Completed">Completed</option>
-    <option value="Dropped">Dropped</option>
-  </select>
-  {errors.educationStatus && <p className="text-red-500 text-sm">{errors.educationStatus.message}</p>}
-</label>
+              Status
+              <select
+                {...register("educationStatus")}
+                className="border rounded p-2 w-full"
+              >
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+                <option value="Dropped">Dropped</option>
+              </select>
+              {errors.educationStatus && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationStatus.message}
+                </p>
+              )}
+            </label>
 
             <label>
               Scholarship
-              <Input type="text" {...register("scholarship")} placeholder="Enter scholarship (if any)" />
-              {errors.scholarship && <p className="text-red-500 text-sm">{errors.scholarship.message}</p>}
+              <Input
+                type="text"
+                {...register("scholarship")}
+                placeholder="Enter scholarship (if any)"
+              />
+              {errors.scholarship && (
+                <p className="text-red-500 text-sm">
+                  {errors.scholarship.message}
+                </p>
+              )}
             </label>
           </div>
 
           <h3 className="text-lg font-medium mt-4">Short Bio</h3>
           <label>
             Short Bio
-            <Textarea {...register("shortBio")} placeholder="Enter a short bio" />
-            {errors.shortBio && <p className="text-red-500 text-sm">{errors.shortBio.message}</p>}
+            <Textarea
+              {...register("shortBio")}
+              placeholder="Enter a short bio"
+            />
+            {errors.shortBio && (
+              <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
+            )}
           </label>
 
           <h3 className="text-lg font-medium mt-4">Social Links</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label>
               Facebook
-              <Input type="text" {...register("facebook")} placeholder="Enter Facebook URL" />
-              {errors.facebook && <p className="text-red-500 text-sm">{errors.facebook.message}</p>}
+              <Input
+                type="text"
+                {...register("facebook")}
+                placeholder="Enter Facebook URL"
+              />
+              {errors.facebook && (
+                <p className="text-red-500 text-sm">
+                  {errors.facebook.message}
+                </p>
+              )}
             </label>
             <label>
               Twitter
-              <Input type="text" {...register("twitter")} placeholder="Enter Twitter URL" />
-              {errors.twitter && <p className="text-red-500 text-sm">{errors.twitter.message}</p>}
+              <Input
+                type="text"
+                {...register("twitter")}
+                placeholder="Enter Twitter URL"
+              />
+              {errors.twitter && (
+                <p className="text-red-500 text-sm">{errors.twitter.message}</p>
+              )}
             </label>
             <label>
               LinkedIn
-              <Input type="text" {...register("linkedin")} placeholder="Enter LinkedIn URL" />
-              {errors.linkedin && <p className="text-red-500 text-sm">{errors.linkedin.message}</p>}
+              <Input
+                type="text"
+                {...register("linkedin")}
+                placeholder="Enter LinkedIn URL"
+              />
+              {errors.linkedin && (
+                <p className="text-red-500 text-sm">
+                  {errors.linkedin.message}
+                </p>
+              )}
             </label>
           </div>
 
-          <Button type="submit" disabled={loading} className="w-full mt-4 cursor-pointer">
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Update Member"}
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-4 cursor-pointer"
+          >
+            {loading ? (
+              <LoadingSpinner size="sm" variant="icon" className="mr-2" />
+            ) : (
+              "Update Member"
+            )}
           </Button>
         </form>
       </CardContent>

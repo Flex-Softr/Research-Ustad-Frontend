@@ -65,36 +65,7 @@ export function DroopDown() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Recent ResearchPaper</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] grid-cols-2">
-              {papers?.slice(0, 3).map((paper: ResearchPaper) => (
-                <Link key={paper?._id} href={paper?.visitLink} target="_blank">
-                  <Card className="max-w-sm py-1  rounded-lg bg-white">
-                    <div className="p-4">
-                      <CardTitle className="text-lg font-semibold">
-                        {paper.title}
-                      </CardTitle>
-                      <CardDescription className="text-sm text-gray-600">
-                        <p>Authors: {paper.authors.join(", ")}</p>
-                        <p>Journal: {paper.journal}</p>
-                      </CardDescription>
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-              <Card className=" justify-center h-fit  items-center ">
-                <Link
-                  className=" hover:underline hover:text-blue-400"
-                  href={"allpapers"}
-                >
-                  See more
-                </Link>
-              </Card>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+
         {/* <NavigationMenuItem>
           <NavigationMenuTrigger>Our Wings</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -112,12 +83,21 @@ export function DroopDown() {
           </NavigationMenuContent>
         </NavigationMenuItem> */}
         <NavigationMenuItem>
+          <Link href="/allpapers" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Research Papers
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
           <Link href="/team-members" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Our Researchers
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <Link href="/blog" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>

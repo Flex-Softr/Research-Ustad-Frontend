@@ -38,7 +38,11 @@ const CreateEvents: React.FC = () => {
     formState: { errors },
   } = useForm<EventData>();
 
-  const { fields: speakerFields, append, remove } = useFieldArray({
+  const {
+    fields: speakerFields,
+    append,
+    remove,
+  } = useFieldArray({
     control,
     name: "speakers",
   });
@@ -47,7 +51,9 @@ const CreateEvents: React.FC = () => {
     setLoading(true);
 
     // Filter out invalid speakers
-    const validSpeakers = data.speakers.filter(speaker => speaker.name && speaker.bio && speaker.imageFile?.[0]);
+    const validSpeakers = data.speakers.filter(
+      (speaker) => speaker.name && speaker.bio && speaker.imageFile?.[0]
+    );
 
     if (validSpeakers.length === 0) {
       toast.error("Please add at least one valid speaker.");

@@ -58,9 +58,9 @@ const ContactSection = () => {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Left Column - Contact Information */}
-              <div className="bg-gradient-to-br from-teal-500 to-cyan-600 p-8 lg:p-12 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-brand-primary to-brand-secondary p-8 lg:p-12 relative overflow-hidden">
                 {/* Decorative circle */}
-                <div className="absolute bottom-0 right-0 w-32 h-32 bg-teal-400/30 rounded-full transform translate-x-16 translate-y-16"></div>
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-brand-primary/30 rounded-full transform translate-x-16 translate-y-16"></div>
 
                 <div className="relative z-10">
                   <h3 className="text-2xl font-bold text-white mb-4">
@@ -141,7 +141,7 @@ const ContactSection = () => {
                     />
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white py-4 text-lg font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-teal-500/30">
+                  <Button className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-primary hover:to-cyan-700 text-white py-4 text-lg font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-teal-500/30">
                     <Send className="w-5 h-5 mr-2" />
                     Send Message
                   </Button>

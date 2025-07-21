@@ -17,7 +17,7 @@ interface ICourse {
   moveToOngoing: (_id: string) => void;
 }
 
-const UpcomingCourseCard = ({ course, moveToOngoing }: { course: ICourse }) => {
+const UpcomingCourseCard = ({ course }: { course: ICourse }) => {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
@@ -28,8 +28,10 @@ const UpcomingCourseCard = ({ course, moveToOngoing }: { course: ICourse }) => {
 
       if (diff <= 0) {
         setTimeLeft("Starting Now!");
-        socket.emit("updateCourseStatus", { courseId: course._id, status: "ongoing" });
-        moveToOngoing(course._id); // Move course to ongoing list
+        socket.emit("updateCourseStatus", {
+          courseId: course._id,
+          status: "ongoing",
+        });
       } else {
         setTimeLeft(dayjs.duration(diff, "seconds").format("HH:mm:ss"));
       }
@@ -44,7 +46,9 @@ const UpcomingCourseCard = ({ course, moveToOngoing }: { course: ICourse }) => {
   return (
     <div className="p-4 border rounded shadow bg-white">
       <h3 className="text-lg font-semibold">{course.title}</h3>
-      <p className="text-gray-600">Starts at {dayjs(course.startDate).format("MMM D, YYYY h:mm A")}</p>
+      <p className="text-gray-600">
+        Starts at {dayjs(course.startDate).format("MMM D, YYYY h:mm A")}
+      </p>
       <p className="text-blue-500 font-semibold">{timeLeft}</p>
     </div>
   );

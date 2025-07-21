@@ -1,63 +1,122 @@
-import { getCurrentUser } from "@/services/AuthService"; // Import the function to get the current user's info
-import { NextRequest, NextResponse } from "next/server"; // Import NextRequest and NextResponse for handling requests and responses
-
-
-
-// Define a type for roles based on the role-based private routes
-type Role = keyof typeof roleBasedPrivateRoutes;
+import { getCurrentUser } from "@/services/AuthService";
+import { NextRequest, NextResponse } from "next/server";
+import { JWTPayload } from "@/type";
 
 // Define public routes that do not require authentication
-const authRoutes = ["/login"];
+const publicRoutes = [
+  "/",
+  "/login",
+  "/about",
+  "/contact",
+  "/blog",
+  "/events",
+  "/courses",
+];
+
+// Define protected routes that require authentication
+const protectedRoutes = [
+  /^\/admin/,
+  /^\/user/,
+  /^\/dashboard/,
+  /^\/profile/,
+  /^\/settings/,
+];
 
 // Define role-based private routes for different user roles
 const roleBasedPrivateRoutes = {
-  user: [/^\/user/], // Routes accessible by regular users
-  admin: [/^\/admin/], // Routes accessible by admin users
+  user: [/^\/user/, /^\/dashboard/],
+  admin: [/^\/admin/, /^\/dashboard/],
+  superAdmin: [/^\/admin/, /^\/dashboard/],
 };
 
 // Middleware function to handle requests
 export const middleware = async (request: NextRequest) => {
-  const { pathname } = request.nextUrl; // Extract the pathname from the incoming request
+  const { pathname } = request.nextUrl;
 
-  const userInfo = await getCurrentUser(); // Fetch the current user's information
+  console.log("Middleware executing for pathname:", pathname);
 
-  // Check if the user is not logged in (userInfo is null or undefined)
-  if (!userInfo) {
-    // If the requested route is a public/auth route
-    if (authRoutes.includes(pathname)) {
-      return NextResponse.next(); // Allow access to the public route
-    } else {
-      // If trying to access a protected route, redirect to the login page
+  // Check if the route is public
+  if (publicRoutes.includes(pathname)) {
+    console.log("Public route, allowing access");
+    return NextResponse.next();
+  }
+
+  // Check if the route is protected
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    route.test(pathname)
+  );
+
+  if (!isProtectedRoute) {
+    console.log("Not a protected route, allowing access");
+    return NextResponse.next();
+  }
+
+  console.log("Protected route detected, checking authentication");
+
+  try {
+    const userInfo = await getCurrentUser();
+    console.log("User info:", userInfo);
+
+    // If user is not authenticated
+    if (!userInfo) {
+      console.log("User not authenticated, redirecting to login");
       return NextResponse.redirect(
         new URL(
-          `http://localhost:3000/login?redirectPath=${pathname}`, // Redirect to the login page with the original path to redirect back after login
+          `/login?redirectPath=${encodeURIComponent(pathname)}`,
           request.url
         )
       );
     }
-  }
 
-  // If the user is logged in and has a defined role
-  if (userInfo?.role && roleBasedPrivateRoutes[userInfo?.role as Role]) {
-    const routes = roleBasedPrivateRoutes[userInfo?.role as Role]; // Get the routes for the user's role
-    // Check if the requested pathname matches any of the allowed routes for the user's role
-    if (routes.some((route) => pathname.match(route))) {
-      return NextResponse.next(); // Allow access to the route if it matches
+    // If user is authenticated, check role-based access
+    const userRole = (userInfo as JWTPayload).role;
+    console.log("User role:", userRole);
+    console.log("Available roles:", Object.keys(roleBasedPrivateRoutes));
+
+    if (
+      userRole &&
+      roleBasedPrivateRoutes[userRole as keyof typeof roleBasedPrivateRoutes]
+    ) {
+      const allowedRoutes =
+        roleBasedPrivateRoutes[userRole as keyof typeof roleBasedPrivateRoutes];
+      const hasAccess = allowedRoutes.some((route) => route.test(pathname));
+
+      if (hasAccess) {
+        console.log("User has access to this route");
+        return NextResponse.next();
+      } else {
+        console.log("User role doesn't have access to this specific route");
+      }
+    } else {
+      console.log("User role not found or not authorized:", userRole);
     }
+
+    // User is authenticated but doesn't have permission
+    console.log("User authenticated but no permission, redirecting to home");
+    return NextResponse.redirect(new URL("/", request.url));
+  } catch (error) {
+    console.error("Middleware error:", error);
+    // On error, redirect to login
+    return NextResponse.redirect(
+      new URL(
+        `/login?redirectPath=${encodeURIComponent(pathname)}`,
+        request.url
+      )
+    );
   }
-
-  // If the user is logged in but does not have permission for the requested route, redirect to the home page
-  return NextResponse.redirect(new URL("/", request.url));
 };
-
 
 // Configuration for the middleware to specify which routes it should match
 export const config = {
   matcher: [
-    "/login", // Public login route
-    "/admin", // Admin dashboard route
-    "/admin/:path*", // Matches all nested admin routes (e.g., /admin/dashboard/allusers)
-    "/user", // User dashboard route
-    "/user/:path*", // Matches all nested user routes (e.g., /user/profile/settings)
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
   ],
 };

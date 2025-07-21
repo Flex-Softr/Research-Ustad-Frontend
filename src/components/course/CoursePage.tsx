@@ -104,7 +104,6 @@ const CoursePage = () => {
   const getCourseStatus = (course: Course) => {
     const now = new Date();
     const startDate = new Date(course.startDate);
-    const endDate = new Date(course.endDate);
 
     if (startDate > now) {
       const daysUntil = Math.ceil(
@@ -117,7 +116,7 @@ const CoursePage = () => {
         bgColor: "bg-green-100",
         borderColor: "border-green-200",
       };
-    } else if (endDate > now) {
+    } else if (now) {
       return {
         status: "ongoing",
         text: "In Progress",
@@ -434,27 +433,6 @@ const CoursePage = () => {
                           {/* Course Details */}
                           <div className="space-y-2">
                             <div className="flex items-center text-sm text-gray-600">
-                              <User className="h-4 w-4 mr-2 text-brand-secondary" />
-                              <span className="line-clamp-1">
-                                {course.instructor.name}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Calendar className="h-4 w-4 mr-2 text-brand-secondary" />
-                              <span>
-                                {new Date(course.startDate).toLocaleDateString(
-                                  "en-US",
-                                  {
-                                    month: "short",
-                                    day: "numeric",
-                                    year: "numeric",
-                                  }
-                                )}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center text-sm text-gray-600">
                               <Clock className="h-4 w-4 mr-2 text-brand-secondary" />
                               <span>{course.duration}</span>
                             </div>
@@ -476,27 +454,6 @@ const CoursePage = () => {
                               <span className={statusInfo.color}>
                                 {statusInfo.text}
                               </span>
-                            </div>
-                          </div>
-
-                          {/* Instructor */}
-                          <div className="flex items-center space-x-2 pt-2">
-                            <div className="relative">
-                              <Image
-                                src={course.instructor.imageUrl}
-                                alt={course.instructor.name}
-                                width={32}
-                                height={32}
-                                className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-                              />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
-                                {course.instructor.name}
-                              </p>
-                              <p className="text-xs text-gray-500 truncate">
-                                {course.instructor.specialization}
-                              </p>
                             </div>
                           </div>
 

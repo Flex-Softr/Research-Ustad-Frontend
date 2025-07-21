@@ -7,13 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
-  currentInstitution: z.string().min(2, "Institution name is required").optional(),
+  currentInstitution: z
+    .string()
+    .min(2, "Institution name is required")
+    .optional(),
   currentDepartment: z.string().min(2, "Department is required").optional(),
   currentDegree: z.string().min(2, "Degree is required").optional(),
   educationDegree: z.string().min(2, "Education degree is required").optional(),
@@ -21,7 +24,10 @@ const formSchema = z.object({
   educationInstitution: z.string().min(2, "Institution is required").optional(),
   educationStatus: z.string().min(2, "Education status is required").optional(),
   scholarship: z.string().optional().optional(),
-  shortBio: z.string().max(500, "Short bio must be at maximum 500 characters").optional(),
+  shortBio: z
+    .string()
+    .max(500, "Short bio must be at maximum 500 characters")
+    .optional(),
   facebook: z.string().url("Invalid URL format").optional().optional(),
   twitter: z.string().url("Invalid URL format").optional().optional(),
   linkedin: z.string().url("Invalid URL format").optional().optional(),
@@ -128,122 +134,152 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
   };
 
   return (
-      <Card className="w-full container mx-auto shadow-lg">
-        <CardHeader>
-          <CardTitle>Update Member</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <h3 className="text-lg font-medium mt-4">Current Institution</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label>
-                Institution
-                <Input type="text" {...register("currentInstitution")} />
-                {errors.currentInstitution && (
-                  <p className="text-red-500 text-sm">{errors.currentInstitution.message}</p>
-                )}
-              </label>
-              <label>
-                Department
-                <Input type="text" {...register("currentDepartment")} />
-                {errors.currentDepartment && (
-                  <p className="text-red-500 text-sm">{errors.currentDepartment.message}</p>
-                )}
-              </label>
-              <label>
-                Degree
-                <Input type="text" {...register("currentDegree")} />
-                {errors.currentDegree && (
-                  <p className="text-red-500 text-sm">{errors.currentDegree.message}</p>
-                )}
-              </label>
-            </div>
-    
-            <h3 className="text-lg font-medium mt-4">Education</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label>
-                Degree
-                <Input type="text" {...register("educationDegree")} />
-                {errors.educationDegree && (
-                  <p className="text-red-500 text-sm">{errors.educationDegree.message}</p>
-                )}
-              </label>
-              <label>
-                Field
-                <Input type="text" {...register("educationField")} />
-                {errors.educationField && (
-                  <p className="text-red-500 text-sm">{errors.educationField.message}</p>
-                )}
-              </label>
-              <label>
-                Institution
-                <Input type="text" {...register("educationInstitution")} />
-                {errors.educationInstitution && (
-                  <p className="text-red-500 text-sm">{errors.educationInstitution.message}</p>
-                )}
-              </label>
-              <label>
-                Status
-                <select {...register("educationStatus")} className="border rounded p-2 w-full">
-                  <option value="Ongoing">Ongoing</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Dropped">Dropped</option>
-                </select>
-                {errors.educationStatus && (
-                  <p className="text-red-500 text-sm">{errors.educationStatus.message}</p>
-                )}
-              </label>
-              <label>
-                Scholarship
-                <Input type="text" {...register("scholarship")} />
-                {errors.scholarship && (
-                  <p className="text-red-500 text-sm">{errors.scholarship.message}</p>
-                )}
-              </label>
-            </div>
-    
-            <h3 className="text-lg font-medium mt-4">Short Bio</h3>
+    <Card className="w-full container mx-auto shadow-lg">
+      <CardHeader>
+        <CardTitle>Update Member</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h3 className="text-lg font-medium mt-4">Current Institution</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label>
-              Short Bio
-              <Textarea {...register("shortBio")} />
-              {errors.shortBio && (
-                <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
+              Institution
+              <Input type="text" {...register("currentInstitution")} />
+              {errors.currentInstitution && (
+                <p className="text-red-500 text-sm">
+                  {errors.currentInstitution.message}
+                </p>
               )}
             </label>
-    
-            <h3 className="text-lg font-medium mt-4">Social Links</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label>
-                Facebook
-                <Input type="text" {...register("facebook")} />
-                {errors.facebook && (
-                  <p className="text-red-500 text-sm">{errors.facebook.message}</p>
-                )}
-              </label>
-              <label>
-                Twitter
-                <Input type="text" {...register("twitter")} />
-                {errors.twitter && (
-                  <p className="text-red-500 text-sm">{errors.twitter.message}</p>
-                )}
-              </label>
-              <label>
-                LinkedIn
-                <Input type="text" {...register("linkedin")} />
-                {errors.linkedin && (
-                  <p className="text-red-500 text-sm">{errors.linkedin.message}</p>
-                )}
-              </label>
-            </div>
-    
-            <Button type="submit" disabled={loading} className="w-full mt-4 cursor-pointer">
-              {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Update Member"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    );
-    
+            <label>
+              Department
+              <Input type="text" {...register("currentDepartment")} />
+              {errors.currentDepartment && (
+                <p className="text-red-500 text-sm">
+                  {errors.currentDepartment.message}
+                </p>
+              )}
+            </label>
+            <label>
+              Degree
+              <Input type="text" {...register("currentDegree")} />
+              {errors.currentDegree && (
+                <p className="text-red-500 text-sm">
+                  {errors.currentDegree.message}
+                </p>
+              )}
+            </label>
+          </div>
+
+          <h3 className="text-lg font-medium mt-4">Education</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label>
+              Degree
+              <Input type="text" {...register("educationDegree")} />
+              {errors.educationDegree && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationDegree.message}
+                </p>
+              )}
+            </label>
+            <label>
+              Field
+              <Input type="text" {...register("educationField")} />
+              {errors.educationField && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationField.message}
+                </p>
+              )}
+            </label>
+            <label>
+              Institution
+              <Input type="text" {...register("educationInstitution")} />
+              {errors.educationInstitution && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationInstitution.message}
+                </p>
+              )}
+            </label>
+            <label>
+              Status
+              <select
+                {...register("educationStatus")}
+                className="border rounded p-2 w-full"
+              >
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+                <option value="Dropped">Dropped</option>
+              </select>
+              {errors.educationStatus && (
+                <p className="text-red-500 text-sm">
+                  {errors.educationStatus.message}
+                </p>
+              )}
+            </label>
+            <label>
+              Scholarship
+              <Input type="text" {...register("scholarship")} />
+              {errors.scholarship && (
+                <p className="text-red-500 text-sm">
+                  {errors.scholarship.message}
+                </p>
+              )}
+            </label>
+          </div>
+
+          <h3 className="text-lg font-medium mt-4">Short Bio</h3>
+          <label>
+            Short Bio
+            <Textarea {...register("shortBio")} />
+            {errors.shortBio && (
+              <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
+            )}
+          </label>
+
+          <h3 className="text-lg font-medium mt-4">Social Links</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label>
+              Facebook
+              <Input type="text" {...register("facebook")} />
+              {errors.facebook && (
+                <p className="text-red-500 text-sm">
+                  {errors.facebook.message}
+                </p>
+              )}
+            </label>
+            <label>
+              Twitter
+              <Input type="text" {...register("twitter")} />
+              {errors.twitter && (
+                <p className="text-red-500 text-sm">{errors.twitter.message}</p>
+              )}
+            </label>
+            <label>
+              LinkedIn
+              <Input type="text" {...register("linkedin")} />
+              {errors.linkedin && (
+                <p className="text-red-500 text-sm">
+                  {errors.linkedin.message}
+                </p>
+              )}
+            </label>
+          </div>
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-4 cursor-pointer"
+          >
+            {loading ? (
+              <LoadingSpinner size="sm" variant="icon" className="mr-2" />
+            ) : (
+              "Update Member"
+            )}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default UpdateForm;

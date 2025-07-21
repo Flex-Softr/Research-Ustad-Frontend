@@ -1,20 +1,21 @@
-"use server"
+"use server";
 
 import { BlogPostForm } from "@/components/module/users/CreateBlog/CreateBlog";
 import { IPost } from "@/type";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { api } from "@/config";
 
 export const GetAllBlog = async () => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+    const response = await fetch(`${api.baseUrl}/blog`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      next:{
-      tags:["blogs"]
-      }
+      next: {
+        tags: ["blogs"],
+      },
     });
 
     if (!response.ok) {
@@ -30,19 +31,19 @@ export const GetAllBlog = async () => {
 export const GetAllPersonalBlog = async () => {
   try {
     const token = (await cookies()).get("accessToken")?.value;
-  
+
     if (!token) {
       throw new Error("Access token not found");
     }
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/author`, {
+    const response = await fetch(`${api.baseUrl}/blog/author`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization":token,
+        Authorization: token,
       },
-      next:{
-      tags:["blogs"]
-      }
+      next: {
+        tags: ["blogs"],
+      },
     });
 
     if (!response.ok) {
@@ -56,10 +57,9 @@ export const GetAllPersonalBlog = async () => {
   }
 };
 
-export const SingleBlog = async (id:string) => {
+export const SingleBlog = async (id: string) => {
   try {
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
+    const response = await fetch(`${api.baseUrl}/blog/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export const SingleBlog = async (id:string) => {
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     }
-    console.log(response)
+    console.log(response);
 
     return await response.json();
   } catch (error) {
@@ -78,22 +78,19 @@ export const SingleBlog = async (id:string) => {
   }
 };
 
-
-
-
-export const BlogPost = async (data:IPost) => {
-console.log(data)
+export const BlogPost = async (data: IPost) => {
+  console.log(data);
   try {
     const token = (await cookies()).get("accessToken")?.value;
-  
-      if (!token) {
-        throw new Error("Access token not found");
-      }
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog`, {
+
+    if (!token) {
+      throw new Error("Access token not found");
+    }
+    const response = await fetch(`${api.baseUrl}/blog`, {
       method: "POST",
       headers: {
         Authorization: token,
-        "Content-Type": "application/json", 
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     });
@@ -109,22 +106,22 @@ console.log(data)
   }
 };
 
-  export const DeleteBlog = async (id:string) => {
-  console.log(id)
-    try {
-      const cookieStore = await cookies();
-      let token = cookieStore.get("accessToken")!.value;
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blog/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization":token,
-        },
-      });
-      revalidateTag("blogs");
-      return await response.json();
-    } catch (error) {
-      console.error("Error delete memeber:", error);
-      return null;
-    }
-  };
+export const DeleteBlog = async (id: string) => {
+  console.log(id);
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/blog/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    revalidateTag("blogs");
+    return await response.json();
+  } catch (error) {
+    console.error("Error delete memeber:", error);
+    return null;
+  }
+};

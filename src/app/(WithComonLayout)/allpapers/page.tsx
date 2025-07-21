@@ -1,15 +1,11 @@
-import AllPapers from "@/components/module/common/AllPapers/AllPapers"
-import { GetAllResearchPaperPublic } from "@/services/allreserchPaper"
+import { ResearchPapersPage } from "@/components/module/common/AllPapers";
 
-
-const page = async() => {
-const data = await GetAllResearchPaperPublic()
-const papers = data?.data
+const page = () => {
   return (
     <div>
-     <AllPapers papers={papers}></AllPapers>
+      <ResearchPapersPage />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

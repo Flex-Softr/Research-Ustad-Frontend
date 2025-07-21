@@ -16,6 +16,14 @@ import {
   User,
   UserPlus,
   Users,
+  Home,
+  Settings,
+  LogOut,
+  ChevronRight,
+  X,
+  Menu,
+  BookOpen,
+  FolderOpen,
 } from "lucide-react";
 
 import {
@@ -26,7 +34,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import { GetMe } from "@/services/singleUser";
 import Link from "next/link";
@@ -63,6 +78,23 @@ const adminRoute = {
       title: "Manage Courses",
       url: "/admin/dashboard/managecourse",
       icon: GraduationCap,
+      items: [
+        {
+          title: "All Courses",
+          url: "/admin/dashboard/managecourse/all-courses",
+          icon: BookOpen,
+        },
+        {
+          title: "Add Course",
+          url: "/admin/dashboard/managecourse/add-course",
+          icon: PenSquare,
+        },
+        {
+          title: "Course Categories",
+          url: "/admin/dashboard/managecourse/categories",
+          icon: FolderOpen,
+        },
+      ],
     },
     {
       title: "Manage Blog",
@@ -89,12 +121,12 @@ const adminRoute = {
       ],
     },
     {
-      title: "Manage Membar",
+      title: "Manage Members",
       url: "#",
       icon: Users,
       items: [
         {
-          title: "Create Membar",
+          title: "Create Member",
           url: "/admin/dashboard/createassociate",
           icon: UserPlus,
         },
@@ -116,12 +148,12 @@ const adminRoute = {
       icon: SlidersHorizontal,
       items: [
         {
-          title: "My ResearchPaper",
+          title: "My Research Paper",
           url: "/admin/dashboard/myresearchpaper",
           icon: FileText,
         },
         {
-          title: "Create ResearchPaper",
+          title: "Create Research Paper",
           url: "/admin/dashboard/createresearchPaper",
           icon: PenSquare,
         },
@@ -157,19 +189,19 @@ const adminRoute = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Research Platform",
       url: "#",
       icon: Briefcase,
     },
     {
-      name: "Sales & Marketing",
+      name: "Academic Network",
       url: "#",
       icon: Globe,
     },
     {
-      name: "Travel",
+      name: "Publications",
       url: "#",
-      icon: Globe,
+      icon: FileStack,
     },
   ],
 };
@@ -225,6 +257,8 @@ const userRoute = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [user, setUser] = React.useState<User | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -243,16 +277,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   if (isLoading) {
     return (
-      <Sidebar>
-        <div className="px-4">
-          <div className="w-full my-10 h-5 bg-gray-200 rounded-md animate-pulse"></div>
-          <div className="w-25 h-5 bg-gray-200 rounded-md animate-pulse"></div>
-          <div className="space-y-4 mt-4">
+      <Sidebar className="border-r border-gray-200 bg-white">
+        <div className="px-4 py-6">
+          <div className="w-full h-8 bg-gray-200 rounded-md animate-pulse mb-6"></div>
+          <div className="space-y-4">
             {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-center space-x-3"
-              >
+              <div key={i} className="flex items-center space-x-3">
                 <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
                 <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
               </div>
@@ -271,27 +301,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       : userRoute;
 
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="/">
-                <h2 className="font-bold text-[22px] flex">
-                  Research{" "}
-                  <span className="text-[#bc986b] hover:text-yellow-500">
-                    Ustad
-                  </span>
+    <Sidebar
+      collapsible="icon"
+      className="border-r border-gray-200 bg-white"
+      {...props}
+    >
+      <SidebarHeader className="border-b border-gray-200">
+        <div className="flex items-center gap-2 px-4 py-3">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
+              <GraduationCap className="w-5 h-5 text-white" />
+            </div>
+            {!isCollapsed && (
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Research Ustad
                 </h2>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+                <p className="text-xs text-gray-500 capitalize">
+                  {user.role} Dashboard
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </SidebarHeader>
+
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <SidebarMenu>
+          <NavMain items={data.navMain} />
+        </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter>
+
+      <SidebarFooter className="border-t border-gray-200">
         <NavUser />
       </SidebarFooter>
     </Sidebar>

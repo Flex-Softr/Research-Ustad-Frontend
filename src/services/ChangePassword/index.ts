@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { api } from "@/config";
 
 export const ChangePassword = async (data: any) => {
   try {
@@ -9,7 +10,7 @@ export const ChangePassword = async (data: any) => {
       throw new Error("Access token not found");
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/change-password`, {
+    const res = await fetch(`${api.baseUrl}/auth/change-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

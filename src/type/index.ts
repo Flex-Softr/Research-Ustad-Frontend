@@ -41,7 +41,6 @@ export type ResearchPaper = {
   visitLink: string;
 };
 
-
 export interface Education {
   degree: string;
   field: string;
@@ -75,10 +74,9 @@ export interface UserProfile {
   education: Education;
   socialLinks: SocialLinks;
   designation: string;
-
 }
 export interface TUser {
- _id: string;
+  _id: string;
   email: string;
   needsPasswordChange: boolean;
   fullName: string;
@@ -86,18 +84,17 @@ export interface TUser {
   status: string;
   role: string;
   isDeleted: boolean;
-  image:string
+  image: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
   passwordChangedAt?: string;
 }
 
-
 interface Author {
   _id: string;
   email: string;
-  image:string;
+  image: string;
   needsPasswordChange: boolean;
   fullName: string;
   designation: string;
@@ -116,20 +113,19 @@ interface Authors {
   image: string;
   email?: string; // Mark as optional
   fullName?: string;
-  role:string
+  role: string;
 }
 
-
 export interface IPost {
-  _id?:string
+  _id?: string;
   image: string;
   title: string;
   author?: Authors;
-  shortDescription: string
+  shortDescription: string;
   category?: string;
 }
 
-export type TPost ={
+export type TPost = {
   _id: string;
   title: string;
   author: Author;
@@ -140,10 +136,7 @@ export type TPost ={
   createdAt: string;
   updatedAt: string;
   __v: number;
-}
-
-
-
+};
 
 export type TPapers = {
   _id: string;
@@ -161,3 +154,14 @@ export type TPapers = {
   updatedAt: string; // ISO date string
   __v: number;
 };
+
+// JWT Payload interface
+export interface JWTPayload {
+  sub?: string;
+  iat?: number;
+  exp?: number;
+  role?: string;
+  email?: string;
+  name?: string;
+  [key: string]: any;
+}

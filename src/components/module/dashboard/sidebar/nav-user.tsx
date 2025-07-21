@@ -1,94 +1,169 @@
 "use client";
 
-import { ChevronsUpDown, LogOut } from "lucide-react";
-
+import { ChevronsUpDown, LogOut, User, Settings } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar";
-// import { useUser } from "@/context/UserContext";
-import { usePathname, useRouter } from "next/navigation";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useSidebar } from "@/components/ui/sidebar";
+import { useRouter } from "next/navigation";
 import { logout } from "@/services/AuthService";
-// import { protectedRoutes } from "@/contants";
+import { GetMe } from "@/services/singleUser";
+import { useEffect, useState } from "react";
+
+interface User {
+  _id: string;
+  email: string;
+  role: string;
+  name?: string;
+}
 
 export function NavUser() {
-  const { isMobile } = useSidebar();
-  // const { user, setIsLoading } = useUser();
-
   const router = useRouter();
-  const pathname = usePathname();
+  const [user, setUser] = useState<User | null>(null);
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
 
-  const handleLogout = () => {
-    logout();
-    // setIsLoading(true);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const result = await GetMe();
+        setUser(result?.data || null);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
 
-    // if (protectedRoutes.some((route) => pathname.match(route))) {
-    //   router.push("/");
-    // }
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
+  const getUserInitials = (name?: string, email?: string) => {
+    if (name) {
+      return name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase();
+    }
+    if (email) {
+      return email[0].toUpperCase();
+    }
+    return "U";
+  };
+
+  const userButton = (
+    <button
+      className={`flex items-center ${
+        isCollapsed ? "justify-center" : "space-x-3"
+      } w-full px-3 py-2 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors`}
+    >
+      <Avatar className="h-8 w-8">
+        <AvatarImage
+          src="/api/placeholder/32/32"
+          alt={user?.name || user?.email}
+        />
+        <AvatarFallback className="bg-purple-100 text-purple-600 text-xs font-medium">
+          {getUserInitials(user?.name, user?.email)}
+        </AvatarFallback>
+      </Avatar>
+      {!isCollapsed && (
+        <>
+          <div className="flex-1 text-left">
+            <p className="text-sm font-medium text-gray-900 truncate">
+              {user?.name || user?.email || "User"}
+            </p>
+            <p className="text-xs text-gray-500 truncate capitalize">
+              {user?.role || "User"}
+            </p>
+          </div>
+          <ChevronsUpDown className="h-4 w-4 text-gray-400" />
+        </>
+      )}
+    </button>
+  );
+
   return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage 
-                // alt={user?.name} 
+    <div className="px-3">
+      <DropdownMenu>
+        {isCollapsed ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DropdownMenuTrigger asChild>{userButton}</DropdownMenuTrigger>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>{user?.name || user?.email || "User"}</p>
+            </TooltipContent>
+          </Tooltip>
+        ) : (
+          <DropdownMenuTrigger asChild>{userButton}</DropdownMenuTrigger>
+        )}
+
+        <DropdownMenuContent
+          className="w-56 rounded-lg shadow-lg border border-gray-200"
+          align="end"
+          sideOffset={8}
+        >
+          <DropdownMenuLabel className="p-3">
+            <div className="flex items-center space-x-3">
+              <Avatar className="h-10 w-10">
+                <AvatarImage
+                  src="/api/placeholder/40/40"
+                  alt={user?.name || user?.email}
                 />
-                <AvatarFallback className="rounded-lg">
-                  {/* {user?.role} */}
+                <AvatarFallback className="bg-purple-100 text-purple-600">
+                  {getUserInitials(user?.name, user?.email)}
                 </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                {/* <span className="truncate font-semibold">{user?.name}</span>
-                <span className="truncate text-xs">{user?.email}</span> */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {user?.name || user?.email || "User"}
+                </p>
+                <p className="text-xs text-gray-500 truncate">{user?.email}</p>
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage alt={"mahim"} />
-                  <AvatarFallback className="rounded-lg">
-                    {/* {user?.role} */}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{"user?.name"}</span>
-                  <span className="truncate text-xs">{"user?.email"}</span>
-                </div>
-              </div>
-            </DropdownMenuLabel>
+            </div>
+          </DropdownMenuLabel>
 
-            <DropdownMenuItem onClick={() => handleLogout()}>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem className="px-3 py-2 text-sm">
+            <User className="h-4 w-4 mr-3 text-gray-400" />
+            Profile
+          </DropdownMenuItem>
+
+          <DropdownMenuItem className="px-3 py-2 text-sm">
+            <Settings className="h-4 w-4 mr-3 text-gray-400" />
+            Settings
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={handleLogout}
+            className="px-3 py-2 text-sm text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <LogOut className="h-4 w-4 mr-3" />
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }

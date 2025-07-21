@@ -4,7 +4,7 @@ export interface Course {
   title: string;
   description: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   location: string;
   duration: string;
   level: string;
@@ -20,24 +20,24 @@ export interface Course {
   lifetimeAccess: boolean;
   imageUrl: string;
   curriculum?: string; // HTML content from text editor
-  courseFeatures: Array<{
+  courseFeatures?: Array<{
     title: string;
     description: string;
     icon: string;
   }>;
-  learningOutcomes: string[];
-  assessmentInfo: string;
-  instructor: {
+  learningOutcomes?: string[];
+  assessmentInfo?: string;
+  instructors: Array<{
     name: string;
     imageUrl: string;
     specialization: string;
     experience: string;
     rating: number;
     students: number;
-    bio: string;
-  };
+    bio?: string;
+  }>;
   tags: string[];
-  modules: Array<{
+  modules?: Array<{
     title: string;
     description: string;
     lessons: Array<{
@@ -47,9 +47,9 @@ export interface Course {
       free: boolean;
     }>;
   }>;
-  whatYouWillLearn: string[];
-  requirements: string[];
-  reviews: Array<{
+  whatYouWillLearn?: string[];
+  requirements?: string[];
+  reviews?: Array<{
     id: number;
     user: string;
     rating: number;
@@ -101,7 +101,7 @@ export const getPaginatedCourses = async (
     const now = new Date();
     filteredCourses = filteredCourses.filter((course) => {
       const startDate = new Date(course.startDate);
-      const endDate = new Date(course.endDate);
+      const endDate = new Date(course.endDate || "2100-01-01"); // Use a future date if endDate is not available
 
       if (filter.status === "upcoming") {
         return startDate > now;

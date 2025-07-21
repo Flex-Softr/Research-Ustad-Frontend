@@ -1,13 +1,11 @@
+import BlogDetailsPage from "@/components/blogs/SingleBlogPage";
 
-
-import SingleBlogPage from "@/components/blogs/SingleBlogPage";
-
-const Page =async ({ params }:{params:any}) => {
-  const {slug} =await params;
+const Page = async ({ params }: { params: any }) => {
+  const { slug } = await params;
 
   return (
     <div>
-      <SingleBlogPage id={slug} />
+      <BlogDetailsPage id={slug} />
     </div>
   );
 };

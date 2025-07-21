@@ -13,7 +13,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-gradient-to-br from-teal-900 via-cyan-800 to-emerald-700 overflow-hidden">
+    <footer className="relative bg-gradient-to-br from-brand-primary via-black-400/30 to-brand-primary overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {/* Moving Background Pattern */}
