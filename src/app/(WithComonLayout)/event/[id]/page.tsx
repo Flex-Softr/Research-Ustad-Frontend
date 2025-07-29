@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
-import { getEventById, type Event } from "@/services/events";
-import Breadcrumb from "@/components/shared/Breadcrumb";
+import { use } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchSingleEvent } from "@/services/events/eventSlice";
 import {
   EventHeader,
   EventImage,
@@ -11,63 +13,45 @@ import {
   LoadingSpinner,
   EventNotFound,
 } from "@/components/Event/single";
+import Breadcrumb from "@/components/shared/Breadcrumb";
 
 const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
-  const { id } = use(params);
-  const [event, setEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = use(params); // ✅ unwrap dynamic route param
+  const dispatch = useDispatch<AppDispatch>();
+  const { event, isLoading, error } = useSelector(
+    (state: RootState) => state.event
+  );
 
-  // Load event data
   useEffect(() => {
-    const loadEvent = async () => {
-      try {
-        const eventData = await getEventById(id);
-        setEvent(eventData);
-      } catch (error) {
-        console.error("Error loading event:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (id) {
+      dispatch(fetchSingleEvent(id));
+    }
+  }, [id, dispatch]);
 
-    loadEvent();
-  }, [id]);
-
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
-  if (!event) {
-    return <EventNotFound />;
-  }
+  if (isLoading) return <LoadingSpinner />;
+  if (error || !event) return <EventNotFound />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
-      {/* Breadcrumb Section */}
+      {/* ✅ Breadcrumb */}
       <Breadcrumb
         items={[
-          {
-            label: "Events",
-            href: "/event",
-          },
-          {
-            label: event.title,
-            current: false,
-          },
+          { label: "Events", href: "/event" },
+          { label: event.title, current: true },
         ]}
       />
 
-      {/* Main Content */}
+      {/* ✅ Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content Area */}
+          {/* Left: Main Event Info */}
           <div className="lg:col-span-2 space-y-8">
             <EventHeader event={event} />
             <EventImage event={event} />
             <EventContent event={event} />
           </div>
 
-          {/* Sidebar */}
+          {/* Right: Sidebar */}
           <div className="lg:col-span-1">
             <EventSidebar event={event} />
           </div>

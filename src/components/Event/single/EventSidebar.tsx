@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -12,15 +14,15 @@ import {
 import { type Event } from "@/services/events";
 
 interface EventSidebarProps {
-  event: Event;
+  event: Partial<Event>; // 👈 Accept partial Event object to allow missing fields
 }
 
 const EventSidebar = ({ event }: EventSidebarProps) => {
-  const getEventStatus = (event: Event) => {
+  const getEventStatus = (event: Partial<Event>) => {
     const now = new Date();
-    const startDate = new Date(event.startDate);
+    const startDate = event?.startDate ? new Date(event.startDate) : null;
 
-    if (startDate > now) {
+    if (startDate && startDate > now) {
       const daysUntil = Math.ceil(
         (startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
       );
@@ -39,14 +41,14 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
   };
 
   const statusInfo = getEventStatus(event);
-  const registrationPercentage = Math.round(
-    (event.registered / event.capacity) * 100
-  );
+  const registered = event?.registered ?? 0;
+  const capacity = event?.capacity ?? 100;
+  const registrationPercentage = Math.round((registered / capacity) * 100);
 
   return (
     <div className="space-y-6">
       {/* Event Information Card */}
-      <Card className="sticky top-24 bg-white/80 backdrop-blur-sm border border-gray-100">
+      <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-gray-900">
             Event Information
@@ -58,7 +60,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
             <div className="flex items-center justify-center space-x-2">
               <DollarSign className="h-5 w-5 text-brand-secondary" />
               <span className="text-3xl font-bold text-brand-secondary">
-                {event.price}
+                {event?.price ?? "Free"}
               </span>
             </div>
             <p className="text-sm text-gray-600 mt-1">Registration Fee</p>
@@ -71,23 +73,27 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Date</p>
                 <p className="text-sm text-gray-600">
-                  {new Date(event.startDate).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                  {new Date(event.startDate).toDateString() !==
-                    new Date(event.endDate).toDateString() && (
-                    <>
-                      {" "}
-                      -{" "}
-                      {new Date(event.endDate).toLocaleDateString("en-US", {
+                  {event?.startDate
+                    ? new Date(event.startDate).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",
-                      })}
-                    </>
-                  )}
+                      })
+                    : "N/A"}
+                  {event?.startDate &&
+                    event?.endDate &&
+                    new Date(event.startDate).toDateString() !==
+                      new Date(event.endDate).toDateString() && (
+                      <>
+                        {" "}
+                        -{" "}
+                        {new Date(event.endDate).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </>
+                    )}
                 </p>
               </div>
             </div>
@@ -97,15 +103,19 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Time</p>
                 <p className="text-sm text-gray-600">
-                  {new Date(event.startDate).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}{" "}
+                  {event?.startDate
+                    ? new Date(event.startDate).toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : "N/A"}{" "}
                   -{" "}
-                  {new Date(event.endDate).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {event?.endDate
+                    ? new Date(event.endDate).toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : "N/A"}
                 </p>
               </div>
             </div>
@@ -114,7 +124,9 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
               <MapPin className="h-5 w-5 text-brand-secondary" />
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Location</p>
-                <p className="text-sm text-gray-600">{event.location}</p>
+                <p className="text-sm text-gray-600">
+                  {event?.location ?? "TBA"}
+                </p>
               </div>
             </div>
 
@@ -123,7 +135,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Speakers</p>
                 <p className="text-sm text-gray-600">
-                  {event.speakers.length} featured speakers
+                  {event?.speakers?.length ?? 0} featured speakers
                 </p>
               </div>
             </div>
@@ -135,16 +147,16 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
               <div className="flex items-center justify-between text-sm">
                 <span className="font-medium text-gray-900">Registration</span>
                 <span className="text-gray-600">
-                  {event.registered}/{event.capacity}
+                  {registered}/{capacity}
                 </span>
               </div>
               <Progress
                 value={registrationPercentage}
                 className="h-2"
-                indicatorClassName="bg-brand-secondary"
+                // removed indicatorClassName if not used by your Progress component
               />
               <p className="text-xs text-gray-500 text-center">
-                {event.capacity - event.registered} spots remaining
+                {capacity - registered} spots remaining
               </p>
             </div>
           )}
@@ -163,7 +175,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
             disabled={statusInfo.status === "past"}
           >
             <a
-              href={event.registrationLink}
+              href={event?.registrationLink ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -193,7 +205,9 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
         <CardContent className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Category</span>
-            <span className="font-medium text-gray-900">{event.category}</span>
+            <span className="font-medium text-gray-900">
+              {event?.category ?? "General"}
+            </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Status</span>
@@ -209,13 +223,11 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Capacity</span>
-            <span className="font-medium text-gray-900">{event.capacity}</span>
+            <span className="font-medium text-gray-900">{capacity}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Registered</span>
-            <span className="font-medium text-gray-900">
-              {event.registered}
-            </span>
+            <span className="font-medium text-gray-900">{registered}</span>
           </div>
         </CardContent>
       </Card>
