@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
+import { ReduxProvider } from "./ReduxProvider";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
@@ -19,12 +22,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning className={roboto.className}>
-        <div>
-          <Toaster />
-          {children}
-        </div>
-      </body>
+      <ReduxProvider>
+        <body suppressHydrationWarning className={roboto.className}>
+          <div>
+            <Toaster />
+            {children}
+          </div>
+        </body>
+      </ReduxProvider>
     </html>
   );
 }

@@ -1,32 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { addEvent, updateEvent, Event } from "@/services/events/eventSlice";
+import { AppDispatch } from "@/store/store";
 import { Plus, Trash2, X } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
-
-interface Speaker {
-  name: string;
-  bio: string;
-  imageUrl: string;
-}
-
-interface Event {
-  id?: number;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  location: string;
-  attendees: number;
-  maxAttendees: number;
-  status: string;
-  category: string;
-  image: string;
-  speakers: Speaker[];
-  registrationLink: string;
-}
 
 interface EventFormProps {
   event?: Event;
@@ -41,53 +26,96 @@ const EventForm = ({
   onCancel,
   isEditing = false,
 }: EventFormProps) => {
-  const [formData, setFormData] = useState<Event>({
-    title: event?.title || "",
-    description: event?.description || "",
-    startDate: event?.startDate || "",
-    endDate: event?.endDate || "",
-    location: event?.location || "",
-    attendees: event?.attendees || 0,
-    maxAttendees: event?.maxAttendees || 100,
-    status: event?.status || "upcoming",
-    category: event?.category || "",
-    image: event?.image || "",
-    speakers: event?.speakers || [],
-    registrationLink: event?.registrationLink || "",
-    ...(event?.id && { id: event.id }),
+  console.log("editingfdsaf", event);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<Event>({
+    defaultValues: {
+      title: event?.title || "",
+      description: event?.description || "",
+      startDate: event?.startDate || "",
+      endDate: event?.endDate || "",
+      location: event?.location || "",
+      attendees: event?.attendees || 0,
+      maxAttendees: event?.maxAttendees || 100,
+      status: event?.status || "upcoming",
+      category: event?.category || "",
+      imageUrl: event?.imageUrl || "", // ✅ fixed
+      registrationLink: event?.registrationLink || "",
+      eventDuration: event?.eventDuration || 60, // ✅ added
+      speakers: event?.speakers || [],
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(formData);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "speakers",
+  });
+
+  // State to hold the selected file
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    }
   };
 
-  const handleChange = (
-    field: keyof Event,
-    value: string | number | Speaker[]
-  ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  // const onSubmit = async (data: Event) => {
+  //   try {
+  //     // Create FormData for multipart/form-data
+  //     const formData = new FormData();
 
-  const addSpeaker = () => {
-    const newSpeaker: Speaker = { name: "", bio: "", imageUrl: "" };
-    handleChange("speakers", [...formData.speakers, newSpeaker]);
-  };
+  //     if (selectedFile) {
+  //       formData.append("file", selectedFile);
+  //     }
+  //     // Append the rest of the event data as JSON string
+  //     formData.append("data", JSON.stringify(data));
 
-  const updateSpeaker = (
-    index: number,
-    field: keyof Speaker,
-    value: string
-  ) => {
-    const updatedSpeakers = formData.speakers.map((speaker, i) =>
-      i === index ? { ...speaker, [field]: value } : speaker
-    );
-    handleChange("speakers", updatedSpeakers);
-  };
+  //     // Dispatch with FormData instead of plain JSON
+  //     const result = await dispatch(addEvent(formData)).unwrap();
 
-  const removeSpeaker = (index: number) => {
-    const updatedSpeakers = formData.speakers.filter((_, i) => i !== index);
-    handleChange("speakers", updatedSpeakers);
+  //     toast.success("Event created successfully!");
+  //     onSave(result);
+  //     reset();
+  //     setSelectedFile(null);
+  //   } catch (error: any) {
+  //     toast.error(error || "Failed to add event");
+  //   }
+  // };
+
+  const onSubmit = async (data: Event) => {
+    try {
+      const formData = new FormData();
+
+      if (selectedFile) {
+        formData.append("file", selectedFile);
+      }
+      formData.append("data", JSON.stringify(data));
+
+      let result;
+      if (isEditing && event?._id) {
+        result = await dispatch(
+          updateEvent({ _id: event._id, formData })
+        ).unwrap();
+        toast.success("Event updated successfully!");
+      } else {
+        result = await dispatch(addEvent(formData)).unwrap();
+        toast.success("Event created successfully!");
+      }
+
+      onSave(result);
+      reset();
+      setSelectedFile(null);
+    } catch (error: any) {
+      toast.error(error || "Failed to save event");
+    }
   };
 
   return (
@@ -99,69 +127,86 @@ const EventForm = ({
         </Button>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="title">Event Title</Label>
-              <Input
-                id="title"
-                value={formData.title}
-                onChange={(e) => handleChange("title", e.target.value)}
-                placeholder="Enter event title"
-                required
-              />
+              <Input id="title" {...register("title", { required: true })} />
+              {errors.title && (
+                <p className="text-sm text-red-500">Title is required</p>
+              )}
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
               <Input
                 id="category"
-                value={formData.category}
-                onChange={(e) => handleChange("category", e.target.value)}
-                placeholder="e.g., Technology, Business"
-                required
+                {...register("category", { required: true })}
               />
+              {errors.category && (
+                <p className="text-sm text-red-500">Category is required</p>
+              )}
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="startDate">Start Date</Label>
               <Input
                 id="startDate"
                 type="date"
-                value={formData.startDate}
-                onChange={(e) => handleChange("startDate", e.target.value)}
-                required
+                {...register("startDate", { required: true })}
               />
+              {errors.startDate && (
+                <p className="text-sm text-red-500">Start date is required</p>
+              )}
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="endDate">End Date</Label>
               <Input
                 id="endDate"
                 type="date"
-                value={formData.endDate}
-                onChange={(e) => handleChange("endDate", e.target.value)}
-                required
+                {...register("endDate", { required: true })}
               />
+              {errors.endDate && (
+                <p className="text-sm text-red-500">End date is required</p>
+              )}
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="eventDuration">Event Duration (in minutes)</Label>
+              <Input
+                type="number"
+                id="eventDuration"
+                {...register("eventDuration", { required: true })}
+              />
+              {errors.eventDuration && (
+                <p className="text-sm text-red-500">
+                  Event duration is required
+                </p>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="location">Location</Label>
               <Input
                 id="location"
-                value={formData.location}
-                onChange={(e) => handleChange("location", e.target.value)}
-                placeholder="Event location"
-                required
+                {...register("location", { required: true })}
               />
+              {errors.location && (
+                <p className="text-sm text-red-500">Location is required</p>
+              )}
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="maxAttendees">Max Attendees</Label>
               <Input
-                id="maxAttendees"
                 type="number"
-                value={formData.maxAttendees}
-                onChange={(e) =>
-                  handleChange("maxAttendees", parseInt(e.target.value))
-                }
-                required
+                id="maxAttendees"
+                {...register("maxAttendees", { required: true })}
               />
+              {errors.maxAttendees && (
+                <p className="text-sm text-red-500">Required</p>
+              )}
             </div>
           </div>
 
@@ -169,34 +214,31 @@ const EventForm = ({
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              value={formData.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-              placeholder="Event description"
+              {...register("description", { required: true })}
               rows={3}
-              required
             />
+            {errors.description && (
+              <p className="text-sm text-red-500">Description is required</p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Replace the imageUrl input with a file input */}
             <div className="space-y-2">
-              <Label htmlFor="image">Image URL</Label>
-              <Input
-                id="image"
-                value={formData.image}
-                onChange={(e) => handleChange("image", e.target.value)}
-                placeholder="https://example.com/image.jpg"
-              />
+              <Label htmlFor="file">Upload Image</Label>
+              <Input type="file" id="file" onChange={onFileChange} />
             </div>
+            {selectedFile && (
+              <img
+                src={URL.createObjectURL(selectedFile)}
+                alt="Preview"
+                className="w-32 h-32 object-cover rounded"
+              />
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="registrationLink">Registration Link</Label>
-              <Input
-                id="registrationLink"
-                value={formData.registrationLink}
-                onChange={(e) =>
-                  handleChange("registrationLink", e.target.value)
-                }
-                placeholder="https://example.com/register"
-              />
+              <Input id="registrationLink" {...register("registrationLink")} />
             </div>
           </div>
 
@@ -207,22 +249,22 @@ const EventForm = ({
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={addSpeaker}
+                onClick={() => append({ name: "", bio: "", imageUrl: "" })}
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add Speaker
               </Button>
             </div>
 
-            {formData.speakers.map((speaker, index) => (
-              <Card key={index} className="p-4">
+            {fields.map((field, index) => (
+              <Card key={field.id} className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-medium">Speaker {index + 1}</h4>
                   <Button
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => removeSpeaker(index)}
+                    onClick={() => remove(index)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -230,24 +272,15 @@ const EventForm = ({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <Input
                     placeholder="Speaker name"
-                    value={speaker.name}
-                    onChange={(e) =>
-                      updateSpeaker(index, "name", e.target.value)
-                    }
+                    {...register(`speakers.${index}.name`, { required: true })}
                   />
                   <Input
                     placeholder="Speaker bio"
-                    value={speaker.bio}
-                    onChange={(e) =>
-                      updateSpeaker(index, "bio", e.target.value)
-                    }
+                    {...register(`speakers.${index}.bio`)}
                   />
                   <Input
                     placeholder="Image URL"
-                    value={speaker.imageUrl}
-                    onChange={(e) =>
-                      updateSpeaker(index, "imageUrl", e.target.value)
-                    }
+                    {...register(`speakers.${index}.imageUrl`)}
                   />
                 </div>
               </Card>

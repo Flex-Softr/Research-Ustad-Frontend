@@ -6,7 +6,8 @@ export interface EventSpeaker {
 }
 
 export interface Event {
-  id: string;
+  _id: number;
+  id?: string;
   title: string;
   description: string;
   startDate: string;
@@ -16,11 +17,11 @@ export interface Event {
   imageUrl: string;
   registrationLink: string;
   category: string;
-  status: "upcoming" | "past";
+  status: string;
   capacity: number;
   registered: number;
   price: string;
-  tags: string[];
+  tags?: string[]; // ✅ Add this
 }
 
 export interface PaginatedEventsResponse {
