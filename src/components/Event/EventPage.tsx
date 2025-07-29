@@ -24,11 +24,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import Pagination from "../shared/Pagination";
 
 const EventPage = () => {
   const [filter, setFilter] = useState<
     "all" | "upcoming" | "ongoing" | "finished"
   >("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const dispatch = useDispatch<AppDispatch>();
   const { events, isLoading, error } = useSelector(
@@ -45,6 +48,12 @@ const EventPage = () => {
     const statusInfo = getEventStatus(event);
     return filter === "all" || statusInfo.status === filter;
   });
+
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+  const paginatedEvents = filteredEvents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
@@ -90,7 +99,7 @@ const EventPage = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredEvents.map((event) => {
+              {paginatedEvents.map((event) => {
                 const statusInfo = getEventStatus(event);
                 return (
                   <Card key={event._id} className="overflow-hidden group">
@@ -161,6 +170,17 @@ const EventPage = () => {
                 );
               })}
             </div>
+          </div>
+        )}
+        {filteredEvents.length > itemsPerPage && (
+          <div className="mt-6">
+            <Pagination
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              totalItems={filteredEvents.length}
+              onPageChange={setCurrentPage}
+              totalPages={totalPages}
+            />
           </div>
         )}
       </div>
