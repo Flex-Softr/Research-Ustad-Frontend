@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
-import { Card } from "../ui/card";
-import { SingleBlog } from "@/services/blogs";
-import { TPost } from "@/type";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchSingleBlog, fetchBlogs, Blog } from "@/services/blogs/blogsSlice";
 import {
   Calendar,
   User,
@@ -22,92 +22,65 @@ import {
 import Link from "next/link";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 
-function BlogDetailsPage({ id }: { id: string }) {
-  const [post, setPost] = useState<TPost | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [latestPosts, setLatestPosts] = useState<TPost[]>([]);
+function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const dispatch = useDispatch<AppDispatch>();
+  const { blog, blogs, isLoading, error } = useSelector(
+    (state: RootState) => state.blogs
+  );
+  const [post, setPost] = useState<Blog | null>(null);
+  const [latestPosts, setLatestPosts] = useState<Blog[]>([]);
 
-  // Function to load demo data from JSON file
-  const loadDemoData = async (): Promise<TPost[]> => {
-    try {
-      const response = await fetch("/json/blog-demo-data.json");
-      const jsonData = await response.json();
-      return jsonData.blogs || [];
-    } catch (error) {
-      console.error("Error loading demo data:", error);
-      return [];
+  // Fetch single blog
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSingleBlog(id));
     }
-  };
+  }, [id, dispatch]);
 
-  // Function to find blog post by ID
-  const findBlogById = async (blogId: string) => {
-    try {
-      // First try to get from API
-      const apiResponse = await SingleBlog(blogId);
-      if (apiResponse?.data) {
-        return apiResponse.data;
-      }
-    } catch (apiError) {
-      console.log("API call failed, trying demo data...");
+  // Fetch all blogs for latest posts sidebar
+  useEffect(() => {
+    if (!blogs || blogs.length === 0) {
+      dispatch(fetchBlogs());
     }
+  }, [blogs, dispatch]);
 
-    // If API fails or returns no data, try demo data
-    try {
-      const allBlogs = await loadDemoData();
-      const foundBlog = allBlogs.find((blog) => blog._id === blogId);
-      return foundBlog || null;
-    } catch (demoError) {
-      console.error("Error loading demo data:", demoError);
-      return null;
+  // Update post state when blog from Redux changes
+  useEffect(() => {
+    if (blog && blog._id === id) {
+      setPost(blog);
     }
-  };
+  }, [blog, id]);
 
-  // Function to load latest posts for sidebar
-  const loadLatestPosts = async () => {
-    try {
-      const allBlogs = await loadDemoData();
-      // Get latest 5 posts, excluding current post
-      const latest = allBlogs
+  // Load latest posts for sidebar
+  useEffect(() => {
+    if (blogs && blogs.length > 0) {
+      const latest = blogs
         .filter((blog) => blog._id !== id)
         .sort(
           (a, b) =>
-            new Date(b.publishedDate).getTime() -
-            new Date(a.publishedDate).getTime()
+            new Date(b.publishedDate || b.createdAt).getTime() -
+            new Date(a.publishedDate || a.createdAt).getTime()
         )
         .slice(0, 5);
       setLatestPosts(latest);
-    } catch (error) {
-      console.error("Error loading latest posts:", error);
+    }
+  }, [blogs, id]);
+
+  // Format date helper
+  const formatDate = (dateString: string) => {
+    try {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch {
+      return "Unknown date";
     }
   };
 
-  useEffect(() => {
-    const fetchBlogPost = async () => {
-      if (id) {
-        setLoading(true);
-        try {
-          const blogPost = await findBlogById(id);
-          if (blogPost) {
-            setPost(blogPost);
-            setError("");
-          } else {
-            setError("Blog post not found");
-          }
-        } catch (err) {
-          console.error("Error fetching blog post:", err);
-          setError("Failed to load blog post");
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchBlogPost();
-    loadLatestPosts();
-  }, [id]);
-
-  if (loading) {
+  if (isLoading && !post) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
         {/* Breadcrumb Skeleton */}
@@ -118,7 +91,6 @@ function BlogDetailsPage({ id }: { id: string }) {
             </div>
           </div>
         </div>
-
         {/* Content Skeleton */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-col lg:flex-row gap-8">
@@ -164,9 +136,6 @@ function BlogDetailsPage({ id }: { id: string }) {
               "The blog post you're looking for doesn't exist or has been removed."}
           </p>
           <div className="space-y-4">
-            <p className="text-sm text-gray-500">
-              Available blog IDs: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-            </p>
             <Link
               href="/blog"
               className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white px-6 py-3 rounded-xl transition-all duration-300"
@@ -212,11 +181,7 @@ function BlogDetailsPage({ id }: { id: string }) {
                 </span>
                 <div className="flex items-center gap-2 text-gray-500 text-sm">
                   <Calendar className="w-4 h-4" />
-                  {new Date(post.publishedDate).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDate(post.publishedDate || post.createdAt)}
                 </div>
               </div>
 
@@ -224,11 +189,6 @@ function BlogDetailsPage({ id }: { id: string }) {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
                 {post.title}
               </h1>
-
-              {/* Description */}
-              <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-4xl">
-                {post.shortDescription}
-              </p>
 
               {/* Author Info */}
               <div className="flex items-center gap-4 mb-8">
@@ -238,39 +198,60 @@ function BlogDetailsPage({ id }: { id: string }) {
                     alt={post.author?.fullName || "Author"}
                     fill
                     className="object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/default-avatar.png";
+                    }}
                   />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900">
-                    {post.author?.fullName}
+                    {post.author?.fullName || "Unknown Author"}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {post.author?.designation}
+                    {post.author?.designation || "Author"}
                   </p>
+                  {post.author?.email && (
+                    <p className="text-xs text-gray-400">{post.author.email}</p>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Featured Image */}
-            <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden mb-12 shadow-2xl">
-              <Image
-                src={post.image || "/default-blog-image.jpg"}
-                alt={post.title}
-                fill
-                className="object-cover"
-                priority
-              />
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-            </div>
+            {post.imageUrl && (
+              <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden mb-12 shadow-2xl">
+                <Image
+                  src={post.imageUrl}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/default-blog-image.jpg";
+                  }}
+                />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+              </div>
+            )}
 
             {/* Article Content */}
             <div className="prose prose-lg max-w-none mb-12">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: post.shortDescription || "",
-                }}
-              ></div>
+              {post.content ? (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: post.content,
+                  }}
+                  className="blog-content"
+                  style={{
+                    fontFamily: "Siyam Rupali, sans-serif",
+                  }}
+                />
+              ) : (
+                <p className="text-gray-600">No content available.</p>
+              )}
             </div>
           </div>
 
@@ -284,42 +265,60 @@ function BlogDetailsPage({ id }: { id: string }) {
                 </h3>
               </div>
 
-              <div className="space-y-4">
-                {latestPosts.map((latestPost) => (
-                  <Link
-                    key={latestPost._id}
-                    href={`/blog/${latestPost._id}`}
-                    className="group block"
-                  >
-                    <div className="bg-gray-50 hover:bg-gray-100 rounded-xl p-4 transition-all duration-300 group-hover:shadow-md">
-                      <div className="flex items-start gap-3">
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <Image
-                            src={latestPost.image}
-                            alt={latestPost.title}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-xs bg-brand-secondary/10 text-brand-secondary px-2 py-1 rounded-full">
-                              {latestPost.category}
-                            </span>
-                            <span className="text-xs text-gray-500">
-                              {new Date(
-                                latestPost.publishedDate
-                              ).toLocaleDateString()}
-                            </span>
+              <div className="">
+                {latestPosts.length > 0 ? (
+                  latestPosts.map((latestPost) => (
+                    <Link
+                      key={latestPost._id}
+                      href={`/blog/${latestPost._id}`}
+                      className="group block"
+                    >
+                      <div className="bg-gray-50 hover:bg-gray-100 rounded-xl p-2 transition-all duration-300 group-hover:shadow-md">
+                        <div className="flex items-start gap-3">
+                          <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <Image
+                              src={
+                                latestPost.imageUrl || "/default-blog-image.jpg"
+                              }
+                              alt={latestPost.title}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-300"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = "/default-blog-image.jpg";
+                              }}
+                            />
                           </div>
-                          <h4 className="font-semibold text-gray-900 group-hover:text-brand-secondary transition-colors duration-300 text-sm line-clamp-2 leading-tight">
-                            {latestPost.title}
-                          </h4>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-xs bg-brand-secondary/10 text-brand-secondary px-2 py-1 rounded-full">
+                                {latestPost.category}
+                              </span>
+                              <span className="text-xs text-gray-500">
+                                {formatDate(
+                                  latestPost.publishedDate ||
+                                    latestPost.createdAt
+                                )}
+                              </span>
+                            </div>
+                            <h4 className="font-semibold text-gray-900 group-hover:text-brand-secondary transition-colors duration-300 text-sm line-clamp-2 leading-tight">
+                              {latestPost.title}
+                            </h4>
+                          </div>
                         </div>
                       </div>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <BookOpen className="h-6 w-6 text-gray-400" />
                     </div>
-                  </Link>
-                ))}
+                    <p className="text-sm text-gray-500">
+                      No other posts available
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* View All Posts Button */}
@@ -340,4 +339,4 @@ function BlogDetailsPage({ id }: { id: string }) {
   );
 }
 
-export default BlogDetailsPage;
+export default SingleBlogPage;

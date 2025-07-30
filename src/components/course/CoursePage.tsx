@@ -35,6 +35,9 @@ import {
   type Course,
   type CoursesFilter,
 } from "@/services/courses";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchBlogs } from "@/services/blogs/blogsSlice";
 
 const CoursePage = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -48,6 +51,23 @@ const CoursePage = () => {
   const [expandedStatus, setExpandedStatus] = useState(true);
   const [expandedCategory, setExpandedCategory] = useState(true);
   const [showAllCategories, setShowAllCategories] = useState(false);
+
+
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { blogs, isLoading, error } = useSelector((state: RootState) => state.blogs);
+
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, [dispatch]);
+
+
+  console.log("blogsssssssssssssssssssss", blogs)
+
+
+
+
+
 
   // Fetch paginated courses from server
   const fetchCourses = async (

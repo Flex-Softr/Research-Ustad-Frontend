@@ -105,7 +105,7 @@ const EventPage = () => {
                   <Card key={event._id} className="overflow-hidden group">
                     <div className="relative h-48">
                       <Image
-                        src={`http://localhost:5000${event.imageUrl}`}
+                        src={event.imageUrl}
                         alt={event.title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"

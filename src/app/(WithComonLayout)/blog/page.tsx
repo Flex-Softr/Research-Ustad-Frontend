@@ -1,15 +1,13 @@
+import BlogPage from "@/components/blogs/BlogPage";
+import { GetAllBlog } from "@/services/blogs";
+import React from "react";
 
-import BlogPage from '@/components/blogs/BlogPage';
-import { GetAllBlog } from '@/services/blogs';
-import React from 'react';
-
-const page =async () => {
-
-    return (
-        <div>
-           <BlogPage></BlogPage>
-        </div>
-    );
+const Blog = () => {
+  return (
+    <div>
+      <BlogPage></BlogPage>
+    </div>
+  );
 };
 
-export default page;
+export default Blog;

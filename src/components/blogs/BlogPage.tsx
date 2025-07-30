@@ -4,12 +4,35 @@ import BlogCard from "./blog/BlogCard";
 import BlogCardSkeleton from "./blog/BlogCardSkeleton";
 import { GetAllBlog } from "@/services/blogs";
 import { TPost } from "@/type";
-import { Filter, TrendingUp } from "lucide-react";
+import { Filter, TrendingUp, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import Pagination from "@/components/shared/Pagination";
 import Breadcrumb from "@/components/shared/Breadcrumb";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchBlogs } from "@/services/blogs/blogsSlice";
+
+// Define the API response structure
+interface BlogApiResponse {
+  success: boolean;
+  message: string;
+  data: {
+    blogs: TPost[];
+  };
+}
+
+interface Category {
+  id: string;
+  name: string;
+  count: number;
+}
 
 const BlogPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { blogs, isLoading, error } = useSelector(
+    (state: RootState) => state.blogs
+  );
+  const [errors, setError] = useState<string | null>(null);
   const [data, setData] = useState<TPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -20,59 +43,76 @@ const BlogPage = () => {
   const [totalItems, setTotalItems] = useState(0);
   const [itemsPerPage] = useState(6); // Number of items per page
 
-  // Sample categories - you can replace with actual categories from your data
-  const categories = [
-    { id: "all", name: "All Posts", count: 0 },
-    { id: "technology", name: "Technology", count: 12 },
-    { id: "research", name: "Research", count: 8 },
-    { id: "education", name: "Education", count: 15 },
-    { id: "science", name: "Science", count: 6 },
-    { id: "innovation", name: "Innovation", count: 9 },
-    { id: "academic", name: "Academic", count: 11 },
-  ];
+  useEffect(() => {
+    dispatch(fetchBlogs());
+  }, [dispatch]);
 
-  // Function to load demo data from JSON file
-  const loadDemoData = async (): Promise<TPost[]> => {
-    try {
-      const response = await fetch("/json/blog-demo-data.json");
-      const jsonData = await response.json();
-      return jsonData.blogs || [];
-    } catch (error) {
-      console.error("Error loading demo data:", error);
-      return [];
-    }
-  };
+  console.log("blogsssssssssssssssssssss", blogs);
+
+  // Dynamic categories based on actual blog data
+  const [categories, setCategories] = useState<Category[]>([
+    { id: "all", name: "All Posts", count: 0 },
+  ]);
 
   // Function to fetch paginated data from server
+  // Remove this line completely
+  // import { GetAllBlog } from "@/services/blogs";
+
   const fetchPaginatedData = async (page: number, category: string = "all") => {
     setLoading(true);
-    try {
-      // If you have a paginated API endpoint, use it here
-      // const response = await GetAllBlog({ page, limit: itemsPerPage, category });
+    setError(null);
 
-      // For now, we'll simulate server-side pagination with demo data
-      const allData = await loadDemoData();
+    try {
+      // Use blogs from Redux
+      const allData = blogs as TPost[]; // safely cast based on structure you confirmed
 
       // Filter by category
       const filteredData =
         category === "all"
           ? allData
-          : allData.filter((post) => post.category?.toLowerCase() === category);
+          : allData.filter(
+              (post) => post.category?.toLowerCase() === category.toLowerCase()
+            );
 
-      // Calculate pagination
+      // Pagination
       const total = filteredData.length;
       const totalPages = Math.ceil(total / itemsPerPage);
       const startIndex = (page - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const paginatedData = filteredData.slice(startIndex, endIndex);
 
+      // Update states
       setData(paginatedData);
       setTotalPages(totalPages);
       setTotalItems(total);
       setCurrentPage(page);
-      setLoading(false);
+
+      // Update category counts
+      const categoryCounts: { [key: string]: number } = {};
+      allData.forEach((post) => {
+        const category = post.category?.toLowerCase() || "uncategorized";
+        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+      });
+
+      const dynamicCategories: Category[] = [
+        { id: "all", name: "All Posts", count: allData.length },
+        ...Object.entries(categoryCounts).map(([id, count]) => ({
+          id,
+          name: id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " "),
+          count,
+        })),
+      ];
+
+      setCategories(dynamicCategories);
     } catch (error) {
       console.error("Error fetching paginated data:", error);
+      setError(
+        error instanceof Error ? error.message : "Failed to fetch blogs"
+      );
+      setData([]);
+      setTotalPages(1);
+      setTotalItems(0);
+    } finally {
       setLoading(false);
     }
   };
@@ -119,11 +159,10 @@ const BlogPage = () => {
     return pages;
   };
 
-  // Update category counts
-  const updatedCategories = categories.map((cat) => ({
-    ...cat,
-    count: cat.id === "all" ? totalItems : 0, // This will be updated when we have real category counts
-  }));
+  // Handle retry
+  const handleRetry = () => {
+    fetchPaginatedData(currentPage, selectedCategory);
+  };
 
   return (
     <>
@@ -153,7 +192,7 @@ const BlogPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  {updatedCategories.map((category) => (
+                  {categories.map((category) => (
                     <button
                       key={category.id}
                       onClick={() => handleCategoryChange(category.id)}
@@ -254,43 +293,70 @@ const BlogPage = () => {
                 )}
               </div>
 
-              {/* Blog Grid */}
-              {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {Array.from({ length: itemsPerPage }).map((_, index) => (
-                    <BlogCardSkeleton key={index} />
-                  ))}
-                </div>
-              ) : data?.length > 0 ? (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {data.map((post) => (
-                      <BlogCard key={post._id} post={post} />
-                    ))}
-                  </div>
-
-                  {/* Pagination */}
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    totalItems={totalItems}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                    className="mt-12"
-                  />
-                </>
-              ) : (
+              {/* Error State */}
+              {error && (
                 <div className="text-center py-16">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Filter className="h-12 w-12 text-gray-400" />
+                  <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <AlertCircle className="h-12 w-12 text-red-500" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    No posts found
+                    Something went wrong
                   </h3>
-                  <p className="text-gray-600">
-                    Try selecting a different category.
-                  </p>
+                  <p className="text-gray-600 mb-6">{error}</p>
+                  <button
+                    onClick={handleRetry}
+                    className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white px-6 py-3 rounded-xl transition-all duration-300"
+                  >
+                    Try Again
+                  </button>
                 </div>
+              )}
+
+              {/* Blog Grid */}
+              {!error && (
+                <>
+                  {loading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      {Array.from({ length: itemsPerPage }).map((_, index) => (
+                        <BlogCardSkeleton key={index} />
+                      ))}
+                    </div>
+                  ) : data?.length > 0 ? (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {data.map((post) => (
+                          <BlogCard key={post._id} post={post} />
+                        ))}
+                      </div>
+
+                      {/* Pagination */}
+                      {totalPages > 1 && (
+                        <Pagination
+                          currentPage={currentPage}
+                          totalPages={totalPages}
+                          totalItems={totalItems}
+                          itemsPerPage={itemsPerPage}
+                          onPageChange={handlePageChange}
+                          className="mt-12"
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-center py-16">
+                      <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Filter className="h-12 w-12 text-gray-400" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                        No posts found
+                      </h3>
+                      <p className="text-gray-600">
+                        {selectedCategory === "all"
+                          ? "No blog posts are available at the moment."
+                          : "Try selecting a different category."}
+                      </p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>

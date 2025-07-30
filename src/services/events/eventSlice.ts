@@ -11,7 +11,6 @@ export interface Event {
   startDate: string;
   endDate: string;
   location: string;
-  attendees: number;
   maxAttendees: number;
   status: string;
   category: string;
@@ -86,7 +85,6 @@ export const addEvent = createAsyncThunk(
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          // Do NOT set Content-Type here — browser handles it for FormData
         },
         body: formData,
       });

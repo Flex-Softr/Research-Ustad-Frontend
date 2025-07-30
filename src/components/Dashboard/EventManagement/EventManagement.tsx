@@ -2,6 +2,16 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 import { Calendar, Edit, MapPin, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import EventForm from "./EventForm";
@@ -14,6 +24,8 @@ import { getEventStatus } from "@/lib/getEventStatus";
 const EventManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<any>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { events, isLoading, error } = useSelector(
     (state: RootState) => state.event
@@ -22,8 +34,6 @@ const EventManagement = () => {
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
-
-  console.log("event management page", events);
 
   const getAttendanceColor = (attendees: number, maxAttendees: number) => {
     const percentage = (attendees / maxAttendees) * 100;
@@ -42,16 +52,23 @@ const EventManagement = () => {
     setShowForm(true);
   };
 
-  // event delete funtion------
-  const handleDeleteEvent = async (eventId: number) => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
+  // event delete function------
+  const handleDeleteEvent = (event: any) => {
+    setEventToDelete(event);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (eventToDelete) {
       try {
-        await dispatch(deleteEvent(eventId)).unwrap();
+        await dispatch(deleteEvent(eventToDelete._id)).unwrap();
         toast.success("Event deleted successfully!");
       } catch (err: any) {
         toast.error(err || "Failed to delete event");
       }
+      setEventToDelete(null);
     }
+    setDeleteDialogOpen(false);
   };
 
   const handleSaveEvent = () => {
@@ -74,6 +91,42 @@ const EventManagement = () => {
           onCancel={handleCancelForm}
           isEditing={!!editingEvent}
         />
+      </div>
+    );
+  }
+
+  if (!events || events.length === 0) {
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <span>All Events (0)</span>
+            </CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <div className="text-center flex items-center justify-center flex-col">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Calendar className="h-12 w-12 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No Events Found
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-md">
+                There are no events in the system yet. Create your first event to get started!
+              </p>
+              <Button
+                onClick={handleAddEvent}
+                className="flex items-center justify-center w-fit gap-2 bg-purple-600 hover:bg-purple-700"
+              >
+                <Plus className="w-4 h-4" />
+                Create First Event
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -104,7 +157,7 @@ const EventManagement = () => {
             >
               <div className="relative">
                 <img
-                  src={`http://localhost:5000${event.imageUrl}`}
+                  src={event.imageUrl}
                   alt={event.title}
                   className="w-full h-48 object-cover rounded-t-lg"
                 />
@@ -172,7 +225,7 @@ const EventManagement = () => {
                     variant="outline"
                     size="sm"
                     className="text-red-600 hover:text-red-700"
-                    onClick={() => handleDeleteEvent(event._id)}
+                    onClick={() => handleDeleteEvent(event)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -182,6 +235,28 @@ const EventManagement = () => {
           );
         })}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Event</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{eventToDelete?.title}"? This
+              action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

@@ -118,10 +118,9 @@ interface Authors {
 
 export interface IPost {
   _id?: string;
-  image: string;
+  imageUrl: string;
   title: string;
   author?: Authors;
-  shortDescription: string;
   category?: string;
 }
 
@@ -129,8 +128,8 @@ export type TPost = {
   _id: string;
   title: string;
   author: Author;
-  image: string;
-  shortDescription: string;
+  imageUrl: string;
+  content: string;
   category: string;
   publishedDate: string;
   createdAt: string;

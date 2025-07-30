@@ -1,15 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Download, Upload } from "lucide-react";
 import AllCoursesTable from "./AllCoursesTable";
 import { Course } from "@/services/courses";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchCourses } from "@/services/courses/coursesSlice";
 
 const AllCoursesPage = () => {
+  const router = useRouter();
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { courses, isLoading, error } = useSelector(
+    (state: RootState) => state.courses // adjust slice name if needed
+  );
+
+  // Load courses on mount
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
+  console.log("courses", courses);
 
   const handleEditCourse = (course: Course) => {
     setSelectedCourse(course);
@@ -26,6 +43,12 @@ const AllCoursesPage = () => {
     setIsEditModalOpen(true);
   };
 
+  useEffect(() => {
+    if (isEditModalOpen && !selectedCourse) {
+      router.push("/admin/dashboard/managecourse/add-course");
+    }
+  }, [isEditModalOpen, selectedCourse, router]);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -35,14 +58,6 @@ const AllCoursesPage = () => {
           <p className="text-gray-600">Manage all courses in the system</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline">
-            <Upload className="w-4 h-4 mr-2" />
-            Import
-          </Button>
-          <Button variant="outline">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </Button>
           <Button onClick={handleCreateCourse}>
             <Plus className="w-4 h-4 mr-2" />
             Add Course

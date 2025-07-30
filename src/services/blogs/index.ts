@@ -106,6 +106,35 @@ export const BlogPost = async (data: IPost) => {
   }
 };
 
+export const UpdateBlog = async (id: string, data: IPost) => {
+  console.log("Updating blog:", id, data);
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+
+    if (!token) {
+      throw new Error("Access token not found");
+    }
+    const response = await fetch(`${api.baseUrl}/blog/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    revalidateTag("blogs");
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating blog:", error);
+    return null;
+  }
+};
+
 export const DeleteBlog = async (id: string) => {
   console.log(id);
   try {

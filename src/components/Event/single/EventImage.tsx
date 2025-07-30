@@ -10,7 +10,7 @@ const EventImage = ({ event }: EventImageProps) => {
     <div className="relative overflow-hidden rounded-2xl shadow-xl">
       <div className="relative h-64 sm:h-80 lg:h-96">
         <Image
-          src={`http://localhost:5000${event.imageUrl}`}
+          src={event.imageUrl}
           alt={event.title}
           fill
           className="object-cover"
