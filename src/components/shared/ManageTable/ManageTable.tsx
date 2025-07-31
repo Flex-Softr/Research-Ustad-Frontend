@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { ApprovePaper } from "@/services/allreserchPaper";
 import { PromoteRole } from "@/services/Users";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Edit, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -43,30 +43,83 @@ const ManageTable: React.FC<ManageTableProps> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const itemsPerPage = 10;
 
-  // Filter data based on search term
-  const filteredData = data?.filter((item) =>
-    columns.some((column) =>
+  // Blog categories for filtering
+  const blogCategories = [
+    { value: "all", label: "All Categories" },
+    { value: "technology", label: "Technology" },
+    { value: "research", label: "Research" },
+    { value: "academic", label: "Academic" },
+    { value: "education", label: "Education" },
+    { value: "science", label: "Science" },
+    { value: "engineering", label: "Engineering" },
+    { value: "computer-science", label: "Computer Science" },
+    { value: "artificial-intelligence", label: "Artificial Intelligence" },
+    { value: "machine-learning", label: "Machine Learning" },
+    { value: "data-science", label: "Data Science" },
+    { value: "cybersecurity", label: "Cybersecurity" },
+    { value: "blockchain", label: "Blockchain" },
+    { value: "iot", label: "Internet of Things" },
+    { value: "cloud-computing", label: "Cloud Computing" },
+    { value: "software-development", label: "Software Development" },
+    { value: "web-development", label: "Web Development" },
+    { value: "mobile-development", label: "Mobile Development" },
+    { value: "database", label: "Database" },
+    { value: "networking", label: "Networking" },
+    { value: "general", label: "General" },
+  ];
+
+  // Format date function
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "N/A";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch (error) {
+      return "Invalid Date";
+    }
+  };
+
+  // Filter data based on search term and category
+  const filteredData = data?.filter((item) => {
+    const matchesSearch = columns.some((column) =>
       column.value
         .split(".")
         .reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item)
         ?.toString()
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase())
-    )
-  );
+    );
+
+    // Filter by category for blog items
+    if (isvalue === "blog" && selectedCategory !== "all") {
+      const matchesCategory = item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    }
+
+    return matchesSearch;
+  });
 
   const totalPages = Math.ceil(filteredData?.length / itemsPerPage);
   const paginatedData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
   const handleApprove = async (id: string) => {
     console.log("Approving paper with ID:", id);
     const res = await ApprovePaper(id);
     console.log(res);
   };
+
   const handleRoleChange = async (id: string, currentRole: string) => {
     try {
       if (currentRole == "superAdmin") {
@@ -89,7 +142,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, selectedCategory]);
 
   if (loading) {
     return <TableSkeleton />;
@@ -97,15 +150,33 @@ const ManageTable: React.FC<ManageTableProps> = ({
 
   return (
     <div className="bg-white border rounded-md p-4">
-      {/* Search Input */}
-      <div className="flex justify-between items-center mb-4">
-        <input
-          type="text"
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-3 py-2 border rounded-md w-1/3"
-        />
+      {/* Search and Filter Section */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+        <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-3 py-2 border rounded-md w-full md:w-64"
+          />
+          
+          {/* Category Filter for Blog */}
+          {isvalue === "blog" && (
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="px-3 py-2 border rounded-md w-full md:w-48"
+            >
+              {blogCategories.map((category) => (
+                <option key={category.value} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+        
         <p className="text-gray-600 font-semibold">
           Total Data: {filteredData?.length}
         </p>
@@ -139,6 +210,24 @@ const ManageTable: React.FC<ManageTableProps> = ({
                       >
                         Visit
                       </a>
+                    ) : column.value === "publishedDate" || column.value === "createdAt" || column.value === "updatedAt" ? (
+                      formatDate(
+                        column.value
+                          .split(".")
+                          .reduce(
+                            (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                            item
+                          )
+                      )
+                    ) : column.value === "category" ? (
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                        {column.value
+                          .split(".")
+                          .reduce(
+                            (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                            item
+                          ) || "Uncategorized"}
+                      </span>
                     ) : (
                       column.value
                         .split(".")
@@ -150,6 +239,33 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   </TableCell>
                 ))}
                 <TableCell className="flex gap-2">
+                  {/* View Button */}
+                  {isvalue === "blog" && (
+                    <Link href={`/blog/${item._id}`}>
+                      <Button variant="outline" size="sm">
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                  )}
+
+                  {/* Edit Button */}
+                  {isvalue === "blog" && (
+                    <Link href={`/admin/dashboard/editblog/${item._id}`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                  )}
+
+                  {isvalue === "researhMembar" && (
+                    <Link href={`members/${item?._id}`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                  )}
+
+                  {/* Approve Button for Papers */}
                   {isvalue === "paperadmin" && (
                     <button
                       onClick={() => handleApprove(item._id)}
@@ -163,6 +279,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
                     </button>
                   )}
 
+                  {/* Role Change Button */}
                   {isvalue == "userRole" && (
                     <Button
                       variant="outline"
@@ -175,34 +292,17 @@ const ManageTable: React.FC<ManageTableProps> = ({
                         : "Promote to Admin"}
                     </Button>
                   )}
-                  {isvalue == "paperadmin" && (
-                    <button
+
+                  {/* Delete Button */}
+                  {(isvalue === "paperadmin" || isvalue === "researhMembar" || isvalue === "blog") && (
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => onDelete(item._id)}
-                      className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
                     >
-                      Delete
-                    </button>
-                  )}
-                  {isvalue == "researhMembar" && (
-                    <button
-                      onClick={() => onDelete(item._id)}
-                      className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
-                    >
-                      Delete
-                    </button>
-                  )}
-                  {isvalue == "blog" && (
-                    <button
-                      onClick={() => onDelete(item._id)}
-                      className="px-2 cursor-pointer py-1 text-red-500 transition border border-red-500 rounded-md hover:bg-red-500 hover:text-white"
-                    >
-                      Delete
-                    </button>
-                  )}
-                  {isvalue == "researhMembar" && (
-                    <Link className="btn" href={`members/${item?._id}`}>
-                      <Button> Update</Button>
-                    </Link>
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                   )}
                 </TableCell>
               </TableRow>

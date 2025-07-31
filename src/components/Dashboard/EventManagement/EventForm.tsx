@@ -5,20 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { addEvent, updateEvent, Event } from "@/services/events/eventSlice";
+import { addEvent, updateEvent } from "@/services/events/eventSlice";
 import { AppDispatch } from "@/store/store";
 import { Plus, Trash2, X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
-
-interface EventFormProps {
-  event?: Event;
-  onSave: (event: Event) => void;
-  onCancel: () => void;
-  isEditing?: boolean;
-}
+import { Event, EventFormProps } from "@/type";
+import { formatDateForInput } from "@/lib/dateUtils";
 
 const EventForm = ({
   event,
@@ -26,7 +21,6 @@ const EventForm = ({
   onCancel,
   isEditing = false,
 }: EventFormProps) => {
-  console.log("editingfdsaf", event);
   const dispatch = useDispatch<AppDispatch>();
 
   const {
@@ -39,16 +33,15 @@ const EventForm = ({
     defaultValues: {
       title: event?.title || "",
       description: event?.description || "",
-      startDate: event?.startDate || "",
-      endDate: event?.endDate || "",
+      startDate: formatDateForInput(event?.startDate),
+      endDate: formatDateForInput(event?.endDate),
       location: event?.location || "",
-      attendees: event?.attendees || 0,
       maxAttendees: event?.maxAttendees || 100,
       status: event?.status || "upcoming",
       category: event?.category || "",
-      imageUrl: event?.imageUrl || "", // ✅ fixed
+      imageUrl: event?.imageUrl || "",
       registrationLink: event?.registrationLink || "",
-      eventDuration: event?.eventDuration || 60, // ✅ added
+      eventDuration: event?.eventDuration || 60,
       speakers: event?.speakers || [],
     },
   });
@@ -58,8 +51,11 @@ const EventForm = ({
     name: "speakers",
   });
 
-  // State to hold the selected file
+  // State to hold the selected files
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [speakerFiles, setSpeakerFiles] = useState<{
+    [key: number]: File | null;
+  }>({});
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -67,37 +63,50 @@ const EventForm = ({
     }
   };
 
-  // const onSubmit = async (data: Event) => {
-  //   try {
-  //     // Create FormData for multipart/form-data
-  //     const formData = new FormData();
+  const onSpeakerFileChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSpeakerFiles((prev) => ({
+        ...prev,
+        [index]: e.target.files![0],
+      }));
+    }
+  };
 
-  //     if (selectedFile) {
-  //       formData.append("file", selectedFile);
-  //     }
-  //     // Append the rest of the event data as JSON string
-  //     formData.append("data", JSON.stringify(data));
-
-  //     // Dispatch with FormData instead of plain JSON
-  //     const result = await dispatch(addEvent(formData)).unwrap();
-
-  //     toast.success("Event created successfully!");
-  //     onSave(result);
-  //     reset();
-  //     setSelectedFile(null);
-  //   } catch (error: any) {
-  //     toast.error(error || "Failed to add event");
-  //   }
-  // };
-
+  // create event
   const onSubmit = async (data: Event) => {
     try {
       const formData = new FormData();
 
+      // Add main event image
       if (selectedFile) {
         formData.append("file", selectedFile);
       }
-      formData.append("data", JSON.stringify(data));
+
+      // Add speaker images
+      Object.entries(speakerFiles).forEach(([index, file]) => {
+        if (file) {
+          formData.append(`speakerFiles`, file);
+        }
+      });
+
+      // Remove imageUrl from speakers data since we're using files
+      const speakersWithoutImageUrl = data.speakers.map((speaker) => ({
+        name: speaker.name,
+        bio: speaker.bio,
+        // imageUrl will be set by backend after file upload
+      }));
+
+      const eventData = {
+        ...data,
+        speakers: speakersWithoutImageUrl,
+        eventDuration: Number(data.eventDuration),
+        maxAttendees: Number(data.maxAttendees),
+      };
+
+      formData.append("data", JSON.stringify(eventData));
 
       let result;
       if (isEditing && event?._id) {
@@ -113,6 +122,7 @@ const EventForm = ({
       onSave(result);
       reset();
       setSelectedFile(null);
+      setSpeakerFiles({});
     } catch (error: any) {
       toast.error(error || "Failed to save event");
     }
@@ -128,7 +138,7 @@ const EventForm = ({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             <div className="space-y-2">
               <Label htmlFor="title">Event Title</Label>
               <Input id="title" {...register("title", { required: true })} />
@@ -186,18 +196,7 @@ const EventForm = ({
               )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                {...register("location", { required: true })}
-              />
-              {errors.location && (
-                <p className="text-sm text-red-500">Location is required</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
+            <div className="space-y-2 w-full">
               <Label htmlFor="maxAttendees">Max Attendees</Label>
               <Input
                 type="number"
@@ -208,6 +207,16 @@ const EventForm = ({
                 <p className="text-sm text-red-500">Required</p>
               )}
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="location">Location</Label>
+            <Input
+              id="location"
+              {...register("location", { required: true })}
+            />
+            {errors.location && (
+              <p className="text-sm text-red-500">Location is required</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -222,26 +231,65 @@ const EventForm = ({
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Replace the imageUrl input with a file input */}
-            <div className="space-y-2">
-              <Label htmlFor="file">Upload Image</Label>
-              <Input type="file" id="file" onChange={onFileChange} />
+          <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Event Image Upload */}
+              <div className="space-y-2">
+                <Label htmlFor="file">Upload Event Image</Label>
+                <Input
+                  type="file"
+                  id="file"
+                  onChange={onFileChange}
+                  accept="image/*"
+                />
+                {/* {isEditing && event?.imageUrl && !selectedFile && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Current image will be replaced if you select a new file
+                </p>
+              )} */}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="registrationLink">Registration Link</Label>
+                <Input
+                  id="registrationLink"
+                  {...register("registrationLink", { required: true })}
+                />
+                {errors.registrationLink && (
+                  <p className="text-sm text-red-500">
+                    Registration link is required
+                  </p>
+                )}
+              </div>
             </div>
-            {selectedFile && (
-              <img
-                src={URL.createObjectURL(selectedFile)}
-                alt="Preview"
-                className="w-32 h-32 object-cover rounded"
-              />
-            )}
 
-            <div className="space-y-2">
-              <Label htmlFor="registrationLink">Registration Link</Label>
-              <Input id="registrationLink" {...register("registrationLink")} />
-            </div>
+            {/* Image Preview */}
+            {selectedFile ? (
+              <div className="w-full mt-4">
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="Event Preview"
+                  className="w-full h-32 object-cover rounded"
+                />
+                <div className="text-sm text-gray-500">
+                  <p>Selected: {selectedFile.name}</p>
+                  <p>Size: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                </div>
+              </div>
+            ) : isEditing && event?.imageUrl ? (
+              <div className="mt-4">
+                <img
+                  src={event.imageUrl}
+                  alt="Current Event Image"
+                  className="w-full h-32 object-cover rounded"
+                />
+                <div className="text-sm text-gray-500">
+                  {/* <p>Current image</p> */}
+                </div>
+              </div>
+            ) : null}
           </div>
 
+          {/* speaker section */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label>Speakers</Label>
@@ -264,24 +312,90 @@ const EventForm = ({
                     type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => remove(index)}
+                    onClick={() => {
+                      remove(index);
+                      // Remove the file from state when speaker is removed
+                      setSpeakerFiles((prev) => {
+                        const newFiles = { ...prev };
+                        delete newFiles[index];
+                        return newFiles;
+                      });
+                    }}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                  <div className="space-y-1">
+                    <Input
+                      placeholder="Speaker name"
+                      {...register(`speakers.${index}.name`, {
+                        required: true,
+                      })}
+                    />
+                    {errors.speakers?.[index]?.name && (
+                      <p className="text-sm text-red-500">
+                        Speaker name is required
+                      </p>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    <Input
+                      placeholder="Speaker bio"
+                      {...register(`speakers.${index}.bio`, { required: true })}
+                    />
+                    {errors.speakers?.[index]?.bio && (
+                      <p className="text-sm text-red-500">
+                        Speaker bio is required
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Speaker Image Upload */}
+                <div className="space-y-2">
+                  <Label htmlFor={`speaker-file-${index}`}>Speaker Image</Label>
                   <Input
-                    placeholder="Speaker name"
-                    {...register(`speakers.${index}.name`, { required: true })}
+                    type="file"
+                    id={`speaker-file-${index}`}
+                    onChange={(e) => onSpeakerFileChange(index, e)}
+                    accept="image/*"
                   />
-                  <Input
-                    placeholder="Speaker bio"
-                    {...register(`speakers.${index}.bio`)}
-                  />
-                  <Input
-                    placeholder="Image URL"
-                    {...register(`speakers.${index}.imageUrl`)}
-                  />
+                  {/* {isEditing &&
+                    event?.speakers?.[index]?.imageUrl &&
+                    !speakerFiles[index] && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        Current image will be replaced if you select a new file
+                      </p>
+                    )} */}
+
+                  {/* Speaker Image Preview */}
+                  {speakerFiles[index] ? (
+                    <div className="mt-2">
+                      <img
+                        src={URL.createObjectURL(speakerFiles[index]!)}
+                        alt={`Speaker ${index + 1} Preview`}
+                        className="w-full h-24 object-cover rounded"
+                      />
+                      <div className="text-sm text-gray-500">
+                        <p>Selected: {speakerFiles[index]!.name}</p>
+                        <p>
+                          Size:{" "}
+                          {(speakerFiles[index]!.size / 1024 / 1024).toFixed(2)}{" "}
+                          MB
+                        </p>
+                      </div>
+                    </div>
+                  ) : isEditing && event?.speakers?.[index]?.imageUrl ? (
+                    <div className="flex items-center gap-2 mt-2">
+                      <img
+                        src={event.speakers[index].imageUrl}
+                        alt={`Speaker ${index + 1} Current Image`}
+                        className="w-full h-24 object-cover rounded"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </Card>
             ))}

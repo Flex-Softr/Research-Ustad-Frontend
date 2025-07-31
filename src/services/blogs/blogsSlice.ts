@@ -7,16 +7,7 @@ const API_BASE_URL = "http://localhost:5000/api/v1";
 // Types
 // ----------------------
 
-export interface Blog {
-  _id?: string;
-  title: string;
-  author: string; // This will be ObjectId (string)
-  image: string;
-  shortDescription: string;
-  publishedDate?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { Blog } from "@/type";
 
 interface BlogState {
   blogs: Blog[];
@@ -24,10 +15,6 @@ interface BlogState {
   isLoading: boolean;
   error: string | null;
 }
-
-// ----------------------
-// Initial State
-// ----------------------
 
 const initialState: BlogState = {
   blogs: [],
@@ -42,12 +29,15 @@ const initialState: BlogState = {
 
 // Fetch all blogs
 export const fetchBlogs = createAsyncThunk("blogs/fetchAll", async (_, thunkAPI) => {
+  
   try {
-    const res = await fetch(`${API_BASE_URL}/blog`);
+    const res = await fetch(`${API_BASE_URL}/blog`, {
+    });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to fetch blogs");
-    return data.blogs;
+    return data.data.blogs || [];
   } catch (error: any) {
+    console.error("Blog fetch error:", error);
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -58,14 +48,14 @@ export const fetchSingleBlog = createAsyncThunk("blogs/fetchOne", async (id: str
     const res = await fetch(`${API_BASE_URL}/blog/${id}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to fetch blog");
-    return data.blog;
+    return data.data.blog;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
 // Add blog
-export const addBlog = createAsyncThunk("blogs/add", async (blogData: Blog, thunkAPI) => {
+export const addBlog = createAsyncThunk("blogs/add", async (formData: FormData, thunkAPI) => {
   const cookies = new Cookies();
   const token = cookies.get("accessToken");
 
@@ -73,18 +63,41 @@ export const addBlog = createAsyncThunk("blogs/add", async (blogData: Blog, thun
     const res = await fetch(`${API_BASE_URL}/blog`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(blogData),
+      body: formData,
     });
+
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to add blog");
-    return data.blog;
+    return data.data.blog;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
+
+// Update blog
+export const updateBlog = createAsyncThunk("blogs/update", async ({ id, formData }: { id: string; formData: FormData }, thunkAPI) => {
+  const cookies = new Cookies();
+  const token = cookies.get("accessToken");
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to update blog");
+    return data.data.blog;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
 
 // Delete blog
 export const deleteBlog = createAsyncThunk("blogs/delete", async (id: string, thunkAPI) => {
@@ -130,13 +143,51 @@ const blogsSlice = createSlice({
       })
 
       // Fetch single
+      .addCase(fetchSingleBlog.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchSingleBlog.fulfilled, (state, action) => {
         state.blog = action.payload;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(fetchSingleBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
 
       // Add
+      .addCase(addBlog.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(addBlog.fulfilled, (state, action) => {
-        state.blogs.push(action.payload);
+        state.blogs = [...state.blogs, action.payload];
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(addBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
+      // Update
+      .addCase(updateBlog.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateBlog.fulfilled, (state, action) => {
+        const index = state.blogs.findIndex((b) => b._id === action.payload._id);
+        if (index !== -1) {
+          state.blogs[index] = action.payload;
+        }
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
 
       // Delete

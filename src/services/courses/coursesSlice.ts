@@ -2,20 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
 
 // Types
-export interface Course {
-  _id?: string;
-  title: string;
-  startDate: string;
-  location: string;
-  instruction: string;
-  syllabus: string;
-  category: string;
-  image: string;
-  fee: number;
-  status: "upcoming" | "ongoing";
-  createdAt?: string;
-  updatedAt?: string;
-}
+import { Course } from "@/type";
 
 interface CourseState {
   courses: Course[];

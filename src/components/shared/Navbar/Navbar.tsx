@@ -125,7 +125,7 @@ const Navbar = () => {
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuItem className="cursor-pointer">
                   <Link
-                    href={`/${user?.role}/dashboard`}
+                    href={`/admin/dashboard`}
                     className="flex items-center w-full"
                   >
                     <User className="w-4 h-4 mr-2" />

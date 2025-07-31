@@ -155,7 +155,7 @@ const AllCoursesTable = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-yellow-800">
-                  {selectedCourses.length} course(s) selected
+                  {selectedCourses.length} course selected
                 </span>
               </div>
               <div className="flex gap-2">

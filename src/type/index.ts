@@ -1,3 +1,27 @@
+// Main Type Exports
+// This file serves as the central export point for all types
+
+// User Types
+export * from './user';
+
+// Blog Types
+export * from './blog';
+
+// Event Types
+export * from './event';
+
+// Course Types
+export * from './course';
+
+// Research Types
+export * from './research';
+
+// Common Types
+export * from './common';
+
+// Legacy exports for backward compatibility
+// These are kept to maintain existing imports
+
 export type TResearchAssociate = {
   image: string;
   current: {
@@ -29,6 +53,7 @@ export type TResearchAssociate = {
   isDeleted: boolean;
   id: string;
 };
+
 export type ResearchPaper = {
   _id: string;
   year: number;
@@ -75,6 +100,7 @@ export interface UserProfile {
   socialLinks: SocialLinks;
   designation: string;
 }
+
 export interface TUser {
   _id: string;
   email: string;
@@ -118,10 +144,9 @@ interface Authors {
 
 export interface IPost {
   _id?: string;
-  image: string;
+  imageUrl: string;
   title: string;
   author?: Authors;
-  shortDescription: string;
   category?: string;
 }
 
@@ -129,8 +154,8 @@ export type TPost = {
   _id: string;
   title: string;
   author: Author;
-  image: string;
-  shortDescription: string;
+  imageUrl: string;
+  content: string;
   category: string;
   publishedDate: string;
   createdAt: string;

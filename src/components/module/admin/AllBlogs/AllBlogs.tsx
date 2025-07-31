@@ -1,46 +1,80 @@
 "use client";
-import ManageTable from "@/components/shared/ManageTable/ManageTable";
-import { DeleteBlog, GetAllBlog } from "@/services/blogs";
-import { TUser } from "@/type";
+
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus, Download, Upload } from "lucide-react";
+import AllBlogsTable from "./AllBlogsTable";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+interface Blog {
+  _id: string;
+  title: string;
+  content: string;
+  category: string;
+  imageUrl: string;
+  author: {
+    fullName: string;
+    email: string;
+  };
+  publishedDate: string;
+  createdAt: string;
+  updatedAt: string;
+  status?: string;
+  views?: number;
+  likes?: number;
+}
 
 const AllBlogs = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<TUser[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await GetAllBlog();
-        setData(response?.data || []);
-      } catch (error) {
-        console.error("Error fetching research papers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-  const columns = [
-    { label: "Title", value: "title" },
-    { label: "PublishedDate", value: "publishedDate" },
-  ];
-  const handledeleted = async (id: string) => {
-    console.log(id);
-    const res = await DeleteBlog(id);
-    if (res.success) {
-      await GetAllBlog();
-    }
+  const router = useRouter();
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  const handleEditBlog = (blog: Blog) => {
+    setSelectedBlog(blog);
+    setIsEditModalOpen(true);
+    router.push(`/admin/dashboard/editblog/${blog._id}`);
+  };
+
+  const handleViewBlog = (blog: Blog) => {
+    setSelectedBlog(blog);
+    setIsViewModalOpen(true);
+    // Navigate to view page
+    router.push(`/blog/${blog._id}`);
+  };
+
+  const handleCreateBlog = () => {
+    setSelectedBlog(null);
+    setIsEditModalOpen(true);
+    // Navigate to create blog page
+    router.push("/admin/dashboard/createblog");
   };
 
   return (
-    <div className=" lg:w-full p-4">
-      <ManageTable
-        data={data}
-        isvalue="blog"
-        columns={columns}
-        loading={loading}
-        onDelete={handledeleted}
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">All Blogs</h1>
+          <p className="text-gray-600">Manage all blogs in the system</p>
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={handleCreateBlog}>
+            <Plus className="w-4 h-4 mr-2" />
+            Add Blog
+          </Button>
+        </div>
+      </div>
+
+      {/* Table */}
+      <AllBlogsTable
+        onEditBlog={handleEditBlog}
+        onViewBlog={handleViewBlog}
       />
+
+      {/* TODO: Add Edit/View Modals here */}
+      {/* These will be implemented as separate components */}
     </div>
   );
 };

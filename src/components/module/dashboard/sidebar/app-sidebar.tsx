@@ -106,6 +106,11 @@ const adminRoute = {
           url: "/admin/dashboard/allblogs",
           icon: FileText,
         },
+        {
+          title: "Create Blogs",
+          url: "/admin/dashboard/createblog",
+          icon: PenSquare,
+        },
       ],
     },
     {

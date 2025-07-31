@@ -101,8 +101,8 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
             <div className="flex items-center space-x-3">
               <Clock className="h-5 w-5 text-brand-secondary" />
               <div className="flex-1">
-                <p className="font-medium text-gray-900">Time</p>
-                <p className="text-sm text-gray-600">
+                <p className="font-medium text-gray-900">Event Duration</p>
+                {/* <p className="text-sm text-gray-600">
                   {event?.startDate
                     ? new Date(event.startDate).toLocaleTimeString("en-US", {
                         hour: "2-digit",
@@ -116,7 +116,8 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
                         minute: "2-digit",
                       })
                     : "N/A"}
-                </p>
+                </p> */}
+                {event?.eventDuration} min
               </div>
             </div>
 

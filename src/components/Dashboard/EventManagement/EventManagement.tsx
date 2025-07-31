@@ -2,6 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { Calendar, Edit, MapPin, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import EventForm from "./EventForm";
@@ -10,10 +11,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { toast } from "sonner";
 import { getEventStatus } from "@/lib/getEventStatus";
+import { formatDate } from "@/lib/dateUtils";
 
 const EventManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<any>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { events, isLoading, error } = useSelector(
     (state: RootState) => state.event
@@ -23,14 +27,7 @@ const EventManagement = () => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  console.log("event management page", events);
 
-  const getAttendanceColor = (attendees: number, maxAttendees: number) => {
-    const percentage = (attendees / maxAttendees) * 100;
-    if (percentage >= 90) return "text-red-600";
-    if (percentage >= 70) return "text-yellow-600";
-    return "text-green-600";
-  };
 
   const handleAddEvent = () => {
     setEditingEvent(null);
@@ -42,16 +39,23 @@ const EventManagement = () => {
     setShowForm(true);
   };
 
-  // event delete funtion------
-  const handleDeleteEvent = async (eventId: number) => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
+  // event delete function------
+  const handleDeleteEvent = (event: any) => {
+    setEventToDelete(event);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (eventToDelete) {
       try {
-        await dispatch(deleteEvent(eventId)).unwrap();
+        await dispatch(deleteEvent(eventToDelete._id)).unwrap();
         toast.success("Event deleted successfully!");
       } catch (err: any) {
         toast.error(err || "Failed to delete event");
       }
+      setEventToDelete(null);
     }
+    setDeleteDialogOpen(false);
   };
 
   const handleSaveEvent = () => {
@@ -74,6 +78,42 @@ const EventManagement = () => {
           onCancel={handleCancelForm}
           isEditing={!!editingEvent}
         />
+      </div>
+    );
+  }
+
+  if (!events || events.length === 0) {
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <span>All Events (0)</span>
+            </CardTitle>
+          </CardHeader>
+        </Card>
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-16">
+            <div className="text-center flex items-center justify-center flex-col">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Calendar className="h-12 w-12 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No Events Found
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-md">
+                There are no events in the system yet. Create your first event to get started!
+              </p>
+              <Button
+                onClick={handleAddEvent}
+                className="flex items-center justify-center w-fit gap-2 bg-purple-600 hover:bg-purple-700"
+              >
+                <Plus className="w-4 h-4" />
+                Create First Event
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -104,7 +144,7 @@ const EventManagement = () => {
             >
               <div className="relative">
                 <img
-                  src={`http://localhost:5000${event.imageUrl}`}
+                  src={event.imageUrl}
                   alt={event.title}
                   className="w-full h-48 object-cover rounded-t-lg"
                 />
@@ -118,7 +158,7 @@ const EventManagement = () => {
                 </Badge>
               </div>
 
-              <CardHeader className="pb-3">
+              <CardHeader>
                 <CardTitle className="text-lg line-clamp-2">
                   {event.title}
                 </CardTitle>
@@ -132,12 +172,12 @@ const EventManagement = () => {
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-2 text-gray-400" />
                     <span>
-                      {new Date(event.startDate).toLocaleDateString()}
+                      {formatDate(event.startDate)}
                     </span>
                     {event.endDate !== event.startDate && (
                       <span>
                         {" "}
-                        - {new Date(event.endDate).toLocaleDateString()}
+                        - {formatDate(event.endDate)}
                       </span>
                     )}
                   </div>
@@ -148,12 +188,9 @@ const EventManagement = () => {
                   <div className="flex items-center">
                     <Users className="h-4 w-4 mr-2 text-gray-400" />
                     <span
-                      className={getAttendanceColor(
-                        event.attendees,
-                        event.maxAttendees
-                      )}
+                      
                     >
-                      {event.attendees}/{event.maxAttendees} attendees
+                      {event.maxAttendees} Max attendees
                     </span>
                   </div>
                 </div>
@@ -172,7 +209,7 @@ const EventManagement = () => {
                     variant="outline"
                     size="sm"
                     className="text-red-600 hover:text-red-700"
-                    onClick={() => handleDeleteEvent(event._id)}
+                    onClick={() => handleDeleteEvent(event)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -182,6 +219,16 @@ const EventManagement = () => {
           );
         })}
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        title="Delete Event"
+        itemName={eventToDelete?.title}
+        itemType="event"
+      />
     </div>
   );
 };
