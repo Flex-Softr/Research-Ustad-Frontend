@@ -4,27 +4,7 @@ import Cookies from "universal-cookie";
 const API_BASE_URL = "http://localhost:5000/api/v1";
 
 // Types
-export interface Event {
-  _id?: number;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  location: string;
-  maxAttendees: number;
-  status: string;
-  category: string;
-  imageUrl: string;
-  registrationLink: string;
-  eventDuration: number;
-  speakers: Speaker[];
-}
-
-export interface Speaker {
-  name: string;
-  bio: string;
-  imageUrl: string;
-}
+import { Event, Speaker } from "@/type";
 
 interface EventState {
   events: Event[];

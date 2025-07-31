@@ -2,16 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  AlertDialog,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { Calendar, Edit, MapPin, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import EventForm from "./EventForm";
@@ -20,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { toast } from "sonner";
 import { getEventStatus } from "@/lib/getEventStatus";
+import { formatDate } from "@/lib/dateUtils";
 
 const EventManagement = () => {
   const [showForm, setShowForm] = useState(false);
@@ -35,12 +27,7 @@ const EventManagement = () => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  const getAttendanceColor = (attendees: number, maxAttendees: number) => {
-    const percentage = (attendees / maxAttendees) * 100;
-    if (percentage >= 90) return "text-red-600";
-    if (percentage >= 70) return "text-yellow-600";
-    return "text-green-600";
-  };
+
 
   const handleAddEvent = () => {
     setEditingEvent(null);
@@ -171,7 +158,7 @@ const EventManagement = () => {
                 </Badge>
               </div>
 
-              <CardHeader className="pb-3">
+              <CardHeader>
                 <CardTitle className="text-lg line-clamp-2">
                   {event.title}
                 </CardTitle>
@@ -185,12 +172,12 @@ const EventManagement = () => {
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-2 text-gray-400" />
                     <span>
-                      {new Date(event.startDate).toLocaleDateString()}
+                      {formatDate(event.startDate)}
                     </span>
                     {event.endDate !== event.startDate && (
                       <span>
                         {" "}
-                        - {new Date(event.endDate).toLocaleDateString()}
+                        - {formatDate(event.endDate)}
                       </span>
                     )}
                   </div>
@@ -201,12 +188,9 @@ const EventManagement = () => {
                   <div className="flex items-center">
                     <Users className="h-4 w-4 mr-2 text-gray-400" />
                     <span
-                      className={getAttendanceColor(
-                        event.attendees,
-                        event.maxAttendees
-                      )}
+                      
                     >
-                      {event.attendees}/{event.maxAttendees} attendees
+                      {event.maxAttendees} Max attendees
                     </span>
                   </div>
                 </div>
@@ -237,26 +221,14 @@ const EventManagement = () => {
       </div>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Event</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{eventToDelete?.title}"? This
-              action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        title="Delete Event"
+        itemName={eventToDelete?.title}
+        itemType="event"
+      />
     </div>
   );
 };

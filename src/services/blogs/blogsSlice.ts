@@ -7,25 +7,7 @@ const API_BASE_URL = "http://localhost:5000/api/v1";
 // Types
 // ----------------------
 
-export interface Blog {
-  _id?: string;
-  title: string;
-  content: string;
-  category: string;
-  imageUrl: string;
-  author: {
-    fullName: string;
-    email: string;
-    image?: string;
-    designation?: string;
-  };
-  publishedDate?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  status?: string;
-  views?: number;
-  likes?: number;
-}
+import { Blog } from "@/type";
 
 interface BlogState {
   blogs: Blog[];

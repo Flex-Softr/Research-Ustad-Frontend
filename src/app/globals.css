@@ -143,3 +143,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* globals.css */
+.blog-content a {
+  color: #2563eb; /* Tailwind blue-600 */
+  text-decoration: underline;
+}
+.blog-content a:hover {
+  color: #1d4ed8; /* Tailwind blue-700 */
+}

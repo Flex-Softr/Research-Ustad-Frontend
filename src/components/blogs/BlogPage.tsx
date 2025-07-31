@@ -118,8 +118,11 @@ const BlogPage = () => {
   };
 
   useEffect(() => {
-    fetchPaginatedData(currentPage, selectedCategory);
-  }, [currentPage, selectedCategory]);
+    if (blogs.length > 0) {
+      fetchPaginatedData(currentPage, selectedCategory);
+    }
+  }, [blogs, currentPage, selectedCategory]);
+  
 
   // Handle category change
   const handleCategoryChange = (categoryId: string) => {
