@@ -25,7 +25,7 @@ const BulkActions: React.FC<BulkActionsProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-yellow-800">
-              {selectedCount} item(s) selected
+              {selectedCount} item selected
             </span>
           </div>
           <div className="flex gap-2">

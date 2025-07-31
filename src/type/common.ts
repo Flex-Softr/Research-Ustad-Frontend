@@ -8,6 +8,7 @@ export interface BreadcrumbItem {
   label: string;
   href?: string;
   isActive?: boolean;
+  current?: boolean;
 }
 
 export interface TeamMember extends UserProfile {

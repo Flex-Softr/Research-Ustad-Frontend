@@ -154,7 +154,7 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
       }
 
       setSelectedBlogs([]);
-      toast.success(`${selectedBlogs.length} blog(s) deleted successfully`);
+      toast.success(`${selectedBlogs.length} blog deleted successfully`);
     } catch (error) {
       toast.error("Failed to delete selected blogs");
     }

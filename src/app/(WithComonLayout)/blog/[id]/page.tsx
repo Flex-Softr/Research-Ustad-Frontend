@@ -4,23 +4,19 @@ import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { fetchSingleBlog, fetchBlogs, Blog } from "@/services/blogs/blogsSlice";
+import { fetchSingleBlog, fetchBlogs } from "@/services/blogs/blogsSlice";
 import {
   Calendar,
   User,
   Tag,
-  Share2,
-  Heart,
-  MessageCircle,
   BookOpen,
   ArrowLeft,
-  Clock,
-  Eye,
   TrendingUp,
   ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import Breadcrumb from "@/components/shared/Breadcrumb";
+import { Blog } from "@/type";
 
 function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -241,20 +237,30 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
             )}
 
             {/* Article Content */}
-            <div className="prose prose-lg max-w-none mb-12">
-              {post.content ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: post.content,
-                  }}
-                  className="blog-content"
-                  style={{
-                    fontFamily: "Siyam Rupali, sans-serif",
-                  }}
-                />
-              ) : (
-                <p className="text-gray-600">No content available.</p>
-              )}
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl px-10 shadow-2xl border border-gray-100 mb-12 relative overflow-hidden">
+              {/* Decorative background pattern */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100/20 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-100/20 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
+              
+              <div className="relative z-10">
+                {post.content ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: post.content,
+                    }}
+                    className="blog-content"
+                  />
+                ) : (
+                  <div className="text-center py-16">
+                    <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                      <BookOpen className="h-10 w-10 text-gray-500" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No Content Available</h3>
+                    <p className="text-gray-500">This blog post doesn't have any content yet.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 

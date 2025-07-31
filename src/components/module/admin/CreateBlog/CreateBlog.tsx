@@ -32,7 +32,7 @@ const CreateBlog: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
-  
+
   // Custom hooks
   const { register, handleSubmit, reset, setValue } = useBlogForm();
   const {
@@ -46,14 +46,22 @@ const CreateBlog: React.FC = () => {
     addCategory,
     resetCategoryState,
   } = useCategoryManagement();
-  const { previewImage, selectedFile, onFileChange, removeImage, setPreviewImage } = useImageUpload();
-  
+  const {
+    previewImage,
+    selectedFile,
+    onFileChange,
+    removeImage,
+    setPreviewImage,
+  } = useImageUpload();
+
   // Local state
   const [isLoading, setIsLoading] = useState(false);
   const [editorContent, setEditorContent] = useState<string>("");
-  
+
   // Redux state
-  const { blog, isLoading: isReduxLoading } = useSelector((state: RootState) => state.blogs);
+  const { blog, isLoading: isReduxLoading } = useSelector(
+    (state: RootState) => state.blogs
+  );
 
   // Computed values
   const isEditMode = searchParams.get("edit") === "true";
@@ -88,21 +96,43 @@ const CreateBlog: React.FC = () => {
 
       // Add the blog's category to allCategories if it doesn't exist
       if (blog.category) {
-        const categoryExists = allCategories.find((cat) => cat.value === blog.category);
+        const categoryExists = allCategories.find(
+          (cat) => cat.value === blog.category
+        );
         if (!categoryExists) {
           const newCategory = {
             value: blog.category,
-            label: blog.category.charAt(0).toUpperCase() + blog.category.slice(1).replace(/-/g, " "),
+            label:
+              blog.category.charAt(0).toUpperCase() +
+              blog.category.slice(1).replace(/-/g, " "),
           };
           addCategory(newCategory);
         }
       }
     }
-  }, [blog, blogId, isEditMode, setValue, allCategories, addCategory, setSelectedCategory, setEditorContent, setPreviewImage]);
+  }, [
+    blog,
+    blogId,
+    isEditMode,
+    setValue,
+    allCategories,
+    addCategory,
+    setSelectedCategory,
+    setEditorContent,
+    setPreviewImage,
+  ]);
 
   const onSubmit: SubmitHandler<BlogPostForm> = async (data) => {
     // Validation
-    if (!validateAndShowError(data, selectedCategory, showCustomInput, customCategory, editorContent)) {
+    if (
+      !validateAndShowError(
+        data,
+        selectedCategory,
+        showCustomInput,
+        customCategory,
+        editorContent
+      )
+    ) {
       return;
     }
 
@@ -148,7 +178,11 @@ const CreateBlog: React.FC = () => {
   if (isReduxLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" variant="border" text="Loading blog data..." />
+        <LoadingSpinner
+          size="lg"
+          variant="border"
+          text="Loading blog data..."
+        />
       </div>
     );
   }
@@ -168,8 +202,12 @@ const CreateBlog: React.FC = () => {
           Back to Blogs
         </Button>
       </div>
-      
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" encType="multipart/form-data">
+
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6"
+        encType="multipart/form-data"
+      >
         <ImageUploadSection
           onFileChange={onFileChange}
           removeImage={removeImage}
@@ -206,11 +244,16 @@ const CreateBlog: React.FC = () => {
           <Label className="text-lg font-semibold mb-2 block">
             Blog Content
           </Label>
-          <RichTextEditor
+          {/* <RichTextEditor
             value={editorContent}
             onChange={setEditorContent}
             placeholder="Start writing your blog content here..."
             minHeight="400px"
+          /> */}
+          <RichTextEditor
+            value={editorContent}
+            onChange={setEditorContent}
+            placeholder="Write your blog content here..."
           />
         </div>
 
