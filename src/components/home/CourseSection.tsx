@@ -165,7 +165,7 @@ const CoursesSection = () => {
 
           {/* Skeleton grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
-            {Array.from({ length: 6 }).map((_, index) => (
+            {Array.from({ length: 3 }).map((_, index) => (
               <CourseCardSkeleton key={index} />
             ))}
           </div>
@@ -211,8 +211,8 @@ const CoursesSection = () => {
     );
   }
 
-  // Get featured courses (first 6 courses)
-  const featuredCourses = courses.slice(0, 6);
+  // Get featured courses (first 3 courses)
+  const featuredCourses = courses.slice(0, 3);
 
   return (
     <section className="bg-gradient-to-br from-green-50 via-white to-blue-100 relative overflow-hidden">

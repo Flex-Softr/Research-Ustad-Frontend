@@ -259,19 +259,18 @@ export default function AddCoursePage() {
         // Update existing course
         result = await dispatch(updateCourse({ id: courseId, formData: formDataToSend })).unwrap();
         console.log("Course Updated Successfully:", result);
-        toast.success("Course updated successfully! You will be redirected to the course management page.");
+        toast.success("Course updated successfully!");
+        // Redirect instantly after successful update
+        router.push("/admin/dashboard/managecourse");
       } else {
         // Create new course
         result = await dispatch(addCourse(formDataToSend)).unwrap();
         console.log("Course Created Successfully:", result);
-        toast.success("Course created successfully! You will be redirected to the course management page.");
+        toast.success("Course created successfully!");
         resetForm();
-      }
-      
-      // Redirect to course management page after a short delay
-      setTimeout(() => {
+        // Redirect instantly after successful creation
         router.push("/admin/dashboard/managecourse");
-      }, 2000);
+      }
       
     } catch (error: any) {
       console.error(`Error ${isEditMode ? 'updating' : 'creating'} course:`, error);

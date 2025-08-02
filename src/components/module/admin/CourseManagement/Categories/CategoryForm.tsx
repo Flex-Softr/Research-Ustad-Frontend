@@ -64,8 +64,10 @@ const CategoryForm = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
-    onClose();
+    setTimeout(() => {
+      onSave(formData);
+      onClose();
+    }, 0);
   };
 
   const handleChange = (field: string, value: string) => {
@@ -78,7 +80,7 @@ const CategoryForm = ({
   const isFormValid = formData.name.trim().length > 0;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={() => setTimeout(onClose, 0)}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -132,7 +134,7 @@ const CategoryForm = ({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={() => setTimeout(onClose, 0)}>
               Cancel
             </Button>
             <Button type="submit" disabled={!isFormValid}>
