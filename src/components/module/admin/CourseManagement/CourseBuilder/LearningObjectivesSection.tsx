@@ -4,14 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
+import { LearningObjectivesSectionProps } from "@/type";
 
-interface LearningObjectivesSectionProps {
-  objectives: string[];
-  onAddObjective: () => void;
-  onRemoveObjective: (index: number) => void;
-  onUpdateObjective: (index: number, value: string) => void;
-  errors: Array<{ field: string; message: string }>;
-}
 
 export function LearningObjectivesSection({
   objectives,

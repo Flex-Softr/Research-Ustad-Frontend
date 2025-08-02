@@ -1,3 +1,6 @@
+// Main Dashboard
+export { default as CourseManagementDashboard } from "./CourseManagementDashboard";
+
 // All Courses
 export { default as AllCoursesPage } from "./AllCourses/AllCoursesPage";
 export { default as AllCoursesTable } from "./AllCourses/AllCoursesTable";
@@ -6,3 +9,9 @@ export { default as AllCoursesTable } from "./AllCourses/AllCoursesTable";
 export { default as CategoriesPage } from "./Categories/CategoriesPage";
 export { default as CategoryTable } from "./Categories/CategoryTable";
 export { default as CategoryForm } from "./Categories/CategoryForm";
+
+// Course Builder
+export { default as AddCoursePage } from "./CourseBuilder/AddCoursePage";
+
+// Modals
+export { default as CourseViewModal } from "./CourseViewModal";

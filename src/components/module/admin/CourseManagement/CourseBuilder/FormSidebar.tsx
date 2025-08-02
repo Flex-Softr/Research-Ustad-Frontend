@@ -5,44 +5,41 @@ import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { CourseThumbnailUpload } from "./CourseThumbnailUpload";
 import { FormProgressIndicator } from "./FormProgressIndicator";
-
-interface FormSidebarProps {
-  formData: {
-    title: string;
-    description: string;
-    category: string;
-    fee: string;
-    thumbnail: File | null;
-    tags: string[];
-    whatYouWillLearn: string[];
-    requirements: string[];
-    instructors: any[];
-  };
-  onThumbnailChange: (file: File) => void;
-  onSubmit: () => void;
-  isSubmitting: boolean;
-}
+import { FormSidebarProps } from "@/type";
 
 export function FormSidebar({
   formData,
   onThumbnailChange,
   onSubmit,
   isSubmitting,
+  isEditMode = false,
+  existingImageUrl,
+  categories = [],
 }: FormSidebarProps) {
   const isFormValid = () => {
     return (
       formData.title &&
       formData.description &&
       formData.category &&
-      formData.fee &&
-      formData.thumbnail
+      formData.fee
+      // Removed thumbnail requirement for edit mode since existing courses might not have new thumbnails
     );
+  };
+
+  // Helper function to get category name from ID
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find(cat => cat._id === categoryId);
+    return category ? category.name : categoryId; // Fallback to ID if category not found
   };
 
   return (
     <div className="space-y-6">
       {/* Form Progress */}
-      <FormProgressIndicator formData={formData} />
+      <FormProgressIndicator 
+        formData={formData} 
+        isEditMode={isEditMode}
+        existingImageUrl={existingImageUrl}
+      />
 
       {/* Thumbnail Upload */}
       <Card>
@@ -56,7 +53,14 @@ export function FormSidebar({
           <CourseThumbnailUpload
             value={formData.thumbnail}
             onChange={onThumbnailChange}
+            existingImageUrl={existingImageUrl}
+            isEditMode={isEditMode}
           />
+          {isEditMode && (
+            <p className="text-xs text-gray-500 mt-2">
+              Leave empty to keep the current thumbnail
+            </p>
+          )}
         </CardContent>
       </Card>
 
@@ -75,7 +79,7 @@ export function FormSidebar({
           <div className="flex justify-between">
             <span className="text-sm text-gray-600">Category:</span>
             <span className="text-sm font-medium">
-              {formData.category || "Not set"}
+              {formData.category ? getCategoryName(formData.category) : "Not set"}
             </span>
           </div>
           <div className="flex justify-between">
@@ -113,7 +117,10 @@ export function FormSidebar({
         disabled={!isFormValid() || isSubmitting}
         className="w-full h-12 text-lg"
       >
-        {isSubmitting ? "Creating Course..." : "Create Course"}
+        {isSubmitting 
+          ? (isEditMode ? "Updating Course..." : "Creating Course...") 
+          : (isEditMode ? "Update Course" : "Create Course")
+        }
       </Button>
     </div>
   );

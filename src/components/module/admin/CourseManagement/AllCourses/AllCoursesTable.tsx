@@ -31,54 +31,42 @@ import {
   Calendar,
 } from "lucide-react";
 import Image from "next/image";
-import { Course } from "@/services/courses";
+import { AllCoursesTableProps, Course } from "@/type";
 import Pagination from "@/components/shared/Pagination";
-import {
-  AlertDialog,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
-
-interface AllCoursesTableProps {
-  onEditCourse: (course: Course) => void;
-  onViewCourse: (course: Course) => void;
-}
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchCourses, deleteCourse } from "@/services/courses/coursesSlice";
+import { fetchCategories } from "@/services/categories/categoriesSlice";
+import { toast } from "sonner";
 
 const AllCoursesTable = ({
   onEditCourse,
   onViewCourse,
 }: AllCoursesTableProps) => {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage] = useState(10);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
-  // Load courses data
+  const dispatch = useDispatch<AppDispatch>();
+  const { courses, isLoading, error } = useSelector(
+    (state: RootState) => state.courses
+  );
+  const { categories } = useSelector((state: RootState) => state.categories);
+  // Load courses and categories on mount
   useEffect(() => {
-    const loadCourses = async () => {
-      try {
-        const response = await fetch("/data/courses.json");
-        const data = await response.json();
-        setCourses(data.courses);
-        setTotalPages(Math.ceil(data.courses.length / itemsPerPage));
-      } catch (error) {
-        console.error("Error loading courses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    dispatch(fetchCourses());
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
-    loadCourses();
-  }, []);
+  // Helper function to get category name by ID
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find((cat) => cat._id === categoryId);
+    return category ? category.name : categoryId; // Fallback to ID if category not found
+  };
 
   // Get paginated courses
   const getPaginatedCourses = () => {
@@ -87,11 +75,13 @@ const AllCoursesTable = ({
     return courses.slice(startIndex, endIndex);
   };
 
+  const totalPages = Math.ceil(courses.length / itemsPerPage);
+
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       const currentPageCourseIds = getPaginatedCourses().map(
-        (course) => course.id
+        (course) => course._id
       );
       setSelectedCourses(currentPageCourseIds);
     } else {
@@ -101,99 +91,87 @@ const AllCoursesTable = ({
 
   const handleSelectCourse = (courseId: string, checked: boolean) => {
     if (checked) {
-      setSelectedCourses((prev) => [...prev, courseId]);
+      setSelectedCourses([...selectedCourses, courseId]);
     } else {
-      setSelectedCourses((prev) => prev.filter((id) => id !== courseId));
+      setSelectedCourses(selectedCourses.filter((id) => id !== courseId));
     }
   };
 
-  // Handle bulk delete
   const handleBulkDelete = () => {
-    if (selectedCourses.length === 0) return;
-
-    setCourses((prev) =>
-      prev.filter((course) => !selectedCourses.includes(course.id))
-    );
-    setSelectedCourses([]);
+    if (selectedCourses.length > 0) {
+      setBulkDeleteDialogOpen(true);
+    }
   };
 
-  // Handle individual delete
+  const confirmBulkDelete = async () => {
+    try {
+      // Delete all selected courses
+      const deletePromises = selectedCourses.map((courseId) =>
+        dispatch(deleteCourse(courseId)).unwrap()
+      );
+
+      await Promise.all(deletePromises);
+
+      toast.success(`Successfully deleted ${selectedCourses.length} courses`);
+    } catch (error) {
+      console.error("Error deleting courses:", error);
+      toast.error("Failed to delete courses");
+    }
+    // Clear selection and close dialog regardless of success or error
+    setSelectedCourses([]);
+    setBulkDeleteDialogOpen(false);
+  };
+
   const handleDeleteCourse = (course: Course) => {
     setCourseToDelete(course);
     setDeleteDialogOpen(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (courseToDelete) {
-      setCourses((prev) =>
-        prev.filter((course) => course.id !== courseToDelete.id)
-      );
+      try {
+        await dispatch(deleteCourse(courseToDelete._id)).unwrap();
+        toast.success("Course deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting course:", error);
+        toast.error("Failed to delete course");
+      }
       setCourseToDelete(null);
     }
+    // Always close the dialog, regardless of success or error
     setDeleteDialogOpen(false);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="md" variant="border" text="Loading courses..." />
+      <div className="flex items-center justify-center py-12">
+        <LoadingSpinner />
       </div>
     );
   }
 
-  const paginatedCourses = getPaginatedCourses();
-  const isAllSelected =
-    paginatedCourses.length > 0 &&
-    selectedCourses.length === paginatedCourses.length;
-
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600">Error loading courses: {error}</p>
+      </div>
+    );
+  }
   return (
-    <div className="space-y-6">
-      {/* Bulk Actions */}
-      {selectedCourses.length > 0 && (
-        <Card className="bg-yellow-50 border-yellow-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-yellow-800">
-                  {selectedCourses.length} course selected
-                </span>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedCourses([])}
-                >
-                  Clear Selection
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={handleBulkDelete}
-                >
-                  <Trash2 className="w-4 h-4 mr-2" />
-                  Delete Selected
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Courses Table */}
+    <>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>All Courses ({courses.length})</span>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Users className="w-4 h-4" />
-              <span>
-                {courses
-                  .reduce((total, course) => total + course.enrolled, 0)
-                  .toLocaleString()}{" "}
-                total enrollments
-              </span>
-            </div>
+            <span>Course Management</span>
+            {selectedCourses.length > 0 && (
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={handleBulkDelete}
+              >
+                Delete Selected ({selectedCourses.length})
+              </Button>
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -203,187 +181,195 @@ const AllCoursesTable = ({
                 <TableRow>
                   <TableHead className="w-12">
                     <Checkbox
-                      checked={isAllSelected}
+                      checked={
+                        selectedCourses.length ===
+                          getPaginatedCourses().length &&
+                        getPaginatedCourses().length > 0
+                      }
                       onCheckedChange={handleSelectAll}
                     />
                   </TableHead>
                   <TableHead>Course</TableHead>
                   <TableHead>Category</TableHead>
-                  <TableHead>Instructors</TableHead>
-                  <TableHead>Enrollment</TableHead>
+                  <TableHead>Level</TableHead>
+                  <TableHead>Enrolled</TableHead>
                   <TableHead>Price</TableHead>
-                  <TableHead>Rating</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="w-12">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedCourses.map((course) => (
-                  <TableRow key={course.id}>
-                    <TableCell>
-                      <Checkbox
-                        checked={selectedCourses.includes(course.id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectCourse(course.id, checked as boolean)
-                        }
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <div className="relative w-12 h-8 rounded overflow-hidden">
-                          <Image
-                            src={course.imageUrl}
-                            alt={course.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div>
-                          <div className="font-medium text-gray-900 line-clamp-1">
-                            {course.title}
+                {getPaginatedCourses().map((course, index) => {
+                  const isSelected = selectedCourses.includes(course._id);
+                  const enrollmentPercentage = Math.round(
+                    (course.enrolled / course.capacity) * 100
+                  );
+
+                  return (
+                    <TableRow key={course._id || index}>
+                      <TableCell>
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={(checked) =>
+                            handleSelectCourse(course._id, checked as boolean)
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-3">
+                          <div className="relative w-12 h-12 rounded-lg overflow-hidden">
+                            <Image
+                              src={course.imageUrl}
+                              alt={course.title}
+                              fill
+                              className="object-cover"
+                            />
                           </div>
-                          <div className="text-sm text-gray-500">
-                            {course.duration} • {course.level}
+                          <div>
+                            <p className="font-medium text-gray-900 line-clamp-1">
+                              {course.title}
+                            </p>
+                            <p className="text-sm text-gray-500 line-clamp-1">
+                              {course.description
+                                ?.replace(/<[^>]*>/g, "")
+                                .substring(0, 10)}
+                              ...
+                            </p>
                           </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
-                        {course.category}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm">
-                        {course.instructors.map((instructor, index) => (
-                          <div key={index} className="text-gray-700">
-                            {instructor.name}
-                          </div>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm">
-                        <div className="font-medium">
-                          {course.enrolled.toLocaleString()}/
-                          {course.capacity.toLocaleString()}
-                        </div>
-                        <div className="text-gray-500">
-                          {Math.round(
-                            (course.enrolled / course.capacity) * 100
-                          )}
-                          % full
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm">
-                        <div className="font-medium text-green-600">
-                          ${course.fee}
-                        </div>
-                        {course.originalFee > course.fee && (
-                          <div className="text-gray-500 line-through">
-                            ${course.originalFee}
-                          </div>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="text-sm font-medium">
-                          {course.rating}
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                          {getCategoryName(course.category)}
                         </span>
-                        <span className="text-sm text-gray-500">
-                          ({course.totalReviews})
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                          {course.level}
                         </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          new Date(course.startDate) > new Date()
-                            ? "bg-blue-100 text-blue-700"
-                            : "bg-green-100 text-green-700"
-                        }`}
-                      >
-                        {new Date(course.startDate) > new Date()
-                          ? "Upcoming"
-                          : "Active"}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            onClick={() => onViewCourse(course)}
-                          >
-                            <Eye className="w-4 h-4 mr-2" />
-                            View
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => onEditCourse(course)}
-                          >
-                            <Edit className="w-4 h-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleDeleteCourse(course)}
-                            className="text-red-600"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Users className="h-4 w-4 text-gray-500" />
+                          <span className="text-sm">
+                            {course.enrolled}/{course.capacity}
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+                          <div
+                            className="bg-blue-600 h-1 rounded-full"
+                            style={{
+                              width: `${enrollmentPercentage}%`,
+                            }}
+                          ></div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="font-medium text-green-600">
+                            ${course.fee}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-4 w-4 text-yellow-500" />
+                          <span className="text-sm font-medium">
+                            {course.rating}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            ({course.totalReviews})
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu key={course._id}>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => onViewCourse(course)}
+                            >
+                              <Eye className="h-4 w-4 mr-2" />
+                              View
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => onEditCourse(course)}
+                            >
+                              <Edit className="h-4 w-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem
+                              className="text-red-600 focus:bg-red-50"
+                              onClick={() => {
+                                setTimeout(() => handleDeleteCourse(course), 0);
+                              }}
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </div>
 
-          {courses.length > 10 && (
-            <div className="mt-6">
-              <Pagination
-                itemsPerPage={10}
-                currentPage={currentPage}
-                totalItems={courses.length}
-                onPageChange={setCurrentPage}
-                totalPages={totalPages}
-              />
+          {courses.length === 0 && (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Calendar className="h-8 w-8 text-gray-400" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                No courses found
+              </h3>
+              <p className="text-gray-500">
+                Get started by creating your first course.
+              </p>
             </div>
           )}
         </CardContent>
       </Card>
 
+      {/* Pagination */}
+      {courses.length > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={courses.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+          className="mt-6"
+        />
+      )}
+
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Course</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{courseToDelete?.title}"? This
-              action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        title="Delete Course"
+        itemName={courseToDelete?.title || ""}
+        itemType="course"
+      />
+
+      {/* Bulk Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        isOpen={bulkDeleteDialogOpen}
+        onOpenChange={setBulkDeleteDialogOpen}
+        onConfirm={confirmBulkDelete}
+        title="Delete Selected Courses"
+        itemName={`${selectedCourses.length} courses`}
+        itemType="courses"
+      />
+    </>
   );
 };
 

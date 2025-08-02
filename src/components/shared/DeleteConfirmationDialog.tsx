@@ -11,8 +11,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { DeleteConfirmationDialogProps } from "@/type";
 
-
-
 const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   isOpen,
   onOpenChange,
@@ -24,8 +22,18 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   confirmText = "Delete",
   cancelText = "Cancel",
 }) => {
-  const handleConfirm = () => {
-    onConfirm();
+  const handleConfirm = async () => {
+    try {
+      await onConfirm();
+      // Don't call onOpenChange here - let the parent handle it
+    } catch (error) {
+      console.error("Error in delete confirmation:", error);
+      // Still close the dialog even if there's an error
+      onOpenChange(false);
+    }
+  };
+
+  const handleCancel = () => {
     onOpenChange(false);
   };
 
@@ -41,7 +49,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{cancelText}</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleCancel}>{cancelText}</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
             className="bg-red-600 hover:bg-red-700"

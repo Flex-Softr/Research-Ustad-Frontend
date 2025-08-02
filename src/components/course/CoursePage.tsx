@@ -1,104 +1,72 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Clock,
-  DollarSign,
-  MapPin,
-  User,
-  Filter,
-  ExternalLink,
-  Users,
-  Calendar,
-  BookOpen,
-  Award,
-  Star,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import Pagination from "@/components/shared/Pagination";
-import Breadcrumb from "@/components/shared/Breadcrumb";
-import {
-  getPaginatedCourses,
-  getCourseCategories,
-  getCourseLevels,
-  type Course,
-  type CoursesFilter,
-} from "@/services/courses";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { fetchBlogs } from "@/services/blogs/blogsSlice";
+import { fetchCourses } from "@/services/courses/coursesSlice";
+import { fetchCategories } from "@/services/categories/categoriesSlice";
+import { Course } from "@/services/courses";
+import Breadcrumb from "@/components/shared/Breadcrumb";
+import Pagination from "@/components/shared/Pagination";
+import {
+  Filter,
+  ChevronDown,
+  ChevronUp,
+  BookOpen,
+  Users,
+  Clock,
+  Star,
+  DollarSign,
+  MapPin,
+  Calendar,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const CoursePage = () => {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(9);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage] = useState(6);
   const [expandedStatus, setExpandedStatus] = useState(true);
   const [expandedCategory, setExpandedCategory] = useState(true);
   const [showAllCategories, setShowAllCategories] = useState(false);
 
-
-
   const dispatch = useDispatch<AppDispatch>();
-  const { blogs, isLoading, error } = useSelector((state: RootState) => state.blogs);
+  const { courses, isLoading, error } = useSelector(
+    (state: RootState) => state.courses
+  );
+  const { categories } = useSelector(
+    (state: RootState) => state.categories
+  );
 
+  // Load courses and categories on mount
   useEffect(() => {
-    dispatch(fetchBlogs());
+    dispatch(fetchCourses());
+    dispatch(fetchCategories());
   }, [dispatch]);
 
-
-  console.log("blogsssssssssssssssssssss", blogs)
-
-
-
-
-
-
-  // Fetch paginated courses from server
-  const fetchCourses = async (
-    page: number,
-    status: string = "all",
-    category: string = "all"
-  ) => {
-    setLoading(true);
-    try {
-      const filterParams: CoursesFilter = {
-        page,
-        limit: itemsPerPage,
-        status:
-          status === "all"
-            ? "all"
-            : (status as "upcoming" | "ongoing" | "completed"),
-        category: category === "all" ? undefined : category,
-      };
-
-      const response = await getPaginatedCourses(filterParams);
-
-      setCourses(response.courses);
-      setTotalPages(response.totalPages);
-      setTotalItems(response.totalItems);
-      setCurrentPage(response.currentPage);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching courses:", error);
-      setLoading(false);
-    }
+  // Helper function to get category name by ID
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find(cat => cat._id === categoryId);
+    return category ? category.name : categoryId; // Fallback to ID if category not found
   };
+
+  // Filter courses based on selected filters
+  const filteredCourses = courses.filter((course) => {
+    const statusMatch = selectedStatus === "all" || course.status === selectedStatus;
+    const categoryMatch = selectedCategory === "all" || course.category === selectedCategory;
+    return statusMatch && categoryMatch;
+  });
+
+  // Get paginated courses
+  const getPaginatedCourses = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredCourses.slice(startIndex, endIndex);
+  };
+
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  const totalItems = filteredCourses.length;
 
   // Handle filter changes
   const handleFilterChange = (type: string, value: string) => {
@@ -108,16 +76,11 @@ const CoursePage = () => {
       setSelectedCategory(value);
     }
     setCurrentPage(1);
-    fetchCourses(
-      1,
-      type === "status" ? value : selectedStatus,
-      type === "category" ? value : selectedCategory
-    );
   };
 
   // Handle page change
   const handlePageChange = (page: number) => {
-    fetchCourses(page, selectedStatus, selectedCategory);
+    setCurrentPage(page);
   };
 
   // Get course status info
@@ -155,10 +118,23 @@ const CoursePage = () => {
     }
   };
 
-  // Load initial data
-  useEffect(() => {
-    fetchCourses(currentPage, selectedStatus, selectedCategory);
-  }, []);
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <BookOpen className="h-12 w-12 text-red-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Error loading courses
+            </h3>
+            <p className="text-gray-600">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
@@ -201,12 +177,12 @@ const CoursePage = () => {
                   <div className="space-y-2">
                     {[
                       { id: "all", name: "All Courses", count: totalItems },
-                      { id: "upcoming", name: "Upcoming", count: 0 },
-                      { id: "ongoing", name: "Ongoing", count: 0 },
-                      { id: "completed", name: "Completed", count: 0 },
-                    ].map((filter) => (
+                      { id: "upcoming", name: "Upcoming", count: courses.filter(c => c.status === "upcoming").length },
+                      { id: "ongoing", name: "Ongoing", count: courses.filter(c => c.status === "ongoing").length },
+                      { id: "completed", name: "Completed", count: courses.filter(c => c.status === "completed").length },
+                    ].map((filter, index) => (
                       <button
-                        key={filter.id}
+                        key={index}
                         onClick={() => handleFilterChange("status", filter.id)}
                         className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
                           selectedStatus === filter.id
@@ -247,22 +223,16 @@ const CoursePage = () => {
                   <div className="space-y-2">
                     {[
                       { id: "all", name: "All Categories", count: totalItems },
-                      { id: "Technology", name: "Technology", count: 0 },
-                      { id: "Education", name: "Education", count: 0 },
-                      { id: "Science", name: "Science", count: 0 },
-                      { id: "Business", name: "Business", count: 0 },
-                      { id: "Healthcare", name: "Healthcare", count: 0 },
-                      { id: "Finance", name: "Finance", count: 0 },
-                      { id: "Marketing", name: "Marketing", count: 0 },
-                      { id: "Design", name: "Design", count: 0 },
-                      { id: "Engineering", name: "Engineering", count: 0 },
-                      { id: "Arts", name: "Arts", count: 0 },
-                      { id: "Sports", name: "Sports", count: 0 },
+                      ...Array.from(new Set(courses.map(c => c.category))).map(categoryId => ({
+                        id: categoryId,
+                        name: getCategoryName(categoryId),
+                        count: courses.filter(c => c.category === categoryId).length
+                      }))
                     ]
                       .slice(0, showAllCategories ? undefined : 6)
-                      .map((filter) => (
+                      .map((filter, index) => (
                         <button
-                          key={filter.id}
+                          key={index}
                           onClick={() =>
                             handleFilterChange("category", filter.id)
                           }
@@ -284,245 +254,189 @@ const CoursePage = () => {
                           </span>
                         </button>
                       ))}
-
-                    {/* Load More Button */}
-                    {!showAllCategories && (
+                    {courses.length > 6 && (
                       <button
-                        onClick={() => setShowAllCategories(true)}
-                        className="w-full p-3 text-brand-secondary hover:text-brand-primary font-medium transition-colors duration-300 border border-dashed border-brand-secondary/30 rounded-xl hover:border-brand-secondary/50"
+                        onClick={() => setShowAllCategories(!showAllCategories)}
+                        className="w-full text-sm text-brand-secondary hover:text-brand-primary transition-colors duration-300 mt-2"
                       >
-                        Load More Categories
+                        {showAllCategories ? "Show Less" : "Show More"}
                       </button>
                     )}
                   </div>
                 )}
               </div>
-
-              {/* Stats */}
-              <div className="pt-6 border-t border-gray-200">
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Total Courses</span>
-                    <span className="font-semibold text-gray-900">
-                      {totalItems}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Categories</span>
-                    <span className="font-semibold text-gray-900">12</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Current Page</span>
-                    <span className="font-semibold text-gray-900">
-                      {currentPage} of {totalPages}
-                    </span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Main Content */}
+          {/* Course Grid */}
           <div className="flex-1">
-            {/* Results Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-gray-900">
-                  {selectedStatus === "all" && selectedCategory === "all"
-                    ? "All Courses"
-                    : `${selectedStatus !== "all" ? selectedStatus : ""} ${
-                        selectedCategory !== "all" ? selectedCategory : ""
-                      } Courses`.trim()}
-                </h2>
-                <span className="px-3 py-1 bg-brand-secondary/10 text-brand-secondary rounded-full text-sm font-semibold">
-                  {totalItems} courses
-                </span>
-              </div>
-
-              {(selectedStatus !== "all" || selectedCategory !== "all") && (
-                <button
-                  onClick={() => {
-                    setSelectedStatus("all");
-                    setSelectedCategory("all");
-                    fetchCourses(1, "all", "all");
-                  }}
-                  className="text-brand-secondary hover:text-brand-primary font-medium transition-colors duration-300"
-                >
-                  Clear Filters
-                </button>
-              )}
-            </div>
-
-            {/* Courses Grid */}
-            {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {Array.from({ length: itemsPerPage }).map((_, index) => (
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, index) => (
                   <div
                     key={index}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-100 animate-pulse"
+                    className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 animate-pulse"
                   >
-                    <div className="h-48 bg-gray-200 rounded-xl mb-4"></div>
-                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded mb-4"></div>
-                    <div className="space-y-2">
+                    <div className="h-48 bg-gray-200 rounded-t-2xl"></div>
+                    <div className="p-6 space-y-4">
                       <div className="h-4 bg-gray-200 rounded"></div>
-                      <div className="h-4 bg-gray-200 rounded"></div>
-                      <div className="h-4 bg-gray-200 rounded"></div>
+                      <div className="h-3 bg-gray-200 rounded"></div>
+                      <div className="h-3 bg-gray-200 rounded w-2/3"></div>
                     </div>
                   </div>
                 ))}
               </div>
-            ) : courses.length > 0 ? (
+            ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {courses.map((course) => {
-                    const statusInfo = getCourseStatus(course);
-                    const enrollmentPercentage = Math.round(
-                      (course.enrolled / course.capacity) * 100
-                    );
+                {filteredCourses.length === 0 ? (
+                  <div className="text-center py-16">
+                    <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <BookOpen className="h-12 w-12 text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      No courses found
+                    </h3>
+                    <p className="text-gray-600">
+                      Try adjusting your filters to find more courses.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {getPaginatedCourses().map((course, index) => {
+                        const statusInfo = getCourseStatus(course);
+                        const enrollmentPercentage = Math.round(
+                          (course.enrolled / course.capacity) * 100
+                        );
 
-                    return (
-                      <Card
-                        key={course.id}
-                        className="group bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
-                      >
-                        {/* Course Image */}
-                        <div className="relative overflow-hidden">
-                          <div className="relative h-48">
-                            <Image
-                              src={course.imageUrl}
-                              alt={course.title}
-                              fill
-                              className="object-cover group-hover:scale-110 transition-transform duration-300"
-                            />
-                          </div>
-
-                          {/* Status Badge */}
-                          <div className="absolute top-4 left-4">
-                            <span
-                              className={`px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${statusInfo.bgColor} ${statusInfo.color} ${statusInfo.borderColor} border`}
-                            >
-                              {statusInfo.status === "upcoming"
-                                ? "Upcoming"
-                                : statusInfo.status === "ongoing"
-                                ? "Ongoing"
-                                : "Completed"}
-                            </span>
-                          </div>
-
-                          {/* Level Badge */}
-                          <div className="absolute top-4 right-4">
-                            <span className="bg-brand-secondary/90 text-white px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
-                              {course.level}
-                            </span>
-                          </div>
-
-                          {/* Enrollment Progress */}
-                          {statusInfo.status === "upcoming" && (
-                            <div className="absolute bottom-4 left-4 right-4">
-                              <div className="bg-black/50 backdrop-blur-sm rounded-lg p-3">
-                                <div className="flex items-center justify-between text-white text-xs mb-1">
-                                  <span>Enrollment</span>
-                                  <span>
-                                    {course.enrolled}/{course.capacity}
-                                  </span>
-                                </div>
-                                <div className="w-full bg-white/20 rounded-full h-2">
-                                  <div
-                                    className="bg-brand-secondary h-2 rounded-full transition-all duration-300"
-                                    style={{
-                                      width: `${enrollmentPercentage}%`,
-                                    }}
-                                  ></div>
+                        return (
+                          <div
+                            key={course._id || index}
+                            className="group bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+                          >
+                            {/* Image Section */}
+                            <div className="relative overflow-hidden">
+                              <Image
+                                src={course.imageUrl}
+                                alt={course.title}
+                                width={400}
+                                height={240}
+                                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                              <div className="absolute top-4 left-4">
+                                <span className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                                  {getCategoryName(course.category)}
+                                </span>
+                              </div>
+                              <div className="absolute top-4 right-4">
+                                <div className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                  <Star className="w-4 h-4 text-brand-primary fill-current" />
                                 </div>
                               </div>
                             </div>
-                          )}
-                        </div>
 
-                        <CardHeader className="pb-4">
-                          <CardTitle className="text-lg font-bold text-gray-900 group-hover:text-brand-secondary transition-colors duration-300 line-clamp-2">
-                            {course.title}
-                          </CardTitle>
-                          <CardDescription className="text-gray-600 line-clamp-3">
-                            {course.description}
-                          </CardDescription>
-                        </CardHeader>
+                            {/* Content Section */}
+                            <div className="p-6">
+                              <div className="mb-4">
+                                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand-primary transition-colors duration-300 line-clamp-2">
+                                  {course.title}
+                                </h3>
+                                <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                                  {course.description
+                                    ?.replace(/<[^>]*>/g, "")
+                                    .substring(0, 100)}
+                                  ...
+                                </p>
+                              </div>
 
-                        <CardContent className="space-y-4">
-                          {/* Course Details */}
-                          <div className="space-y-2">
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Clock className="h-4 w-4 mr-2 text-brand-secondary" />
-                              <span>{course.duration}</span>
+                              {/* Course Stats */}
+                              <div className="space-y-3 mb-6">
+                                <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                                  <div className="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
+                                    <Users className="h-3 w-3 text-blue-600" />
+                                  </div>
+                                  <span className="font-medium">
+                                    {course.enrolled}/{course.capacity} enrolled
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                                  <div className="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center mr-2">
+                                    <Clock className="h-3 w-3 text-purple-600" />
+                                  </div>
+                                  <span className="font-medium">
+                                    {course.duration}
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                                  <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-2">
+                                    <MapPin className="h-3 w-3 text-green-600" />
+                                  </div>
+                                  <span className="font-medium">
+                                    {course.location}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Enrollment Progress */}
+                              <div className="mb-4">
+                                <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                                  <span>Enrollment</span>
+                                  <span>{enrollmentPercentage}%</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                  <div
+                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${enrollmentPercentage}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+
+                              {/* Price and CTA */}
+                              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                <div className="flex items-center text-xl font-black text-brand-primary">
+                                  <DollarSign className="h-5 w-5 mr-1" />
+                                  <span>{course.fee}</span>
+                                </div>
+
+                                <Link
+                                  href={`/course/${course._id}`}
+                                  className="group/btn inline-flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-2 rounded-full text-sm font-bold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                                >
+                                  <span>View Details</span>
+                                </Link>
+                              </div>
                             </div>
 
-                            <div className="flex items-center text-sm text-gray-600">
-                              <MapPin className="h-4 w-4 mr-2 text-brand-secondary" />
-                              <span className="line-clamp-1">
-                                {course.location}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Users className="h-4 w-4 mr-2 text-brand-secondary" />
-                              <span>{course.enrolled} enrolled</span>
-                            </div>
-
-                            <div className="flex items-center text-sm text-gray-600">
-                              <Award className="h-4 w-4 mr-2 text-brand-secondary" />
-                              <span className={statusInfo.color}>
+                            {/* Status Badge */}
+                            <div className="absolute top-4 right-4">
+                              <span
+                                className={`px-2 py-1 rounded-full text-xs font-semibold ${statusInfo.bgColor} ${statusInfo.color} ${statusInfo.borderColor} border`}
+                              >
                                 {statusInfo.text}
                               </span>
                             </div>
                           </div>
+                        );
+                      })}
+                    </div>
 
-                          {/* Price and Action */}
-                          <div className="flex items-center justify-between pt-4">
-                            <div className="flex items-center text-lg font-bold text-brand-secondary">
-                              <DollarSign className="h-5 w-5 mr-1" />
-                              <span>{course.fee}</span>
-                            </div>
-                            <Button
-                              asChild
-                              className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
-                            >
-                              <Link href={`/course/${course.id}`}>
-                                {statusInfo.status === "upcoming"
-                                  ? "Enroll Now"
-                                  : "View Details"}
-                                <ExternalLink className="w-4 h-4 ml-2" />
-                              </Link>
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-
-                {/* Pagination */}
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  totalItems={totalItems}
-                  itemsPerPage={itemsPerPage}
-                  onPageChange={handlePageChange}
-                  className="mt-12"
-                />
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        totalItems={totalItems}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                        className="mt-8"
+                      />
+                    )}
+                  </>
+                )}
               </>
-            ) : (
-              <div className="text-center py-16">
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <BookOpen className="h-12 w-12 text-gray-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No courses found
-                </h3>
-                <p className="text-gray-600">
-                  Try adjusting your filter selection.
-                </p>
-              </div>
             )}
           </div>
         </div>

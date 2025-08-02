@@ -47,7 +47,6 @@ const BlogPage = () => {
     dispatch(fetchBlogs());
   }, [dispatch]);
 
-  console.log("blogsssssssssssssssssssss", blogs);
 
   // Dynamic categories based on actual blog data
   const [categories, setCategories] = useState<Category[]>([

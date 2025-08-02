@@ -5,14 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, X } from "lucide-react";
+import { TagsSectionProps } from "@/type";
 
-interface TagsSectionProps {
-  tags: string[];
-  onAddTag: (tag: string) => void;
-  onRemoveTag: (index: number) => void;
-  onUpdateTag: (index: number, value: string) => void;
-  errors: Array<{ field: string; message: string }>;
-}
+
 
 export function TagsSection({
   tags,

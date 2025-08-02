@@ -28,7 +28,6 @@ export const fetchEvents = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE_URL}/event`);
       const events = await res.json();
-      console.log("events", events);
       if (!res.ok) throw new Error(events.message || "Failed to fetch events");
       return events.data;
     } catch (error: any) {
@@ -44,7 +43,6 @@ export const fetchSingleEvent = createAsyncThunk(
     try {
       const res = await fetch(`${API_BASE_URL}/event/${id}`);
       const event = await res.json();
-      console.log("Fetched single event:", event); // ✅ check shape here
       return event.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -84,8 +82,6 @@ export const updateEvent = createAsyncThunk(
   async ({ _id, formData }: { _id: number; formData: FormData }, thunkAPI) => {
     const cookies = new Cookies();
     const token = cookies.get("accessToken");
-
-    console.log("ifddddddddddddddddd", _id)
 
     try {
       const res = await fetch(`${API_BASE_URL}/event/${_id}`, {
@@ -156,20 +152,50 @@ const eventSlice = createSlice({
       })
 
       // Add event
+      .addCase(addEvent.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(addEvent.fulfilled, (state, action) => {
         state.events.push(action.payload);
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(addEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
 
       // Update event
+      .addCase(updateEvent.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(updateEvent.fulfilled, (state, action) => {
         state.events = state.events.map((event) =>
           event._id === action.payload._id ? action.payload : event
         );
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
 
       // Delete event
+      .addCase(deleteEvent.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(deleteEvent.fulfilled, (state, action) => {
         state.events = state.events.filter((e) => e._id !== action.payload);
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(deleteEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });

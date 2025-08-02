@@ -6,7 +6,7 @@ export interface CourseFormData {
   level: string;
   category: string;
   fee: string;
-  originalFee: string;
+  startDate: string;
   enrolled: string;
   capacity: string;
   rating: string;
@@ -18,6 +18,7 @@ export interface CourseFormData {
   instructors: Array<{
     name: string;
     imageFile: File | null;
+    imageUrl?: string;
     specialization: string;
     experience: string;
     rating: number;
@@ -33,7 +34,7 @@ export interface ValidationError {
   message: string;
 }
 
-export const validateCourseForm = (data: CourseFormData): ValidationError[] => {
+export const validateCourseForm = (data: CourseFormData, isEditMode = false): ValidationError[] => {
   const errors: ValidationError[] = [];
 
   // Required fields
@@ -71,7 +72,24 @@ export const validateCourseForm = (data: CourseFormData): ValidationError[] => {
     });
   }
 
-  if (!data.thumbnail) {
+  // Start date validation
+  if (!data.startDate.trim()) {
+    errors.push({ field: "startDate", message: "Start date is required" });
+  } else {
+    const selectedDate = new Date(data.startDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      errors.push({
+        field: "startDate",
+        message: "Start date cannot be in the past",
+      });
+    }
+  }
+
+  // Only require thumbnail for new courses, not for editing
+  if (!isEditMode && !data.thumbnail) {
     errors.push({
       field: "thumbnail",
       message: "Course thumbnail is required",
@@ -93,23 +111,6 @@ export const validateCourseForm = (data: CourseFormData): ValidationError[] => {
       errors.push({
         field: "rating",
         message: "Rating must be between 0 and 5",
-      });
-    }
-  }
-
-  // Original fee validation
-  if (data.originalFee.trim()) {
-    const originalFee = Number(data.originalFee);
-    const currentFee = Number(data.fee);
-    if (isNaN(originalFee) || originalFee < 0) {
-      errors.push({
-        field: "originalFee",
-        message: "Original price must be a valid positive number",
-      });
-    } else if (originalFee <= currentFee) {
-      errors.push({
-        field: "originalFee",
-        message: "Original price must be higher than current price",
       });
     }
   }
@@ -189,7 +190,8 @@ export const validateCourseForm = (data: CourseFormData): ValidationError[] => {
           message: "Instructor name is required",
         });
       }
-      if (!instructor.imageFile) {
+      // Only require instructor image for new courses, not for editing
+      if (!isEditMode && !instructor.imageFile) {
         errors.push({
           field: `instructor_${index}_image`,
           message: "Instructor profile image is required",
@@ -227,6 +229,6 @@ export const getFieldError = (
   return error ? error.message : null;
 };
 
-export const isFormValid = (data: CourseFormData): boolean => {
-  return validateCourseForm(data).length === 0;
+export const isFormValid = (data: CourseFormData, isEditMode = false): boolean => {
+  return validateCourseForm(data, isEditMode).length === 0;
 };

@@ -11,26 +11,26 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { BookOpen } from "lucide-react";
-
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  courseCount: number;
-  totalEnrollments: number;
-  createdAt: string;
-}
+import { Category } from "@/services/categories/categoriesSlice";
 
 interface CategoryFormProps {
   category?: Category | null;
   isOpen: boolean;
   onClose: () => void;
   onSave: (
-    category: Omit<
-      Category,
-      "id" | "courseCount" | "totalEnrollments" | "createdAt"
-    >
+    category: {
+      name: string;
+      description?: string;
+      status?: 'active' | 'inactive';
+    }
   ) => void;
 }
 
@@ -43,6 +43,7 @@ const CategoryForm = ({
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    status: "active" as 'active' | 'inactive',
   });
 
   useEffect(() => {
@@ -50,19 +51,23 @@ const CategoryForm = ({
       setFormData({
         name: category.name,
         description: category.description || "",
+        status: category.status,
       });
     } else {
       setFormData({
         name: "",
         description: "",
+        status: "active",
       });
     }
   }, [category, isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
-    onClose();
+    setTimeout(() => {
+      onSave(formData);
+      onClose();
+    }, 0);
   };
 
   const handleChange = (field: string, value: string) => {
@@ -75,7 +80,7 @@ const CategoryForm = ({
   const isFormValid = formData.name.trim().length > 0;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={() => setTimeout(onClose, 0)}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -112,8 +117,24 @@ const CategoryForm = ({
             />
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="status">Status</Label>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleChange("status", value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={() => setTimeout(onClose, 0)}>
               Cancel
             </Button>
             <Button type="submit" disabled={!isFormValid}>

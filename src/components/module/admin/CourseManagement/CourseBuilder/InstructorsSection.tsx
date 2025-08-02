@@ -6,23 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Users, Plus, X } from "lucide-react";
 import { InstructorImageUpload } from "./InstructorImageUpload";
-
-interface Instructor {
-  name: string;
-  imageFile: File | null;
-  specialization: string;
-  experience: string;
-  rating: number;
-  students: number;
-}
-
-interface InstructorsSectionProps {
-  instructors: Instructor[];
-  onAddInstructor: () => void;
-  onRemoveInstructor: (index: number) => void;
-  onUpdateInstructor: (index: number, field: string, value: any) => void;
-  errors: Array<{ field: string; message: string }>;
-}
+import { InstructorsSectionProps } from "@/type";
 
 export function InstructorsSection({
   instructors,
@@ -30,6 +14,7 @@ export function InstructorsSection({
   onRemoveInstructor,
   onUpdateInstructor,
   errors,
+  isEditMode = false,
 }: InstructorsSectionProps) {
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
@@ -78,6 +63,8 @@ export function InstructorsSection({
                   value={instructor.imageFile}
                   onChange={(file) => onUpdateInstructor(i, "imageFile", file)}
                   label="Profile Image"
+                  existingImageUrl={instructor.imageUrl}
+                  isEditMode={isEditMode}
                 />
                 {getFieldError(`instructor_${i}_image`) && (
                   <p className="text-sm text-red-600">

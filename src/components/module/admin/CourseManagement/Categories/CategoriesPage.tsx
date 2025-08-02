@@ -1,25 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { addCategory, updateCategory } from "@/services/categories/categoriesSlice";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import CategoryTable from "./CategoryTable";
 import CategoryForm from "./CategoryForm";
-
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  courseCount: number;
-  totalEnrollments: number;
-  createdAt: string;
-}
+import { Category } from "@/services/categories/categoriesSlice";
 
 const CategoriesPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleEditCategory = (category: Category) => {
     setSelectedCategory(category);
@@ -31,19 +29,30 @@ const CategoriesPage = () => {
     setIsFormOpen(true);
   };
 
-  const handleSaveCategory = (categoryData: {
+  const handleSaveCategory = async (categoryData: {
     name: string;
     description?: string;
+    status?: 'active' | 'inactive';
   }) => {
-    // TODO: Implement actual save logic
-    console.log("Saving category:", categoryData);
-
-    if (selectedCategory) {
-      // Update existing category
-      console.log("Updating category:", selectedCategory.id);
-    } else {
-      // Create new category
-      console.log("Creating new category");
+    try {
+      if (selectedCategory) {
+        // Update existing category
+        await dispatch(updateCategory({ 
+          id: selectedCategory._id, 
+          categoryData 
+        })).unwrap();
+        toast.success("Category updated successfully!");
+      } else {
+        // Create new category
+        await dispatch(addCategory(categoryData)).unwrap();
+        toast.success("Category created successfully!");
+      }
+      
+      setIsFormOpen(false);
+      setSelectedCategory(null);
+    } catch (error: any) {
+      console.error("Error saving category:", error);
+      toast.error(error.message || "Failed to save category");
     }
   };
 
@@ -66,7 +75,9 @@ const CategoriesPage = () => {
       </div>
 
       {/* Table */}
-      <CategoryTable onEditCategory={handleEditCategory} />
+      <CategoryTable 
+        onEditCategory={handleEditCategory} 
+      />
 
       {/* Category Form */}
       <CategoryForm
