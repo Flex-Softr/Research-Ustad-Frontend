@@ -42,7 +42,6 @@ const EventPage = () => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  console.log("event page", events);
 
   const filteredEvents = events.filter((event) => {
     const statusInfo = getEventStatus(event);

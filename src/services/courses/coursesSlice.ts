@@ -27,44 +27,66 @@ const initialState: CourseState = {
 // Get all courses
 export const fetchCourses = createAsyncThunk("courses/fetchAll", async (_, thunkAPI) => {
   try {
-    const res = await fetch(`${API_BASE_URL}/courses`);
+    const res = await fetch(`${API_BASE_URL}/course`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to fetch courses");
-    return data.courses;
+    return data.data || [];
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
-// Get one course
+// Get single course
 export const fetchSingleCourse = createAsyncThunk("courses/fetchOne", async (id: string, thunkAPI) => {
   try {
-    const res = await fetch(`${API_BASE_URL}/courses/${id}`);
+    const res = await fetch(`${API_BASE_URL}/course/${id}`);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to fetch course");
-    return data.course;
+    return data.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
 
 // Add course
-export const addCourse = createAsyncThunk("courses/add", async (courseData: Course, thunkAPI) => {
+export const addCourse = createAsyncThunk("courses/add", async (formData: FormData, thunkAPI) => {
   const cookies = new Cookies();
   const token = cookies.get("accessToken");
 
   try {
-    const res = await fetch(`${API_BASE_URL}/courses`, {
+    const res = await fetch(`${API_BASE_URL}/course`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        // Don't set Content-Type for FormData, let the browser set it
       },
-      body: JSON.stringify(courseData),
+      body: formData,
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Failed to add course");
-    return data.course;
+    return data.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.message);
+  }
+});
+
+// Update course
+export const updateCourse = createAsyncThunk("courses/update", async ({ id, formData }: { id: string; formData: FormData }, thunkAPI) => {
+  const cookies = new Cookies();
+  const token = cookies.get("accessToken");
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/course/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // Don't set Content-Type for FormData, let the browser set it
+      },
+      body: formData,
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to update course");
+    return data.data;
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -76,7 +98,7 @@ export const deleteCourse = createAsyncThunk("courses/delete", async (id: string
   const token = cookies.get("accessToken");
 
   try {
-    const res = await fetch(`${API_BASE_URL}/courses/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/course/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -113,9 +135,19 @@ const coursesSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // Fetch one
+      // Fetch single
+      .addCase(fetchSingleCourse.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(fetchSingleCourse.fulfilled, (state, action) => {
         state.course = action.payload;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(fetchSingleCourse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
 
       // Add
@@ -123,9 +155,42 @@ const coursesSlice = createSlice({
         state.courses.push(action.payload);
       })
 
+      // Update
+      .addCase(updateCourse.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateCourse.fulfilled, (state, action) => {
+        // Update the course in the courses array
+        const index = state.courses.findIndex(course => course._id === action.payload._id);
+        if (index !== -1) {
+          state.courses[index] = action.payload;
+        }
+        // Update the single course if it's the same one
+        if (state.course && state.course._id === action.payload._id) {
+          state.course = action.payload;
+        }
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateCourse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
       // Delete
+      .addCase(deleteCourse.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(deleteCourse.fulfilled, (state, action) => {
         state.courses = state.courses.filter((course) => course._id !== action.payload);
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(deleteCourse.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });

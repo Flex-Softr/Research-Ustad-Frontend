@@ -27,8 +27,6 @@ const EventManagement = () => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-
-
   const handleAddEvent = () => {
     setEditingEvent(null);
     setShowForm(true);
@@ -55,6 +53,7 @@ const EventManagement = () => {
       }
       setEventToDelete(null);
     }
+    // Always close the dialog, regardless of success or error
     setDeleteDialogOpen(false);
   };
 
@@ -102,7 +101,8 @@ const EventManagement = () => {
                 No Events Found
               </h3>
               <p className="text-gray-600 mb-6 max-w-md">
-                There are no events in the system yet. Create your first event to get started!
+                There are no events in the system yet. Create your first event
+                to get started!
               </p>
               <Button
                 onClick={handleAddEvent}
@@ -171,14 +171,9 @@ const EventManagement = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center">
                     <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                    <span>
-                      {formatDate(event.startDate)}
-                    </span>
+                    <span>{formatDate(event.startDate)}</span>
                     {event.endDate !== event.startDate && (
-                      <span>
-                        {" "}
-                        - {formatDate(event.endDate)}
-                      </span>
+                      <span> - {formatDate(event.endDate)}</span>
                     )}
                   </div>
                   <div className="flex items-center">
@@ -187,11 +182,7 @@ const EventManagement = () => {
                   </div>
                   <div className="flex items-center">
                     <Users className="h-4 w-4 mr-2 text-gray-400" />
-                    <span
-                      
-                    >
-                      {event.maxAttendees} Max attendees
-                    </span>
+                    <span>{event.maxAttendees} Max attendees</span>
                   </div>
                 </div>
 

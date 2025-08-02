@@ -1,6 +1,6 @@
 // Course Types
 export interface Course {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   startDate: string;
@@ -19,6 +19,7 @@ export interface Course {
   certificate: boolean;
   lifetimeAccess: boolean;
   imageUrl: string;
+  status?: "upcoming" | "ongoing" | "completed";
   curriculum?: string; // HTML content from text editor
   courseFeatures?: Array<{
     title: string;
@@ -56,6 +57,14 @@ export interface Course {
     date: string;
     comment: string;
   }>;
+}
+
+
+
+
+export interface AllCoursesTableProps {
+  onEditCourse: (course: Course) => void;
+  onViewCourse: (course: Course) => void;
 }
 
 export interface CoursesFilter {
@@ -124,3 +133,133 @@ export interface ValidationError {
   field: string;
   message: string;
 } 
+
+
+export interface BasicInformationSectionProps {
+  formData: {
+    title: string;
+    description: string;
+    category: string;
+    level: string;
+    duration: string;
+    language: string;
+  };
+  onChange: (field: string, value: any) => void;
+  errors: Array<{ field: string; message: string }>;
+}
+
+export interface CourseFeaturesSectionProps {
+  formData: {
+    certificate: boolean;
+    lifetimeAccess: boolean;
+  };
+  onChange: (field: string, value: any) => void;
+}
+
+export interface CourseThumbnailUploadProps {
+  onChange: (file: File | null) => void;
+  value?: File | null;
+  existingImageUrl?: string;
+  isEditMode?: boolean;
+}
+
+export interface FormProgressIndicatorProps {
+  formData: {
+    title: string;
+    description: string;
+    category: string;
+    fee: string;
+    thumbnail: File | null;
+    tags: string[];
+    whatYouWillLearn: string[];
+    requirements: string[];
+    instructors: any[];
+  };
+  isEditMode?: boolean;
+  existingImageUrl?: string;
+}
+
+export interface FormSidebarProps {
+  formData: {
+    title: string;
+    description: string;
+    category: string;
+    fee: string;
+    thumbnail: File | null;
+    tags: string[];
+    whatYouWillLearn: string[];
+    requirements: string[];
+    instructors: any[];
+  };
+  onThumbnailChange: (file: File | null) => void;
+  onSubmit: () => void;
+  isSubmitting: boolean;
+  isEditMode?: boolean;
+  existingImageUrl?: string;
+  categories?: Array<{ _id: string; name: string; status: string }>;
+}
+
+export interface InstructorImageUploadProps {
+  onChange: (file: File | null) => void;
+  value?: File | null;
+  label?: string;
+  existingImageUrl?: string;
+  isEditMode?: boolean;
+}
+
+export interface Instructor {
+  name: string;
+  imageFile: File | null;
+  imageUrl?: string;
+  specialization: string;
+  experience: string;
+  rating: number;
+  students: number;
+}
+
+export interface InstructorsSectionProps {
+  instructors: Instructor[];
+  onAddInstructor: () => void;
+  onRemoveInstructor: (index: number) => void;
+  onUpdateInstructor: (index: number, field: string, value: any) => void;
+  errors: Array<{ field: string; message: string }>;
+  isEditMode?: boolean;
+}
+
+
+export interface LearningObjectivesSectionProps {
+  objectives: string[];
+  onAddObjective: () => void;
+  onRemoveObjective: (index: number) => void;
+  onUpdateObjective: (index: number, value: string) => void;
+  errors: Array<{ field: string; message: string }>;
+}
+
+export interface PricingSectionProps {
+  formData: {
+    fee: string;
+    originalFee: string;
+    enrolled: string;
+    capacity: string;
+    rating: string;
+    totalReviews: string;
+  };
+  onChange: (field: string, value: any) => void;
+  errors: Array<{ field: string; message: string }>;
+}
+
+export interface RequirementsSectionProps {
+  requirements: string[];
+  onAddRequirement: () => void;
+  onRemoveRequirement: (index: number) => void;
+  onUpdateRequirement: (index: number, value: string) => void;
+  errors: Array<{ field: string; message: string }>;
+}
+
+export interface TagsSectionProps {
+  tags: string[];
+  onAddTag: (tag: string) => void;
+  onRemoveTag: (index: number) => void;
+  onUpdateTag: (index: number, value: string) => void;
+  errors: Array<{ field: string; message: string }>;
+}

@@ -7,18 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, X, User, Camera } from "lucide-react";
-
-interface Props {
-  onChange: (file: File | null) => void;
-  value?: File | null;
-  label?: string;
-}
+import { InstructorImageUploadProps } from "@/type";
 
 export function InstructorImageUpload({
   onChange,
   value,
   label = "Profile Image",
-}: Props) {
+  existingImageUrl,
+  isEditMode = false,
+}: InstructorImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,10 +27,12 @@ export function InstructorImageUpload({
       setPreview(objectUrl);
       setError(null);
       return () => URL.revokeObjectURL(objectUrl);
+    } else if (existingImageUrl && isEditMode) {
+      setPreview(existingImageUrl);
     } else {
       setPreview(null);
     }
-  }, [value]);
+  }, [value, existingImageUrl, isEditMode]);
 
   const validateFile = (file: File): boolean => {
     const maxSize = 2 * 1024 * 1024; // 2MB for profile images
@@ -136,11 +135,20 @@ export function InstructorImageUpload({
               </div>
               <div className="text-center">
                 <p className="text-xs font-medium text-gray-900">
-                  {isDragOver ? "Drop image here" : "Click to upload"}
+                  {isDragOver 
+                    ? "Drop image here" 
+                    : isEditMode 
+                    ? "Click to upload new image" 
+                    : "Click to upload"}
                 </p>
                 <p className="text-xs text-gray-500">
                   PNG, JPG, WebP up to 2MB
                 </p>
+                {isEditMode && existingImageUrl && (
+                  <p className="text-xs text-blue-600 mt-1">
+                    Current image will be kept if no new image is selected
+                  </p>
+                )}
               </div>
             </div>
           </CardContent>
@@ -174,7 +182,7 @@ export function InstructorImageUpload({
                 <div className="flex items-center space-x-2">
                   <User className="w-3 h-3 text-gray-500" />
                   <span className="text-xs text-gray-600">
-                    {value?.name || "Image uploaded"}
+                    {value?.name || (isEditMode ? "Current image" : "Image uploaded")}
                   </span>
                 </div>
                 <Button

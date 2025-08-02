@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Download, Upload } from "lucide-react";
 import AllCoursesTable from "./AllCoursesTable";
-import { Course } from "@/services/courses";
+// import { Course } from "@/services/courses";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store/store";
-import { fetchCourses } from "@/services/courses/coursesSlice";
+import { Course } from "@/type";
 
 const AllCoursesPage = () => {
   const router = useRouter();
@@ -16,26 +14,14 @@ const AllCoursesPage = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { courses, isLoading, error } = useSelector(
-    (state: RootState) => state.courses // adjust slice name if needed
-  );
-
-  // Load courses on mount
-  useEffect(() => {
-    dispatch(fetchCourses());
-  }, [dispatch]);
-
-  console.log("courses", courses);
-
   const handleEditCourse = (course: Course) => {
-    setSelectedCourse(course);
-    setIsEditModalOpen(true);
+    // Redirect to the add course page with edit parameter
+    router.push(`/admin/dashboard/managecourse/add-course?edit=${course._id}`);
   };
 
   const handleViewCourse = (course: Course) => {
-    setSelectedCourse(course);
-    setIsViewModalOpen(true);
+    // Redirect to the single course page
+    router.push(`/course/${course._id}`);
   };
 
   const handleCreateCourse = () => {
@@ -70,9 +56,6 @@ const AllCoursesPage = () => {
         onEditCourse={handleEditCourse}
         onViewCourse={handleViewCourse}
       />
-
-      {/* TODO: Add Edit/View Modals here */}
-      {/* These will be implemented as separate components */}
     </div>
   );
 };

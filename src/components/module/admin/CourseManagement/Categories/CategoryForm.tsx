@@ -11,26 +11,26 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { BookOpen } from "lucide-react";
-
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  courseCount: number;
-  totalEnrollments: number;
-  createdAt: string;
-}
+import { Category } from "@/services/categories/categoriesSlice";
 
 interface CategoryFormProps {
   category?: Category | null;
   isOpen: boolean;
   onClose: () => void;
   onSave: (
-    category: Omit<
-      Category,
-      "id" | "courseCount" | "totalEnrollments" | "createdAt"
-    >
+    category: {
+      name: string;
+      description?: string;
+      status?: 'active' | 'inactive';
+    }
   ) => void;
 }
 
@@ -43,6 +43,7 @@ const CategoryForm = ({
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    status: "active" as 'active' | 'inactive',
   });
 
   useEffect(() => {
@@ -50,11 +51,13 @@ const CategoryForm = ({
       setFormData({
         name: category.name,
         description: category.description || "",
+        status: category.status,
       });
     } else {
       setFormData({
         name: "",
         description: "",
+        status: "active",
       });
     }
   }, [category, isOpen]);
@@ -110,6 +113,22 @@ const CategoryForm = ({
               placeholder="Brief description of this category..."
               rows={3}
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="status">Status</Label>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleChange("status", value)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <DialogFooter>

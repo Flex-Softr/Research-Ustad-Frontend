@@ -152,12 +152,13 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
           await dispatch(deleteBlog(blogId)).unwrap();
         }
       }
-
-      setSelectedBlogs([]);
       toast.success(`${selectedBlogs.length} blog deleted successfully`);
     } catch (error) {
       toast.error("Failed to delete selected blogs");
     }
+    // Clear selection and close dialog regardless of success or error
+    setSelectedBlogs([]);
+    setDeleteDialogOpen(false);
   };
 
   // Handle individual delete
@@ -176,6 +177,7 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
       }
       setBlogToDelete(null);
     }
+    // Always close the dialog, regardless of success or error
     setDeleteDialogOpen(false);
   };
 

@@ -4,14 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, X } from "lucide-react";
+import { RequirementsSectionProps } from "@/type";
 
-interface RequirementsSectionProps {
-  requirements: string[];
-  onAddRequirement: () => void;
-  onRemoveRequirement: (index: number) => void;
-  onUpdateRequirement: (index: number, value: string) => void;
-  errors: Array<{ field: string; message: string }>;
-}
+
 
 export function RequirementsSection({
   requirements,

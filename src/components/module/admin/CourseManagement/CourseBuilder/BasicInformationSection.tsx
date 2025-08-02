@@ -1,32 +1,40 @@
 "use client";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchCategories } from "@/services/categories/categoriesSlice";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BookOpen } from "lucide-react";
+import { BasicInformationSectionProps } from "@/type";
 
-interface BasicInformationSectionProps {
-  formData: {
-    title: string;
-    description: string;
-    category: string;
-    level: string;
-    duration: string;
-    language: string;
-  };
-  onChange: (field: string, value: any) => void;
-  errors: Array<{ field: string; message: string }>;
-}
 
 export function BasicInformationSection({
   formData,
   onChange,
   errors,
 }: BasicInformationSectionProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories, isLoading } = useSelector(
+    (state: RootState) => state.categories
+  );
+
+  // Load categories on mount
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
   };
+
+  // Filter only active categories
+  const activeCategories = categories.filter(cat => cat.status === 'active');
+
+
+  console.log('category', categories)
 
   return (
     <Card>
@@ -70,12 +78,26 @@ export function BasicInformationSection({
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="category">Category *</Label>
-            <Input
+            <select
               id="category"
-              placeholder="e.g., Programming, Design"
               value={formData.category}
               onChange={(e) => onChange("category", e.target.value)}
-            />
+              className="w-full h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isLoading}
+            >
+              <option value="">Select a category</option>
+              {activeCategories.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            {isLoading && (
+              <p className="text-sm text-gray-500">Loading categories...</p>
+            )}
+            {!isLoading && activeCategories.length === 0 && (
+              <p className="text-sm text-orange-600">No active categories available. Please create categories first.</p>
+            )}
             {getFieldError("category") && (
               <p className="text-sm text-red-600">
                 {getFieldError("category")}

@@ -2,21 +2,8 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { FormProgressIndicatorProps } from "@/type";
 import { CheckCircle, Circle, AlertCircle } from "lucide-react";
-
-interface FormProgressIndicatorProps {
-  formData: {
-    title: string;
-    description: string;
-    category: string;
-    fee: string;
-    thumbnail: File | null;
-    tags: string[];
-    whatYouWillLearn: string[];
-    requirements: string[];
-    instructors: any[];
-  };
-}
 
 const sections = [
   {
@@ -47,6 +34,8 @@ const sections = [
 
 export function FormProgressIndicator({
   formData,
+  isEditMode = false,
+  existingImageUrl,
 }: FormProgressIndicatorProps) {
   const calculateSectionProgress = (section: (typeof sections)[0]) => {
     const totalFields = section.fields.length;
@@ -68,7 +57,10 @@ export function FormProgressIndicator({
             completedFields++;
           break;
         case "thumbnail":
-          if (formData.thumbnail) completedFields++;
+          // In edit mode, consider existing image URL as valid
+          if (formData.thumbnail || (isEditMode && existingImageUrl)) {
+            completedFields++;
+          }
           break;
         case "tags":
           if (formData.tags.length > 0) completedFields++;
@@ -80,7 +72,16 @@ export function FormProgressIndicator({
           if (formData.requirements.length > 0) completedFields++;
           break;
         case "instructors":
-          if (formData.instructors.length > 0) completedFields++;
+          if (formData.instructors.length > 0) {
+            // In edit mode, check if instructors have valid data
+            const validInstructors = formData.instructors.filter((instructor: any) => {
+              const hasName = instructor.name && instructor.name.trim().length > 0;
+              const hasSpecialization = instructor.specialization && instructor.specialization.trim().length > 0;
+              const hasImage = instructor.imageFile || (isEditMode && instructor.imageUrl);
+              return hasName && hasSpecialization && hasImage;
+            });
+            if (validInstructors.length > 0) completedFields++;
+          }
           break;
       }
     });
@@ -123,7 +124,9 @@ export function FormProgressIndicator({
       <CardContent className="p-4">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-sm">Form Progress</h3>
+            <h3 className="font-semibold text-sm">
+              {isEditMode ? "Edit Progress" : "Form Progress"}
+            </h3>
             <span className="text-sm font-medium text-gray-600">
               {Math.round(overallProgress)}% Complete
             </span>
@@ -160,7 +163,12 @@ export function FormProgressIndicator({
 
           <div className="pt-2 border-t">
             <div className="flex justify-between text-xs text-gray-500">
-              <span>Required fields marked with *</span>
+              <span>
+                {isEditMode 
+                  ? "Existing data is considered valid" 
+                  : "Required fields marked with *"
+                }
+              </span>
               <span>{Math.round(overallProgress)}% ready to submit</span>
             </div>
           </div>

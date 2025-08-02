@@ -242,11 +242,7 @@ const EventForm = ({
                   onChange={onFileChange}
                   accept="image/*"
                 />
-                {/* {isEditing && event?.imageUrl && !selectedFile && (
-                <p className="text-sm text-gray-500 mt-1">
-                  Current image will be replaced if you select a new file
-                </p>
-              )} */}
+             
               </div>
               <div className="space-y-2">
                 <Label htmlFor="registrationLink">Registration Link</Label>
@@ -362,13 +358,6 @@ const EventForm = ({
                     onChange={(e) => onSpeakerFileChange(index, e)}
                     accept="image/*"
                   />
-                  {/* {isEditing &&
-                    event?.speakers?.[index]?.imageUrl &&
-                    !speakerFiles[index] && (
-                      <p className="text-sm text-gray-500 mt-1">
-                        Current image will be replaced if you select a new file
-                      </p>
-                    )} */}
 
                   {/* Speaker Image Preview */}
                   {speakerFiles[index] ? (

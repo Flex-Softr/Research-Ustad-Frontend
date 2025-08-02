@@ -7,13 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
+import { CourseThumbnailUploadProps } from "@/type";
 
-interface Props {
-  onChange: (file: File) => void;
-  value?: File | null;
-}
 
-export function CourseThumbnailUpload({ onChange, value }: Props) {
+
+export function CourseThumbnailUpload({ onChange, value, existingImageUrl, isEditMode = false }: CourseThumbnailUploadProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,10 +23,12 @@ export function CourseThumbnailUpload({ onChange, value }: Props) {
       setPreview(objectUrl);
       setError(null);
       return () => URL.revokeObjectURL(objectUrl);
+    } else if (existingImageUrl && isEditMode) {
+      setPreview(existingImageUrl);
     } else {
       setPreview(null);
     }
-  }, [value]);
+  }, [value, existingImageUrl, isEditMode]);
 
   const validateFile = (file: File): boolean => {
     const maxSize = 5 * 1024 * 1024; // 5MB
@@ -82,7 +82,7 @@ export function CourseThumbnailUpload({ onChange, value }: Props) {
   };
 
   const handleRemoveImage = () => {
-    onChange(null as any);
+    onChange(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -95,7 +95,7 @@ export function CourseThumbnailUpload({ onChange, value }: Props) {
   return (
     <div className="space-y-4">
       <Label htmlFor="thumbnail" className="text-sm font-medium">
-        Course Thumbnail *
+        Course Thumbnail {!isEditMode && "*"}
       </Label>
 
       <Input
@@ -136,11 +136,18 @@ export function CourseThumbnailUpload({ onChange, value }: Props) {
                 <p className="text-sm font-medium text-gray-900">
                   {isDragOver
                     ? "Drop your image here"
+                    : isEditMode 
+                    ? "Click to upload new image or drag and drop"
                     : "Click to upload or drag and drop"}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
                   PNG, JPG, WebP up to 5MB
                 </p>
+                {isEditMode && existingImageUrl && (
+                  <p className="text-xs text-blue-600 mt-2">
+                    Current image will be kept if no new image is selected
+                  </p>
+                )}
               </div>
             </div>
           </CardContent>
@@ -174,7 +181,7 @@ export function CourseThumbnailUpload({ onChange, value }: Props) {
                 <div className="flex items-center space-x-2">
                   <ImageIcon className="w-4 h-4 text-gray-500" />
                   <span className="text-sm text-gray-600">
-                    {value?.name || "Image uploaded"}
+                    {value?.name || (isEditMode ? "Current image" : "Image uploaded")}
                   </span>
                 </div>
                 <Button variant="outline" size="sm" onClick={handleClickUpload}>
@@ -196,6 +203,9 @@ export function CourseThumbnailUpload({ onChange, value }: Props) {
         <p>• Recommended size: 1200x675 pixels (16:9 aspect ratio)</p>
         <p>• Maximum file size: 5MB</p>
         <p>• Supported formats: JPEG, PNG, WebP</p>
+        {isEditMode && (
+          <p>• Leave empty to keep the current image</p>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,9 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { deleteCategory, fetchCategories } from "@/services/categories/categoriesSlice";
+import { fetchCourses } from "@/services/courses/coursesSlice";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -17,97 +22,101 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { Edit, Trash2, MoreHorizontal, BookOpen, Users } from "lucide-react";
 import Pagination from "@/components/shared/Pagination";
-
-interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  courseCount: number;
-  totalEnrollments: number;
-  createdAt: string;
-}
+import { Category } from "@/services/categories/categoriesSlice";
+import { Course } from "@/type";
 
 interface CategoryTableProps {
   onEditCategory: (category: Category) => void;
 }
 
+interface CategoryWithStats extends Category {
+  courseCount: number;
+  totalEnrollments: number;
+  averageRating: number;
+  totalRevenue: number;
+}
+
 const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage] = useState(10);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(
     null
   );
+  const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
 
-  // Load categories data
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories, isLoading, error } = useSelector(
+    (state: RootState) => state.categories
+  );
+
+  // Load categories and courses data on mount
   useEffect(() => {
-    const loadCategories = async () => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  // Load courses data
+  useEffect(() => {
+    const loadCourses = async () => {
       try {
-        const response = await fetch("/data/courses.json");
-        const data = await response.json();
-
-        // Extract unique categories and count courses
-        const categoryMap = new Map<string, Category>();
-
-        data.courses.forEach((course: any) => {
-          const categoryName = course.category;
-          if (categoryMap.has(categoryName)) {
-            const existing = categoryMap.get(categoryName)!;
-            existing.courseCount += 1;
-            existing.totalEnrollments += course.enrolled;
-          } else {
-            categoryMap.set(categoryName, {
-              id: categoryName.toLowerCase().replace(/\s+/g, "-"),
-              name: categoryName,
-              description: `${categoryName} courses`,
-              courseCount: 1,
-              totalEnrollments: course.enrolled,
-              createdAt: new Date().toISOString(),
-            });
-          }
-        });
-
-        const categoriesArray = Array.from(categoryMap.values());
-        setCategories(categoriesArray);
-        setTotalPages(Math.ceil(categoriesArray.length / itemsPerPage));
+        setCoursesLoading(true);
+        const result = await dispatch(fetchCourses()).unwrap();
+        setCourses(result);
       } catch (error) {
-        console.error("Error loading categories:", error);
+        console.error("Error loading courses:", error);
       } finally {
-        setLoading(false);
+        setCoursesLoading(false);
       }
     };
 
-    loadCategories();
-  }, []);
+    loadCourses();
+  }, [dispatch]);
+
+  // Calculate category statistics
+  const getCategoryStats = (category: Category): CategoryWithStats => {
+    const categoryCourses = courses.filter(course => 
+      course.category === category._id || course.category === category.name
+    );
+
+    const courseCount = categoryCourses.length;
+    const totalEnrollments = categoryCourses.reduce((sum, course) => sum + course.enrolled, 0);
+    const averageRating = categoryCourses.length > 0 
+      ? categoryCourses.reduce((sum, course) => sum + course.rating, 0) / categoryCourses.length 
+      : 0;
+    const totalRevenue = categoryCourses.reduce((sum, course) => sum + (course.fee * course.enrolled), 0);
+
+    return {
+      ...category,
+      courseCount,
+      totalEnrollments,
+      averageRating: Math.round(averageRating * 10) / 10, // Round to 1 decimal
+      totalRevenue
+    };
+  };
+
+  // Get categories with calculated stats
+  const categoriesWithStats = categories.map(getCategoryStats);
 
   // Get paginated categories
   const getPaginatedCategories = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return categories.slice(startIndex, endIndex);
+    return categoriesWithStats.slice(startIndex, endIndex);
   };
+
+  const totalPages = Math.ceil(categoriesWithStats.length / itemsPerPage);
 
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
       const currentPageCategoryIds = getPaginatedCategories().map(
-        (category) => category.id
+        (category) => category._id
       );
       setSelectedCategories(currentPageCategoryIds);
     } else {
@@ -124,13 +133,24 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   };
 
   // Handle bulk delete
-  const handleBulkDelete = () => {
+  const handleBulkDelete = async () => {
     if (selectedCategories.length === 0) return;
 
-    setCategories((prev) =>
-      prev.filter((category) => !selectedCategories.includes(category.id))
-    );
+    try {
+      // Delete all selected categories
+      const deletePromises = selectedCategories.map(categoryId => 
+        dispatch(deleteCategory(categoryId)).unwrap()
+      );
+      
+      await Promise.all(deletePromises);
+      toast.success(`Successfully deleted ${selectedCategories.length} categories`);
+    } catch (error) {
+      console.error("Error deleting categories:", error);
+      toast.error("Failed to delete categories");
+    }
+    // Clear selection and close dialog regardless of success or error
     setSelectedCategories([]);
+    setBulkDeleteDialogOpen(false);
   };
 
   // Handle individual delete
@@ -139,24 +159,37 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     setDeleteDialogOpen(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (categoryToDelete) {
-      setCategories((prev) =>
-        prev.filter((category) => category.id !== categoryToDelete.id)
-      );
+      try {
+        await dispatch(deleteCategory(categoryToDelete._id)).unwrap();
+        toast.success("Category deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting category:", error);
+        toast.error("Failed to delete category");
+      }
       setCategoryToDelete(null);
     }
+    // Always close the dialog, regardless of success or error
     setDeleteDialogOpen(false);
   };
 
-  if (loading) {
+  if (isLoading || coursesLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <LoadingSpinner
           size="md"
           variant="border"
-          text="Loading categories..."
+          text="Loading categories and course data..."
         />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600">Error loading categories: {error}</p>
       </div>
     );
   }
@@ -166,8 +199,52 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     paginatedCategories.length > 0 &&
     selectedCategories.length === paginatedCategories.length;
 
+  // Calculate overall statistics
+  const totalCourses = categoriesWithStats.reduce((sum, cat) => sum + cat.courseCount, 0);
+  const totalEnrollments = categoriesWithStats.reduce((sum, cat) => sum + cat.totalEnrollments, 0);
+  const totalRevenue = categoriesWithStats.reduce((sum, cat) => sum + cat.totalRevenue, 0);
+
   return (
     <div className="space-y-6">
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <div>
+                <p className="text-sm font-medium text-blue-600">Total Courses</p>
+                <p className="text-2xl font-bold text-blue-900">{totalCourses}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-green-50 border-green-200">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <Users className="w-8 h-8 text-green-600" />
+              <div>
+                <p className="text-sm font-medium text-green-600">Total Enrollments</p>
+                <p className="text-2xl font-bold text-green-900">{totalEnrollments.toLocaleString()}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-purple-50 border-purple-200">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-bold">$</span>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-purple-600">Total Revenue</p>
+                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Bulk Actions */}
       {selectedCategories.length > 0 && (
         <Card className="bg-yellow-50 border-yellow-200">
@@ -204,16 +281,10 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Course Categories ({categories.length})</span>
+            <span>Course Categories ({categoriesWithStats.length})</span>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <BookOpen className="w-4 h-4" />
-              <span>
-                {categories.reduce(
-                  (total, category) => total + category.courseCount,
-                  0
-                )}{" "}
-                total courses
-              </span>
+              <span>{totalCourses} total courses</span>
             </div>
           </CardTitle>
         </CardHeader>
@@ -231,19 +302,22 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                   <TableHead>Category Name</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead>Courses</TableHead>
-                  <TableHead>Total Enrollments</TableHead>
+                  <TableHead>Enrollments</TableHead>
+                  <TableHead>Avg Rating</TableHead>
+                  <TableHead>Revenue</TableHead>
+                  <TableHead>Status</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead className="w-12">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {paginatedCategories.map((category) => (
-                  <TableRow key={category.id}>
+                  <TableRow key={category._id}>
                     <TableCell>
                       <Checkbox
-                        checked={selectedCategories.includes(category.id)}
+                        checked={selectedCategories.includes(category._id)}
                         onCheckedChange={(checked) =>
-                          handleSelectCategory(category.id, checked as boolean)
+                          handleSelectCategory(category._id, checked as boolean)
                         }
                       />
                     </TableCell>
@@ -254,7 +328,8 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                     </TableCell>
                     <TableCell>
                       <div className="text-sm text-gray-600">
-                        {category.description}
+                        {category.description  ?.replace(/<[^>]*>/g, "")
+                                .substring(0, 10) || "No description"}...
                       </div>
                     </TableCell>
                     <TableCell>
@@ -272,6 +347,28 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                           {category.totalEnrollments.toLocaleString()}
                         </span>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <span className="text-yellow-500">★</span>
+                        <span className="font-medium">
+                          {category.averageRating}
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="font-medium text-green-600">
+                        ${category.totalRevenue.toLocaleString()}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                        category.status === 'active' 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {category.status}
+                      </span>
                     </TableCell>
                     <TableCell>
                       <div className="text-sm text-gray-600">
@@ -309,12 +406,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
           </div>
 
           {/* Pagination */}
-          {categories.length > 10 && (
+          {categoriesWithStats.length > 10 && (
             <div className="mt-6">
               <Pagination
                 itemsPerPage={10}
                 currentPage={currentPage}
-                totalItems={categories.length}
+                totalItems={categoriesWithStats.length}
                 onPageChange={setCurrentPage}
                 totalPages={totalPages}
               />
@@ -324,26 +421,24 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       </Card>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Category</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{categoryToDelete?.name}"? This
-              will also affect all courses in this category.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700"
-            >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={confirmDelete}
+        title="Delete Category"
+        itemName={categoryToDelete?.name || ""}
+        itemType="category"
+      />
+
+      {/* Bulk Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        isOpen={bulkDeleteDialogOpen}
+        onOpenChange={setBulkDeleteDialogOpen}
+        onConfirm={handleBulkDelete}
+        title="Delete Selected Categories"
+        itemName={`${selectedCategories.length} categories`}
+        itemType="categories"
+      />
     </div>
   );
 };

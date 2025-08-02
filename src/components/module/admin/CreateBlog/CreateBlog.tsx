@@ -244,12 +244,6 @@ const CreateBlog: React.FC = () => {
           <Label className="text-lg font-semibold mb-2 block">
             Blog Content
           </Label>
-          {/* <RichTextEditor
-            value={editorContent}
-            onChange={setEditorContent}
-            placeholder="Start writing your blog content here..."
-            minHeight="400px"
-          /> */}
           <RichTextEditor
             value={editorContent}
             onChange={setEditorContent}

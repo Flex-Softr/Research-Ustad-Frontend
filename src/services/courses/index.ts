@@ -1,21 +1,25 @@
 // Course types
 import { Course, CoursesFilter, PaginatedCoursesResponse } from "@/type";
 
-// Load courses data from JSON file
-let coursesData: Course[] = [];
+// API Base URL
+const API_BASE_URL = "http://localhost:5000/api/v1";
 
+// Load courses data from API
 const loadCoursesData = async (): Promise<Course[]> => {
-  if (coursesData.length === 0) {
-    try {
-      const response = await fetch("/data/courses.json");
-      const data = await response.json();
-      coursesData = data.courses;
-    } catch (error) {
-      console.error("Error loading courses data:", error);
-      coursesData = [];
+  try {
+    const response = await fetch(`${API_BASE_URL}/course`);
+    const data = await response.json();
+    
+    if (data.success) {
+      return data.data || [];
+    } else {
+      console.error("Error loading courses:", data.message);
+      return [];
     }
+  } catch (error) {
+    console.error("Error loading courses data:", error);
+    return [];
   }
-  return coursesData;
 };
 
 export const getPaginatedCourses = async (
@@ -82,3 +86,6 @@ export const getCourseLevels = async (): Promise<string[]> => {
   const levels = [...new Set(allCourses.map((course) => course.level))];
   return levels.sort();
 };
+
+// Export types for use in other files
+export type { Course, CoursesFilter, PaginatedCoursesResponse };

@@ -191,8 +191,18 @@ const blogsSlice = createSlice({
       })
 
       // Delete
+      .addCase(deleteBlog.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(deleteBlog.fulfilled, (state, action) => {
         state.blogs = state.blogs.filter((b) => b._id !== action.payload);
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(deleteBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });

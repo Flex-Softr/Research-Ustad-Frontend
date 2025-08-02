@@ -3,14 +3,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { CourseFeaturesSectionProps } from "@/type";
 
-interface CourseFeaturesSectionProps {
-  formData: {
-    certificate: boolean;
-    lifetimeAccess: boolean;
-  };
-  onChange: (field: string, value: any) => void;
-}
+
 
 export function CourseFeaturesSection({
   formData,

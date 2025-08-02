@@ -1,3 +1,9 @@
+"use client";
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchCategories } from "@/services/categories/categoriesSlice";
 import { Users, Clock, Globe } from "lucide-react";
 import { Course } from "@/services/courses";
 
@@ -6,11 +12,27 @@ interface CourseHeaderProps {
 }
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories } = useSelector(
+    (state: RootState) => state.categories
+  );
+
+  // Load categories on mount
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  // Helper function to get category name by ID
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find(cat => cat._id === categoryId);
+    return category ? category.name : categoryId; // Fallback to ID if category not found
+  };
+
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-100">
       <div className="flex items-center gap-2 mb-4">
         <span className="px-3 py-1 bg-brand-secondary/10 text-brand-secondary rounded-full text-sm font-medium">
-          {course.category}
+          {getCategoryName(course.category)}
         </span>
         <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full text-sm font-medium">
           {course.level}

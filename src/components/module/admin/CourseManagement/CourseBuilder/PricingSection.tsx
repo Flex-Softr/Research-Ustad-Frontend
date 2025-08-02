@@ -3,20 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PricingSectionProps } from "@/type";
 import { DollarSign } from "lucide-react";
 
-interface PricingSectionProps {
-  formData: {
-    fee: string;
-    originalFee: string;
-    enrolled: string;
-    capacity: string;
-    rating: string;
-    totalReviews: string;
-  };
-  onChange: (field: string, value: any) => void;
-  errors: Array<{ field: string; message: string }>;
-}
+
 
 export function PricingSection({
   formData,
