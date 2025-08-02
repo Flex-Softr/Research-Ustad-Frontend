@@ -10,7 +10,6 @@ export interface Course {
   level: string;
   category: string;
   fee: number;
-  originalFee: number;
   enrolled: number;
   capacity: number;
   rating: number;
@@ -91,7 +90,6 @@ export interface CourseFormData {
   level: string;
   category: string;
   fee: number;
-  originalFee: number;
   capacity: number;
   language: string;
   certificate: boolean;
@@ -238,7 +236,7 @@ export interface LearningObjectivesSectionProps {
 export interface PricingSectionProps {
   formData: {
     fee: string;
-    originalFee: string;
+    startDate: string;
     enrolled: string;
     capacity: string;
     rating: string;

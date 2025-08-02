@@ -265,17 +265,11 @@ const AllCoursesTable = ({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div className="flex items-center space-x-1">
-                          <DollarSign className="h-4 w-4 text-green-600" />
+                        <div className="flex flex-col">
                           <span className="font-medium text-green-600">
-                            {course.fee}
+                            ${course.fee}
                           </span>
                         </div>
-                        {course.originalFee > course.fee && (
-                          <span className="text-xs text-gray-500 line-through">
-                            ${course.originalFee}
-                          </span>
-                        )}
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-1">

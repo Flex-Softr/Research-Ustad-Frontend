@@ -189,11 +189,6 @@ const CourseViewModal = ({
                     </p>
                   </div>
                 </div>
-                {course.originalFee > course.fee && (
-                  <p className="text-xs text-gray-500 line-through">
-                    ${course.originalFee}
-                  </p>
-                )}
               </CardContent>
             </Card>
 

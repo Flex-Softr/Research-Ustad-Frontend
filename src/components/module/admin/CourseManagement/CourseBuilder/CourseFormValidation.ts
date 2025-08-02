@@ -6,7 +6,7 @@ export interface CourseFormData {
   level: string;
   category: string;
   fee: string;
-  originalFee: string;
+  startDate: string;
   enrolled: string;
   capacity: string;
   rating: string;
@@ -72,6 +72,22 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
     });
   }
 
+  // Start date validation
+  if (!data.startDate.trim()) {
+    errors.push({ field: "startDate", message: "Start date is required" });
+  } else {
+    const selectedDate = new Date(data.startDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      errors.push({
+        field: "startDate",
+        message: "Start date cannot be in the past",
+      });
+    }
+  }
+
   // Only require thumbnail for new courses, not for editing
   if (!isEditMode && !data.thumbnail) {
     errors.push({
@@ -95,23 +111,6 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
       errors.push({
         field: "rating",
         message: "Rating must be between 0 and 5",
-      });
-    }
-  }
-
-  // Original fee validation
-  if (data.originalFee.trim()) {
-    const originalFee = Number(data.originalFee);
-    const currentFee = Number(data.fee);
-    if (isNaN(originalFee) || originalFee < 0) {
-      errors.push({
-        field: "originalFee",
-        message: "Original price must be a valid positive number",
-      });
-    } else if (originalFee <= currentFee) {
-      errors.push({
-        field: "originalFee",
-        message: "Original price must be higher than current price",
       });
     }
   }

@@ -12,9 +12,6 @@ const CourseSidebar = ({ course }: CourseSidebarProps) => {
   const enrollmentPercentage = Math.round(
     (course.enrolled / course.capacity) * 100
   );
-  const discountPercentage = Math.round(
-    ((course.originalFee - course.fee) / course.originalFee) * 100
-  );
 
   return (
     <div className="sticky top-8 space-y-6">
@@ -30,20 +27,12 @@ const CourseSidebar = ({ course }: CourseSidebarProps) => {
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-          <div className="absolute top-4 left-4">
-            <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-              {discountPercentage}% OFF
-            </span>
-          </div>
         </div>
 
         <CardContent className="p-6">
           <div className="flex items-baseline gap-3 mb-4">
             <span className="text-3xl font-bold text-gray-900">
               ${course.fee}
-            </span>
-            <span className="text-lg text-gray-500 line-through">
-              ${course.originalFee}
             </span>
           </div>
 

@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,20 +18,8 @@ import { LearningObjectivesSection } from "./LearningObjectivesSection";
 import { RequirementsSection } from "./RequirementsSection";
 import { InstructorsSection } from "./InstructorsSection";
 import { FormSidebar } from "./FormSidebar";
-import { Course } from "@/type";
-import Cookies from "universal-cookie";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
-
-type Instructor = {
-  name: string;
-  imageFile: File | null;
-  imageUrl?: string;
-  specialization: string;
-  experience: string;
-  rating: number;
-  students: number;
-};
 
 export default function AddCoursePage() {
   const router = useRouter();
@@ -57,7 +44,7 @@ export default function AddCoursePage() {
     level: "Beginner",
     category: "",
     fee: "",
-    originalFee: "",
+    startDate: "",
     enrolled: "",
     capacity: "",
     rating: "",
@@ -94,7 +81,7 @@ export default function AddCoursePage() {
         level: course.level || "Beginner",
         category: course.category || "",
         fee: course.fee?.toString() || "",
-        originalFee: course.originalFee?.toString() || "",
+        startDate: course.startDate ? new Date(course.startDate).toISOString().split('T')[0] : "",
         enrolled: course.enrolled?.toString() || "",
         capacity: course.capacity?.toString() || "",
         rating: course.rating?.toString() || "",
@@ -163,7 +150,7 @@ export default function AddCoursePage() {
       level: "Beginner",
       category: "",
       fee: "",
-      originalFee: "",
+      startDate: "",
       enrolled: "",
       capacity: "",
       rating: "",
@@ -209,7 +196,6 @@ export default function AddCoursePage() {
         level: formData.level,
         category: formData.category,
         fee: parseFloat(formData.fee) || 0,
-        originalFee: parseFloat(formData.originalFee) || 0,
         enrolled: parseInt(formData.enrolled) || 0,
         capacity: parseInt(formData.capacity) || 100,
         rating: parseFloat(formData.rating) || 0,
@@ -228,7 +214,7 @@ export default function AddCoursePage() {
         tags: formData.tags,
         whatYouWillLearn: formData.whatYouWillLearn,
         requirements: formData.requirements,
-        startDate: isEditMode ? (course?.startDate || new Date().toISOString()) : new Date().toISOString(),
+        startDate: formData.startDate ? new Date(formData.startDate).toISOString() : new Date().toISOString(),
         endDate: isEditMode ? (course?.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
         status: isEditMode ? (course?.status || "upcoming" as const) : "upcoming" as const,
       };

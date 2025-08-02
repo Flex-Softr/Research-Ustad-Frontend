@@ -4,9 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PricingSectionProps } from "@/type";
-import { DollarSign } from "lucide-react";
-
-
+import { DollarSign, Calendar } from "lucide-react";
 
 export function PricingSection({
   formData,
@@ -22,13 +20,13 @@ export function PricingSection({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <DollarSign className="w-5 h-5" />
-          Pricing Information
+          Pricing & Schedule Information
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="fee">Current Price *</Label>
+            <Label htmlFor="fee">Course Price *</Label>
             <Input
               id="fee"
               type="number"
@@ -41,18 +39,16 @@ export function PricingSection({
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="originalFee">Original Price</Label>
+            <Label htmlFor="startDate">Start Date *</Label>
             <Input
-              id="originalFee"
-              type="number"
-              placeholder="0.00"
-              value={formData.originalFee}
-              onChange={(e) => onChange("originalFee", e.target.value)}
+              id="startDate"
+              type="date"
+              value={formData.startDate}
+              onChange={(e) => onChange("startDate", e.target.value)}
+              min={new Date().toISOString().split('T')[0]}
             />
-            {getFieldError("originalFee") && (
-              <p className="text-sm text-red-600">
-                {getFieldError("originalFee")}
-              </p>
+            {getFieldError("startDate") && (
+              <p className="text-sm text-red-600">{getFieldError("startDate")}</p>
             )}
           </div>
         </div>
