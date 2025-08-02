@@ -96,7 +96,9 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => onDelete(blog)}
+              onClick={() => {
+                setTimeout(() => onDelete(blog), 0);
+              }}
               className="text-red-600"
             >
               <Trash2 className="w-4 h-4 mr-2" />

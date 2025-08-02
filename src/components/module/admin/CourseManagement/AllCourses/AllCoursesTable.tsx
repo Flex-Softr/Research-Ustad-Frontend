@@ -40,7 +40,6 @@ import { fetchCourses, deleteCourse } from "@/services/courses/coursesSlice";
 import { fetchCategories } from "@/services/categories/categoriesSlice";
 import { toast } from "sonner";
 
-
 const AllCoursesTable = ({
   onEditCourse,
   onViewCourse,
@@ -56,9 +55,7 @@ const AllCoursesTable = ({
   const { courses, isLoading, error } = useSelector(
     (state: RootState) => state.courses
   );
-  const { categories } = useSelector(
-    (state: RootState) => state.categories
-  );
+  const { categories } = useSelector((state: RootState) => state.categories);
   // Load courses and categories on mount
   useEffect(() => {
     dispatch(fetchCourses());
@@ -67,7 +64,7 @@ const AllCoursesTable = ({
 
   // Helper function to get category name by ID
   const getCategoryName = (categoryId: string) => {
-    const category = categories.find(cat => cat._id === categoryId);
+    const category = categories.find((cat) => cat._id === categoryId);
     return category ? category.name : categoryId; // Fallback to ID if category not found
   };
 
@@ -109,12 +106,12 @@ const AllCoursesTable = ({
   const confirmBulkDelete = async () => {
     try {
       // Delete all selected courses
-      const deletePromises = selectedCourses.map(courseId => 
+      const deletePromises = selectedCourses.map((courseId) =>
         dispatch(deleteCourse(courseId)).unwrap()
       );
-      
+
       await Promise.all(deletePromises);
-      
+
       toast.success(`Successfully deleted ${selectedCourses.length} courses`);
     } catch (error) {
       console.error("Error deleting courses:", error);
@@ -292,7 +289,7 @@ const AllCoursesTable = ({
                         </div>
                       </TableCell>
                       <TableCell>
-                        <DropdownMenu>
+                        <DropdownMenu key={course._id}>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="sm">
                               <MoreHorizontal className="h-4 w-4" />
@@ -311,9 +308,12 @@ const AllCoursesTable = ({
                               <Edit className="h-4 w-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
+
                             <DropdownMenuItem
-                              onClick={() => handleDeleteCourse(course)}
-                              className="text-red-600"
+                              className="text-red-600 focus:bg-red-50"
+                              onClick={() => {
+                                setTimeout(() => handleDeleteCourse(course), 0);
+                              }}
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
                               Delete

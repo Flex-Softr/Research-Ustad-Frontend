@@ -390,7 +390,9 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                             Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => handleDeleteCategory(category)}
+                            onClick={() => {
+                              setTimeout(() => handleDeleteCategory(category), 0);
+                            }}
                             className="text-red-600"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
