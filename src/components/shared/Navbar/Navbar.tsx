@@ -44,6 +44,21 @@ type UserToken = {
   iat: number;
   exp: number;
 };
+
+// Helper function to convert JWT payload to UserToken
+const convertJwtToUserToken = (jwtPayload: any): UserToken | null => {
+  if (!jwtPayload || typeof jwtPayload !== "object") {
+    return null;
+  }
+
+  return {
+    id: jwtPayload.sub || jwtPayload.id || "",
+    email: jwtPayload.email || "",
+    role: jwtPayload.role || "user",
+    iat: jwtPayload.iat || 0,
+    exp: jwtPayload.exp || 0,
+  };
+};
 const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const [open, setOpen] = useState(false);
@@ -55,8 +70,9 @@ const Navbar = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      const user = await getCurrentUser();
-      setUser(user); // Store the user data
+      const jwtPayload = await getCurrentUser();
+      const userToken = convertJwtToUserToken(jwtPayload);
+      setUser(userToken); // Store the converted user data
     };
 
     fetchData();
@@ -126,6 +142,7 @@ const Navbar = () => {
                 <DropdownMenuItem className="cursor-pointer">
                   <Link
                     href={`/admin/dashboard`}
+                    // href={`/${user?.role}/dashboard`}
                     className="flex items-center w-full"
                   >
                     <User className="w-4 h-4 mr-2" />

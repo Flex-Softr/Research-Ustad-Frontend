@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import BlogCard from "./blog/BlogCard";
 import BlogCardSkeleton from "./blog/BlogCardSkeleton";
-import { GetAllBlog } from "@/services/blogs";
 import { TPost } from "@/type";
 import { Filter, TrendingUp, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -53,9 +52,6 @@ const BlogPage = () => {
     { id: "all", name: "All Posts", count: 0 },
   ]);
 
-  // Function to fetch paginated data from server
-  // Remove this line completely
-  // import { GetAllBlog } from "@/services/blogs";
 
   const fetchPaginatedData = async (page: number, category: string = "all") => {
     setLoading(true);

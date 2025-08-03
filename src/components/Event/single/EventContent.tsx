@@ -2,15 +2,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Calendar, Clock, MapPin } from "lucide-react";
 import Image from "next/image";
-import { type Event } from "@/services/events";
+import { CustomEvent } from "@/type/event";
 
 interface EventContentProps {
-  event: Event;
+  event: CustomEvent;
 }
 
 const EventContent = ({ event }: EventContentProps) => {
+
+
   // Generate agenda based on event duration
-  const generateAgenda = (event: Event) => {
+  const generateAgenda = (event: CustomEvent) => {
     const startDate = new Date(event.startDate);
     const endDate = new Date(event.endDate);
     const daysDiff = Math.ceil(

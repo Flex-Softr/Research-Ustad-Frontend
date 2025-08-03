@@ -1,11 +1,8 @@
 import Image from "next/image";
-import { Course } from "@/services/courses";
 
-interface CourseImageProps {
-  course: Course;
-}
 
-const CourseImage = ({ course }: CourseImageProps) => {
+
+const CourseImage = ({ course }) => {
   return (
     <div className="relative overflow-hidden rounded-2xl shadow-lg">
       <div className="relative h-80">

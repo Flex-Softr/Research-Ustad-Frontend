@@ -1,12 +1,8 @@
 import { Star, Award, Users } from "lucide-react";
 import Image from "next/image";
-import { Course } from "@/services/courses";
 
-interface InstructorTabProps {
-  course: Course;
-}
 
-const InstructorTab = ({ course }: InstructorTabProps) => {
+const InstructorTab = ({ course }) => {
   const instructors = course.instructors || [];
 
   if (instructors.length === 0) {

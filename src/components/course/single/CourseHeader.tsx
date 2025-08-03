@@ -5,13 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { fetchCategories } from "@/services/categories/categoriesSlice";
 import { Users, Clock, Globe } from "lucide-react";
-import { Course } from "@/services/courses";
 
-interface CourseHeaderProps {
-  course: Course;
-}
 
-const CourseHeader = ({ course }: CourseHeaderProps) => {
+
+const CourseHeader = ({ course }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { categories } = useSelector(
     (state: RootState) => state.categories

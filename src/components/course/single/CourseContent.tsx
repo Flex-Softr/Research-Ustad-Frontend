@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Course } from "@/services/courses";
 import CourseTabs from "./CourseTabs";
 import OverviewTab from "./tabs/OverviewTab";
 import CurriculumTab from "./tabs/CurriculumTab";
 import InstructorTab from "./tabs/InstructorTab";
 
-interface CourseContentProps {
-  course: Course;
-}
 
-const CourseContent = ({ course }: CourseContentProps) => {
+
+const CourseContent = ({ course }) => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const renderTabContent = () => {

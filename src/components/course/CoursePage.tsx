@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { fetchCourses } from "@/services/courses/coursesSlice";
 import { fetchCategories } from "@/services/categories/categoriesSlice";
-import { Course } from "@/services/courses";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import Pagination from "@/components/shared/Pagination";
 import {
@@ -84,7 +83,7 @@ const CoursePage = () => {
   };
 
   // Get course status info
-  const getCourseStatus = (course: Course) => {
+  const getCourseStatus = (course) => {
     const now = new Date();
     const startDate = new Date(course.startDate);
 

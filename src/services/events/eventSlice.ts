@@ -4,11 +4,11 @@ import Cookies from "universal-cookie";
 const API_BASE_URL = "http://localhost:5000/api/v1";
 
 // Types
-import { Event, Speaker } from "@/type";
+import { CustomEvent, Speaker } from "@/type";
 
 interface EventState {
-  events: Event[];
-  event: Event | null;
+  events: CustomEvent[];
+  event: CustomEvent | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -79,7 +79,7 @@ export const addEvent = createAsyncThunk(
 // Update event
 export const updateEvent = createAsyncThunk(
   "events/update",
-  async ({ _id, formData }: { _id: number; formData: FormData }, thunkAPI) => {
+  async ({ _id, formData }: { _id: string; formData: FormData }, thunkAPI) => {
     const cookies = new Cookies();
     const token = cookies.get("accessToken");
 
@@ -106,7 +106,7 @@ export const updateEvent = createAsyncThunk(
 // Delete event
 export const deleteEvent = createAsyncThunk(
   "events/delete",
-  async (_id: number, thunkAPI) => {
+  async (_id: string, thunkAPI) => {
     const cookies = new Cookies();
     const token = cookies.get("accessToken");
 

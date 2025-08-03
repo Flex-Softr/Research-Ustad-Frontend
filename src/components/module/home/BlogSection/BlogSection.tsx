@@ -2,29 +2,25 @@
 import { useEffect, useState } from "react";
 import BlogCard from "@/components/blogs/blog/BlogCard";
 import SectionTitle from "../../SectionTitle";
-import { GetAllBlog } from "@/services/blogs";
 import { TPost } from "@/type";
 import BlogCardSkeleton from "@/components/blogs/blog/BlogCardSkeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { fetchBlogs } from "@/services/blogs/blogsSlice";
 
 
 const BlogSection = () => {
   const [data, setData] = useState<TPost[]>([])
   const [loading, setLoading] = useState(true); 
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await GetAllBlog(); // API থেকে ডাটা আনছে
-        setData(response.data); // স্টেটে ডাটা সেট করছে
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-      } finally {
-        setLoading(false); // লোডিং শেষ
-      }
-    };
+  const dispatch = useDispatch<AppDispatch>();
+  const { blogs, isLoading, error } = useSelector(
+    (state: RootState) => state.blogs
+  );
 
-    fetchData();
-  }, []); // Empty dependency array, একবারই রান করবে
+    // Load blogs data
+    useEffect(() => {
+      dispatch(fetchBlogs());
+    }, [dispatch]); // Empty dependency array, একবারই রান করবে
 
   return (
     <div className="container mx-auto w-[90%] mt-8 md:my-10">

@@ -1,7 +1,10 @@
+"use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Plus } from "lucide-react";
 import { blogCategories } from "@/components/shared/BlogCategories";
+import { useRouter } from "next/navigation";
 
 interface NoDataMessageProps {
   selectedCategory: string;
@@ -18,6 +21,8 @@ const NoDataMessage: React.FC<NoDataMessageProps> = ({
   title = "No Blogs Found",
   description,
 }) => {
+  const router = useRouter();
+
   const getDescription = () => {
     if (description) return description;
     
@@ -32,7 +37,7 @@ const NoDataMessage: React.FC<NoDataMessageProps> = ({
     if (onCreateClick) {
       onCreateClick();
     } else {
-      window.location.href = "/admin/dashboard/createblog";
+      router.push("/admin/dashboard/createblog");
     }
   };
 

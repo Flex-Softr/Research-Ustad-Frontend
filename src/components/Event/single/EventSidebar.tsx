@@ -11,14 +11,14 @@ import {
   ExternalLink,
   DollarSign,
 } from "lucide-react";
-import { type Event } from "@/services/events";
+import { CustomEvent } from "@/type/event";
 
 interface EventSidebarProps {
-  event: Partial<Event>; // 👈 Accept partial Event object to allow missing fields
+  event: Partial<CustomEvent>; // 👈 Accept partial Event object to allow missing fields
 }
 
 const EventSidebar = ({ event }: EventSidebarProps) => {
-  const getEventStatus = (event: Partial<Event>) => {
+  const getEventStatus = (event: Partial<CustomEvent>) => {
     const now = new Date();
     const startDate = event?.startDate ? new Date(event.startDate) : null;
 
@@ -102,21 +102,6 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
               <Clock className="h-5 w-5 text-brand-secondary" />
               <div className="flex-1">
                 <p className="font-medium text-gray-900">Event Duration</p>
-                {/* <p className="text-sm text-gray-600">
-                  {event?.startDate
-                    ? new Date(event.startDate).toLocaleTimeString("en-US", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })
-                    : "N/A"}{" "}
-                  -{" "}
-                  {event?.endDate
-                    ? new Date(event.endDate).toLocaleTimeString("en-US", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })
-                    : "N/A"}
-                </p> */}
                 {event?.eventDuration} min
               </div>
             </div>

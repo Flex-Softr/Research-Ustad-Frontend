@@ -14,6 +14,7 @@ import {
   EventNotFound,
 } from "@/components/Event/single";
 import Breadcrumb from "@/components/shared/Breadcrumb";
+import { CustomEvent } from "@/type/event";
 
 const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params); // ✅ unwrap dynamic route param
@@ -22,6 +23,9 @@ const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
     (state: RootState) => state.event
   );
 
+  // Type assertion to ensure event is CustomEvent
+  const typedEvent = event as CustomEvent | null;
+
   useEffect(() => {
     if (id) {
       dispatch(fetchSingleEvent(id));
@@ -29,7 +33,7 @@ const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
   }, [id, dispatch]);
 
   if (isLoading) return <LoadingSpinner />;
-  if (error || !event) return <EventNotFound />;
+  if (error || !typedEvent) return <EventNotFound />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
@@ -37,7 +41,7 @@ const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
       <Breadcrumb
         items={[
           { label: "Events", href: "/event" },
-          { label: event.title, current: true },
+          { label: typedEvent.title, current: true },
         ]}
       />
 
@@ -46,14 +50,14 @@ const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left: Main Event Info */}
           <div className="lg:col-span-2 space-y-8">
-            <EventHeader event={event} />
-            <EventImage event={event} />
-            <EventContent event={event} />
+            <EventHeader event={typedEvent} />
+            <EventImage event={typedEvent} />
+            <EventContent event={typedEvent} />
           </div>
 
           {/* Right: Sidebar */}
           <div className="lg:col-span-1">
-            <EventSidebar event={event} />
+            <EventSidebar event={typedEvent} />
           </div>
         </div>
       </div>

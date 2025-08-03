@@ -1,8 +1,6 @@
 "use client";
 
-import React from "react";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import React, { useState, useEffect } from "react";
 
 interface RichTextEditorProps {
   value: string;
@@ -19,10 +17,63 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   className = "",
   minHeight = "400px",
 }) => {
+  const [Editor, setEditor] = useState<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Dynamically import CKEditor to avoid SSR issues
+    const loadEditor = async () => {
+      try {
+        console.log("Loading CKEditor...");
+        const [{ CKEditor }, { default: ClassicEditor }] = await Promise.all([
+          import("@ckeditor/ckeditor5-react"),
+          import("@ckeditor/ckeditor5-build-classic"),
+        ]);
+        
+        console.log("CKEditor loaded successfully");
+        
+        // Create a component that combines CKEditor with ClassicEditor
+        const EditorComponent = (props: any) => (
+          <CKEditor editor={ClassicEditor} {...props} />
+        );
+        
+        setEditor(() => EditorComponent);
+        setIsLoaded(true);
+      } catch (error) {
+        console.error("Failed to load CKEditor:", error);
+        // Fallback to textarea if CKEditor fails
+        setEditor(() => (props: any) => (
+          <textarea
+            value={props.data || ""}
+            onChange={(e) => props.onChange && props.onChange(null, { getData: () => e.target.value })}
+            placeholder={props.config?.placeholder || "Start writing..."}
+            className="w-full p-4 border rounded-md resize-none"
+            style={{ minHeight: minHeight }}
+          />
+        ));
+        setIsLoaded(true);
+      }
+    };
+
+    loadEditor();
+  }, [minHeight]);
+
+  if (!isLoaded || !Editor) {
+    return (
+      <div 
+        className={`border rounded-md bg-white p-4 ${className}`}
+        style={{ minHeight }}
+      >
+        <div className="flex items-center justify-center h-full">
+          <div className="text-gray-500">Loading editor...</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={`border rounded-md bg-white ${className}`}>
-      <CKEditor
-        editor={ClassicEditor as any}
+    <div className={`border rounded-md bg-white ${className}`} style={{ minHeight }}>
+      <Editor
         data={value}
         config={{
           placeholder: placeholder,
@@ -87,9 +138,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }}
         onChange={(_, editor) => {
           const data = editor.getData();
+          console.log("CKEditor onChange:", data);
           onChange(data);
         }}
         onReady={(editor) => {
+          console.log("CKEditor ready");
+          
           // Set minimum height
           editor.editing.view.change((writer) => {
             writer.setStyle(
@@ -105,6 +159,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
             editorElement.style.padding = "1rem";
             editorElement.style.lineHeight = "1.8";
             editorElement.style.fontSize = "16px";
+            editorElement.style.minHeight = minHeight;
+            editorElement.style.cursor = "text";
           }
 
           // Style the editor container
@@ -112,6 +168,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
           if (editorContainer) {
             editorContainer.style.borderRadius = "0.5rem";
             editorContainer.style.overflow = "hidden";
+            editorContainer.style.zIndex = "1";
           }
         }}
       />

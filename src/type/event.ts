@@ -5,8 +5,8 @@ export interface EventSpeaker {
   imageUrl: string;
 }
 
-export interface Event {
-  _id: number;
+export interface CustomEvent {
+  _id: string;
   id?: string;
   title: string;
   description: string;
@@ -26,6 +26,9 @@ export interface Event {
   tags?: string[];
 }
 
+// Alias for backward compatibility
+export type Event = CustomEvent;
+
 export interface Speaker {
   name: string;
   bio: string;
@@ -33,14 +36,14 @@ export interface Speaker {
 }
 
 export interface EventFormProps {
-  event?: Event;
-  onSave: (event: Event) => void;
+  event?: CustomEvent;
+  onSave: (event: CustomEvent) => void;
   onCancel: () => void;
   isEditing?: boolean;
 }
 
 export interface PaginatedEventsResponse {
-  events: Event[];
+  events: CustomEvent[];
   totalPages: number;
   totalItems: number;
   currentPage: number;

@@ -2,13 +2,9 @@ import { CheckCircle, Share2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Course } from "@/services/courses";
 
-interface CourseSidebarProps {
-  course: Course;
-}
 
-const CourseSidebar = ({ course }: CourseSidebarProps) => {
+const CourseSidebar = ({ course }) => {
   const enrollmentPercentage = Math.round(
     (course.enrolled / course.capacity) * 100
   );

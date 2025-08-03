@@ -19,13 +19,8 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { Course } from "@/services/courses";
 
-interface OverviewTabProps {
-  course: Course;
-}
-
-const OverviewTab = ({ course }: OverviewTabProps) => {
+const OverviewTab = ({ course }) => {
   const getIconComponent = (iconName: string) => {
     const iconMap: { [key: string]: any } = {
       Video,

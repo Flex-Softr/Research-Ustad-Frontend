@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { type Event } from "@/services/events";
+import { CustomEvent } from "@/type/event";
 
 interface EventImageProps {
-  event: Event;
+  event: CustomEvent;
 }
 
 const EventImage = ({ event }: EventImageProps) => {

@@ -1,12 +1,12 @@
 import { Badge } from "@/components/ui/badge";
-import { type Event } from "@/services/events";
+import { CustomEvent } from "@/type/event";
 
 interface EventHeaderProps {
-  event: Event;
+  event: CustomEvent;
 }
 
 const EventHeader = ({ event }: EventHeaderProps) => {
-  const getEventStatus = (event: Event) => {
+  const getEventStatus = (event: CustomEvent) => {
     const now = new Date();
     const startDate = new Date(event.startDate);
 

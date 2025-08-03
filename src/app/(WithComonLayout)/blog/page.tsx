@@ -1,5 +1,4 @@
 import BlogPage from "@/components/blogs/BlogPage";
-import { GetAllBlog } from "@/services/blogs";
 import React from "react";
 
 const Blog = () => {

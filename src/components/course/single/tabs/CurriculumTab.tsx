@@ -1,10 +1,7 @@
-import { Course } from "@/services/courses";
 
-interface CurriculumTabProps {
-  course: Course;
-}
 
-const CurriculumTab = ({ course }: CurriculumTabProps) => {
+
+const CurriculumTab = ({ course }) => {
   const totalLessons =
     course.modules?.reduce(
       (total, module) => total + module.lessons.length,

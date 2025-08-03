@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Download, Upload } from "lucide-react";
 import AllCoursesTable from "./AllCoursesTable";
-// import { Course } from "@/services/courses";
 import { useRouter } from "next/navigation";
 import { Course } from "@/type";
 

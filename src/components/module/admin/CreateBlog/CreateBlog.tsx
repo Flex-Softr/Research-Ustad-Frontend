@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { SubmitHandler } from "react-hook-form";
-import RichTextEditor from "@/components/blogs/blog/RichTextEditor";
+// import RichTextEditor from "@/components/blogs/blog/RichTextEditor";
 import { AppDispatch } from "@/store/store";
 import { useDispatch } from "react-redux";
 import { fetchSingleBlog } from "@/services/blogs/blogsSlice";
@@ -27,6 +27,8 @@ import CategorySelection from "./components/CategorySelection";
 // Import utilities
 import { validateAndShowError } from "./utils/formValidation";
 import { prepareBlogData, submitBlogForm } from "./utils/formSubmission";
+
+import RichTextEditor from "@/components/blogs/blog/RichTextEditor";
 
 const CreateBlog: React.FC = () => {
   const router = useRouter();
@@ -246,7 +248,10 @@ const CreateBlog: React.FC = () => {
           </Label>
           <RichTextEditor
             value={editorContent}
-            onChange={setEditorContent}
+            onChange={(content) => {
+              console.log("Editor content changed:", content);
+              setEditorContent(content);
+            }}
             placeholder="Write your blog content here..."
           />
         </div>

@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
-import { Event, EventFormProps } from "@/type";
+import { CustomEvent, EventFormProps } from "@/type/event";
 import { formatDateForInput } from "@/lib/dateUtils";
 
 const EventForm = ({
@@ -29,7 +29,7 @@ const EventForm = ({
     control,
     reset,
     formState: { errors },
-  } = useForm<Event>({
+  } = useForm<CustomEvent>({
     defaultValues: {
       title: event?.title || "",
       description: event?.description || "",
@@ -76,7 +76,7 @@ const EventForm = ({
   };
 
   // create event
-  const onSubmit = async (data: Event) => {
+  const onSubmit = async (data: CustomEvent) => {
     try {
       const formData = new FormData();
 
@@ -242,7 +242,6 @@ const EventForm = ({
                   onChange={onFileChange}
                   accept="image/*"
                 />
-             
               </div>
               <div className="space-y-2">
                 <Label htmlFor="registrationLink">Registration Link</Label>
