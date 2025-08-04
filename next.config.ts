@@ -27,6 +27,10 @@ const nextConfig = {
         hostname: "localhost",
         port: "5000",
       },
+      {
+        protocol: "https",
+        hostname: "api.researchustad.org",
+      },
     ],
   },
 };
