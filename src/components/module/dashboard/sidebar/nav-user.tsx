@@ -76,10 +76,10 @@ export function NavUser() {
       } w-full px-3 py-2 text-sm text-gray-600 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors`}
     >
       <Avatar className="h-8 w-8">
-        <AvatarImage
+        {/* <AvatarImage
           src="/api/placeholder/32/32"
           alt={user?.name || user?.email}
-        />
+        /> */}
         <AvatarFallback className="bg-purple-100 text-purple-600 text-xs font-medium">
           {getUserInitials(user?.name, user?.email)}
         </AvatarFallback>
