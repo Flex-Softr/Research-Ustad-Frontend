@@ -2,12 +2,12 @@ import MemberUpdate from "@/components/module/admin/MembersUpdateByAdmin/MemberU
 import { GetSingleMember } from "@/services/reserarchers";
 
 const page =async ({params}:{params:any}) => {
- const {slug} =await params;
+ const {id} =await params;
  
  
   return (
 
-    <div><MemberUpdate  id={slug}></MemberUpdate></div>
+    <div><MemberUpdate  id={id}></MemberUpdate></div>
   )
 }
 
