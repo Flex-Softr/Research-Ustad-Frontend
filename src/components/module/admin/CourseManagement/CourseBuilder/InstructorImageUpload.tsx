@@ -35,16 +35,10 @@ export function InstructorImageUpload({
   }, [value, existingImageUrl, isEditMode]);
 
   const validateFile = (file: File): boolean => {
-    const maxSize = 5 * 1024 * 1024; // 5MB
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
     if (!allowedTypes.includes(file.type)) {
       setError("Please upload an image file (JPEG, PNG, or WebP)");
-      return false;
-    }
-
-    if (file.size > maxSize) {
-      setError("File size must be less than 5MB");
       return false;
     }
 

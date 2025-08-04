@@ -6,24 +6,25 @@ export interface EventSpeaker {
 }
 
 export interface CustomEvent {
-  _id: string;
+  _id?: string;
   id?: string;
   title: string;
   description: string;
   eventDuration: number;
   startDate: string;
   endDate: string;
+  registered: number;
+  capacity: number;
+  tags: string[];
+  price: number | string;
+
   location: string;
   speakers: EventSpeaker[];
   imageUrl: string;
   registrationLink: string;
   category: string;
   maxAttendees: number;
-  status: string;
-  capacity: number;
-  registered: number;
-  price: string;
-  tags?: string[];
+  status: 'upcoming' | 'ongoing' | 'finished';
 }
 
 // Alias for backward compatibility

@@ -22,7 +22,6 @@ interface Config {
     from: string;
   };
   upload: {
-    maxSize: number;
     allowedTypes: string[];
   };
 }
@@ -67,7 +66,6 @@ export const config: Config = {
     from: process.env.EMAIL_FROM || "noreply@researchustad.com",
   },
   upload: {
-    maxSize: parseInt(process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE || "5242880"), // 5MB
     allowedTypes: (
       process.env.NEXT_PUBLIC_ALLOWED_FILE_TYPES || "jpg,jpeg,png,pdf,doc,docx"
     ).split(","),

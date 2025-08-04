@@ -80,6 +80,9 @@ const CoursesSection = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+
+  console.log('coursesss', courses)
+
   // Helper function to get category name from ID
   const getCategoryName = (categoryId: string) => {
     const category = categories.find((cat) => cat._id === categoryId);

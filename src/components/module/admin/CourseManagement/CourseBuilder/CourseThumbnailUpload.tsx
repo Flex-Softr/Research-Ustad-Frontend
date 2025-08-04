@@ -31,16 +31,10 @@ export function CourseThumbnailUpload({ onChange, value, existingImageUrl, isEdi
   }, [value, existingImageUrl, isEditMode]);
 
   const validateFile = (file: File): boolean => {
-    const maxSize = 5 * 1024 * 1024; // 5MB
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
     if (!allowedTypes.includes(file.type)) {
       setError("Please upload an image file (JPEG, PNG, or WebP)");
-      return false;
-    }
-
-    if (file.size > maxSize) {
-      setError("File size must be less than 5MB");
       return false;
     }
 
@@ -141,7 +135,7 @@ export function CourseThumbnailUpload({ onChange, value, existingImageUrl, isEdi
                     : "Click to upload or drag and drop"}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
-                  PNG, JPG, WebP up to 5MB
+                  PNG, JPG, WebP
                 </p>
                 {isEditMode && existingImageUrl && (
                   <p className="text-xs text-blue-600 mt-2">
@@ -201,7 +195,6 @@ export function CourseThumbnailUpload({ onChange, value, existingImageUrl, isEdi
 
       <div className="text-xs text-gray-500">
         <p>• Recommended size: 1200x675 pixels (16:9 aspect ratio)</p>
-        <p>• Maximum file size: 5MB</p>
         <p>• Supported formats: JPEG, PNG, WebP</p>
         {isEditMode && (
           <p>• Leave empty to keep the current image</p>

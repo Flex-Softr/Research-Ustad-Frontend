@@ -44,6 +44,7 @@ const EventForm = ({
       eventDuration: event?.eventDuration || 60,
       speakers: event?.speakers || [],
     },
+    mode: "onChange",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -78,6 +79,22 @@ const EventForm = ({
   // create event
   const onSubmit = async (data: CustomEvent) => {
     try {
+      // Validate that at least one speaker is added
+      if (!data.speakers || data.speakers.length === 0) {
+        toast.error("At least one speaker is required");
+        return;
+      }
+
+      // Validate that all speakers have required fields
+      const invalidSpeakers = data.speakers.filter(
+        speaker => !speaker.name.trim() || !speaker.bio.trim()
+      );
+      
+      if (invalidSpeakers.length > 0) {
+        toast.error("All speakers must have a name and bio");
+        return;
+      }
+
       const formData = new FormData();
 
       // Add main event image
@@ -92,16 +109,16 @@ const EventForm = ({
         }
       });
 
-      // Remove imageUrl from speakers data since we're using files
-      const speakersWithoutImageUrl = data.speakers.map((speaker) => ({
-        name: speaker.name,
-        bio: speaker.bio,
-        // imageUrl will be set by backend after file upload
+      // Prepare speakers data with imageUrl field
+      const speakersData = data.speakers.map((speaker) => ({
+        name: speaker.name.trim(),
+        bio: speaker.bio.trim(),
+        imageUrl: speaker.imageUrl || '', // Include imageUrl field
       }));
 
       const eventData = {
         ...data,
-        speakers: speakersWithoutImageUrl,
+        speakers: speakersData,
         eventDuration: Number(data.eventDuration),
         maxAttendees: Number(data.maxAttendees),
       };
@@ -141,9 +158,15 @@ const EventForm = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             <div className="space-y-2">
               <Label htmlFor="title">Event Title</Label>
-              <Input id="title" {...register("title", { required: true })} />
+              <Input 
+                id="title" 
+                {...register("title", { 
+                  required: "Title is required",
+                  minLength: { value: 3, message: "Title must be at least 3 characters" }
+                })} 
+              />
               {errors.title && (
-                <p className="text-sm text-red-500">Title is required</p>
+                <p className="text-sm text-red-500">{errors.title.message}</p>
               )}
             </div>
 
@@ -151,10 +174,13 @@ const EventForm = ({
               <Label htmlFor="category">Category</Label>
               <Input
                 id="category"
-                {...register("category", { required: true })}
+                {...register("category", { 
+                  required: "Category is required",
+                  minLength: { value: 2, message: "Category must be at least 2 characters" }
+                })}
               />
               {errors.category && (
-                <p className="text-sm text-red-500">Category is required</p>
+                <p className="text-sm text-red-500">{errors.category.message}</p>
               )}
             </div>
 
@@ -187,11 +213,17 @@ const EventForm = ({
               <Input
                 type="number"
                 id="eventDuration"
-                {...register("eventDuration", { required: true })}
+                min="1"
+                max="1440"
+                {...register("eventDuration", { 
+                  required: "Event duration is required",
+                  min: { value: 1, message: "Duration must be at least 1 minute" },
+                  max: { value: 1440, message: "Duration cannot exceed 24 hours" }
+                })}
               />
               {errors.eventDuration && (
                 <p className="text-sm text-red-500">
-                  Event duration is required
+                  {errors.eventDuration.message}
                 </p>
               )}
             </div>
@@ -201,10 +233,34 @@ const EventForm = ({
               <Input
                 type="number"
                 id="maxAttendees"
-                {...register("maxAttendees", { required: true })}
+                min="1"
+                max="10000"
+                {...register("maxAttendees", { 
+                  required: "Max attendees is required",
+                  min: { value: 1, message: "Must have at least 1 attendee" },
+                  max: { value: 10000, message: "Cannot exceed 10,000 attendees" }
+                })}
               />
               {errors.maxAttendees && (
-                <p className="text-sm text-red-500">Required</p>
+                <p className="text-sm text-red-500">{errors.maxAttendees.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="status">Event Status</Label>
+              <select
+                id="status"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                {...register("status", { 
+                  required: "Status is required"
+                })}
+              >
+                <option value="upcoming">Upcoming</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="finished">Finished</option>
+              </select>
+              {errors.status && (
+                <p className="text-sm text-red-500">{errors.status.message}</p>
               )}
             </div>
           </div>
@@ -212,10 +268,13 @@ const EventForm = ({
             <Label htmlFor="location">Location</Label>
             <Input
               id="location"
-              {...register("location", { required: true })}
+              {...register("location", { 
+                required: "Location is required",
+                minLength: { value: 3, message: "Location must be at least 3 characters" }
+              })}
             />
             {errors.location && (
-              <p className="text-sm text-red-500">Location is required</p>
+              <p className="text-sm text-red-500">{errors.location.message}</p>
             )}
           </div>
 
@@ -223,11 +282,14 @@ const EventForm = ({
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              {...register("description", { required: true })}
+              {...register("description", { 
+                required: "Description is required",
+                minLength: { value: 10, message: "Description must be at least 10 characters" }
+              })}
               rows={3}
             />
             {errors.description && (
-              <p className="text-sm text-red-500">Description is required</p>
+              <p className="text-sm text-red-500">{errors.description.message}</p>
             )}
           </div>
 
@@ -247,11 +309,19 @@ const EventForm = ({
                 <Label htmlFor="registrationLink">Registration Link</Label>
                 <Input
                   id="registrationLink"
-                  {...register("registrationLink", { required: true })}
+                  type="url"
+                  placeholder="https://example.com/register"
+                  {...register("registrationLink", { 
+                    required: "Registration link is required",
+                    pattern: {
+                      value: /^https?:\/\/.+/,
+                      message: "Please enter a valid URL starting with http:// or https://"
+                    }
+                  })}
                 />
                 {errors.registrationLink && (
                   <p className="text-sm text-red-500">
-                    Registration link is required
+                    {errors.registrationLink.message}
                   </p>
                 )}
               </div>
@@ -326,23 +396,27 @@ const EventForm = ({
                     <Input
                       placeholder="Speaker name"
                       {...register(`speakers.${index}.name`, {
-                        required: true,
+                        required: "Speaker name is required",
+                        minLength: { value: 2, message: "Name must be at least 2 characters" }
                       })}
                     />
                     {errors.speakers?.[index]?.name && (
                       <p className="text-sm text-red-500">
-                        Speaker name is required
+                        {errors.speakers[index]?.name?.message}
                       </p>
                     )}
                   </div>
                   <div className="space-y-1">
                     <Input
                       placeholder="Speaker bio"
-                      {...register(`speakers.${index}.bio`, { required: true })}
+                      {...register(`speakers.${index}.bio`, { 
+                        required: "Speaker bio is required",
+                        minLength: { value: 10, message: "Bio must be at least 10 characters" }
+                      })}
                     />
                     {errors.speakers?.[index]?.bio && (
                       <p className="text-sm text-red-500">
-                        Speaker bio is required
+                        {errors.speakers[index]?.bio?.message}
                       </p>
                     )}
                   </div>
