@@ -16,14 +16,16 @@ export const GetAllResearchAssociate = async () => {
       },
     });
 
-    // if (!response.ok) {
-    //   throw new Error(`Request failed with status: ${response.status}`);
-    // }
+    if (!response.ok) {
+      console.error(`Request failed with status: ${response.status}`);
+      return { data: [] };
+    }
 
-    return await response.json();
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.error("Error fetching research associates:", error);
-    return null;
+    return { data: [] };
   }
 };
 export const GetSingleMember = async (id: string) => {

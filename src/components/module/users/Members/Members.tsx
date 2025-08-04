@@ -4,24 +4,30 @@ import { DeleteMember, GetAllResearchAssociate } from "@/services/reserarchers";
 import { TResearchAssociate } from "@/type";
 import { useEffect, useState } from "react";
 
-const Members = () => {
-  const [data, setData] = useState<TResearchAssociate[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+interface MembersProps {
+  data?: TResearchAssociate[];
+}
+
+const Members = ({ data: initialData }: MembersProps) => {
+  const [data, setData] = useState<TResearchAssociate[]>(initialData || []);
+  const [loading, setLoading] = useState<boolean>(!initialData);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await GetAllResearchAssociate();
-        setData(response?.data || []);
-      } catch (error) {
-        console.error("Error fetching research papers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!initialData) {
+      const fetchData = async () => {
+        try {
+          const response = await GetAllResearchAssociate();
+          setData(response?.data || []);
+        } catch (error) {
+          console.error("Error fetching research papers:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchData();
-  }, []);
+      fetchData();
+    }
+  }, [initialData]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -45,7 +51,7 @@ const Members = () => {
   ];
 
   return (
-    <div className=" w-full">
+    <div className="w-full">
       <ManageTable
         data={data}
         isvalue="researhMembar"
