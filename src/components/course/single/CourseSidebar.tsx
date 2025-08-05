@@ -42,10 +42,7 @@ const CourseSidebar = ({ course }) => {
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-brand-secondary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${enrollmentPercentage}%` }}
-              ></div>
+             
             </div>
             <p className="text-xs text-gray-500 text-center">
               {course.capacity - course.enrolled} spots remaining

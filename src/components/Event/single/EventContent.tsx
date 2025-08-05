@@ -97,15 +97,7 @@ const EventContent = ({ event }: EventContentProps) => {
               <div>
                 <p className="font-medium text-gray-900">Duration</p>
                 <p className="text-gray-600">
-                  {new Date(event.startDate).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}{" "}
-                  -{" "}
-                  {new Date(event.endDate).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                {event?.eventDuration} min
                 </p>
               </div>
             </div>
@@ -118,15 +110,7 @@ const EventContent = ({ event }: EventContentProps) => {
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
-              <Users className="h-5 w-5 text-brand-secondary" />
-              <div>
-                <p className="font-medium text-gray-900">Capacity</p>
-                <p className="text-gray-600">
-                  {event.registered}/{event.capacity} registered
-                </p>
-              </div>
-            </div>
+          
           </div>
         </CardContent>
       </Card>

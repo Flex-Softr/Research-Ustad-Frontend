@@ -21,7 +21,7 @@ const CourseTabs = ({ activeTab, setActiveTab }: CourseTabsProps) => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-300 ${
+              className={`flex items-center md:gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-300 ${
                 activeTab === tab.id
                   ? "border-brand-secondary text-brand-secondary"
                   : "border-transparent text-gray-500 hover:text-gray-700"

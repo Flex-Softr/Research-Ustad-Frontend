@@ -344,9 +344,9 @@ export default function AddCoursePage() {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-8">
       <div className="text-center space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="flex-1"></div>
-          <div className="flex-1 text-center">
+        <div className="flex items-center justify-between space-y-3 md:space-y-0">
+          {/* <div className="flex-1"></div> */}
+          <div className="text-start">
             <h1 className="text-3xl font-bold text-gray-900">
               {isEditMode ? "Edit Course" : "Create New Course"}
             </h1>
@@ -357,7 +357,7 @@ export default function AddCoursePage() {
               }
             </p>
           </div>
-          <div className="flex-1 flex justify-end">
+          <div className="">
             <button
               onClick={() => router.push("/admin/dashboard/managecourse")}
               className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors duration-200 flex items-center gap-2"

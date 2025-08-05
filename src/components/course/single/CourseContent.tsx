@@ -26,7 +26,7 @@ const CourseContent = ({ course }) => {
   return (
     <Card className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100">
       <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="p-8">{renderTabContent()}</div>
+      <div className="md:p-8 p-4">{renderTabContent()}</div>
     </Card>
   );
 };
