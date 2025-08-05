@@ -256,14 +256,14 @@ const AllCoursesTable = ({
                             {course.enrolled}/{course.capacity}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+                        {/* <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
                           <div
                             className="bg-blue-600 h-1 rounded-full"
                             style={{
                               width: `${enrollmentPercentage}%`,
                             }}
                           ></div>
-                        </div>
+                        </div> */}
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col">
