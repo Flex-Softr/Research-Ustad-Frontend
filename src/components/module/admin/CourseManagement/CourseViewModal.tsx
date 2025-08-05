@@ -122,6 +122,7 @@ const CourseViewModal = ({
                 src={course.imageUrl}
                 alt={course.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 200px"
                 className="object-cover"
               />
             </div>

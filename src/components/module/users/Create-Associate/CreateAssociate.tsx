@@ -186,7 +186,7 @@ const CreateAssociate: React.FC = () => {
           {isUploading && <div className="w-full h-[300px] bg-gray-200 animate-pulse rounded"></div>}
           {previewImage && (
             <div className="relative w-full h-[300px] border rounded mt-3">
-              <Image src={previewImage} alt="Preview" fill className="w-full h-full object-cover rounded" />
+              <Image src={previewImage} alt="Preview" fill sizes="(max-width: 768px) 100vw, 50vw" className="w-full h-full object-cover rounded" />
               <button
                 type="button"
                 className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"

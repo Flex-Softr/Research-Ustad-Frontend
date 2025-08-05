@@ -194,6 +194,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                     src={post.author?.image || "/default-avatar.png"}
                     alt={post.author?.fullName || "Author"}
                     fill
+                    sizes="48px"
                     className="object-cover"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
@@ -222,6 +223,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                   src={post.imageUrl}
                   alt={post.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
                   className="object-cover"
                   priority
                   onError={(e) => {
@@ -287,9 +289,10 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                               src={
                                 latestPost.imageUrl || "/default-blog-image.jpg"
                               }
-                              alt={latestPost.title}
                               fill
+                              sizes="64px"
                               className="object-cover group-hover:scale-110 transition-transform duration-300"
+                              alt={latestPost.title}
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.src = "/default-blog-image.jpg";

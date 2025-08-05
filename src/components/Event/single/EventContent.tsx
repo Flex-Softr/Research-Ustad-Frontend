@@ -151,6 +151,7 @@ const EventContent = ({ event }: EventContentProps) => {
                     src={speaker.imageUrl}
                     alt={speaker.name}
                     fill
+                    sizes="64px"
                     className="object-cover rounded-full"
                   />
                 </div>

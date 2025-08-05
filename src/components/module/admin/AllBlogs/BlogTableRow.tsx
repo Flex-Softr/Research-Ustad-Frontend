@@ -32,6 +32,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
               src={blog.imageUrl || "/img/default-blog.jpg"}
               alt={blog.title || "Blog"}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
             />
           </div>
@@ -40,7 +41,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
               {blog.title || "Untitled"}
             </div>
             <div className="text-sm text-gray-500 line-clamp-2">
-              {blog.content?.replace(/<[^>]*>/g, "").substring(0, 10)}
+              {/* {blog.content?.replace(/<[^>]*>/g, "").substring(0, 10)} */}
               ...
             </div>
           </div>

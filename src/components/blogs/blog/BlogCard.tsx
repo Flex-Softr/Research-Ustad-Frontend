@@ -93,7 +93,7 @@ const BlogCard = ({ post }: { post: TPost }) => {
         <div className="w-16 h-1 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mb-4 group-hover:w-20 transition-all duration-300"></div>
 
         <p className="text-gray-600 leading-relaxed mb-6 line-clamp-3">
-          {getContentPreview(post.content)}
+          ...
         </p>
 
         {/* Meta Information */}

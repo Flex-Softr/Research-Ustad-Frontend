@@ -10,6 +10,7 @@ const CourseImage = ({ course }) => {
           src={course.imageUrl}
           alt={course.title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
           className="object-cover"
         />
       </div>
