@@ -222,6 +222,7 @@ const AllCoursesTable = ({
                               src={course.imageUrl}
                               alt={course.title}
                               fill
+                              sizes="48px"
                               className="object-cover"
                             />
                           </div>
