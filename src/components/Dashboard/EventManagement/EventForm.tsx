@@ -42,6 +42,7 @@ const EventForm = ({
       imageUrl: event?.imageUrl || "",
       registrationLink: event?.registrationLink || "",
       eventDuration: event?.eventDuration || 60,
+      registrationFee: event?.registrationFee || 0,
       speakers: event?.speakers || [],
     },
     mode: "onChange",
@@ -121,6 +122,7 @@ const EventForm = ({
         speakers: speakersData,
         eventDuration: Number(data.eventDuration),
         maxAttendees: Number(data.maxAttendees),
+        registrationFee: Number(data.registrationFee),
       };
 
       formData.append("data", JSON.stringify(eventData));
@@ -243,6 +245,24 @@ const EventForm = ({
               />
               {errors.maxAttendees && (
                 <p className="text-sm text-red-500">{errors.maxAttendees.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="registrationFee">Registration Fee ($)</Label>
+              <Input
+                type="number"
+                id="registrationFee"
+                min="0"
+                step="0.01"
+                placeholder="0 for free events"
+                {...register("registrationFee", { 
+                  required: "Registration fee is required",
+                  min: { value: 0, message: "Registration fee cannot be negative" }
+                })}
+              />
+              {errors.registrationFee && (
+                <p className="text-sm text-red-500">{errors.registrationFee.message}</p>
               )}
             </div>
 

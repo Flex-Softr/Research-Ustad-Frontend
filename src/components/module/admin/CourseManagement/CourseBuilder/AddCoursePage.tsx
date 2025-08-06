@@ -232,7 +232,8 @@ export default function AddCoursePage() {
         requirements: formData.requirements,
         startDate: formData.startDate ? new Date(formData.startDate).toISOString() : new Date().toISOString(),
         endDate: isEditMode ? (course?.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        status: isEditMode ? (course?.status || "upcoming" as const) : "upcoming" as const,
+        // Remove manual status setting - let backend calculate based on dates
+        // status: isEditMode ? (course?.status || "upcoming" as const) : "upcoming" as const,
       };
       
       // Add the course data as JSON string

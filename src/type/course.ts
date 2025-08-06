@@ -20,7 +20,7 @@ export interface Course {
   certificate: boolean;
   lifetimeAccess: boolean;
   imageUrl: string;
-  status?: "upcoming" | "ongoing" | "completed";
+  status?: "upcoming" | "ongoing";
   curriculum?: string; // HTML content from text editor
   courseFeatures?: Array<{
     title: string;

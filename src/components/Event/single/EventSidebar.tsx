@@ -60,7 +60,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
             <div className="flex items-center justify-center space-x-2">
               <DollarSign className="h-5 w-5 text-brand-secondary" />
               <span className="text-3xl font-bold text-brand-secondary">
-                {event?.price ?? "Free"}
+                {event?.registrationFee === 0 ? "Free" : `$${event.registrationFee}`}
               </span>
             </div>
             <p className="text-sm text-gray-600 mt-1">Registration Fee</p>

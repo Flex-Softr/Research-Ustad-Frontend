@@ -150,7 +150,7 @@ const EventPage = () => {
 
                       <div className="flex items-center justify-between pt-4">
                         <span className="text-lg font-bold text-brand-secondary">
-                          {"Free"}
+                          {event.registrationFee === 0 ? "Free" : `$${event.registrationFee}`}
                         </span>
                         <Button
                           asChild
