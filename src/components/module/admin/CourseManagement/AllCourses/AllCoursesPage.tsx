@@ -37,12 +37,12 @@ const AllCoursesPage = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">All Courses</h1>
+      <div className="flex items-center justify-between space-y-3 md:space-y-0">
+        <div className="text-center md:text-start">
+          <h1 className="text-2xl text-start font-bold text-gray-900">All Courses</h1>
           <p className="text-gray-600">Manage all courses in the system</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center justify-center gap-2">
           <Button onClick={handleCreateCourse}>
             <Plus className="w-4 h-4 mr-2" />
             Add Course

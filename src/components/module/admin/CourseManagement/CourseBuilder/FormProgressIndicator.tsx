@@ -53,7 +53,7 @@ export function FormProgressIndicator({
           if (formData.category.trim()) completedFields++;
           break;
         case "fee":
-          if (formData.fee.trim() && !isNaN(Number(formData.fee)))
+          if (formData.isFree || (formData.fee.trim() && !isNaN(Number(formData.fee))))
             completedFields++;
           break;
         case "thumbnail":

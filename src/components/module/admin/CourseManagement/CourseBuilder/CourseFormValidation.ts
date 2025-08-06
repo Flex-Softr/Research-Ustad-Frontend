@@ -2,10 +2,12 @@ export interface CourseFormData {
   title: string;
   description: string;
   location: string;
+  offlineLocation?: string;
   duration: string;
   level: string;
   category: string;
   fee: string;
+  isFree: boolean;
   startDate: string;
   enrolled: string;
   capacity: string;
@@ -63,13 +65,28 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
     errors.push({ field: "category", message: "Course category is required" });
   }
 
-  if (!data.fee.trim()) {
-    errors.push({ field: "fee", message: "Course price is required" });
-  } else if (isNaN(Number(data.fee)) || Number(data.fee) < 0) {
-    errors.push({
-      field: "fee",
-      message: "Course price must be a valid positive number",
-    });
+  // Fee validation based on isFree
+  if (!data.isFree) {
+    if (!data.fee.trim()) {
+      errors.push({ field: "fee", message: "Course price is required for paid courses" });
+    } else if (isNaN(Number(data.fee)) || Number(data.fee) < 0) {
+      errors.push({
+        field: "fee",
+        message: "Course price must be a valid positive number",
+      });
+    }
+  }
+
+  // Location validation
+  if (!data.location.trim()) {
+    errors.push({ field: "location", message: "Location is required" });
+  } else if (!["Online", "Offline"].includes(data.location)) {
+    errors.push({ field: "location", message: "Location must be Online or Offline" });
+  }
+
+  // Offline location validation
+  if (data.location === "Offline" && (!data.offlineLocation || !data.offlineLocation.trim())) {
+    errors.push({ field: "offlineLocation", message: "Offline location is required when location is Offline" });
   }
 
   // Start date validation
@@ -122,6 +139,18 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
       errors.push({
         field: "capacity",
         message: "Capacity must be a valid positive number",
+      });
+    }
+  }
+
+  // Capacity vs Enrolled validation
+  if (data.capacity.trim() && data.enrolled.trim()) {
+    const capacity = Number(data.capacity);
+    const enrolled = Number(data.enrolled);
+    if (capacity < enrolled) {
+      errors.push({
+        field: "capacity",
+        message: "Capacity cannot be less than enrolled students",
       });
     }
   }

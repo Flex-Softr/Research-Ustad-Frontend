@@ -6,10 +6,12 @@ export interface Course {
   startDate: string;
   endDate?: string;
   location: string;
+  offlineLocation?: string;
   duration: string;
   level: string;
   category: string;
-  fee: number;
+  fee?: number;
+  isFree: boolean;
   enrolled: number;
   capacity: number;
   rating: number;
@@ -86,10 +88,12 @@ export interface CourseFormData {
   startDate: string;
   endDate?: string;
   location: string;
+  offlineLocation?: string;
   duration: string;
   level: string;
   category: string;
-  fee: number;
+  fee?: number;
+  isFree: boolean;
   capacity: number;
   language: string;
   certificate: boolean;
@@ -141,9 +145,12 @@ export interface BasicInformationSectionProps {
     level: string;
     duration: string;
     language: string;
+    location: string;
+    offlineLocation?: string;
   };
   onChange: (field: string, value: any) => void;
   errors: Array<{ field: string; message: string }>;
+  hasAttemptedSubmit?: boolean;
 }
 
 export interface CourseFeaturesSectionProps {
@@ -167,6 +174,7 @@ export interface FormProgressIndicatorProps {
     description: string;
     category: string;
     fee: string;
+    isFree: boolean;
     thumbnail: File | null;
     tags: string[];
     whatYouWillLearn: string[];
@@ -181,8 +189,21 @@ export interface FormSidebarProps {
   formData: {
     title: string;
     description: string;
+    location: string;
+    offlineLocation?: string;
+    duration: string;
+    level: string;
     category: string;
     fee: string;
+    isFree: boolean;
+    startDate: string;
+    enrolled: string;
+    capacity: string;
+    rating: string;
+    totalReviews: string;
+    language: string;
+    certificate: boolean;
+    lifetimeAccess: boolean;
     thumbnail: File | null;
     tags: string[];
     whatYouWillLearn: string[];
@@ -195,6 +216,8 @@ export interface FormSidebarProps {
   isEditMode?: boolean;
   existingImageUrl?: string;
   categories?: Array<{ _id: string; name: string; status: string }>;
+  errors?: Array<{ field: string; message: string }>;
+  hasAttemptedSubmit?: boolean;
 }
 
 export interface InstructorImageUploadProps {
@@ -222,6 +245,7 @@ export interface InstructorsSectionProps {
   onUpdateInstructor: (index: number, field: string, value: any) => void;
   errors: Array<{ field: string; message: string }>;
   isEditMode?: boolean;
+  hasAttemptedSubmit?: boolean;
 }
 
 
@@ -231,11 +255,13 @@ export interface LearningObjectivesSectionProps {
   onRemoveObjective: (index: number) => void;
   onUpdateObjective: (index: number, value: string) => void;
   errors: Array<{ field: string; message: string }>;
+  hasAttemptedSubmit?: boolean;
 }
 
 export interface PricingSectionProps {
   formData: {
     fee: string;
+    isFree: boolean;
     startDate: string;
     enrolled: string;
     capacity: string;
@@ -244,6 +270,7 @@ export interface PricingSectionProps {
   };
   onChange: (field: string, value: any) => void;
   errors: Array<{ field: string; message: string }>;
+  hasAttemptedSubmit?: boolean;
 }
 
 export interface RequirementsSectionProps {
@@ -252,6 +279,7 @@ export interface RequirementsSectionProps {
   onRemoveRequirement: (index: number) => void;
   onUpdateRequirement: (index: number, value: string) => void;
   errors: Array<{ field: string; message: string }>;
+  hasAttemptedSubmit?: boolean;
 }
 
 export interface TagsSectionProps {
@@ -260,4 +288,5 @@ export interface TagsSectionProps {
   onRemoveTag: (index: number) => void;
   onUpdateTag: (index: number, value: string) => void;
   errors: Array<{ field: string; message: string }>;
+  hasAttemptedSubmit?: boolean;
 }

@@ -219,11 +219,15 @@ const AllCoursesTable = ({
                         <div className="flex items-center space-x-3">
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                             <Image
-                              src={course.imageUrl}
+                              src={course.imageUrl || "/placeholder-course.jpg"}
                               alt={course.title}
                               fill
                               sizes="48px"
                               className="object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = "/placeholder-course.jpg";
+                              }}
                             />
                           </div>
                           <div>
@@ -267,9 +271,15 @@ const AllCoursesTable = ({
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col">
-                          <span className="font-medium text-green-600">
-                            ${course.fee}
-                          </span>
+                          {course.isFree ? (
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              Free
+                            </span>
+                          ) : (
+                            <span className="font-medium text-green-600">
+                              ${course.fee}
+                            </span>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell>

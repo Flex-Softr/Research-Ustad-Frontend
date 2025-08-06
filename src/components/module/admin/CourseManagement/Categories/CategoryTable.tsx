@@ -89,7 +89,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     const averageRating = categoryCourses.length > 0 
       ? categoryCourses.reduce((sum, course) => sum + course.rating, 0) / categoryCourses.length 
       : 0;
-    const totalRevenue = categoryCourses.reduce((sum, course) => sum + (course.fee * course.enrolled), 0);
+    const totalRevenue = categoryCourses.reduce((sum, course) => {
+      if (course.isFree) {
+        return sum; // Free courses don't contribute to revenue
+      }
+      return sum + (course.fee * course.enrolled);
+    }, 0);
 
     return {
       ...category,

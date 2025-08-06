@@ -209,7 +209,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Capacity</span>
-            <span className="font-medium text-gray-900">{capacity}</span>
+            <span className="font-medium text-gray-900">{event?.maxAttendees}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Registered</span>

@@ -10,7 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { getCurrentUser, logout } from "@/services/AuthService";
 import { ChevronDown, Menu, X, LogIn, User } from "lucide-react";
 import Link from "next/link";
@@ -258,6 +263,9 @@ const Navbar = () => {
                   side="left"
                   className="w-64 p-4 bg-white/95 backdrop-blur-md"
                 >
+                  {/* ✅ Add this line for accessibility */}
+                  <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+
                   <nav className="flex flex-col space-y-4 mt-8">
                     {navLinks.map((link) => (
                       <Link

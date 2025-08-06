@@ -13,6 +13,7 @@ export function LearningObjectivesSection({
   onRemoveObjective,
   onUpdateObjective,
   errors,
+  hasAttemptedSubmit = false,
 }: LearningObjectivesSectionProps) {
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
@@ -46,7 +47,7 @@ export function LearningObjectivesSection({
           <Plus className="w-4 h-4 mr-2" />
           Add Learning Objective
         </Button>
-        {getFieldError("whatYouWillLearn") && (
+        {getFieldError("whatYouWillLearn") && hasAttemptedSubmit && (
           <p className="text-sm text-red-600">
             {getFieldError("whatYouWillLearn")}
           </p>

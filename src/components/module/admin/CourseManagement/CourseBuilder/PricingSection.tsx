@@ -10,6 +10,7 @@ export function PricingSection({
   formData,
   onChange,
   errors,
+  hasAttemptedSubmit = false,
 }: PricingSectionProps) {
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
@@ -26,17 +27,31 @@ export function PricingSection({
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="fee">Course Price *</Label>
-            <Input
-              id="fee"
-              type="number"
-              placeholder="0.00"
-              value={formData.fee}
-              onChange={(e) => onChange("fee", e.target.value)}
-            />
-            {getFieldError("fee") && (
-              <p className="text-sm text-red-600">{getFieldError("fee")}</p>
-            )}
+            <Label htmlFor="isFree">Course Type *</Label>
+            <div className="flex items-center space-x-4">
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="isFree"
+                  value="false"
+                  checked={!formData.isFree}
+                  onChange={(e) => onChange("isFree", !e.target.checked)}
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm">Paid Course</span>
+              </label>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="isFree"
+                  value="true"
+                  checked={formData.isFree}
+                  onChange={(e) => onChange("isFree", e.target.checked)}
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm">Free Course</span>
+              </label>
+            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="startDate">Start Date *</Label>
@@ -47,11 +62,27 @@ export function PricingSection({
               onChange={(e) => onChange("startDate", e.target.value)}
               min={new Date().toISOString().split('T')[0]}
             />
-            {getFieldError("startDate") && (
+            {getFieldError("startDate") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">{getFieldError("startDate")}</p>
             )}
           </div>
         </div>
+
+        {!formData.isFree && (
+          <div className="space-y-2">
+            <Label htmlFor="fee">Course Price *</Label>
+            <Input
+              id="fee"
+              type="number"
+              placeholder="0.00"
+              value={formData.fee}
+              onChange={(e) => onChange("fee", e.target.value)}
+            />
+            {getFieldError("fee") && hasAttemptedSubmit && (
+              <p className="text-sm text-red-600">{getFieldError("fee")}</p>
+            )}
+          </div>
+        )}
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -63,7 +94,7 @@ export function PricingSection({
               value={formData.enrolled}
               onChange={(e) => onChange("enrolled", e.target.value)}
             />
-            {getFieldError("enrolled") && (
+            {getFieldError("enrolled") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">
                 {getFieldError("enrolled")}
               </p>
@@ -78,7 +109,7 @@ export function PricingSection({
               value={formData.capacity}
               onChange={(e) => onChange("capacity", e.target.value)}
             />
-            {getFieldError("capacity") && (
+            {getFieldError("capacity") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">
                 {getFieldError("capacity")}
               </p>
@@ -99,7 +130,7 @@ export function PricingSection({
               value={formData.rating}
               onChange={(e) => onChange("rating", e.target.value)}
             />
-            {getFieldError("rating") && (
+            {getFieldError("rating") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">{getFieldError("rating")}</p>
             )}
           </div>
@@ -112,7 +143,7 @@ export function PricingSection({
               value={formData.totalReviews}
               onChange={(e) => onChange("totalReviews", e.target.value)}
             />
-            {getFieldError("totalReviews") && (
+            {getFieldError("totalReviews") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">
                 {getFieldError("totalReviews")}
               </p>

@@ -14,6 +14,7 @@ export function RequirementsSection({
   onRemoveRequirement,
   onUpdateRequirement,
   errors,
+  hasAttemptedSubmit = false,
 }: RequirementsSectionProps) {
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
@@ -47,7 +48,7 @@ export function RequirementsSection({
           <Plus className="w-4 h-4 mr-2" />
           Add Requirement
         </Button>
-        {getFieldError("requirements") && (
+        {getFieldError("requirements") && hasAttemptedSubmit && (
           <p className="text-sm text-red-600">
             {getFieldError("requirements")}
           </p>
