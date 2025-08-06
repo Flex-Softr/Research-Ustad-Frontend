@@ -36,7 +36,7 @@ const PapersTable = ({ papers }: PapersTableProps) => {
       <CardContent className="p-0">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50/80">
+            <thead className="bg-gray-50/80 border-b border-gray-200">
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Title & Authors
@@ -47,15 +47,13 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Year
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                  Impact Factor
-                </th>
+                {/* <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                      Impact Factor
+                    </th> */}
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Status
                 </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                  Actions
-                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -66,9 +64,13 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                 >
                   <td className="px-6 py-4">
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
-                        {paper.title}
-                      </h4>
+                      <Link href={`/allpapers/${paper._id}`}>
+                        <FileText className="h-3 w-3 mr-1" />
+                        <h4 className="hover:underline text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
+                          {paper.title}
+                        </h4>
+                      </Link>
+
                       <p className="text-xs text-gray-600">
                         {paper.authors.join(", ")}
                       </p>
@@ -100,14 +102,14 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4">
+                  {/* <td className="px-6 py-4">
                     <div className="flex items-center gap-1">
                       <TrendingUp className="h-4 w-4 text-gray-400" />
                       <span className="text-sm font-medium text-gray-900">
                         {paper.impactFactor}
                       </span>
                     </div>
-                  </td>
+                  </td> */}
                   <td className="px-6 py-4">
                     <Badge
                       variant={paper.isApproved ? "default" : "secondary"}
@@ -121,28 +123,15 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                     </Badge>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        asChild
-                        className="h-8 px-3 text-xs"
-                      >
-                        <Link href={`/allpapers/${paper._id}`}>
-                          <FileText className="h-3 w-3 mr-1" />
-                          Details
-                        </Link>
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => window.open(paper.visitLink, "_blank")}
-                        className="h-8 px-3 text-xs"
-                      >
-                        <ExternalLink className="h-3 w-3 mr-1" />
-                        View
-                      </Button>
-                    </div>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => window.open(paper.visitLink, "_blank")}
+                      className="h-8 px-3 text-xs"
+                    >
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      View
+                    </Button>
                   </td>
                 </tr>
               ))}

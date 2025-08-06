@@ -68,14 +68,14 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
         <div className="flex justify-center mb-4">
           <div className="relative">
             <Image
-              src={member.profileImg || "/placeholder-instructor.jpg"}
+              src={member.profileImg || "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg"}
               alt={member.fullName}
               width={120}
               height={120}
               className="object-cover w-24 h-24 rounded-full ring-4 ring-gray-200 group-hover:ring-brand-secondary/30 transition-all duration-300"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "/placeholder-instructor.jpg";
+                target.src = "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg";
               }}
             />
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-brand-secondary rounded-full flex items-center justify-center">
@@ -118,17 +118,17 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
                   {member.researchStats.totalCitations.toLocaleString()}
                 </span>
               </div>
-              <div className="flex justify-between text-xs text-gray-600">
+              {/* <div className="flex justify-between text-xs text-gray-600">
                 <span>H-index:</span>
                 <span className="font-medium">
                   {member.researchStats.hIndex}
                 </span>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
 
-        {/* Expertise Tags */}
+        {/* Expertise Tags
         {member.expertise && member.expertise.length > 0 && (
           <div className="mb-4">
             <div className="flex flex-wrap gap-1 justify-center">
@@ -151,7 +151,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
               )}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* View Profile Button */}
         <Button
