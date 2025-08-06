@@ -15,6 +15,7 @@ export function BasicInformationSection({
   formData,
   onChange,
   errors,
+  hasAttemptedSubmit = false,
 }: BasicInformationSectionProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { categories, isLoading } = useSelector(
@@ -54,7 +55,7 @@ export function BasicInformationSection({
             onChange={(e) => onChange("title", e.target.value)}
             className="h-12"
           />
-          {getFieldError("title") && (
+          {getFieldError("title") && hasAttemptedSubmit && (
             <p className="text-sm text-red-600">{getFieldError("title")}</p>
           )}
         </div>
@@ -68,7 +69,7 @@ export function BasicInformationSection({
             onChange={(e) => onChange("description", e.target.value)}
             rows={4}
           />
-          {getFieldError("description") && (
+          {getFieldError("description") && hasAttemptedSubmit && (
             <p className="text-sm text-red-600">
               {getFieldError("description")}
             </p>
@@ -98,7 +99,7 @@ export function BasicInformationSection({
             {!isLoading && activeCategories.length === 0 && (
               <p className="text-sm text-orange-600">No active categories available. Please create categories first.</p>
             )}
-            {getFieldError("category") && (
+            {getFieldError("category") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">
                 {getFieldError("category")}
               </p>
@@ -121,6 +122,43 @@ export function BasicInformationSection({
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
+            <Label htmlFor="location">Location *</Label>
+            <select
+              id="location"
+              value={formData.location}
+              onChange={(e) => onChange("location", e.target.value)}
+              className="w-full h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="Online">Online</option>
+              <option value="Offline">Offline</option>
+            </select>
+            {getFieldError("location") && hasAttemptedSubmit && (
+              <p className="text-sm text-red-600">
+                {getFieldError("location")}
+              </p>
+            )}
+          </div>
+          {formData.location === "Offline" && (
+            <div className="space-y-2">
+              <Label htmlFor="offlineLocation">Offline Location *</Label>
+              <Input
+                id="offlineLocation"
+                placeholder="Enter exact offline location"
+                value={formData.offlineLocation || ""}
+                onChange={(e) => onChange("offlineLocation", e.target.value)}
+                className="h-10"
+              />
+              {getFieldError("offlineLocation") && hasAttemptedSubmit && (
+                <p className="text-sm text-red-600">
+                  {getFieldError("offlineLocation")}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
             <Label htmlFor="duration">Duration</Label>
             <Input
               id="duration"
@@ -128,7 +166,7 @@ export function BasicInformationSection({
               value={formData.duration}
               onChange={(e) => onChange("duration", e.target.value)}
             />
-            {getFieldError("duration") && (
+            {getFieldError("duration") && hasAttemptedSubmit && (
               <p className="text-sm text-red-600">
                 {getFieldError("duration")}
               </p>

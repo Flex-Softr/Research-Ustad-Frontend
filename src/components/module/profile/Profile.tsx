@@ -20,7 +20,7 @@ const Profile = () => {
     <Card className="w-full max-w-4xl shadow-xl rounded-lg bg-white">
       <CardHeader className="flex flex-col items-center p-8 bg-blue-500 text-white rounded-t-lg">
         <Avatar className="w-24 h-24 border-4 border-white shadow-md">
-          <AvatarImage src="https://via.placeholder.com/150" alt="Profile" />
+          <AvatarImage src="/placeholder-instructor.jpg" alt="Profile" />
           <AvatarFallback className="text-2xl font-bold">AI</AvatarFallback>
         </Avatar>
         <CardTitle className="text-2xl mt-4">{profileData.fullName}</CardTitle>

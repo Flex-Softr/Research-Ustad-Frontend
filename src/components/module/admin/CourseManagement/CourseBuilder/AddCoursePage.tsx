@@ -40,10 +40,12 @@ export default function AddCoursePage() {
     title: "",
     description: "",
     location: "Online",
+    offlineLocation: "",
     duration: "",
     level: "Beginner",
     category: "",
     fee: "",
+    isFree: false,
     startDate: "",
     enrolled: "",
     capacity: "",
@@ -61,6 +63,7 @@ export default function AddCoursePage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<ValidationError[]>([]);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
 
   // Load categories and course data on mount
   useEffect(() => {
@@ -77,10 +80,12 @@ export default function AddCoursePage() {
         title: course.title || "",
         description: course.description || "",
         location: course.location || "Online",
+        offlineLocation: course.offlineLocation || "",
         duration: course.duration || "",
         level: course.level || "Beginner",
         category: course.category || "",
         fee: course.fee?.toString() || "",
+        isFree: course.isFree ?? false,
         startDate: course.startDate ? new Date(course.startDate).toISOString().split('T')[0] : "",
         enrolled: course.enrolled?.toString() || "",
         capacity: course.capacity?.toString() || "",
@@ -105,6 +110,12 @@ export default function AddCoursePage() {
       });
     }
   }, [course, isEditMode]);
+
+  // Update validation errors in real-time when formData changes
+  useEffect(() => {
+    const validationErrors = validateCourseForm(formData, isEditMode);
+    setErrors(validationErrors);
+  }, [formData, isEditMode]);
 
   const handleChange = (field: string, value: any) => {
     setFormData({ ...formData, [field]: value });
@@ -146,10 +157,12 @@ export default function AddCoursePage() {
       title: "",
       description: "",
       location: "Online",
+      offlineLocation: "",
       duration: "",
       level: "Beginner",
       category: "",
       fee: "",
+      isFree: false,
       startDate: "",
       enrolled: "",
       capacity: "",
@@ -168,6 +181,7 @@ export default function AddCoursePage() {
   };
 
   const handleSubmit = async () => {
+    setHasAttemptedSubmit(true);
     const validationErrors = validateCourseForm(formData, isEditMode);
     setErrors(validationErrors);
 
@@ -192,10 +206,12 @@ export default function AddCoursePage() {
         title: formData.title,
         description: formData.description,
         location: formData.location || "Online",
+        offlineLocation: formData.offlineLocation,
         duration: formData.duration,
         level: formData.level,
         category: formData.category,
-        fee: parseFloat(formData.fee) || 0,
+        fee: formData.isFree ? undefined : parseFloat(formData.fee) || 0,
+        isFree: formData.isFree,
         enrolled: parseInt(formData.enrolled) || 0,
         capacity: parseInt(formData.capacity) || 100,
         rating: parseFloat(formData.rating) || 0,
@@ -378,12 +394,14 @@ export default function AddCoursePage() {
             formData={formData}
             onChange={handleChange}
             errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
           />
 
           <PricingSection
             formData={formData}
             onChange={handleChange}
             errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
           />
 
           <CourseFeaturesSection formData={formData} onChange={handleChange} />
@@ -396,6 +414,7 @@ export default function AddCoursePage() {
               handleArrayChange("tags", index, value)
             }
             errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
           />
 
           <LearningObjectivesSection
@@ -408,6 +427,7 @@ export default function AddCoursePage() {
               handleArrayChange("whatYouWillLearn", index, value)
             }
             errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
           />
 
           <RequirementsSection
@@ -418,6 +438,7 @@ export default function AddCoursePage() {
               handleArrayChange("requirements", index, value)
             }
             errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
           />
 
           <InstructorsSection
@@ -439,6 +460,7 @@ export default function AddCoursePage() {
             }
             errors={errors}
             isEditMode={isEditMode}
+            hasAttemptedSubmit={hasAttemptedSubmit}
           />
         </div>
 
@@ -451,6 +473,8 @@ export default function AddCoursePage() {
           isEditMode={isEditMode}
           existingImageUrl={isEditMode ? course?.imageUrl : undefined}
           categories={categories}
+          errors={errors}
+          hasAttemptedSubmit={hasAttemptedSubmit}
         />
       </div>
     </div>

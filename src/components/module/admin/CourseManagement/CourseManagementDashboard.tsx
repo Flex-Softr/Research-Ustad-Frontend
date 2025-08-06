@@ -59,7 +59,12 @@ const CourseManagementDashboard = () => {
   const averageRating = courses.length > 0 
     ? courses.reduce((sum, course) => sum + course.rating, 0) / courses.length 
     : 0;
-  const totalRevenue = courses.reduce((sum, course) => sum + (course.fee * course.enrolled), 0);
+  const totalRevenue = courses.reduce((sum, course) => {
+    if (course.isFree) {
+      return sum; // Free courses don't contribute to revenue
+    }
+    return sum + (course.fee * course.enrolled);
+  }, 0);
   
   const upcomingCourses = courses.filter(course => {
     const startDate = new Date(course.startDate);

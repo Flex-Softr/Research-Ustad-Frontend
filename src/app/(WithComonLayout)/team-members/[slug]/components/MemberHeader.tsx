@@ -27,11 +27,15 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
           <div className="flex-shrink-0">
             <div className="relative">
               <Image
-                src={member.profileImg || "https://via.placeholder.com/300"}
+                src={member.profileImg || "/placeholder-instructor.jpg"}
                 alt={member.fullName}
                 width={200}
                 height={200}
                 className="object-cover w-48 h-48 rounded-full ring-4 ring-gray-200 shadow-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/placeholder-instructor.jpg";
+                }}
               />
               <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-secondary rounded-full flex items-center justify-center">
                 <div className="w-4 h-4 bg-white rounded-full"></div>

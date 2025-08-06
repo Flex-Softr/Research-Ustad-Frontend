@@ -264,10 +264,15 @@ const CoursesSection = () => {
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                <div className="absolute top-4 left-4">
+                <div className="absolute top-4 left-4 flex flex-col gap-2">
                   <span className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
                     {getCategoryName(course.category)}
                   </span>
+                  {course.isFree && (
+                    <span className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                      Free
+                    </span>
+                  )}
                 </div>
                 <div className="absolute top-4 right-4">
                   <div className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center">
@@ -318,8 +323,16 @@ const CoursesSection = () => {
                 {/* Price and CTA */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div className="flex items-center text-2xl font-black text-brand-primary">
-                    <DollarSign className="h-6 w-6 mr-1" />
-                    <span>{course.fee}</span>
+                    {course.isFree ? (
+                      <>
+                        <span className="text-green-600 font-bold">Free</span>
+                      </>
+                    ) : (
+                      <>
+                        <DollarSign className="h-6 w-6 mr-1" />
+                        <span>{course.fee}</span>
+                      </>
+                    )}
                   </div>
 
                   <Link

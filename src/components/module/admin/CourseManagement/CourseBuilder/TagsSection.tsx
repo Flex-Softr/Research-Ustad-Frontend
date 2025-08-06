@@ -15,6 +15,7 @@ export function TagsSection({
   onRemoveTag,
   onUpdateTag,
   errors,
+  hasAttemptedSubmit = false,
 }: TagsSectionProps) {
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
@@ -70,7 +71,7 @@ export function TagsSection({
             <Plus className="w-4 h-4" />
           </Button>
         </div>
-        {getFieldError("tags") && (
+        {getFieldError("tags") && hasAttemptedSubmit && (
           <p className="text-sm text-red-600">{getFieldError("tags")}</p>
         )}
       </CardContent>

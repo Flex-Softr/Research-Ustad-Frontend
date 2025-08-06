@@ -2,12 +2,17 @@ import { CheckCircle, Share2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-
+import { useState } from "react";
 
 const CourseSidebar = ({ course }) => {
+  const [imageError, setImageError] = useState(false);
   const enrollmentPercentage = Math.round(
     (course.enrolled / course.capacity) * 100
   );
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <div className="sticky top-8 space-y-6">
@@ -16,11 +21,12 @@ const CourseSidebar = ({ course }) => {
         <div className="relative overflow-hidden rounded-t-2xl">
           <div className="relative h-48">
             <Image
-              src={course.imageUrl}
+              src={imageError ? "/placeholder-course.jpg" : course.imageUrl}
               alt={course.title}
               fill
               sizes="(max-width: 768px) 100vw, 400px"
               className="object-cover"
+              onError={handleImageError}
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
@@ -28,21 +34,31 @@ const CourseSidebar = ({ course }) => {
 
         <CardContent className="p-6">
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="text-3xl font-bold text-gray-900">
-              ${course.fee}
-            </span>
+            {course.isFree ? (
+              <span className="text-3xl font-bold text-green-600">
+                Free
+              </span>
+            ) : (
+              <span className="text-3xl font-bold text-gray-900">
+                ${course.fee}
+              </span>
+            )}
           </div>
 
           <div className="space-y-4 mb-6">
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">Enrollment</span>
+              {/* <span>{enrollmentPercentage}%</span> */}
               <span className="font-medium">
                 {course.enrolled.toLocaleString()}/
                 {course.capacity.toLocaleString()}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
-             
+              <div
+                className="bg-gradient-to-r from-brand-primary to-brand-secondary h-2 rounded-full transition-all duration-300"
+                style={{ width: `${enrollmentPercentage}%` }}
+              ></div>
             </div>
             <p className="text-xs text-gray-500 text-center">
               {course.capacity - course.enrolled} spots remaining

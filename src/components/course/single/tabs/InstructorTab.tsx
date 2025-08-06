@@ -35,11 +35,15 @@ const InstructorTab = ({ course }) => {
           >
             <div className="relative">
               <Image
-                src={instructor.imageUrl}
+                src={instructor.imageUrl || "/placeholder-instructor.jpg"}
                 alt={instructor.name}
                 width={80}
                 height={80}
                 className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "/placeholder-instructor.jpg";
+                }}
               />
             </div>
             <div className="flex-1">

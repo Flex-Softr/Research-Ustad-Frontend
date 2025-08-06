@@ -15,6 +15,7 @@ export function InstructorsSection({
   onUpdateInstructor,
   errors,
   isEditMode = false,
+  hasAttemptedSubmit = false,
 }: InstructorsSectionProps) {
   const getFieldError = (field: string) => {
     return errors.find((err) => err.field === field)?.message;
@@ -52,7 +53,7 @@ export function InstructorsSection({
                     onUpdateInstructor(i, "name", e.target.value)
                   }
                 />
-                {getFieldError(`instructor_${i}_name`) && (
+                {getFieldError(`instructor_${i}_name`) && hasAttemptedSubmit && (
                   <p className="text-sm text-red-600">
                     {getFieldError(`instructor_${i}_name`)}
                   </p>
@@ -66,7 +67,7 @@ export function InstructorsSection({
                   existingImageUrl={instructor.imageUrl}
                   isEditMode={isEditMode}
                 />
-                {getFieldError(`instructor_${i}_image`) && (
+                {getFieldError(`instructor_${i}_image`) && hasAttemptedSubmit && (
                   <p className="text-sm text-red-600">
                     {getFieldError(`instructor_${i}_image`)}
                   </p>
@@ -83,7 +84,7 @@ export function InstructorsSection({
                     onUpdateInstructor(i, "specialization", e.target.value)
                   }
                 />
-                {getFieldError(`instructor_${i}_specialization`) && (
+                {getFieldError(`instructor_${i}_specialization`) && hasAttemptedSubmit && (
                   <p className="text-sm text-red-600">
                     {getFieldError(`instructor_${i}_specialization`)}
                   </p>
@@ -118,7 +119,7 @@ export function InstructorsSection({
                     )
                   }
                 />
-                {getFieldError(`instructor_${i}_rating`) && (
+                {getFieldError(`instructor_${i}_rating`) && hasAttemptedSubmit && (
                   <p className="text-sm text-red-600">
                     {getFieldError(`instructor_${i}_rating`)}
                   </p>
@@ -138,7 +139,7 @@ export function InstructorsSection({
                     )
                   }
                 />
-                {getFieldError(`instructor_${i}_students`) && (
+                {getFieldError(`instructor_${i}_students`) && hasAttemptedSubmit && (
                   <p className="text-sm text-red-600">
                     {getFieldError(`instructor_${i}_students`)}
                   </p>
@@ -151,7 +152,7 @@ export function InstructorsSection({
           <Plus className="w-4 h-4 mr-2" />
           Add Instructor
         </Button>
-        {getFieldError("instructors") && (
+        {getFieldError("instructors") && hasAttemptedSubmit && (
           <p className="text-sm text-red-600">{getFieldError("instructors")}</p>
         )}
       </CardContent>

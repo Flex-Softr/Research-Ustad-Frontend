@@ -185,9 +185,15 @@ const CourseViewModal = ({
                   <DollarSign className="h-4 w-4 text-green-600" />
                   <div>
                     <p className="text-sm text-gray-600">Price</p>
-                    <p className="font-semibold text-green-600">
-                      ${course.fee}
-                    </p>
+                    {course.isFree ? (
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Free
+                      </span>
+                    ) : (
+                      <p className="font-semibold text-green-600">
+                        ${course.fee}
+                      </p>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -266,10 +272,14 @@ const CourseViewModal = ({
                   <div key={index} className="flex items-center gap-3">
                     <div className="relative w-10 h-10 rounded-full overflow-hidden">
                       <Image
-                        src={instructor.imageUrl}
+                        src={instructor.imageUrl || "/placeholder-instructor.jpg"}
                         alt={instructor.name}
                         fill
                         className="object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/placeholder-instructor.jpg";
+                        }}
                       />
                     </div>
                     <div className="flex-1">
