@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Course } from "@/type";
-import { calculateCourseStatus } from "@/lib/utils";
+import { calculateCourseStatus } from "@/lib/calculateCourseStatus";
 
 interface CourseViewModalProps {
   course: Course | null;
