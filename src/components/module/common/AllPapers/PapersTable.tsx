@@ -47,9 +47,6 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Year
                 </th>
-                {/* <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                      Impact Factor
-                    </th> */}
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Status
                 </th>
@@ -64,24 +61,12 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                 >
                   <td className="px-6 py-4">
                     <div>
-                      <Link href={`/allpapers/${paper._id}`}>
-                        <FileText className="h-3 w-3 mr-1" />
+                      <Link href={`/allpapers/${paper._id}`} className="flex gap-2">
+                        {/* <FileText className="h-10 w-10" /> */}
                         <h4 className="hover:underline text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
                           {paper.title}
                         </h4>
                       </Link>
-
-                      <p className="text-xs text-gray-600">
-                        {paper.authors.join(", ")}
-                      </p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <Badge variant="outline" className="text-xs">
-                          {paper.journalRank}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">
-                          {paper.journalType}
-                        </Badge>
-                      </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">

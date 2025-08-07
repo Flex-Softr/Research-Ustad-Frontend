@@ -7,7 +7,6 @@ import { fetchSingleCourse } from "@/services/courses/coursesSlice";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import {
   CourseHeader,
-  CourseImage,
   CourseContent,
   CourseSidebar,
   LoadingSpinner,
@@ -86,7 +85,6 @@ const CourseSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
           {/* Main Content Area */}
           <div className="lg:col-span-2 space-y-8">
             <CourseHeader course={course} />
-            <CourseImage course={course} />
             <CourseContent course={course} />
           </div>
 

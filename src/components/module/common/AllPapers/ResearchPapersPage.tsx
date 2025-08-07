@@ -15,7 +15,7 @@ interface FilterState {
   category: string;
   status: string;
   year: string;
-  journalType: string;
+  paperType: string;
 }
 
 const ResearchPapersPage = ({
@@ -30,7 +30,7 @@ const ResearchPapersPage = ({
     category: "all",
     status: "all",
     year: "all",
-    journalType: "all",
+    paperType: "all",
   });
 
   // Load papers data
@@ -77,12 +77,9 @@ const ResearchPapersPage = ({
     return ["all", ...uniqueYears.sort((a, b) => parseInt(b) - parseInt(a))];
   }, [papersData]);
 
-  const journalTypes = useMemo(() => {
-    const uniqueTypes = [
-      ...new Set(papersData.map((paper) => paper.journalType)),
-    ];
-    return ["all", ...uniqueTypes];
-  }, [papersData]);
+  const paperTypes = useMemo(() => {
+    return ["all", "Journal", "Conference"];
+  }, []);
 
   // Filter papers based on search and filters
   const filteredPapers = useMemo(() => {
@@ -109,17 +106,17 @@ const ResearchPapersPage = ({
       const yearMatch =
         filters.year === "all" || paper.year.toString() === filters.year;
 
-      // Journal type filter
-      const journalTypeMatch =
-        filters.journalType === "all" ||
-        paper.journalType === filters.journalType;
+      // Paper type filter
+      const paperTypeMatch =
+        filters.paperType === "all" ||
+        paper.paperType === filters.paperType;
 
       return (
         searchMatch &&
         categoryMatch &&
         statusMatch &&
         yearMatch &&
-        journalTypeMatch
+        paperTypeMatch
       );
     });
   }, [papersData, searchQuery, filters]);
@@ -156,7 +153,7 @@ const ResearchPapersPage = ({
       category: "all",
       status: "all",
       year: "all",
-      journalType: "all",
+      paperType: "all",
     });
     setSearchQuery("");
     setCurrentPage(1);
@@ -180,10 +177,9 @@ const ResearchPapersPage = ({
         items={[
           {
             label: "Research Papers",
-            current: true,
           },
         ]}
-        className="py-8"
+        className="py-4"
       />
 
       {/* Main Content */}

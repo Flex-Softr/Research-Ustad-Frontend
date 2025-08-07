@@ -22,6 +22,7 @@ import {
   Tag,
   Quote,
   ArrowLeft,
+  ExternalLink as ExternalLinkIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -36,9 +37,21 @@ interface SingleResearchPaperProps {
     researchArea?: string;
     funding?: string;
     createdAt?: string;
+    journalType?: string;
     updatedAt?: string;
   };
   paperId?: string;
+}
+
+interface RelatedPaper extends TPapers {
+  abstract?: string;
+  keywords?: string[];
+  doi?: string;
+  citations?: number;
+  downloads?: number;
+  researchArea?: string;
+  funding?: string;
+  journalType?: string;
 }
 
 const SingleResearchPaper = ({
@@ -59,7 +72,9 @@ const SingleResearchPaper = ({
       })
     | null
   >(null);
+  const [relatedPapers, setRelatedPapers] = useState<RelatedPaper[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingRelated, setLoadingRelated] = useState(false);
 
   // Load paper data
   useEffect(() => {
@@ -95,12 +110,45 @@ const SingleResearchPaper = ({
     loadPaper();
   }, [propPaper, paperId]);
 
+  // Load related papers when paper is loaded
+  useEffect(() => {
+    const loadRelatedPapers = async () => {
+      if (!paper || !paper.researchArea) return;
+
+      setLoadingRelated(true);
+      try {
+        const response = await fetch("/json/research-papers.json");
+        const data = await response.json();
+        
+        // Find papers with the same research area, excluding the current paper
+        const related = data.papers.filter((p: RelatedPaper) => 
+          p.researchArea === paper.researchArea && p._id !== paper._id
+        );
+        
+        // Limit to 3 related papers
+        setRelatedPapers(related.slice(0, 3));
+      } catch (error) {
+        console.error("Failed to load related papers:", error);
+        setRelatedPapers([]);
+      } finally {
+        setLoadingRelated(false);
+      }
+    };
+
+    loadRelatedPapers();
+  }, [paper]);
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
     });
+  };
+
+  const truncateText = (text: string, maxLength: number) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + "...";
   };
 
   if (loading) {
@@ -129,10 +177,9 @@ const SingleResearchPaper = ({
           },
           {
             label: paper.title,
-            current: true,
           },
         ]}
-        className="py-8"
+        className="py-4"
       />
 
       {/* Main Content */}
@@ -240,19 +287,6 @@ const SingleResearchPaper = ({
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View Paper
                   </Button>
-
-                  {paper.doi && (
-                    <Button
-                      variant="outline"
-                      onClick={() =>
-                        window.open(`https://doi.org/${paper.doi}`, "_blank")
-                      }
-                      className="border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
-                    >
-                      <Globe className="h-4 w-4 mr-2" />
-                      DOI
-                    </Button>
-                  )}
                 </div>
               </CardContent>
             </Card>
@@ -275,12 +309,6 @@ const SingleResearchPaper = ({
                       <p className="text-gray-700">{paper.journal}</p>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
-                        Volume
-                      </h4>
-                      <p className="text-gray-700">{paper.volume}</p>
-                    </div>
-                    <div>
                       <h4 className="font-semibold text-gray-900 mb-2">Year</h4>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-gray-400" />
@@ -289,25 +317,6 @@ const SingleResearchPaper = ({
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
-                        Impact Factor
-                      </h4>
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-gray-400" />
-                        <span className="text-gray-700 font-medium">
-                          {paper.impactFactor}
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
-                        Journal Rank
-                      </h4>
-                      <Badge variant="outline" className="text-sm">
-                        {paper.journalRank}
-                      </Badge>
-                    </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">
                         Journal Type
@@ -338,14 +347,6 @@ const SingleResearchPaper = ({
                     <span className="text-gray-600">Citations</span>
                     <span className="font-semibold text-gray-900">
                       {paper.citations}
-                    </span>
-                  </div>
-                )}
-                {paper.downloads !== undefined && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Downloads</span>
-                    <span className="font-semibold text-gray-900">
-                      {paper.downloads.toLocaleString()}
                     </span>
                   </div>
                 )}
@@ -418,16 +419,65 @@ const SingleResearchPaper = ({
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600 mb-4">
-                  Papers in similar research areas
-                </p>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
-                >
-                  <Link href="/allpapers">Browse All Papers</Link>
-                </Button>
+                {loadingRelated ? (
+                  <div className="text-center py-4">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-brand-secondary mx-auto mb-2"></div>
+                    <p className="text-sm text-gray-600">Loading related papers...</p>
+                  </div>
+                ) : relatedPapers.length > 0 ? (
+                  <div className="space-y-4">
+                    <p className="text-sm text-gray-600 mb-4">
+                      Papers in similar research areas
+                    </p>
+                    {relatedPapers.map((relatedPaper) => (
+                      <div
+                        key={relatedPaper._id}
+                        className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                      >
+                        <h4 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2">
+                          {truncateText(relatedPaper.title, 80)}
+                        </h4>
+                        <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
+                          <span>{relatedPaper.year}</span>
+                          <span>{relatedPaper.authors[0]}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            asChild
+                            size="sm"
+                            variant="outline"
+                            className="text-xs border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
+                          >
+                            <Link href={`/allpapers/${relatedPaper._id}`}>
+                              View Paper
+                              <ExternalLinkIcon className="h-3 w-3 ml-1" />
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
+                    >
+                      <Link href="/allpapers">Browse All Papers</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-sm text-gray-600 mb-4">
+                      No related papers found in the same research area
+                    </p>
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
+                    >
+                      <Link href="/allpapers">Browse All Papers</Link>
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

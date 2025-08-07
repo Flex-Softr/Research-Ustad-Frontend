@@ -26,7 +26,7 @@ interface ResearchPaper {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  journalType: string;
+  paperType: string;
   isApproved: boolean;
   createdAt: string;
   updatedAt: string;
@@ -62,7 +62,7 @@ const OurTeamPage: React.FC<TeamProps> = ({ title_pre, title_next, allMembers, r
           <p className="text-gray-600">Volume: {researchPaper.volume}</p>
           <p className="text-gray-600">Impact Factor: {researchPaper.impactFactor}</p>
           <p className="text-gray-600">Rank: {researchPaper.journalRank}</p>
-          <p className="text-gray-600">Type: {researchPaper.journalType}</p>
+                          <p className="text-gray-600">Type: {researchPaper.paperType}</p>
           <Link href={researchPaper.visitLink} className="text-blue-500 hover:underline" target="_blank">
             Read Paper
           </Link>

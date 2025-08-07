@@ -46,7 +46,7 @@ const ResearchPapers = () => {
     { label: "Impact Factor", value: "impactFactor" },
     { label: "Journal Rank", value: "journalRank" },
     { label: "Visit Link", value: "visitLink" },
-    { label: "Journal Type", value: "journalType" },
+    { label: "Paper Type", value: "paperType" },
   ];
 
   return (

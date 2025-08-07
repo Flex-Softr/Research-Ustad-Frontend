@@ -4,10 +4,6 @@ import {
   BarChart3,
   FileText,
   Quote,
-  TrendingUp,
-  Award,
-  DollarSign,
-  Users,
   Calendar,
 } from "lucide-react";
 import { TeamMember } from "../../components";
@@ -54,38 +50,6 @@ const ResearchStats = ({ member }: ResearchStatsProps) => {
       bgColor: "bg-purple-50",
       borderColor: "border-purple-200",
     },
-    // {
-    //   label: "H-Index",
-    //   value: member.researchStats.hIndex,
-    //   icon: TrendingUp,
-    //   color: "text-indigo-600",
-    //   bgColor: "bg-indigo-50",
-    //   borderColor: "border-indigo-200",
-    // },
-    // {
-    //   label: "Impact Factor",
-    //   value: member.researchStats.impactFactor.toFixed(2),
-    //   icon: BarChart3,
-    //   color: "text-red-600",
-    //   bgColor: "bg-red-50",
-    //   borderColor: "border-red-200",
-    // },
-    // {
-    //   label: "Research Grants",
-    //   value: member.researchStats.researchGrants,
-    //   icon: Award,
-    //   color: "text-yellow-600",
-    //   bgColor: "bg-yellow-50",
-    //   borderColor: "border-yellow-200",
-    // },
-    // {
-    //   label: "Total Grant Amount",
-    //   value: `$${member.researchStats.totalGrantAmount.toLocaleString()}`,
-    //   icon: DollarSign,
-    //   color: "text-emerald-600",
-    //   bgColor: "bg-emerald-50",
-    //   borderColor: "border-emerald-200",
-    // },
   ];
 
   return (

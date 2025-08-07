@@ -57,6 +57,8 @@ const SingleMemberPage = () => {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
   }
 
+  console.log("membersssssssss", member);
+
   if (error || !member) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
@@ -65,7 +67,7 @@ const SingleMemberPage = () => {
             { label: "Team Members", href: "/team-members" },
             { label: "Member Not Found", current: true },
           ]}
-          className="py-8"
+          className="py-4"
         />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -104,8 +106,16 @@ const SingleMemberPage = () => {
   }
 
   const tabs = [
-    { id: "publications", label: "Publications", count: member.publications?.length || 0 },
-    { id: "projects", label: "Ongoing Projects", count: member.ongoingProjects?.length || 0 },
+    {
+      id: "publications",
+      label: "Publications",
+      count: member.publications?.length || 0,
+    },
+    {
+      id: "projects",
+      label: "Ongoing Projects",
+      count: member.ongoingProjects?.length || 0,
+    },
     { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
   ];
 
@@ -128,7 +138,7 @@ const SingleMemberPage = () => {
       <Breadcrumb
         items={[
           { label: "Team Members", href: "/team-members" },
-          { label: member.fullName, current: true },
+          { label: member.fullName },
         ]}
         className="py-4"
       />
@@ -175,9 +185,7 @@ const SingleMemberPage = () => {
               </div>
 
               {/* Tab Content */}
-              <div className="p-6">
-                {renderTabContent()}
-              </div>
+              <div className="">{renderTabContent()}</div>
             </div>
           </div>
 

@@ -14,6 +14,8 @@ const CourseSidebar = ({ course }) => {
     setImageError(true);
   };
 
+  console.log('course', course)
+
   return (
     <div className="sticky top-8 space-y-6">
       {/* Course Card */}
@@ -65,13 +67,27 @@ const CourseSidebar = ({ course }) => {
             </p>
           </div>
 
-          <Button className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300 mb-4">
-            Enroll Now
-          </Button>
-
-          <div className="text-center text-sm text-gray-600 mb-4">
-            30-Day Money-Back Guarantee
-          </div>
+          {course.status === "upcoming" ? (
+            <Button 
+              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300 mb-4"
+              asChild
+            >
+              <a
+                href={course?.enrollLink || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Enroll Now
+              </a>
+            </Button>
+          ) : (
+            <Button 
+              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300 mb-4"
+              disabled
+            >
+              Enrollment Closed
+            </Button>
+          )}
 
           <div className="space-y-3 text-sm">
             <div className="flex items-center gap-3">

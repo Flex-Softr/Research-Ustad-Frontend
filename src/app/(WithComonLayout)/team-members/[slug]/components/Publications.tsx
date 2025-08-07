@@ -14,13 +14,13 @@ const Publications = ({ member }: PublicationsProps) => {
   }
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
-      <CardHeader>
+    <Card className="rounded-none border-0">
+      {/* <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
           <FileText className="h-6 w-6 text-brand-secondary" />
           Publications ({member.publications.length})
         </CardTitle>
-      </CardHeader>
+      </CardHeader> */}
       <CardContent>
         <div className="space-y-4">
           {member.publications.map((publication, index) => (

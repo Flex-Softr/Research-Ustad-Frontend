@@ -16,7 +16,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Users,
   Star,
-  DollarSign,
   Clock,
   MapPin,
   Calendar,
@@ -182,7 +181,7 @@ const CourseViewModal = ({
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-green-600" />
+                 
                   <div>
                     <p className="text-sm text-gray-600">Price</p>
                     {course.isFree ? (
@@ -191,7 +190,7 @@ const CourseViewModal = ({
                       </span>
                     ) : (
                       <p className="font-semibold text-green-600">
-                        ${course.fee}
+                         {course.fee} tk
                       </p>
                     )}
                   </div>

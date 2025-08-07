@@ -53,7 +53,7 @@ console.log(ongotinProjects)
                 <TableCell>{paper.journal}</TableCell>
                 <TableCell>{paper.impactFactor}</TableCell>
                 <TableCell>{paper.journalRank}</TableCell>
-                <TableCell>{paper.journalType}</TableCell>
+                <TableCell>{paper.paperType}</TableCell>
                 <TableCell>
                   <Button asChild variant="link">
                     <a href={paper.visitLink} target="_blank" rel="noopener noreferrer">

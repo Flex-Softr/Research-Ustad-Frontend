@@ -54,6 +54,7 @@ export default function AddCoursePage() {
     language: "English",
     certificate: true,
     lifetimeAccess: true,
+    enrollLink: "",
     thumbnail: null,
     instructors: [],
     tags: [],
@@ -94,6 +95,7 @@ export default function AddCoursePage() {
         language: course.language || "English",
         certificate: course.certificate ?? true,
         lifetimeAccess: course.lifetimeAccess ?? true,
+        enrollLink: (course as any).enrollLink || "",
         thumbnail: null, // We'll handle image separately
         instructors: course.instructors?.map(instructor => ({
           name: instructor.name || "",
@@ -171,6 +173,7 @@ export default function AddCoursePage() {
       language: "English",
       certificate: true,
       lifetimeAccess: true,
+      enrollLink: "",
       thumbnail: null,
       instructors: [],
       tags: [],
@@ -219,6 +222,7 @@ export default function AddCoursePage() {
         language: formData.language,
         certificate: formData.certificate,
         lifetimeAccess: formData.lifetimeAccess,
+        enrollLink: formData.enrollLink,
         instructors: formData.instructors.map(instructor => ({
           name: instructor.name,
           imageUrl: instructor.imageUrl || "", // Keep existing image URL if no new file

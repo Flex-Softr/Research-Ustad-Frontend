@@ -16,7 +16,6 @@ import {
   TrendingUp,
   Calendar,
   Star,
-  DollarSign,
   BarChart3,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -138,9 +137,8 @@ const CourseManagementDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()} tk</p>
               </div>
-              <DollarSign className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>

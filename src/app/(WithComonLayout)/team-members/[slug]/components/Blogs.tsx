@@ -13,8 +13,8 @@ const Blogs = ({ member }: BlogsProps) => {
   }
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
-      <CardHeader>
+    <Card className="rounded-none border-0">
+      {/* <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
           <svg
             className="h-6 w-6 text-brand-secondary"
@@ -31,8 +31,8 @@ const Blogs = ({ member }: BlogsProps) => {
           </svg>
           Blog Posts ({member.blogs.length})
         </CardTitle>
-      </CardHeader>
-      <CardContent>
+      </CardHeader> */}
+      <CardContent className="">
         <div className="space-y-4">
           {member.blogs.map((blog, index) => (
             <div

@@ -1,5 +1,4 @@
 export { default as CourseHeader } from "./CourseHeader";
-export { default as CourseImage } from "./CourseImage";
 export { default as CourseTabs } from "./CourseTabs";
 export { default as CourseContent } from "./CourseContent";
 export { default as CourseSidebar } from "./CourseSidebar";

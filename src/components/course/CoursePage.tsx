@@ -14,7 +14,6 @@ import {
   Users,
   Clock,
   Star,
-  DollarSign,
   MapPin,
   Calendar,
 } from "lucide-react";
@@ -138,10 +137,9 @@ const CoursePage = () => {
         items={[
           {
             label: "Courses",
-            current: true,
           },
         ]}
-        className="py-8"
+        className="py-4"
       />
 
       {/* Main Content */}
@@ -407,8 +405,7 @@ const CoursePage = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <DollarSign className="h-5 w-5 mr-1" />
-                                      <span>{course.fee}</span>
+                                      <span> {course.fee} tk</span>
                                     </>
                                   )}
                                 </div>

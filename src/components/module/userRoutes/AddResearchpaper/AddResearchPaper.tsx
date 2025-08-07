@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PostResearchPaper } from '@/services/allreserchPaper';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -16,7 +17,7 @@ export interface ResearchPaperForm {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  journalType: string;
+  paperType: string;
 }
 
 const AddResearchPaper: React.FC = () => {
@@ -51,7 +52,7 @@ const AddResearchPaper: React.FC = () => {
       impactFactor: Number(data.impactFactor),
       journalRank: data.journalRank,
       visitLink: data.visitLink,
-      journalType: data.journalType,
+      paperType: data.paperType,
     };
 
     try {
@@ -171,15 +172,18 @@ const AddResearchPaper: React.FC = () => {
           />
         </div>
 
-        {/* Journal Type */}
+        {/* Paper Type */}
         <div>
-          <Label htmlFor="journalType" className="mb-2">Journal Type:</Label>
-          <Input
-            id="journalType"
-            type="text"
-            placeholder="Enter the journal type (e.g., Open Access)"
-            {...register('journalType', { required: true })}
-          />
+          <Label htmlFor="paperType" className="mb-2">Paper Type:</Label>
+          <Select onValueChange={(value) => setValue('paperType', value)}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Journal">Journal</SelectItem>
+              <SelectItem value="Conference">Conference</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Submit Button */}

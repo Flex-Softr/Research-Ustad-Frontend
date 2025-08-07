@@ -8,6 +8,7 @@ interface ExpertiseProps {
 }
 
 const Expertise = ({ member }: ExpertiseProps) => {
+  console.log("member", member);
   return (
     <div className="space-y-6">
       {/* Expertise */}

@@ -82,10 +82,10 @@ const TeamMembersPage = () => {
         items={[
           {
             label: "Team Members",
-            current: true,
+            current: false,
           },
         ]}
-        className="py-8"
+        className="py-4"
       />
 
       {/* Main Content */}

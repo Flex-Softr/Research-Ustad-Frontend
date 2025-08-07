@@ -8,7 +8,7 @@ interface FilterState {
   category: string;
   status: string;
   year: string;
-  journalType: string;
+  paperType: string;
 }
 
 interface FilterSidebarProps {
@@ -39,9 +39,10 @@ const FilterSidebar = ({
     ...new Set(papers.map((paper) => paper.year.toString())),
   ].sort((a, b) => parseInt(b) - parseInt(a));
 
-  const journalTypes = [
+  const paperTypes = [
     "all",
-    ...new Set(papers.map((paper) => paper.journalType)),
+    "Journal",
+    "Conference"
   ];
 
   return (
@@ -108,7 +109,7 @@ const FilterSidebar = ({
 
         {/* Category Filter */}
         <div className="mb-6">
-          <h4 className="font-semibold text-gray-900 mb-3">Category</h4>
+          <h4 className="font-semibold text-gray-900 mb-3">Research Area</h4>
           <div className="space-y-2">
             {categories.slice(0, 5).map((category) => (
               <button
@@ -121,7 +122,7 @@ const FilterSidebar = ({
                 }`}
               >
                 <span className="font-medium">
-                  {category === "all" ? "All Categories" : category}
+                  {category === "all" ? "All" : category}
                 </span>
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-semibold ${
@@ -172,16 +173,16 @@ const FilterSidebar = ({
           </div>
         </div>
 
-        {/* Journal Type Filter */}
+        {/* Paper Type Filter */}
         <div className="mb-6">
-          <h4 className="font-semibold text-gray-900 mb-3">Journal Type</h4>
+          <h4 className="font-semibold text-gray-900 mb-3">Paper Type</h4>
           <div className="space-y-2">
-            {journalTypes.slice(0, 5).map((type) => (
+            {paperTypes.map((type) => (
               <button
                 key={type}
-                onClick={() => onFilterChange("journalType", type)}
+                onClick={() => onFilterChange("paperType", type)}
                 className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
-                  filters.journalType === type
+                  filters.paperType === type
                     ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
                     : "bg-gray-50 hover:bg-gray-100 text-gray-700"
                 }`}
@@ -191,14 +192,14 @@ const FilterSidebar = ({
                 </span>
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                    filters.journalType === type
+                    filters.paperType === type
                       ? "bg-white/20 text-white"
                       : "bg-brand-secondary/10 text-brand-secondary"
                   }`}
                 >
                   {type === "all"
                     ? papers.length
-                    : papers.filter((p) => p.journalType === type).length}
+                    : papers.filter((p) => p.paperType === type).length}
                 </span>
               </button>
             ))}
@@ -209,7 +210,7 @@ const FilterSidebar = ({
         {(filters.category !== "all" ||
           filters.status !== "all" ||
           filters.year !== "all" ||
-          filters.journalType !== "all" ||
+          filters.paperType !== "all" ||
           searchQuery) && (
           <Button
             onClick={onClearFilters}

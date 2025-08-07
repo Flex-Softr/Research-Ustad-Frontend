@@ -21,8 +21,9 @@ export type TPapers = {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  journalType: string;
+  paperType: string;
   isApproved: boolean;
+  researchArea?: string;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   __v: number;
@@ -37,5 +38,5 @@ export interface ResearchPaperForm {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  journalType: string;
+  paperType: string;
 } 

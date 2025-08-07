@@ -26,7 +26,6 @@ import {
   MoreHorizontal,
   Eye,
   Users,
-  DollarSign,
   Star,
   Calendar,
 } from "lucide-react";

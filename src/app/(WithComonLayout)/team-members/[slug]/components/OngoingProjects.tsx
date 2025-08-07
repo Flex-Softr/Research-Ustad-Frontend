@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, DollarSign, Users, Target } from "lucide-react";
+import { Calendar, Users, Target } from "lucide-react";
 import { TeamMember } from "../../components";
 
 interface OngoingProjectsProps {
@@ -13,13 +13,13 @@ const OngoingProjects = ({ member }: OngoingProjectsProps) => {
   }
 
   return (
-    <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
-      <CardHeader>
+    <Card className="rounded-none border-0">
+      {/* <CardHeader>
         <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
           <Target className="h-6 w-6 text-brand-secondary" />
           Ongoing Projects ({member.ongoingProjects.length})
         </CardTitle>
-      </CardHeader>
+      </CardHeader> */}
       <CardContent>
         <div className="space-y-4">
           {member.ongoingProjects.map((project, index) => (
@@ -46,8 +46,8 @@ const OngoingProjects = ({ member }: OngoingProjectsProps) => {
                     </div>
 
                     <div className="flex items-center gap-1">
-                      <DollarSign className="h-4 w-4" />
-                      <span>${project.funding.toLocaleString()}</span>
+                      
+                      <span> {project.funding.toLocaleString()} tk</span>
                     </div>
 
                     <Badge

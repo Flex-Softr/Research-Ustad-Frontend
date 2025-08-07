@@ -172,10 +172,9 @@ const BlogPage = () => {
         items={[
           {
             label: "Blog",
-            current: true,
           },
         ]}
-        className="py-8"
+        className="py-4"
       />
 
       {/* Main Content Section */}
@@ -215,30 +214,6 @@ const BlogPage = () => {
                       </span>
                     </button>
                   ))}
-                </div>
-
-                {/* Popular Tags */}
-                <div className="mt-8">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-4">
-                    Popular Tags
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      "Research",
-                      "Technology",
-                      "Education",
-                      "Innovation",
-                      "Science",
-                      "Academic",
-                    ].map((tag) => (
-                      <button
-                        key={tag}
-                        className="px-3 py-1 bg-gray-100 hover:bg-brand-secondary/10 text-gray-600 hover:text-brand-secondary rounded-full text-xs font-medium transition-all duration-300"
-                      >
-                        #{tag}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Stats */}

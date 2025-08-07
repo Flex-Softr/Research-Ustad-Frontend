@@ -9,7 +9,6 @@ import {
   Users,
   Clock,
   ExternalLink,
-  DollarSign,
 } from "lucide-react";
 import { CustomEvent } from "@/type/event";
 
@@ -45,6 +44,8 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
   const capacity = event?.capacity ?? 100;
   const registrationPercentage = Math.round((registered / capacity) * 100);
 
+  console.log('event', event.registrationFee)
+
   return (
     <div className="space-y-6">
       {/* Event Information Card */}
@@ -58,9 +59,8 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           {/* Price */}
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2">
-              <DollarSign className="h-5 w-5 text-brand-secondary" />
               <span className="text-3xl font-bold text-brand-secondary">
-                {event?.registrationFee === 0 ? "Free" : `$${event.registrationFee}`}
+                {event?.registrationFee === 0 ? "Free" : ` ${event.registrationFee}`} tk
               </span>
             </div>
             <p className="text-sm text-gray-600 mt-1">Registration Fee</p>
@@ -155,29 +155,28 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </div>
 
           {/* Registration Button */}
-          <Button
-            asChild
-            className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
-            disabled={statusInfo.status === "past"}
-          >
-            <a
-              href={event?.registrationLink ?? "#"}
-              target="_blank"
-              rel="noopener noreferrer"
+          {statusInfo.status === "upcoming" ? (
+            <Button
+              asChild
+              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
             >
-              {statusInfo.status === "upcoming"
-                ? "Register Now"
-                : "Event Ended"}
-              <ExternalLink className="h-4 w-4 ml-2" />
-            </a>
-          </Button>
-
-          {/* Additional Info */}
-          <div className="text-center">
-            <p className="text-xs text-gray-500">
-              By registering, you agree to our terms and conditions
-            </p>
-          </div>
+              <a
+                href={event?.registrationLink ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Register Now
+                <ExternalLink className="h-4 w-4 ml-2" />
+              </a>
+            </Button>
+          ) : (
+            <Button
+              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
+              disabled
+            >
+              Registration Closed
+            </Button>
+          )}
         </CardContent>
       </Card>
 

@@ -67,7 +67,7 @@ const Breadcrumb = ({
               </h1>
               {items.length > 1 && (
                 <p className="text-white/80 text-sm md:text-base mt-1">
-                  {items[items.length - 2]?.label}
+                  {/* {items[items.length - 2]?.label} */}
                 </p>
               )}
             </div>
