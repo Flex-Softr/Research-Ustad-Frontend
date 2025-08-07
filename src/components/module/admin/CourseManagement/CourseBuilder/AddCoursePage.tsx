@@ -17,6 +17,7 @@ import { TagsSection } from "./TagsSection";
 import { LearningObjectivesSection } from "./LearningObjectivesSection";
 import { RequirementsSection } from "./RequirementsSection";
 import { InstructorsSection } from "./InstructorsSection";
+import { CurriculumSection } from "./CurriculumSection";
 import { FormSidebar } from "./FormSidebar";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ export default function AddCoursePage() {
   const [formData, setFormData] = useState<CourseFormData>({
     title: "",
     description: "",
+    curriculum: "",
     location: "Online",
     offlineLocation: "",
     duration: "",
@@ -74,12 +76,13 @@ export default function AddCoursePage() {
     }
   }, [dispatch, isEditMode, courseId]);
 
-  // Update form data when course is loaded (for edit mode)
+// Update form data when course is loaded (for edit mode)
   useEffect(() => {
     if (isEditMode && course) {
       setFormData({
         title: course.title || "",
         description: course.description || "",
+        curriculum: course.curriculum || "",
         location: course.location || "Online",
         offlineLocation: course.offlineLocation || "",
         duration: course.duration || "",
@@ -158,6 +161,7 @@ export default function AddCoursePage() {
     setFormData({
       title: "",
       description: "",
+      curriculum: "",
       location: "Online",
       offlineLocation: "",
       duration: "",
@@ -208,6 +212,7 @@ export default function AddCoursePage() {
       const courseData = {
         title: formData.title,
         description: formData.description,
+        curriculum: formData.curriculum,
         location: formData.location || "Online",
         offlineLocation: formData.offlineLocation,
         duration: formData.duration,
@@ -410,6 +415,13 @@ export default function AddCoursePage() {
           />
 
           <CourseFeaturesSection formData={formData} onChange={handleChange} />
+
+          <CurriculumSection
+            curriculum={formData.curriculum}
+            onChange={handleChange}
+            errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
+          />
 
           <TagsSection
             tags={formData.tags}

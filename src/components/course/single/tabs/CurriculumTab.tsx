@@ -11,21 +11,28 @@ const CurriculumTab = ({ course }) => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-gray-900">Course Curriculum</h3>
+        <h3 className="text-xl font-bold text-gray-900">
+          Course Curriculum
+          {(!course.curriculum || !course.curriculum.trim()) && (
+            <span className="text-sm font-normal text-gray-500 ml-2">
+              (Generated)
+            </span>
+          )}
+        </h3>
         <div className="text-sm text-gray-600">
           {course.duration} • {totalLessons} lessons
         </div>
       </div>
 
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8">
-        {course.curriculum ? (
-          <div
-            className="prose prose-lg max-w-none"
-            dangerouslySetInnerHTML={{
-              __html: course.curriculum,
-            }}
-          />
-        ) : (
+                 {course.curriculum ? (
+           <div
+             className="[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-gray-900 [&>h1]:mb-4 [&>h1]:mt-6 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-gray-900 [&>h2]:mb-3 [&>h2]:mt-5 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-gray-800 [&>h3]:mb-2 [&>h3]:mt-4 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-6 [&>ol]:list-decimal [&>ol]:pl-6 [&>li]:mb-1 [&>strong]:font-semibold [&>em]:italic [&>blockquote]:border-l-4 [&>blockquote]:border-brand-secondary [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600"
+             dangerouslySetInnerHTML={{
+               __html: course.curriculum,
+             }}
+           />
+         ) : (
           <div className="prose prose-lg max-w-none">
             <h2>Course Overview</h2>
             <p>

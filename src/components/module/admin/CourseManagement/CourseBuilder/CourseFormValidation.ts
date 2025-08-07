@@ -11,6 +11,7 @@ const isValidUrl = (url: string): boolean => {
 export interface CourseFormData {
   title: string;
   description: string;
+  curriculum: string;
   location: string;
   offlineLocation?: string;
   duration: string;
@@ -69,6 +70,19 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
     errors.push({
       field: "description",
       message: "Course description must be at least 20 characters",
+    });
+  }
+
+  // Curriculum validation
+  if (!data.curriculum.trim()) {
+    errors.push({
+      field: "curriculum",
+      message: "Course curriculum is required",
+    });
+  } else if (data.curriculum.length < 50) {
+    errors.push({
+      field: "curriculum",
+      message: "Course curriculum must be at least 50 characters",
     });
   }
 

@@ -10,6 +10,7 @@ export interface CustomEvent {
   id?: string;
   title: string;
   description: string;
+  agenda: string;
   eventDuration: number;
   startDate: string;
   endDate: string;

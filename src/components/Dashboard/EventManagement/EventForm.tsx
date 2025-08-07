@@ -14,6 +14,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
 import { CustomEvent, EventFormProps } from "@/type/event";
 import { formatDateForInput } from "@/lib/dateUtils";
+import { EventAgendaSection } from "./EventAgendaSection";
 
 const EventForm = ({
   event,
@@ -28,11 +29,14 @@ const EventForm = ({
     handleSubmit,
     control,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<CustomEvent>({
     defaultValues: {
       title: event?.title || "",
       description: event?.description || "",
+      agenda: event?.agenda || "",
       startDate: formatDateForInput(event?.startDate),
       endDate: formatDateForInput(event?.endDate),
       location: event?.location || "",
@@ -47,6 +51,12 @@ const EventForm = ({
     },
     mode: "onChange",
   });
+
+  // Add validation for agenda field
+  const agenda = watch("agenda");
+  const agendaError = !agenda || agenda.trim().length < 50 
+    ? "Event agenda must be at least 50 characters" 
+    : undefined;
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -80,6 +90,12 @@ const EventForm = ({
   // create event
   const onSubmit = async (data: CustomEvent) => {
     try {
+      // Validate agenda
+      if (!data.agenda || data.agenda.trim().length < 50) {
+        toast.error("Event agenda must be at least 50 characters");
+        return;
+      }
+
       // Validate that at least one speaker is added
       if (!data.speakers || data.speakers.length === 0) {
         toast.error("At least one speaker is required");
@@ -312,6 +328,13 @@ const EventForm = ({
               <p className="text-sm text-red-500">{errors.description.message}</p>
             )}
           </div>
+
+          {/* Event Agenda Section */}
+          <EventAgendaSection
+            agenda={watch("agenda")}
+            onChange={(value) => setValue("agenda", value)}
+            error={agendaError}
+          />
 
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
