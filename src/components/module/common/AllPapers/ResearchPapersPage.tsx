@@ -1,22 +1,11 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { TPapers } from "@/type";
+import { FilterState, ResearchPapersPageProps, TPapers } from "@/type";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import Pagination from "@/components/shared/Pagination";
 import FilterSidebar from "./FilterSidebar";
 import PapersTable from "./PapersTable";
-
-interface ResearchPapersPageProps {
-  papers?: TPapers[];
-}
-
-interface FilterState {
-  category: string;
-  status: string;
-  year: string;
-  paperType: string;
-}
 
 const ResearchPapersPage = ({
   papers: propPapers,
@@ -62,25 +51,6 @@ const ResearchPapersPage = ({
   // Use papers state
   const papersData = papers;
 
-  // Extract unique values for filters
-  const categories = useMemo(() => {
-    const uniqueCategories = [
-      ...new Set(papersData.map((paper) => paper.researchArea).filter(Boolean)),
-    ];
-    return ["all", ...uniqueCategories];
-  }, [papersData]);
-
-  const years = useMemo(() => {
-    const uniqueYears = [
-      ...new Set(papersData.map((paper) => paper.year.toString())),
-    ];
-    return ["all", ...uniqueYears.sort((a, b) => parseInt(b) - parseInt(a))];
-  }, [papersData]);
-
-  const paperTypes = useMemo(() => {
-    return ["all", "Journal", "Conference"];
-  }, []);
-
   // Filter papers based on search and filters
   const filteredPapers = useMemo(() => {
     return papersData.filter((paper) => {
@@ -108,8 +78,7 @@ const ResearchPapersPage = ({
 
       // Paper type filter
       const paperTypeMatch =
-        filters.paperType === "all" ||
-        paper.paperType === filters.paperType;
+        filters.paperType === "all" || paper.paperType === filters.paperType;
 
       return (
         searchMatch &&

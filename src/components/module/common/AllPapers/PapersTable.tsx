@@ -1,15 +1,13 @@
 "use client";
 
-import { TPapers } from "@/type";
+import { PapersTableProps, TPapers } from "@/type";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Calendar, TrendingUp, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-interface PapersTableProps {
-  papers: TPapers[];
-}
+
 
 const PapersTable = ({ papers }: PapersTableProps) => {
   if (papers.length === 0) {

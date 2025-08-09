@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TPapers } from "@/type";
+import { RelatedPaper, SingleResearchPaperProps, TPapers } from "@/type";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,32 +27,7 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-interface SingleResearchPaperProps {
-  paper?: TPapers & {
-    abstract?: string;
-    keywords?: string[];
-    doi?: string;
-    citations?: number;
-    downloads?: number;
-    researchArea?: string;
-    funding?: string;
-    createdAt?: string;
-    journalType?: string;
-    updatedAt?: string;
-  };
-  paperId?: string;
-}
 
-interface RelatedPaper extends TPapers {
-  abstract?: string;
-  keywords?: string[];
-  doi?: string;
-  citations?: number;
-  downloads?: number;
-  researchArea?: string;
-  funding?: string;
-  journalType?: string;
-}
 
 const SingleResearchPaper = ({
   paper: propPaper,

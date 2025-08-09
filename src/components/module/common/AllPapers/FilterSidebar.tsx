@@ -4,22 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Filter, Search, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
-
-interface FilterState {
-  category: string;
-  status: string;
-  year: string;
-  paperType: string;
-}
-
-interface FilterSidebarProps {
-  papers: any[];
-  filters: FilterState;
-  searchQuery: string;
-  onFilterChange: (filterType: keyof FilterState, value: string) => void;
-  onSearch: (query: string) => void;
-  onClearFilters: () => void;
-}
+import { FilterSidebarProps } from "@/type";
 
 const FilterSidebar = ({
   papers,
@@ -29,7 +14,6 @@ const FilterSidebar = ({
   onSearch,
   onClearFilters,
 }: FilterSidebarProps) => {
-  // State for show more functionality
   const [showAllCategories, setShowAllCategories] = useState(false);
 
   // Extract unique values for filters
