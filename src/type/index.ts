@@ -19,6 +19,9 @@ export * from './research';
 // Common Types
 export * from './common';
 
+// UpdateInfo Form Types
+export * from './updateInfo';
+
 // Legacy exports for backward compatibility
 // These are kept to maintain existing imports
 

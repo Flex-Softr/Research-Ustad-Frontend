@@ -206,6 +206,18 @@ const ManageTable: React.FC<ManageTableProps> = ({
                             item
                           ) || "Uncategorized"}
                       </span>
+                    ) : column.value === "role" ? (
+                      <span 
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          item.role === "superAdmin" 
+                            ? "bg-purple-100 text-purple-800" 
+                            : item.role === "admin"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {item.role}
+                      </span>
                     ) : (
                       column.value
                         .split(".")
@@ -274,12 +286,23 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   {/* Delete Button */}
                   {(isvalue === "paperadmin" ||
                     isvalue === "researhMembar" ||
-                    isvalue === "blog") && (
+                    isvalue === "blog" ||
+                    isvalue === "userRole") && (
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => onDelete(item._id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      className={`text-red-500 hover:text-red-700 hover:bg-red-50 ${
+                        isvalue === "userRole" && item.role === "superAdmin" 
+                          ? "opacity-50 cursor-not-allowed" 
+                          : ""
+                      }`}
+                      disabled={isvalue === "userRole" && item.role === "superAdmin"}
+                      title={
+                        isvalue === "userRole" && item.role === "superAdmin"
+                          ? "SuperAdmin users cannot be deleted"
+                          : "Delete user"
+                      }
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

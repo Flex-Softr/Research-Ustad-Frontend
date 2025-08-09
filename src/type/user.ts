@@ -99,4 +99,7 @@ export interface FormData {
   fullName: string;
   email: string;
   password: string;
+  role: string;
+  designation: string;
+  contactNo?: string;
 }

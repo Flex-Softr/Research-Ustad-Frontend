@@ -12,6 +12,7 @@ import {
   LinkedinIcon,
   Microscope,
   BookMarked,
+  GraduationCap,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -87,7 +88,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <BookMarked />
+                      <GraduationCap />
                       Google Scholar
                       <ExternalLink className="w-3 h-3" />
                     </a>

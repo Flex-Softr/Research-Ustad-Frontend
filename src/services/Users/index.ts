@@ -47,3 +47,22 @@ export const PromoteRole = async (id: string) => {
     return null;
   }
 };
+
+export const DeleteUser = async (id: string) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    revalidateTag("users");
+    return await response.json();
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return null;
+  }
+};
