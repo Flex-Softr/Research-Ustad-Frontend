@@ -15,6 +15,7 @@ import { ShieldCheck, Edit, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { blogCategories } from "../BlogCategories";
 
 interface Column {
   label: string;
@@ -45,31 +46,6 @@ const ManageTable: React.FC<ManageTableProps> = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const itemsPerPage = 10;
-
-  // Blog categories for filtering
-  const blogCategories = [
-    { value: "all", label: "All Categories" },
-    { value: "technology", label: "Technology" },
-    { value: "research", label: "Research" },
-    { value: "academic", label: "Academic" },
-    { value: "education", label: "Education" },
-    { value: "science", label: "Science" },
-    { value: "engineering", label: "Engineering" },
-    { value: "computer-science", label: "Computer Science" },
-    { value: "artificial-intelligence", label: "Artificial Intelligence" },
-    { value: "machine-learning", label: "Machine Learning" },
-    { value: "data-science", label: "Data Science" },
-    { value: "cybersecurity", label: "Cybersecurity" },
-    { value: "blockchain", label: "Blockchain" },
-    { value: "iot", label: "Internet of Things" },
-    { value: "cloud-computing", label: "Cloud Computing" },
-    { value: "software-development", label: "Software Development" },
-    { value: "web-development", label: "Web Development" },
-    { value: "mobile-development", label: "Mobile Development" },
-    { value: "database", label: "Database" },
-    { value: "networking", label: "Networking" },
-    { value: "general", label: "General" },
-  ];
 
   // Format date function
   const formatDate = (dateString: string) => {
@@ -160,7 +136,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             className="px-3 py-2 border rounded-md w-full md:w-64"
           />
-          
+
           {/* Category Filter for Blog */}
           {isvalue === "blog" && (
             <select
@@ -176,7 +152,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
             </select>
           )}
         </div>
-        
+
         <p className="text-gray-600 font-semibold">
           Total Data: {filteredData?.length}
         </p>
@@ -210,7 +186,9 @@ const ManageTable: React.FC<ManageTableProps> = ({
                       >
                         Visit
                       </a>
-                    ) : column.value === "publishedDate" || column.value === "createdAt" || column.value === "updatedAt" ? (
+                    ) : column.value === "publishedDate" ||
+                      column.value === "createdAt" ||
+                      column.value === "updatedAt" ? (
                       formatDate(
                         column.value
                           .split(".")
@@ -294,7 +272,9 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   )}
 
                   {/* Delete Button */}
-                  {(isvalue === "paperadmin" || isvalue === "researhMembar" || isvalue === "blog") && (
+                  {(isvalue === "paperadmin" ||
+                    isvalue === "researhMembar" ||
+                    isvalue === "blog") && (
                     <Button
                       variant="outline"
                       size="sm"

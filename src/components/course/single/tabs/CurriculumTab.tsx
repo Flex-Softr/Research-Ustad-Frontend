@@ -1,6 +1,3 @@
-
-
-
 const CurriculumTab = ({ course }) => {
   const totalLessons =
     course.modules?.reduce(
@@ -25,14 +22,26 @@ const CurriculumTab = ({ course }) => {
       </div>
 
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8">
-                 {course.curriculum ? (
-           <div
-             className="[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-gray-900 [&>h1]:mb-4 [&>h1]:mt-6 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-gray-900 [&>h2]:mb-3 [&>h2]:mt-5 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-gray-800 [&>h3]:mb-2 [&>h3]:mt-4 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-6 [&>ol]:list-decimal [&>ol]:pl-6 [&>li]:mb-1 [&>strong]:font-semibold [&>em]:italic [&>blockquote]:border-l-4 [&>blockquote]:border-brand-secondary [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600"
-             dangerouslySetInnerHTML={{
-               __html: course.curriculum,
-             }}
-           />
-         ) : (
+        {course.curriculum ? (
+          <div
+            className="[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-gray-900 [&>h1]:mb-4 [&>h1]:mt-6
+                       [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-gray-900 [&>h2]:mb-3 [&>h2]:mt-5
+                       [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-gray-800 [&>h3]:mb-2 [&>h3]:mt-4
+                       [&>h4]:text-base [&>h4]:font-medium [&>h4]:text-gray-800 [&>h4]:mb-2 [&>h4]:mt-3
+                       [&>h5]:text-sm [&>h5]:font-medium [&>h5]:text-gray-700 [&>h5]:mb-1 [&>h5]:mt-2
+                       [&>h6]:text-xs [&>h6]:font-medium [&>h6]:text-gray-600 [&>h6]:mb-1 [&>h6]:mt-2
+                       [&>p]:mb-3 
+                       [&>ul]:list-disc [&>ul]:pl-6 
+                       [&>ol]:list-decimal [&>ol]:pl-6 
+                       [&>li]:mb-1 
+                       [&>strong]:font-semibold 
+                       [&>em]:italic 
+                       [&>blockquote]:border-l-4 [&>blockquote]:border-brand-secondary [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600"
+            dangerouslySetInnerHTML={{
+              __html: course.curriculum,
+            }}
+          />
+        ) : (
           <div className="prose prose-lg max-w-none">
             <h2>Course Overview</h2>
             <p>

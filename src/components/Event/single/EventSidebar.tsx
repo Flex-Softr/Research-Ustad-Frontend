@@ -3,13 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import {
-  Calendar,
-  MapPin,
-  Users,
-  Clock,
-  ExternalLink,
-} from "lucide-react";
+import { Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react";
 import { CustomEvent } from "@/type/event";
 
 interface EventSidebarProps {
@@ -33,7 +27,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
     } else {
       return {
         status: "past",
-        text: "Event completed",
+        // text: "Event completed",
         color: "text-gray-500",
       };
     }
@@ -41,10 +35,10 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
 
   const statusInfo = getEventStatus(event);
   const registered = event?.registered ?? 0;
-  const capacity = event?.capacity ?? 100;
+  const capacity = event?.maxAttendees ?? 100;
   const registrationPercentage = Math.round((registered / capacity) * 100);
 
-  console.log('event', event.registrationFee)
+  console.log("event", event.registrationFee);
 
   return (
     <div className="space-y-6">
@@ -60,7 +54,10 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           <div className="text-center">
             <div className="flex items-center justify-center space-x-2">
               <span className="text-3xl font-bold text-brand-secondary">
-                {event?.registrationFee === 0 ? "Free" : ` ${event.registrationFee}`} tk
+                {event?.registrationFee === 0
+                  ? "Free"
+                  : ` ${event.registrationFee}`}{" "}
+                tk
               </span>
             </div>
             <p className="text-sm text-gray-600 mt-1">Registration Fee</p>
@@ -136,11 +133,13 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
                   {registered}/{capacity}
                 </span>
               </div>
-              <Progress
-                value={registrationPercentage}
-                className="h-2"
-                // removed indicatorClassName if not used by your Progress component
-              />
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-gradient-to-r from-brand-primary to-brand-secondary h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${registrationPercentage}%` }}
+                ></div>
+              </div>
+
               <p className="text-xs text-gray-500 text-center">
                 {capacity - registered} spots remaining
               </p>
@@ -208,7 +207,9 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Capacity</span>
-            <span className="font-medium text-gray-900">{event?.maxAttendees}</span>
+            <span className="font-medium text-gray-900">
+              {event?.maxAttendees}
+            </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Registered</span>

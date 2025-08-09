@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Filter, Search } from "lucide-react";
+import { Filter, Search, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 
 interface FilterState {
   category: string;
@@ -28,10 +29,13 @@ const FilterSidebar = ({
   onSearch,
   onClearFilters,
 }: FilterSidebarProps) => {
+  // State for show more functionality
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
   // Extract unique values for filters
   const categories = [
     "all",
-    ...new Set(papers.map((paper) => paper.journalRank)),
+    ...new Set(papers.map((paper) => paper.researchArea).filter(Boolean)),
   ];
 
   const years = [
@@ -86,7 +90,7 @@ const FilterSidebar = ({
               <button
                 key={filter.id}
                 onClick={() => onFilterChange("status", filter.id)}
-                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
+                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
                   filters.status === filter.id
                     ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
                     : "bg-gray-50 hover:bg-gray-100 text-gray-700"
@@ -111,11 +115,11 @@ const FilterSidebar = ({
         <div className="mb-6">
           <h4 className="font-semibold text-gray-900 mb-3">Research Area</h4>
           <div className="space-y-2">
-            {categories.slice(0, 5).map((category) => (
+            {(showAllCategories ? categories : categories.slice(0, 4)).map((category) => (
               <button
                 key={category}
                 onClick={() => onFilterChange("category", category)}
-                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
+                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
                   filters.category === category
                     ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
                     : "bg-gray-50 hover:bg-gray-100 text-gray-700"
@@ -133,10 +137,30 @@ const FilterSidebar = ({
                 >
                   {category === "all"
                     ? papers.length
-                    : papers.filter((p) => p.journalRank === category).length}
+                    : papers.filter((p) => p.researchArea === category).length}
                 </span>
               </button>
             ))}
+            
+            {/* Show More/Less Button */}
+            {categories.length > 4 && (
+              <button
+                onClick={() => setShowAllCategories(!showAllCategories)}
+                className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all duration-300 text-sm font-medium cursor-pointer"
+              >
+                {showAllCategories ? (
+                  <>
+                    <ChevronUp className="h-4 w-4" />
+                    Show Less
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-4 w-4" />
+                    Show More ({categories.length - 4} more)
+                  </>
+                )}
+              </button>
+            )}
           </div>
         </div>
 
@@ -144,11 +168,11 @@ const FilterSidebar = ({
         <div className="mb-6">
           <h4 className="font-semibold text-gray-900 mb-3">Year</h4>
           <div className="space-y-2">
-            {years.slice(0, 6).map((year) => (
+            {years.map((year) => (
               <button
                 key={year}
                 onClick={() => onFilterChange("year", year)}
-                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
+                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
                   filters.year === year
                     ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
                     : "bg-gray-50 hover:bg-gray-100 text-gray-700"
@@ -181,7 +205,7 @@ const FilterSidebar = ({
               <button
                 key={type}
                 onClick={() => onFilterChange("paperType", type)}
-                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
+                className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
                   filters.paperType === type
                     ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
                     : "bg-gray-50 hover:bg-gray-100 text-gray-700"
@@ -206,20 +230,17 @@ const FilterSidebar = ({
           </div>
         </div>
 
-        {/* Clear Filters */}
-        {(filters.category !== "all" ||
-          filters.status !== "all" ||
-          filters.year !== "all" ||
-          filters.paperType !== "all" ||
-          searchQuery) && (
+        {/* Reset Button - Always Visible */}
+        <div className="pt-4 border-brand-secondary/10 ">
           <Button
             onClick={onClearFilters}
             variant="outline"
-            className="w-full border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
+            className="w-full border-brand-secondary/10 bg-brand-secondary/10 text-brand-secondary hover:text-brand-secondary cursor-pointer transition-all duration-300 font-medium"
           >
-            Clear All Filters
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Reset All Filters
           </Button>
-        )}
+        </div>
       </div>
     </div>
   );

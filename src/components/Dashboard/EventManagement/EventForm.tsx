@@ -31,7 +31,7 @@ const EventForm = ({
     reset,
     watch,
     setValue,
-    formState: { errors },
+    formState: { errors, touchedFields, isSubmitted },
   } = useForm<CustomEvent>({
     defaultValues: {
       title: event?.title || "",
@@ -47,6 +47,7 @@ const EventForm = ({
       registrationLink: event?.registrationLink || "",
       eventDuration: event?.eventDuration || 60,
       registrationFee: event?.registrationFee || 0,
+      registered: event?.registered || 0,
       speakers: event?.speakers || [],
     },
     mode: "onChange",
@@ -54,10 +55,12 @@ const EventForm = ({
 
   // Add validation for agenda field
   const agenda = watch("agenda");
-  const agendaError = !agenda || agenda.trim().length < 50 
-    ? "Event agenda must be at least 50 characters" 
+// Show error only if field is touched or form is submitted
+const agendaError =
+  (touchedFields.agenda || isSubmitted) &&
+  (!agenda || agenda.trim().length < 50)
+    ? "Event agenda must be at least 50 characters"
     : undefined;
-
   const { fields, append, remove } = useFieldArray({
     control,
     name: "speakers",
@@ -112,6 +115,12 @@ const EventForm = ({
         return;
       }
 
+      // Validate maxAttendees vs registered
+      if (data.maxAttendees < data.registered) {
+        toast.error("Max attendees cannot be less than currently registered attendees");
+        return;
+      }
+
       const formData = new FormData();
 
       // Add main event image
@@ -138,6 +147,7 @@ const EventForm = ({
         speakers: speakersData,
         eventDuration: Number(data.eventDuration),
         maxAttendees: Number(data.maxAttendees),
+        registered: Number(data.registered),
         registrationFee: Number(data.registrationFee),
       };
 
@@ -256,11 +266,37 @@ const EventForm = ({
                 {...register("maxAttendees", { 
                   required: "Max attendees is required",
                   min: { value: 1, message: "Must have at least 1 attendee" },
-                  max: { value: 10000, message: "Cannot exceed 10,000 attendees" }
+                  max: { value: 10000, message: "Cannot exceed 10,000 attendees" },
+                  validate: (value) => {
+                    const registeredValue = watch("registered");
+                    return Number(value) >= Number(registeredValue) || 
+                           "Max attendees cannot be less than currently registered attendees";
+                  }
                 })}
               />
               {errors.maxAttendees && (
                 <p className="text-sm text-red-500">{errors.maxAttendees.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="registered">Currently Registered</Label>
+              <Input
+                type="number"
+                id="registered"
+                min="0"
+                {...register("registered", { 
+                  required: "Registered count is required",
+                  min: { value: 0, message: "Registered count cannot be negative" },
+                  validate: (value) => {
+                    const maxAttendeesValue = watch("maxAttendees");
+                    return Number(value) <= Number(maxAttendeesValue) || 
+                           "Registered attendees cannot exceed max attendees";
+                  }
+                })}
+              />
+              {errors.registered && (
+                <p className="text-sm text-red-500">{errors.registered.message}</p>
               )}
             </div>
 
@@ -331,7 +367,7 @@ const EventForm = ({
 
           {/* Event Agenda Section */}
           <EventAgendaSection
-            agenda={watch("agenda")}
+            agenda={agenda}
             onChange={(value) => setValue("agenda", value)}
             error={agendaError}
           />

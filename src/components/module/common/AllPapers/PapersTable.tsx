@@ -39,11 +39,14 @@ const PapersTable = ({ papers }: PapersTableProps) => {
             <thead className="bg-gray-50/80 border-b border-gray-200">
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
-                  Title & Authors
+                  Title
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Journal
                 </th>
+                {/* <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  Research Area
+                </th> */}
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   Year
                 </th>
@@ -74,11 +77,19 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                       <p className="text-sm font-medium text-gray-900">
                         {paper.journal}
                       </p>
-                      <p className="text-xs text-gray-600">
+                      {/* <p className="text-xs text-gray-600">
                         Vol. {paper.volume}
-                      </p>
+                      </p> */}
                     </div>
                   </td>
+                  {/* <td className="px-6 py-4">
+                    <Badge 
+                      variant="outline" 
+                      className="text-xs bg-blue-50 text-blue-700 border-blue-200"
+                    >
+                      {paper.researchArea || 'General'}
+                    </Badge>
+                  </td> */}
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4 text-gray-400" />

@@ -9,8 +9,6 @@ interface EventContentProps {
 }
 
 const EventContent = ({ event }: EventContentProps) => {
-
-
   // Use agenda from database if available, otherwise generate dynamic agenda
   const getAgenda = (event: CustomEvent) => {
     if (event.agenda && event.agenda.trim()) {
@@ -18,8 +16,8 @@ const EventContent = ({ event }: EventContentProps) => {
       return event.agenda;
     }
 
-    console.log('Event data for dynamic agenda:', event);
-    
+    console.log("Event data for dynamic agenda:", event);
+
     // Generate dynamic agenda based on actual event data
     const startDate = new Date(event.startDate);
     const endDate = new Date(event.endDate);
@@ -29,19 +27,23 @@ const EventContent = ({ event }: EventContentProps) => {
 
     // Calculate event duration in hours
     const durationHours = Math.ceil(event.eventDuration / 60);
-    
+
     // Generate dynamic sessions based on event data
-    const generateSessions = (isFirstDay: boolean, isLastDay: boolean, dayIndex: number) => {
+    const generateSessions = (
+      isFirstDay: boolean,
+      isLastDay: boolean,
+      dayIndex: number
+    ) => {
       const sessions = [];
-      
+
       if (isFirstDay) {
         sessions.push({
           title: "Opening Ceremony & Welcome",
           time: "9:00 AM",
-          duration: "30 min"
+          duration: "30 min",
         });
       }
-      
+
       // Add keynote sessions if speakers exist
       if (event.speakers && event.speakers.length > 0) {
         event.speakers.forEach((speaker, index) => {
@@ -49,66 +51,70 @@ const EventContent = ({ event }: EventContentProps) => {
             title: `Keynote: ${speaker.name}`,
             time: isFirstDay ? `${9 + index * 2}:00 AM` : `${9 + index}:00 AM`,
             duration: "45 min",
-            speaker: speaker.name
+            speaker: speaker.name,
           });
         });
       } else {
         sessions.push({
           title: "Keynote Speeches",
           time: isFirstDay ? "10:00 AM" : "9:00 AM",
-          duration: "45 min"
+          duration: "45 min",
         });
       }
-      
+
       // Add panel discussions
       sessions.push({
         title: "Panel Discussions",
         time: isFirstDay ? "11:30 AM" : "10:30 AM",
-        duration: "60 min"
+        duration: "60 min",
       });
-      
+
       // Add networking break
       sessions.push({
         title: "Networking Break",
         time: isFirstDay ? "12:30 PM" : "11:30 AM",
-        duration: "30 min"
+        duration: "30 min",
       });
-      
+
       // Add workshop sessions based on event category
-      const workshopTitle = event.category ? `${event.category} Workshop` : "Workshop Sessions";
+      const workshopTitle = event.category
+        ? `${event.category} Workshop`
+        : "Workshop Sessions";
       sessions.push({
         title: workshopTitle,
         time: isFirstDay ? "1:00 PM" : "12:00 PM",
-        duration: "90 min"
+        duration: "90 min",
       });
-      
+
       if (isLastDay) {
         sessions.push({
           title: "Closing Ceremony & Awards",
           time: "3:00 PM",
-          duration: "60 min"
+          duration: "60 min",
         });
       } else {
         sessions.push({
           title: "Evening Session",
           time: "2:30 PM",
-          duration: "60 min"
+          duration: "60 min",
         });
       }
-      
+
       return sessions;
     };
 
     if (daysDiff === 0) {
       // Single day event
       const sessions = generateSessions(true, true, 0);
-      
-             return `
+
+      return `
          <div style="margin-bottom: 1.5rem;">
            <h2 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">Event Schedule</h2>
            <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
              <p style="font-size: 0.875rem; color: #1e40af;">
-               <strong>Event Duration:</strong> ${event.eventDuration} minutes | 
+               <strong>Event Duration:</strong> ${
+                 event.eventDuration
+               } minutes | 
                <strong>Location:</strong> ${event.location} | 
                <strong>Category:</strong> ${event.category}
              </p>
@@ -117,22 +123,36 @@ const EventContent = ({ event }: EventContentProps) => {
            <div style="background-color: #f9fafb; border-radius: 0.5rem; padding: 1.5rem;">
              <h3 style="font-size: 1.125rem; font-weight: 500; color: #374151; margin-bottom: 0.75rem;">Event Day</h3>
              <ul style="margin: 0; padding: 0; list-style: none;">
-               ${sessions.map(session => `
+               ${sessions
+                 .map(
+                   (session) => `
                  <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background-color: white; border-radius: 0.5rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); margin-bottom: 0.75rem;">
                    <div style="display: flex; align-items: center;">
                      <span style="width: 0.5rem; height: 0.5rem; background-color: #bc986b; border-radius: 50%; margin-right: 0.75rem;"></span>
                      <div>
-                       <span style="font-weight: 500; color: #111827;">${session.title}</span>
-                       ${session.speaker ? `<br><span style="font-size: 0.875rem; color: #6b7280;">by ${session.speaker}</span>` : ''}
+                       <span style="font-weight: 500; color: #111827;">${
+                         session.title
+                       }</span>
+                       ${
+                         session.speaker
+                           ? `<br><span style="font-size: 0.875rem; color: #6b7280;">by ${session.speaker}</span>`
+                           : ""
+                       }
                      </div>
                    </div>
                    <div style="text-align: right;">
-                     <span style="color: #6b7280; font-size: 0.875rem;">${session.time}</span>
+                     <span style="color: #6b7280; font-size: 0.875rem;">${
+                       session.time
+                     }</span>
                      <br>
-                     <span style="font-size: 0.75rem; color: #9ca3af;">${session.duration}</span>
+                     <span style="font-size: 0.75rem; color: #9ca3af;">${
+                       session.duration
+                     }</span>
                    </div>
                  </li>
-               `).join('')}
+               `
+                 )
+                 .join("")}
              </ul>
            </div>
          </div>
@@ -143,41 +163,61 @@ const EventContent = ({ event }: EventContentProps) => {
         const isFirstDay = index === 0;
         const isLastDay = index === daysDiff;
         const sessions = generateSessions(isFirstDay, isLastDay, index);
-        
-                 return `
+
+        return `
            <div style="background-color: #f9fafb; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
-             <h3 style="font-size: 1.125rem; font-weight: 500; color: #374151; margin-bottom: 0.75rem;">Day ${index + 1}</h3>
+             <h3 style="font-size: 1.125rem; font-weight: 500; color: #374151; margin-bottom: 0.75rem;">Day ${
+               index + 1
+             }</h3>
              <ul style="margin: 0; padding: 0; list-style: none;">
-               ${sessions.map(session => `
+               ${sessions
+                 .map(
+                   (session) => `
                  <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background-color: white; border-radius: 0.5rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); margin-bottom: 0.75rem;">
                    <div style="display: flex; align-items: center;">
                      <span style="width: 0.5rem; height: 0.5rem; background-color: #bc986b; border-radius: 50%; margin-right: 0.75rem;"></span>
                      <div>
-                       <span style="font-weight: 500; color: #111827;">${session.title}</span>
-                       ${session.speaker ? `<br><span style="font-size: 0.875rem; color: #6b7280;">by ${session.speaker}</span>` : ''}
+                       <span style="font-weight: 500; color: #111827;">${
+                         session.title
+                       }</span>
+                       ${
+                         session.speaker
+                           ? `<br><span style="font-size: 0.875rem; color: #6b7280;">by ${session.speaker}</span>`
+                           : ""
+                       }
                      </div>
                    </div>
                    <div style="text-align: right;">
-                     <span style="color: #6b7280; font-size: 0.875rem;">${session.time}</span>
+                     <span style="color: #6b7280; font-size: 0.875rem;">${
+                       session.time
+                     }</span>
                      <br>
-                     <span style="font-size: 0.75rem; color: #9ca3af;">${session.duration}</span>
+                     <span style="font-size: 0.75rem; color: #9ca3af;">${
+                       session.duration
+                     }</span>
                    </div>
                  </li>
-               `).join('')}
+               `
+                 )
+                 .join("")}
              </ul>
            </div>
          `;
-      }).join('');
-      
-             return `
+      }).join("");
+
+      return `
          <div style="margin-bottom: 1.5rem;">
            <h2 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">Event Schedule</h2>
            <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
              <p style="font-size: 0.875rem; color: #1e40af;">
-               <strong>Event Duration:</strong> ${event.eventDuration} minutes | 
+               <strong>Event Duration:</strong> ${
+                 event.eventDuration
+               } minutes | 
                <strong>Location:</strong> ${event.location} | 
                <strong>Category:</strong> ${event.category} | 
-               <strong>Duration:</strong> ${daysDiff + 1} day${daysDiff > 0 ? 's' : ''}
+               <strong>Duration:</strong> ${daysDiff + 1} day${
+        daysDiff > 0 ? "s" : ""
+      }
              </p>
            </div>
            ${days}
@@ -232,9 +272,7 @@ const EventContent = ({ event }: EventContentProps) => {
               <Clock className="h-5 w-5 text-brand-secondary" />
               <div>
                 <p className="font-medium text-gray-900">Duration</p>
-                <p className="text-gray-600">
-                {event?.eventDuration} min
-                </p>
+                <p className="text-gray-600">{event?.eventDuration} min</p>
               </div>
             </div>
 
@@ -245,8 +283,6 @@ const EventContent = ({ event }: EventContentProps) => {
                 <p className="text-gray-600">{event.location}</p>
               </div>
             </div>
-
-          
           </div>
         </CardContent>
       </Card>
@@ -301,19 +337,29 @@ const EventContent = ({ event }: EventContentProps) => {
             )}
           </CardTitle>
         </CardHeader>
-                 <CardContent>
-           <div 
-             style={{
-               fontSize: '1.125rem',
-               lineHeight: '1.75',
-               color: '#374151'
-             }}
-             dangerouslySetInnerHTML={{
-               __html: agenda,
-             }}
-             className="[&>h1]:text-2xl [&>h1]:font-bold [&>h1]:text-gray-900 [&>h1]:mb-4 [&>h1]:mt-6 [&>h2]:text-xl [&>h2]:font-semibold [&>h2]:text-gray-900 [&>h2]:mb-3 [&>h2]:mt-5 [&>h3]:text-lg [&>h3]:font-medium [&>h3]:text-gray-800 [&>h3]:mb-2 [&>h3]:mt-4 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-6 [&>ol]:list-decimal [&>ol]:pl-6 [&>li]:mb-1 [&>strong]:font-semibold [&>em]:italic [&>blockquote]:border-l-4 [&>blockquote]:border-brand-secondary [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600"
-           />
-         </CardContent>
+        <CardContent>
+          <div
+            style={{
+              fontSize: "1.125rem",
+              lineHeight: "1.75",
+              color: "#374151",
+            }}
+            dangerouslySetInnerHTML={{
+              __html: agenda,
+            }}
+            className="[&>h1]:text-4xl [&>h1]:font-bold [&>h1]:text-gray-900 [&>h1]:mb-4 [&>h1]:mt-6 
+            [&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:text-gray-900 [&>h2]:mb-3 [&>h2]:mt-5 
+            [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:text-gray-800 [&>h3]:mb-2 [&>h3]:mt-4 
+            [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:text-gray-800 [&>h4]:mb-2 [&>h4]:mt-4 
+            [&>h5]:text-lg [&>h5]:font-semibold [&>h5]:text-gray-800 [&>h5]:mb-2 [&>h5]:mt-4 
+            [&>h6]:text-sm [&>h6]:font-semibold [&>h6]:text-gray-800 [&>h6]:mb-2 [&>h6]:mt-4 
+            [&>p]:mb-3 
+            [&>ul]:list-disc [&>ul]:pl-6 
+            [&>ol]:list-decimal [&>ol]:pl-6 
+            [&>li]:mb-1 
+            [&>strong]:font-semibold [&>em]:italic [&>blockquote]:border-l-4 [&>blockquote]:border-brand-secondary [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:text-gray-600"
+          />
+        </CardContent>
       </Card>
     </div>
   );

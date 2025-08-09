@@ -65,7 +65,7 @@ const ResearchPapersPage = ({
   // Extract unique values for filters
   const categories = useMemo(() => {
     const uniqueCategories = [
-      ...new Set(papersData.map((paper) => paper.journalRank)),
+      ...new Set(papersData.map((paper) => paper.researchArea).filter(Boolean)),
     ];
     return ["all", ...uniqueCategories];
   }, [papersData]);
@@ -94,7 +94,7 @@ const ResearchPapersPage = ({
 
       // Category filter
       const categoryMatch =
-        filters.category === "all" || paper.journalRank === filters.category;
+        filters.category === "all" || paper.researchArea === filters.category;
 
       // Status filter (ongoing/published based on isApproved)
       const statusMatch =
