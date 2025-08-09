@@ -139,7 +139,6 @@ const CoursePage = () => {
             label: "Courses",
           },
         ]}
-        className="py-4"
       />
 
       {/* Main Content */}

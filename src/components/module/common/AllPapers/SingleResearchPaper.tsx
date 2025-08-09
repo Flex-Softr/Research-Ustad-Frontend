@@ -154,7 +154,6 @@ const SingleResearchPaper = ({
             label: paper.title,
           },
         ]}
-        className="py-4"
       />
 
       {/* Main Content */}

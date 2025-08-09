@@ -85,7 +85,6 @@ const TeamMembersPage = () => {
             current: false,
           },
         ]}
-        className="py-4"
       />
 
       {/* Main Content */}

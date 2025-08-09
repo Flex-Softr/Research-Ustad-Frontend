@@ -148,7 +148,6 @@ const ResearchPapersPage = ({
             label: "Research Papers",
           },
         ]}
-        className="py-4"
       />
 
       {/* Main Content */}

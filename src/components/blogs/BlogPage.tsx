@@ -174,7 +174,6 @@ const BlogPage = () => {
             label: "Blog",
           },
         ]}
-        className="py-4"
       />
 
       {/* Main Content Section */}

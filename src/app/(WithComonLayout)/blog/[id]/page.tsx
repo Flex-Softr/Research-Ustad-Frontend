@@ -161,7 +161,6 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
             current: false,
           },
         ]}
-        className="py-4"
       />
 
       {/* Main Content - Full Width */}
