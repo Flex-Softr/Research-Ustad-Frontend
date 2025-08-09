@@ -14,8 +14,6 @@ const CourseSidebar = ({ course }) => {
     setImageError(true);
   };
 
-  console.log('course', course)
-
   return (
     <div className="sticky top-8 space-y-6">
       {/* Course Card */}
@@ -42,7 +40,7 @@ const CourseSidebar = ({ course }) => {
               </span>
             ) : (
               <span className="text-3xl font-bold text-gray-900">
-                ${course.fee}
+                {course.fee} BDT
               </span>
             )}
           </div>

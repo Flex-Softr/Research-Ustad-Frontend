@@ -47,7 +47,7 @@ const OngoingProjects = ({ member }: OngoingProjectsProps) => {
 
                     <div className="flex items-center gap-1">
                       
-                      <span> {project.funding.toLocaleString()} tk</span>
+                      <span> {project.funding.toLocaleString()} BDT</span>
                     </div>
 
                     <Badge

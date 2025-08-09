@@ -404,7 +404,7 @@ const CoursePage = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <span> {course.fee} tk</span>
+                                      <span> {course.fee} BDT</span>
                                     </>
                                   )}
                                 </div>

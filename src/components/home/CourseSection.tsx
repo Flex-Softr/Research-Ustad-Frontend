@@ -328,7 +328,7 @@ const CoursesSection = () => {
                       </>
                     ) : (
                       <>
-                        <span> {course.fee} tk</span>
+                        <span> {course.fee} BDT</span>
                       </>
                     )}
                   </div>

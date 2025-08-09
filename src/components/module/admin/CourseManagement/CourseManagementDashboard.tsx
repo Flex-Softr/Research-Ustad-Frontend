@@ -137,7 +137,7 @@ const CourseManagementDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()} tk</p>
+                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()} BDT</p>
               </div>
             </div>
           </CardContent>

@@ -92,3 +92,11 @@ export interface JWTPayload {
   name?: string;
   [key: string]: any;
 } 
+
+
+// users form type
+export interface FormData {
+  fullName: string;
+  email: string;
+  password: string;
+}

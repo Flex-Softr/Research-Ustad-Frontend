@@ -190,7 +190,7 @@ const CourseViewModal = ({
                       </span>
                     ) : (
                       <p className="font-semibold text-green-600">
-                         {course.fee} tk
+                         {course.fee} BDT
                       </p>
                     )}
                   </div>

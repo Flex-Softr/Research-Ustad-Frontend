@@ -132,7 +132,7 @@ const adminRoute = {
       items: [
         {
           title: "Create Member",
-          url: "/admin/dashboard/createassociate",
+          url: "/admin/dashboard/createMember",
           icon: UserPlus,
         },
         {

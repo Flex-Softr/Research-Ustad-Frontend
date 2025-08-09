@@ -57,7 +57,7 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
                 {event?.registrationFee === 0
                   ? "Free"
                   : ` ${event.registrationFee}`}{" "}
-                tk
+                BDT
               </span>
             </div>
             <p className="text-sm text-gray-600 mt-1">Registration Fee</p>
