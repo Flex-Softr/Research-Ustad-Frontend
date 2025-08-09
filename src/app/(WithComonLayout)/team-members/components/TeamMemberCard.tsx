@@ -47,6 +47,15 @@ export interface TeamMember extends UserProfile {
     likes: number;
     status: string;
   }>;
+  ongoing?: Array<{
+    id: string;
+    title: string;
+    journal: string;
+    year: number;
+    citations: number;
+    papertype: string;
+    status: string;
+  }>;
   expertise?: string[];
   awards?: string[];
   conferences?: Array<{

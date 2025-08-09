@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Calendar, Quote, ExternalLink, Users } from "lucide-react";
 import { TeamMember } from "../../components";
+import Link from "next/link";
 
 interface PublicationsProps {
   member: TeamMember;
@@ -15,12 +16,6 @@ const Publications = ({ member }: PublicationsProps) => {
 
   return (
     <Card className="rounded-none border-0">
-      {/* <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
-          <FileText className="h-6 w-6 text-brand-secondary" />
-          Publications ({member.publications.length})
-        </CardTitle>
-      </CardHeader> */}
       <CardContent>
         <div className="space-y-4">
           {member.publications.map((publication, index) => (
@@ -44,25 +39,12 @@ const Publications = ({ member }: PublicationsProps) => {
                       <FileText className="h-4 w-4" />
                       <span className="font-medium">{publication.journal}</span>
                     </div>
-
-                    <div className="flex items-center gap-1">
+                    <Badge
+                      variant={"secondary"}
+                      className={"bg-green-100 text-green-800 border-green-200"}
+                    >
                       <Quote className="h-4 w-4" />
                       <span>{publication.citations} citations</span>
-                    </div>
-
-                    <Badge
-                      variant={
-                        publication.status === "Published"
-                          ? "default"
-                          : "secondary"
-                      }
-                      className={
-                        publication.status === "Published"
-                          ? "bg-green-100 text-green-800 border-green-200"
-                          : "bg-yellow-100 text-yellow-800 border-yellow-200"
-                      }
-                    >
-                      {publication.status}
                     </Badge>
                   </div>
 
@@ -74,42 +56,19 @@ const Publications = ({ member }: PublicationsProps) => {
                       </span>
                     </div>
                   )}
-
-                  <div className="flex items-center gap-4 text-sm">
-                    <span className="text-gray-600">
-                      Impact Factor:{" "}
-                      <span className="font-medium">
-                        {publication.impactFactor}
-                      </span>
-                    </span>
-                    {publication.doi && (
-                      <span className="text-gray-600">
-                        DOI:{" "}
-                        <span className="font-mono text-xs">
-                          {publication.doi}
-                        </span>
-                      </span>
-                    )}
-                  </div>
                 </div>
 
-                {publication.doi && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2 flex-shrink-0"
-                  >
-                    <a
-                      href={`https://doi.org/${publication.doi}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View Paper
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </Button>
-                )}
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 flex-shrink-0"
+                >
+                  <Link href={`/allpapers/${publication?.id}`}>
+                    View Paper
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                </Button>
               </div>
             </div>
           ))}

@@ -49,8 +49,8 @@ interface MemberData {
   research?: string[];
   shortBio: string;
   socialLinks?: {
-    facebook: string;
-    twitter: string;
+    researchgate: string;
+    google_scholar: string;
     linkedin: string;
   };
 }
@@ -84,8 +84,8 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
         setValue("educationStatus", data?.education?.status || "Ongoing");
         setValue("scholarship", data?.education?.scholarship || "");
         setValue("shortBio", data?.shortBio || "N/A");
-        setValue("facebook", data?.socialLinks?.facebook || "");
-        setValue("twitter", data?.socialLinks?.twitter || "");
+        setValue("facebook", data?.socialLinks?.google_scholar || "");
+        setValue("twitter", data?.socialLinks?.researchgate || "");
         setValue("linkedin", data?.socialLinks?.linkedin || "");
       } catch (error) {
         console.error("Error fetching member:", error);
@@ -115,8 +115,8 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
         research: data?.research || [],
         shortBio: formData.shortBio,
         socialLinks: {
-          facebook: formData.facebook,
-          twitter: formData.twitter,
+          researchgate: formData.researchgate,
+          google_scholar: formData.google_scholar,
           linkedin: formData.linkedin,
         },
       },

@@ -11,8 +11,8 @@ const associates = [
     img: "https://res.cloudinary.com/dzxzxdsnq/image/upload/v1741017173/jsjunayet12030%40gmail.comDr.%20Junayet%20Shiblu.png",
     designation: "Research Associate",
     socialLinks: {
-      facebook: "g",
-      twitter: "h",
+      google_scholar: "g",
+      researchgate: "h",
       linkedin: "gfds",
     },
   },
@@ -38,13 +38,13 @@ export default function AllAssociates(data:TResearchAssociate[]) {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               </p>
               <div className="flex gap-3 text-gray-300">
-                {associate.socialLinks.facebook && (
-                  <a href={associate.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
+                {associate.socialLinks.researchgate && (
+                  <a href={associate.socialLinks.researchgate} target="_blank" rel="noopener noreferrer">
                     <FaFacebookF className="cursor-pointer hover:text-blue-600" />
                   </a>
                 )}
-                {associate.socialLinks.twitter && (
-                  <a href={associate.socialLinks.twitter} target="_blank" rel="noopener noreferrer">
+                {associate.socialLinks.google_scholar && (
+                  <a href={associate.socialLinks.google_scholar} target="_blank" rel="noopener noreferrer">
                     <FaTwitter className="cursor-pointer hover:text-blue-400" />
                   </a>
                 )}

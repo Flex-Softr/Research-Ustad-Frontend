@@ -9,7 +9,7 @@ import {
   MemberHeader,
   ResearchStats,
   Publications,
-  OngoingProjects,
+  OngoingPapers,
   Blogs,
   Expertise,
 } from "./components";
@@ -57,7 +57,7 @@ const SingleMemberPage = () => {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
   }
 
-  console.log("membersssssssss", member);
+  console.log("membersssssssssttt", member);
 
   if (error || !member) {
     return (
@@ -111,9 +111,9 @@ const SingleMemberPage = () => {
       count: member.publications?.length || 0,
     },
     {
-      id: "projects",
-      label: "Ongoing Projects",
-      count: member.ongoingProjects?.length || 0,
+      id: "ongoing",
+      label: "Ongoing Papers",
+      count: member.ongoing?.length || 0,
     },
     { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
   ];
@@ -122,8 +122,8 @@ const SingleMemberPage = () => {
     switch (activeTab) {
       case "publications":
         return <Publications member={member} />;
-      case "projects":
-        return <OngoingProjects member={member} />;
+      case "ongoing":
+        return <OngoingPapers member={member} />;
       case "blogs":
         return <Blogs member={member} />;
       default:

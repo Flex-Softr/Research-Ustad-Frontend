@@ -75,8 +75,8 @@ export interface Education {
 }
 
 export interface SocialLinks {
-  facebook?: string;
-  twitter?: string;
+  researchgate?: string;
+  google_scholar?: string;
   linkedin?: string;
 }
 
