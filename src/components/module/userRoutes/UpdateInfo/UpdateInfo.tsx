@@ -211,54 +211,52 @@ const UpdateInfo = () => {
 
     const payload = {
       ResearchMembar: {
-        // Basic Information
-        fullName: formData.fullName || "",
-        contactNo: formData.contactNo || "",
-        designation: formData.designation || "",
-        profileImg: formData.profileImg || "",
-        shortBio: formData.shortBio || "",
-        isDeleted: formData.isDeleted || false,
+        // Basic Information - allow empty strings
+        fullName: formData.fullName ?? "",
+        contactNo: formData.contactNo ?? "",
+        designation: formData.designation ?? "",
+        profileImg: formData.profileImg ?? "",
+        shortBio: formData.shortBio ?? "",
+        isDeleted: formData.isDeleted ?? false,
 
-        // Current Institution
+        // Current Institution - allow empty strings
         current: {
-          inst_designation: formData.currentInstDesignation || "",
-          institution: formData.currentInstitution || "",
-          department: formData.currentDepartment || "",
-          degree: formData.currentDegree || "",
+          inst_designation: formData.currentInstDesignation ?? "",
+          institution: formData.currentInstitution ?? "",
+          department: formData.currentDepartment ?? "",
+          degree: formData.currentDegree ?? "",
         },
 
-        // Education
+        // Education - allow empty strings
         education: {
-          degree: formData.educationDegree || "",
-          field: formData.educationField || "",
-          institution: formData.educationInstitution || "",
-          status: formData.educationStatus || "Ongoing",
-          scholarship: formData.scholarship || "",
+          degree: formData.educationDegree ?? "",
+          field: formData.educationField ?? "",
+          institution: formData.educationInstitution ?? "",
+          status: formData.educationStatus ?? "Ongoing",
+          scholarship: formData.scholarship ?? "",
         },
 
         // Keep existing research data
         research: data?.research || [],
 
-        // Social Links
+        // Social Links - allow empty strings
         socialLinks: {
-          linkedin: formData.linkedin || "",
-          researchgate: formData.researchgate || "",
-          google_scholar: formData.googleScholar || "",
+          linkedin: formData.linkedin ?? "",
+          researchgate: formData.researchgate ?? "",
+          google_scholar: formData.googleScholar ?? "",
         },
 
-        // Expertise (use array directly, filter out empty strings)
-        expertise: formData.expertise.filter((item) => item.trim().length > 0),
+        // Expertise - allow empty arrays or filter empty strings
+        expertise: formData.expertise ? formData.expertise.filter((item) => item.trim().length > 0) : [],
 
-        // Awards (use array directly, filter out empty strings)
-        awards: formData.awards
-          ? formData.awards.filter((item) => item.trim().length > 0)
-          : [],
+        // Awards - allow empty arrays or filter empty strings
+        awards: formData.awards ? formData.awards.filter((item) => item.trim().length > 0) : [],
 
-        // Conferences (filter out empty conferences)
+        // Conferences - allow empty arrays or filter empty conferences
         conferences: formData.conferences
           ? formData.conferences.filter(
               (conf) =>
-                conf.name.trim() || conf.role.trim() || conf.topic.trim()
+                conf.name?.trim() || conf.role?.trim() || conf.topic?.trim()
             )
           : [],
       },
@@ -308,11 +306,11 @@ const UpdateInfo = () => {
           {/* Social Links Section */}
           <SocialLinksSection register={register} errors={errors} />
 
-          {/* Expertise & Awards Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium border-b pb-2">
-              Expertise & Awards (Optional)
-            </h3>
+                     {/* Expertise & Awards Section */}
+           <div className="space-y-4">
+             <h3 className="text-lg font-medium border-b pb-2">
+               Expertise & Awards
+             </h3>
 
             {/* Expertise Areas */}
             <ExpertiseSection

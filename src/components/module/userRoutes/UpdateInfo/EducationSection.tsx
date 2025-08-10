@@ -9,16 +9,10 @@ export function EducationSection({ register, errors }: UpdateInfoEducationSectio
       <h3 className="text-lg font-medium border-b pb-2">Education</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="space-y-1">
-          <span className="text-sm font-medium">Degree *</span>
+          <span className="text-sm font-medium">Degree</span>
           <Input
             type="text"
-            {...register("educationDegree", {
-              required: "Education degree is required",
-              minLength: {
-                value: 2,
-                message: "Education degree must be at least 2 characters"
-              }
-            })}
+            {...register("educationDegree")}
             placeholder="Enter education degree"
           />
           {errors.educationDegree && (
@@ -29,16 +23,10 @@ export function EducationSection({ register, errors }: UpdateInfoEducationSectio
         </label>
 
         <label className="space-y-1">
-          <span className="text-sm font-medium">Field of Study *</span>
+          <span className="text-sm font-medium">Field of Study</span>
           <Input
             type="text"
-            {...register("educationField", {
-              required: "Field of study is required",
-              minLength: {
-                value: 2,
-                message: "Field of study must be at least 2 characters"
-              }
-            })}
+            {...register("educationField")}
             placeholder="Enter field of study"
           />
           {errors.educationField && (
@@ -49,16 +37,10 @@ export function EducationSection({ register, errors }: UpdateInfoEducationSectio
         </label>
 
         <label className="space-y-1">
-          <span className="text-sm font-medium">Institution *</span>
+          <span className="text-sm font-medium">Institution</span>
           <Input
             type="text"
-            {...register("educationInstitution", {
-              required: "Institution is required",
-              minLength: {
-                value: 2,
-                message: "Institution must be at least 2 characters"
-              }
-            })}
+            {...register("educationInstitution")}
             placeholder="Enter education institution"
           />
           {errors.educationInstitution && (
@@ -69,11 +51,9 @@ export function EducationSection({ register, errors }: UpdateInfoEducationSectio
         </label>
 
         <label className="space-y-1">
-          <span className="text-sm font-medium">Status *</span>
+          <span className="text-sm font-medium">Status</span>
           <select
-            {...register("educationStatus", {
-              required: "Status is required"
-            })}
+            {...register("educationStatus")}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <option value="Ongoing">Ongoing</option>

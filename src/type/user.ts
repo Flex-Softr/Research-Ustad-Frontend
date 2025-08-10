@@ -101,5 +101,4 @@ export interface FormData {
   password: string;
   role: string;
   designation: string;
-  contactNo?: string;
 }

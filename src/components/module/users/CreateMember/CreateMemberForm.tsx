@@ -69,7 +69,6 @@ const CreateMemberForm: React.FC = () => {
       password: data.password,
       role: data.role,
       designation: data.designation,
-      contactNo: data.contactNo || "",
     };
 
     try {
@@ -180,38 +179,6 @@ const CreateMemberForm: React.FC = () => {
             )}
           </div>
 
-          {/* Contact Number Field */}
-          <div className="space-y-2">
-            <Label
-              htmlFor="contactNo"
-              className="text-lg font-semibold mb-2 block"
-            >
-              Contact Number
-            </Label>
-            <Input
-              id="contactNo"
-              type="tel"
-              placeholder="Enter contact number"
-              {...register("contactNo", {
-                pattern: {
-                  value: /^[+]?[\d\s\-()]+$/,
-                  message: "Please enter a valid contact number",
-                },
-              })}
-              className={`transition-all duration-200 ${
-                errors.contactNo
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                  : "focus:border-blue-500 focus:ring-blue-500/20"
-              }`}
-            />
-            {errors.contactNo && (
-              <p className="text-red-500 text-sm flex items-center gap-1">
-                <span className="text-red-500">⚠</span>
-                {errors.contactNo.message}
-              </p>
-            )}
-          </div>
-
           {/* Password Field */}
           <div className="space-y-2">
             <Label
@@ -271,7 +238,7 @@ const CreateMemberForm: React.FC = () => {
           {/* Role Field */}
           <div className="space-y-2">
             <Label htmlFor="role" className="text-lg font-semibold mb-2 block">
-              Role *
+              Member
             </Label>
             <Select
               value={selectedRole}

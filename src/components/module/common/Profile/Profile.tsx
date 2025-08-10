@@ -141,13 +141,13 @@ const Profile = () => {
                 
                 {/* Contact Info */}
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                  {user?.email && (
+                  {user?.email && user.email.trim() !== "" && (
                     <div className="flex items-center gap-2 text-gray-600">
                       <Mail className="w-4 h-4" />
                       <span>{user.email}</span>
                     </div>
                   )}
-                  {memberData?.contactNo && (
+                  {memberData?.contactNo && memberData.contactNo.trim() !== "" && (
                     <div className="flex items-center gap-2 text-gray-600">
                       <Phone className="w-4 h-4" />
                       <span>{memberData.contactNo}</span>
@@ -162,7 +162,7 @@ const Profile = () => {
         {/* Detailed Information Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Bio Section */}
-          {memberData?.shortBio && (
+          {memberData?.shortBio && memberData.shortBio.trim() !== "" && (
             <Card className="shadow-lg rounded-lg">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -176,6 +176,11 @@ const Profile = () => {
 
           {/* Current Institution */}
           {memberData?.current && (
+            (memberData.current.institution && memberData.current.institution.trim() !== "") ||
+            (memberData.current.department && memberData.current.department.trim() !== "") ||
+            (memberData.current.degree && memberData.current.degree.trim() !== "") ||
+            (memberData.current.inst_designation && memberData.current.inst_designation.trim() !== "")
+          ) && (
             <Card className="shadow-lg rounded-lg">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -183,10 +188,18 @@ const Profile = () => {
                   <h3 className="text-xl font-semibold text-gray-800">Current Position</h3>
                 </div>
                 <div className="space-y-2">
-                  <p><span className="font-semibold">Institution:</span> {memberData.current.institution}</p>
-                  <p><span className="font-semibold">Department:</span> {memberData.current.department}</p>
-                  <p><span className="font-semibold">Degree:</span> {memberData.current.degree}</p>
-                  <p><span className="font-semibold">Designation:</span> {memberData.current.inst_designation}</p>
+                  {memberData.current.institution && memberData.current.institution.trim() !== "" && (
+                    <p><span className="font-semibold">Institution:</span> {memberData.current.institution}</p>
+                  )}
+                  {memberData.current.department && memberData.current.department.trim() !== "" && (
+                    <p><span className="font-semibold">Department:</span> {memberData.current.department}</p>
+                  )}
+                  {memberData.current.degree && memberData.current.degree.trim() !== "" && (
+                    <p><span className="font-semibold">Degree:</span> {memberData.current.degree}</p>
+                  )}
+                  {memberData.current.inst_designation && memberData.current.inst_designation.trim() !== "" && (
+                    <p><span className="font-semibold">Designation:</span> {memberData.current.inst_designation}</p>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -194,6 +207,12 @@ const Profile = () => {
 
           {/* Education */}
           {memberData?.education && (
+            (memberData.education.degree && memberData.education.degree.trim() !== "") ||
+            (memberData.education.field && memberData.education.field.trim() !== "") ||
+            (memberData.education.institution && memberData.education.institution.trim() !== "") ||
+            (memberData.education.status && memberData.education.status.trim() !== "") ||
+            (memberData.education.scholarship && memberData.education.scholarship.trim() !== "")
+          ) && (
             <Card className="shadow-lg rounded-lg">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -201,11 +220,19 @@ const Profile = () => {
                   <h3 className="text-xl font-semibold text-gray-800">Education</h3>
                 </div>
                 <div className="space-y-2">
-                  <p><span className="font-semibold">Degree:</span> {memberData.education.degree}</p>
-                  <p><span className="font-semibold">Field:</span> {memberData.education.field}</p>
-                  <p><span className="font-semibold">Institution:</span> {memberData.education.institution}</p>
-                  <p><span className="font-semibold">Status:</span> {memberData.education.status}</p>
-                  {memberData.education.scholarship && (
+                  {memberData.education.degree && memberData.education.degree.trim() !== "" && (
+                    <p><span className="font-semibold">Degree:</span> {memberData.education.degree}</p>
+                  )}
+                  {memberData.education.field && memberData.education.field.trim() !== "" && (
+                    <p><span className="font-semibold">Field:</span> {memberData.education.field}</p>
+                  )}
+                  {memberData.education.institution && memberData.education.institution.trim() !== "" && (
+                    <p><span className="font-semibold">Institution:</span> {memberData.education.institution}</p>
+                  )}
+                  {memberData.education.status && memberData.education.status.trim() !== "" && (
+                    <p><span className="font-semibold">Status:</span> {memberData.education.status}</p>
+                  )}
+                  {memberData.education.scholarship && memberData.education.scholarship.trim() !== "" && (
                     <p><span className="font-semibold">Scholarship:</span> {memberData.education.scholarship}</p>
                   )}
                 </div>
@@ -214,7 +241,7 @@ const Profile = () => {
           )}
 
           {/* Expertise */}
-          {memberData?.expertise && memberData.expertise.length > 0 && (
+          {memberData?.expertise && memberData.expertise.length > 0 && memberData.expertise.some(item => item && item.trim() !== "") && (
             <Card className="shadow-lg rounded-lg">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -222,21 +249,23 @@ const Profile = () => {
                   <h3 className="text-xl font-semibold text-gray-800">Areas of Expertise</h3>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {memberData.expertise.map((expertise, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
-                    >
-                      {expertise}
-                    </span>
-                  ))}
+                  {memberData.expertise
+                    .filter(expertise => expertise && expertise.trim() !== "")
+                    .map((expertise, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                      >
+                        {expertise}
+                      </span>
+                    ))}
                 </div>
               </CardContent>
             </Card>
           )}
 
           {/* Awards */}
-          {memberData?.awards && memberData.awards.length > 0 && (
+          {memberData?.awards && memberData.awards.length > 0 && memberData.awards.some(item => item && item.trim() !== "") && (
             <Card className="shadow-lg rounded-lg">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -244,19 +273,25 @@ const Profile = () => {
                   <h3 className="text-xl font-semibold text-gray-800">Awards & Achievements</h3>
                 </div>
                 <ul className="space-y-2">
-                  {memberData.awards.map((award, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
-                      <span className="text-gray-700">{award}</span>
-                    </li>
-                  ))}
+                  {memberData.awards
+                    .filter(award => award && award.trim() !== "")
+                    .map((award, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
+                        <span className="text-gray-700">{award}</span>
+                      </li>
+                    ))}
                 </ul>
               </CardContent>
             </Card>
           )}
 
           {/* Conferences */}
-          {memberData?.conferences && memberData.conferences.length > 0 && (
+          {memberData?.conferences && memberData.conferences.length > 0 && memberData.conferences.some(conf => 
+            (conf.name && conf.name.trim() !== "") || 
+            (conf.role && conf.role.trim() !== "") || 
+            (conf.topic && conf.topic.trim() !== "")
+          ) && (
             <Card className="shadow-lg rounded-lg lg:col-span-2">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -264,13 +299,25 @@ const Profile = () => {
                   <h3 className="text-xl font-semibold text-gray-800">Conference Participation</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {memberData.conferences.map((conference, index) => (
-                    <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                      <p className="font-semibold text-gray-800">{conference.name}</p>
-                      <p className="text-sm text-gray-600">Role: {conference.role}</p>
-                      <p className="text-sm text-gray-600">Topic: {conference.topic}</p>
-                    </div>
-                  ))}
+                  {memberData.conferences
+                    .filter(conf => 
+                      (conf.name && conf.name.trim() !== "") || 
+                      (conf.role && conf.role.trim() !== "") || 
+                      (conf.topic && conf.topic.trim() !== "")
+                    )
+                    .map((conference, index) => (
+                      <div key={index} className="border rounded-lg p-4 bg-gray-50">
+                        {conference.name && conference.name.trim() !== "" && (
+                          <p className="font-semibold text-gray-800">{conference.name}</p>
+                        )}
+                        {conference.role && conference.role.trim() !== "" && (
+                          <p className="text-sm text-gray-600">Role: {conference.role}</p>
+                        )}
+                        {conference.topic && conference.topic.trim() !== "" && (
+                          <p className="text-sm text-gray-600">Topic: {conference.topic}</p>
+                        )}
+                      </div>
+                    ))}
                 </div>
               </CardContent>
             </Card>
@@ -278,6 +325,10 @@ const Profile = () => {
 
           {/* Social Links */}
           {memberData?.socialLinks && (
+            (memberData.socialLinks.linkedin && memberData.socialLinks.linkedin.trim() !== "") ||
+            (memberData.socialLinks.researchgate && memberData.socialLinks.researchgate.trim() !== "") ||
+            (memberData.socialLinks.google_scholar && memberData.socialLinks.google_scholar.trim() !== "")
+          ) && (
             <Card className="shadow-lg rounded-lg lg:col-span-2">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -285,7 +336,7 @@ const Profile = () => {
                   <h3 className="text-xl font-semibold text-gray-800">Professional Links</h3>
                 </div>
                 <div className="flex flex-wrap gap-4">
-                  {memberData.socialLinks.linkedin && (
+                  {memberData.socialLinks.linkedin && memberData.socialLinks.linkedin.trim() !== "" && (
                     <a
                       href={memberData.socialLinks.linkedin}
                       target="_blank"
@@ -296,7 +347,7 @@ const Profile = () => {
                       LinkedIn
                     </a>
                   )}
-                  {memberData.socialLinks.researchgate && (
+                  {memberData.socialLinks.researchgate && memberData.socialLinks.researchgate.trim() !== "" && (
                     <a
                       href={memberData.socialLinks.researchgate}
                       target="_blank"
@@ -307,7 +358,7 @@ const Profile = () => {
                       ResearchGate
                     </a>
                   )}
-                  {memberData.socialLinks.google_scholar && (
+                  {memberData.socialLinks.google_scholar && memberData.socialLinks.google_scholar.trim() !== "" && (
                     <a
                       href={memberData.socialLinks.google_scholar}
                       target="_blank"

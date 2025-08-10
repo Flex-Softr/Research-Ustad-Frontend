@@ -16,6 +16,12 @@ export function SocialLinksSection({ register, errors }: UpdateInfoSocialLinksSe
               pattern: {
                 value: /^https?:\/\/.+\..+/,
                 message: "Please enter a valid LinkedIn URL"
+              },
+              validate: (value) => {
+                if (value && value.trim() !== "") {
+                  return /^https?:\/\/.+\..+/.test(value) || "Please enter a valid LinkedIn URL";
+                }
+                return true;
               }
             })}
             placeholder="Enter LinkedIn URL"
@@ -35,6 +41,12 @@ export function SocialLinksSection({ register, errors }: UpdateInfoSocialLinksSe
               pattern: {
                 value: /^https?:\/\/.+\..+/,
                 message: "Please enter a valid ResearchGate URL"
+              },
+              validate: (value) => {
+                if (value && value.trim() !== "") {
+                  return /^https?:\/\/.+\..+/.test(value) || "Please enter a valid ResearchGate URL";
+                }
+                return true;
               }
             })}
             placeholder="Enter ResearchGate URL"
@@ -54,6 +66,12 @@ export function SocialLinksSection({ register, errors }: UpdateInfoSocialLinksSe
               pattern: {
                 value: /^https?:\/\/.+\..+/,
                 message: "Please enter a valid Google Scholar URL"
+              },
+              validate: (value) => {
+                if (value && value.trim() !== "") {
+                  return /^https?:\/\/.+\..+/.test(value) || "Please enter a valid Google Scholar URL";
+                }
+                return true;
               }
             })}
             placeholder="Enter Google Scholar URL"

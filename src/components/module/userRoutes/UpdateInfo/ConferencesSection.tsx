@@ -15,7 +15,7 @@ export function ConferencesSection({
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium border-b pb-2">
-        Conferences & Speaking Engagements (Optional)
+        Conferences & Speaking Engagements
       </h3>
       <div className="space-y-4">
         {conferencesList.map((conference, i) => (

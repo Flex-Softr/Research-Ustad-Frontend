@@ -11,16 +11,10 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="space-y-1">
-          <span className="text-sm font-medium">Institution *</span>
+          <span className="text-sm font-medium">Institution</span>
           <Input
             type="text"
-            {...register("currentInstitution", {
-              required: "Institution name is required",
-              minLength: {
-                value: 2,
-                message: "Institution name must be at least 2 characters"
-              }
-            })}
+            {...register("currentInstitution")}
             placeholder="Enter current institution"
           />
           {errors.currentInstitution && (
@@ -31,16 +25,10 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
         </label>
 
         <label className="space-y-1">
-          <span className="text-sm font-medium">Department *</span>
+          <span className="text-sm font-medium">Department</span>
           <Input
             type="text"
-            {...register("currentDepartment", {
-              required: "Department is required",
-              minLength: {
-                value: 2,
-                message: "Department must be at least 2 characters"
-              }
-            })}
+            {...register("currentDepartment")}
             placeholder="Enter current department"
           />
           {errors.currentDepartment && (
@@ -51,16 +39,10 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
         </label>
 
         <label className="space-y-1">
-          <span className="text-sm font-medium">Degree *</span>
+          <span className="text-sm font-medium">Degree</span>
           <Input
             type="text"
-            {...register("currentDegree", {
-              required: "Degree is required",
-              minLength: {
-                value: 2,
-                message: "Degree must be at least 2 characters"
-              }
-            })}
+            {...register("currentDegree")}
             placeholder="Enter current degree"
           />
           {errors.currentDegree && (
@@ -72,17 +54,11 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
 
         <label className="space-y-1">
           <span className="text-sm font-medium">
-            Institution Designation *
+            Institution Designation
           </span>
           <Input
             type="text"
-            {...register("currentInstDesignation", {
-              required: "Institution designation is required",
-              minLength: {
-                value: 2,
-                message: "Institution designation must be at least 2 characters"
-              }
-            })}
+            {...register("currentInstDesignation")}
             placeholder="Enter institution designation"
           />
           {errors.currentInstDesignation && (

@@ -2,31 +2,31 @@ import { UseFormRegister, FieldErrors } from "react-hook-form";
 
 // Conference interface for form data
 export interface Conference {
-  name: string;
-  role: string;
-  topic: string;
+  name?: string;
+  role?: string;
+  topic?: string;
 }
 
 // Form data interface for React Hook Form
 export interface UpdateInfoFormData {
   // Basic Information
-  fullName: string;
+  fullName?: string;
   contactNo?: string;
-  designation: string;
+  designation?: string;
   profileImg?: string;
-  shortBio: string;
+  shortBio?: string;
 
   // Current Institution
-  currentInstitution: string;
-  currentDepartment: string;
-  currentDegree: string;
-  currentInstDesignation: string;
+  currentInstitution?: string;
+  currentDepartment?: string;
+  currentDegree?: string;
+  currentInstDesignation?: string;
 
   // Education
-  educationDegree: string;
-  educationField: string;
-  educationInstitution: string;
-  educationStatus: "Ongoing" | "Completed";
+  educationDegree?: string;
+  educationField?: string;
+  educationInstitution?: string;
+  educationStatus?: "Ongoing" | "Completed";
   scholarship?: string;
 
   // Social Links
@@ -35,7 +35,7 @@ export interface UpdateInfoFormData {
   googleScholar?: string;
 
   // Expertise (array of strings)
-  expertise: string[];
+  expertise?: string[];
 
   // Awards (array of strings)
   awards?: string[];
