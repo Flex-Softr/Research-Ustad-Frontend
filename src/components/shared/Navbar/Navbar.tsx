@@ -21,6 +21,7 @@ import { ChevronDown, Menu, X, LogIn, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getDashboardUrl } from "@/lib/dashboardUtils";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Our Researchers", href: "/team-members" },
@@ -45,7 +46,7 @@ const links: NavItem[] = [
 type UserToken = {
   id: string;
   email: string;
-  role: "user" | "admin" | "supperAdmin";
+  role: "user" | "admin" | "superAdmin";
   iat: number;
   exp: number;
 };
@@ -146,8 +147,7 @@ const Navbar = () => {
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuItem className="cursor-pointer">
                   <Link
-                    href={`/admin/dashboard`}
-                    // href={`/${user?.role}/dashboard`}
+                    href={getDashboardUrl(user?.role || "")}
                     className="flex items-center w-full"
                   >
                     <User className="w-4 h-4 mr-2" />
@@ -219,7 +219,7 @@ const Navbar = () => {
                   <DropdownMenuContent className="w-40 mt-2">
                     <DropdownMenuItem className="cursor-pointer">
                       <Link
-                        href={`/${user?.role}/dashboard`}
+                        href={getDashboardUrl(user?.role || "")}
                         className="flex items-center w-full text-sm"
                       >
                         <User className="w-3 h-3 mr-2" />
