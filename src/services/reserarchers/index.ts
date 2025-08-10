@@ -113,25 +113,32 @@ export const UpdateMember = async (id: string, data: any) => {
     return null;
   }
 };
-export const UpdatePersonalMember = async (data: any) => {
+export const UpdatePersonalMember = async (data: any, file?: File) => {
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
     console.log(token);
+    
+    const formData = new FormData();
+    formData.append('data', data);
+    
+    if (file) {
+      formData.append('file', file);
+    }
+    
     const response = await fetch(
       `${api.baseUrl}/researchAssociate/MembarUpdate`,
       {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           Authorization: token,
         },
-        body: data,
+        body: formData,
       }
     );
     return await response.json();
   } catch (error) {
-    console.error("Error delete memeber:", error);
+    console.error("Error updating member:", error);
     return null;
   }
 };

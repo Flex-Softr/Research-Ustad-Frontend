@@ -32,7 +32,7 @@ interface ManageTableProps {
   loading: boolean;
   columns: Column[];
   isvalue: string;
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 const ManageTable: React.FC<ManageTableProps> = ({
@@ -286,23 +286,13 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   {/* Delete Button */}
                   {(isvalue === "paperadmin" ||
                     isvalue === "researhMembar" ||
-                    isvalue === "blog" ||
-                    isvalue === "userRole") && (
+                    isvalue === "blog") && onDelete && (
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => onDelete(item._id)}
-                      className={`text-red-500 hover:text-red-700 hover:bg-red-50 ${
-                        isvalue === "userRole" && item.role === "superAdmin" 
-                          ? "opacity-50 cursor-not-allowed" 
-                          : ""
-                      }`}
-                      disabled={isvalue === "userRole" && item.role === "superAdmin"}
-                      title={
-                        isvalue === "userRole" && item.role === "superAdmin"
-                          ? "SuperAdmin users cannot be deleted"
-                          : "Delete user"
-                      }
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

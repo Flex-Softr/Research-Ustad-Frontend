@@ -161,11 +161,11 @@ const agendaError =
         toast.success("Event updated successfully!");
       } else {
         result = await dispatch(addEvent(formData)).unwrap();
+        reset();
         toast.success("Event created successfully!");
       }
 
       onSave(result);
-      reset();
       setSelectedFile(null);
       setSpeakerFiles({});
     } catch (error: any) {

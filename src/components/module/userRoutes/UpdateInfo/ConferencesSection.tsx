@@ -15,7 +15,7 @@ export function ConferencesSection({
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium border-b pb-2">
-        Conferences & Speaking Engagements
+        Conferences & Speaking Engagements (Optional)
       </h3>
       <div className="space-y-4">
         {conferencesList.map((conference, i) => (
@@ -35,7 +35,7 @@ export function ConferencesSection({
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <span className="text-xs font-medium text-gray-600">Conference Name *</span>
+                <span className="text-xs font-medium text-gray-600">Conference Name</span>
                 <div className="flex gap-2 items-start">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
                   <Input
@@ -48,7 +48,7 @@ export function ConferencesSection({
               </div>
               
               <div className="space-y-1">
-                <span className="text-xs font-medium text-gray-600">Your Role *</span>
+                <span className="text-xs font-medium text-gray-600">Your Role</span>
                 <div className="flex gap-2 items-start">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                   <Input
@@ -62,7 +62,7 @@ export function ConferencesSection({
             </div>
             
             <div className="space-y-1">
-              <span className="text-xs font-medium text-gray-600">Topic/Title *</span>
+              <span className="text-xs font-medium text-gray-600">Topic/Title</span>
               <div className="flex gap-2 items-start">
                 <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
                 <Input

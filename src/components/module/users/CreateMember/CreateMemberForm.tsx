@@ -4,7 +4,13 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { registerUser } from "@/services/AuthService";
 import { toast } from "sonner";
 import { ArrowLeft, UserPlus, Eye, EyeOff } from "lucide-react";
@@ -12,19 +18,15 @@ import { FormData } from "@/type";
 import { useRouter } from "next/navigation";
 
 // Role options array - must match backend enum values
-const roleOptions = [
-  "user",
-  "admin", 
-  "superAdmin"
-];
+const roleOptions = ["user", "admin", "superAdmin"];
 
 // Designation options array - must match backend enum values
 const designationOptions = [
   "Advisor",
-  "Lead", 
+  "Lead",
   "Mentor_Panel",
   "Lead_Research_Associate",
-  "Research_Associate"
+  "Research_Associate",
 ];
 
 const CreateMemberForm: React.FC = () => {
@@ -74,6 +76,7 @@ const CreateMemberForm: React.FC = () => {
       const res = await registerUser(payload);
       console.log(res);
       if (res.success) {
+        router.push("/admin/dashboard/allusers");
         reset();
         setSelectedRole("");
         setSelectedDesignation("");
@@ -179,7 +182,10 @@ const CreateMemberForm: React.FC = () => {
 
           {/* Contact Number Field */}
           <div className="space-y-2">
-            <Label htmlFor="contactNo" className="text-lg font-semibold mb-2 block">
+            <Label
+              htmlFor="contactNo"
+              className="text-lg font-semibold mb-2 block"
+            >
               Contact Number
             </Label>
             <Input
@@ -208,7 +214,10 @@ const CreateMemberForm: React.FC = () => {
 
           {/* Password Field */}
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-lg font-semibold mb-2 block">
+            <Label
+              htmlFor="password"
+              className="text-lg font-semibold mb-2 block"
+            >
               Password *
             </Label>
             <div className="relative">
@@ -292,8 +301,11 @@ const CreateMemberForm: React.FC = () => {
 
           {/* Designation Field */}
           <div className="space-y-2">
-            <Label htmlFor="designation" className="text-lg font-semibold mb-2 block">
-               Designation *
+            <Label
+              htmlFor="designation"
+              className="text-lg font-semibold mb-2 block"
+            >
+              Designation *
             </Label>
             <Select
               value={selectedDesignation}
@@ -303,12 +315,14 @@ const CreateMemberForm: React.FC = () => {
               }}
             >
               <SelectTrigger className="w-full">
-                <SelectValue>{selectedDesignation || "Select designation"}</SelectValue>
+                <SelectValue>
+                  {selectedDesignation || "Select designation"}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {designationOptions.map((designation) => (
                   <SelectItem key={designation} value={designation}>
-                    {designation.replace(/_/g, ' ')}
+                    {designation.replace(/_/g, " ")}
                   </SelectItem>
                 ))}
               </SelectContent>

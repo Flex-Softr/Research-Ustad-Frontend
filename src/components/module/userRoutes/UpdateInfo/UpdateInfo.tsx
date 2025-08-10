@@ -19,6 +19,7 @@ import {
   AwardsSection,
   ConferencesSection,
 } from "./index";
+import { useRouter } from "next/navigation";
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,6 +27,9 @@ const UpdateInfo = () => {
   const [expertiseList, setExpertiseList] = useState<string[]>([]);
   const [awardsList, setAwardsList] = useState<string[]>([]);
   const [conferencesList, setConferencesList] = useState<Conference[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const router = useRouter();
 
   const {
     register,
@@ -158,14 +162,14 @@ const UpdateInfo = () => {
         setValue("googleScholar", data?.socialLinks?.google_scholar || "");
 
         // Expertise (set array directly)
-        const expertise = data?.expertise || [""];
-        setExpertiseList(expertise);
+        const expertise = data?.expertise || [];
+        setExpertiseList(expertise.length > 0 ? expertise : [""]);
         setValue("expertise", expertise);
 
         // Awards (set array directly)
         const awards = data?.awards || [];
         setAwardsList(awards.length > 0 ? awards : [""]);
-        setValue("awards", awards.length > 0 ? awards : []);
+        setValue("awards", awards);
 
         // Conferences (set array directly)
         const conferences = data?.conferences || [];
@@ -174,7 +178,7 @@ const UpdateInfo = () => {
             ? conferences
             : [{ name: "", role: "", topic: "" }]
         );
-        setValue("conferences", conferences.length > 0 ? conferences : []);
+        setValue("conferences", conferences);
 
         // System fields
         setValue("isDeleted", data?.isDeleted || false);
@@ -188,21 +192,14 @@ const UpdateInfo = () => {
     fetchMember();
   }, [setValue]);
 
-  // Custom validation for expertise
+  // Custom validation for expertise - now optional
   const validateExpertise = () => {
-    if (expertiseList.filter((item) => item.trim().length > 0).length === 0) {
-      return "At least one expertise area is required";
-    }
+    // Expertise is now optional, so always return true
     return true;
   };
 
   const onSubmit = async (formData: UpdateInfoFormData) => {
-    // Validate expertise manually since it's managed separately
-    const expertiseValidation = validateExpertise();
-    if (expertiseValidation !== true) {
-      toast.error(expertiseValidation);
-      return;
-    }
+    // Expertise validation is now optional
     setLoading(true);
 
     const payload = {
@@ -261,10 +258,13 @@ const UpdateInfo = () => {
     };
 
     try {
-      const res = await UpdatePersonalMember(JSON.stringify(payload));
+      console.log("Sending payload:", payload);
+      const res = await UpdatePersonalMember(JSON.stringify(payload), selectedFile);
       if (res.success === true) {
         toast.success("Member updated successfully!");
         setLoading(false);
+        setSelectedFile(null);
+        router.push("/user/dashboard/profileinfo");
       }
     } catch (error) {
       toast.error("Failed to update member.");
@@ -284,7 +284,13 @@ const UpdateInfo = () => {
           <input type="hidden" {...register("isDeleted")} />
 
           {/* Basic Information Section */}
-          <BasicInformationSection register={register} errors={errors} />
+          <BasicInformationSection 
+            register={register} 
+            errors={errors} 
+            selectedFile={selectedFile}
+            onFileChange={setSelectedFile}
+            currentProfileImg={data?.profileImg}
+          />
 
           {/* Current Institution Section */}
           <CurrentInstitutionSection register={register} errors={errors} />
@@ -298,7 +304,7 @@ const UpdateInfo = () => {
           {/* Expertise & Awards Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-medium border-b pb-2">
-              Expertise & Awards
+              Expertise & Awards (Optional)
             </h3>
 
             {/* Expertise Areas */}

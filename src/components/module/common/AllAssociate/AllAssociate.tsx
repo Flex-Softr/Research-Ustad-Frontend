@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { TResearchAssociate } from "@/type";
+import { GraduationCap, Microscope } from "lucide-react";
 import Image from "next/image";
-import { FaFacebookF, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 
 
 
@@ -40,12 +41,12 @@ export default function AllAssociates(data:TResearchAssociate[]) {
               <div className="flex gap-3 text-gray-300">
                 {associate.socialLinks.researchgate && (
                   <a href={associate.socialLinks.researchgate} target="_blank" rel="noopener noreferrer">
-                    <FaFacebookF className="cursor-pointer hover:text-blue-600" />
+                    <Microscope className="cursor-pointer hover:text-blue-600" />
                   </a>
                 )}
                 {associate.socialLinks.google_scholar && (
                   <a href={associate.socialLinks.google_scholar} target="_blank" rel="noopener noreferrer">
-                    <FaTwitter className="cursor-pointer hover:text-blue-400" />
+                    <GraduationCap className="cursor-pointer hover:text-blue-400" />
                   </a>
                 )}
                 {associate.socialLinks.linkedin && (

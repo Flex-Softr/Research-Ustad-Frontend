@@ -133,6 +133,9 @@ export interface UpdateMemberPayload {
 export interface UpdateInfoBasicSectionProps {
   register: UseFormRegister<UpdateInfoFormData>;
   errors: FieldErrors<UpdateInfoFormData>;
+  selectedFile?: File | null;
+  onFileChange?: (file: File | null) => void;
+  currentProfileImg?: string;
 }
 
 export interface UpdateInfoCurrentInstitutionSectionProps {

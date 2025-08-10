@@ -3,8 +3,31 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UpdateInfoBasicSectionProps } from "@/type";
+import { useState, useEffect } from "react";
 
-export function BasicInformationSection({ register, errors }: UpdateInfoBasicSectionProps) {
+export function BasicInformationSection({ 
+  register, 
+  errors, 
+  selectedFile, 
+  onFileChange,
+  currentProfileImg 
+}: UpdateInfoBasicSectionProps) {
+  const [existingImageUrl, setExistingImageUrl] = useState<string>("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      onFileChange?.(file);
+      setExistingImageUrl(""); // Clear existing image when new file is selected
+    }
+  };
+
+  // Set existing image URL when component mounts or when profileImg changes
+  useEffect(() => {
+    if (currentProfileImg && !selectedFile) {
+      setExistingImageUrl(currentProfileImg);
+    }
+  }, [selectedFile, currentProfileImg]);
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium border-b pb-2">
@@ -66,17 +89,48 @@ export function BasicInformationSection({ register, errors }: UpdateInfoBasicSec
         </label>
 
         <label className="space-y-1">
-          <span className="text-sm font-medium">Profile Image URL</span>
-          <Input
-            type="url"
-            {...register("profileImg", {
-              pattern: {
-                value: /^https?:\/\/.+\..+/,
-                message: "Please enter a valid URL"
-              }
-            })}
-            placeholder="Enter profile image URL"
-          />
+          <span className="text-sm font-medium">Profile Image</span>
+          <div className="space-y-2">
+            {/* File Upload */}
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              id="profileImage"
+            />
+            
+            {/* Image Preview */}
+            {selectedFile ? (
+              <div className="w-full mt-4">
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="Profile Preview"
+                  className="w-full h-32 object-cover rounded"
+                />
+                <div className="text-sm text-gray-500">
+                  <p>Selected: {selectedFile.name}</p>
+                  <p>Size: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                </div>
+              </div>
+            ) : existingImageUrl ? (
+              <div className="mt-4">
+                <img
+                  src={existingImageUrl}
+                  alt="Current Profile Image"
+                  className="w-full h-32 object-cover rounded"
+                />
+                <div className="text-sm text-gray-500">
+                  <p>Current image</p>
+                </div>
+              </div>
+            ) : null}
+            
+            {/* Hidden input for form data */}
+            <input
+              type="hidden"
+              {...register("profileImg")}
+            />
+          </div>
           {errors.profileImg && (
             <p className="text-red-500 text-sm">
               {errors.profileImg.message}
