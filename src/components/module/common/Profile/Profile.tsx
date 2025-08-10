@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useUserStatus } from "@/hooks/useUserStatus";
 import { 
   Mail, 
   Phone, 
@@ -33,6 +34,9 @@ const Profile = () => {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   
+  // Use the user status hook to check for account deletion
+  useUserStatus();
+  
   const {
     register,
     handleSubmit,
@@ -49,12 +53,21 @@ const Profile = () => {
         setUser(userResult?.data);
         
         // Fetch detailed member data
-        const memberResult = await GetSinglePersonalMember();
-        if (memberResult?.data) {
-          setMemberData(memberResult.data);
+        try {
+          const memberResult = await GetSinglePersonalMember();
+          if (memberResult?.data) {
+            setMemberData(memberResult.data);
+          }
+        } catch (memberError: any) {
+          console.error("Error fetching member data:", memberError);
+          // Don't fail the entire component if member data fails
+          // This allows the profile to still show basic user info
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching user data:", error);
+        // If user data fails, the useUserStatus hook will handle logout
+        setLoading(false);
+        return;
       } finally {
         setLoading(false);
       }

@@ -20,6 +20,7 @@ import {
   ConferencesSection,
 } from "./index";
 import { useRouter } from "next/navigation";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,6 +31,9 @@ const UpdateInfo = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const router = useRouter();
+  
+  // Use the user status hook to check for account deletion
+  useUserStatus();
 
   const {
     register,
@@ -182,8 +186,11 @@ const UpdateInfo = () => {
 
         // System fields
         setValue("isDeleted", data?.isDeleted || false);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error fetching member:", error);
+        // If user data fails, the useUserStatus hook will handle logout
+        setLoading(false);
+        return;
       } finally {
         setLoading(false);
       }
