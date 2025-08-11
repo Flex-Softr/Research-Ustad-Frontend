@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AuthorSearchDropdown from '@/components/module/userRoutes/AddResearchpaper/author-search-dropdown';
 import { PostResearchPaper } from '@/services/allreserchPaper';
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -43,10 +44,19 @@ const AddResearchPaper: React.FC = () => {
   const onSubmit: SubmitHandler<ResearchPaperForm> = async (data) => {
     setLoading(true);
 
+    // Filter out empty author entries
+    const validAuthors = authorReaseachpaper.filter(author => author.trim() !== "");
+
+    if (validAuthors.length === 0) {
+      toast.error("At least one author is required");
+      setLoading(false);
+      return;
+    }
+
     const formData = {
       year: Number(data.year),
       title: data.title,
-      authors: authorReaseachpaper, // Using the dynamic authors list
+      authors: validAuthors, // Using the filtered authors list
       journal: data.journal,
       volume: data.volume,
       impactFactor: Number(data.impactFactor),
@@ -96,19 +106,31 @@ const AddResearchPaper: React.FC = () => {
         </div>
 
         {/* Authors */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {authorReaseachpaper.map((research, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <Input
-                value={research}
-                onChange={(e) => handleResearchChange(index, e.target.value)}
-                placeholder={`Enter author ${index + 1}`}
-              />
-              <Button type="button" onClick={() => handleRemoveResearch(index)} variant="destructive">
-                ✕
-              </Button>
-            </div>
-          ))}
+        <div>
+          <Label className="mb-2">Authors:</Label>
+          <div className="space-y-3">
+            {authorReaseachpaper.map((research, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div className="flex-1">
+                  <AuthorSearchDropdown
+                    value={research}
+                    onChange={(value) => handleResearchChange(index, value)}
+                    placeholder={`Search for author ${index + 1}`}
+                  />
+                </div>
+                {authorReaseachpaper.length > 1 && (
+                  <Button 
+                    type="button" 
+                    onClick={() => handleRemoveResearch(index)} 
+                    variant="destructive"
+                    className="flex-shrink-0"
+                  >
+                    ✕
+                  </Button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Add Author Button */}

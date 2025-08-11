@@ -68,7 +68,6 @@ const Members = ({ data: initialData }: MembersProps) => {
     { label: "Name", value: "fullName" },
     { label: "Designation", value: "designation" },
     { label: "Email", value: "email" },
-    { label: "ContactNo", value: "contactNo" },
   ];
 
   return (

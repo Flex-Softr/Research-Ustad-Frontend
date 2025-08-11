@@ -205,3 +205,49 @@ export const PostResearchPaper = async (formData: ResearchPaperForm) => {
     throw error; // Re-throwing the error to be handled in the component
   }
 };
+
+export const SearchUsers = async (query: string) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/users/search?query=${encodeURIComponent(query)}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error searching users:", error);
+    return { data: [] };
+  }
+};
+
+export const GetAllUsers = async () => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/users/all-users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    return { data: [] };
+  }
+};
