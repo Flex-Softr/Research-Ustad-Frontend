@@ -32,3 +32,4 @@ export const hasAdminPrivileges = (role: string): boolean => {
 export const getRouteType = (role: string): 'admin' | 'user' => {
   return hasAdminPrivileges(role) ? 'admin' : 'user';
 };
+

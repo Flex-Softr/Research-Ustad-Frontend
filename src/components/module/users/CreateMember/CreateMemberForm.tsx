@@ -18,7 +18,7 @@ import { FormData } from "@/type";
 import { useRouter } from "next/navigation";
 
 // Role options array - must match backend enum values
-const roleOptions = ["user", "admin", "superAdmin"];
+const roleOptions = ["user", "admin"];
 
 // Designation options array - must match backend enum values
 const designationOptions = [
