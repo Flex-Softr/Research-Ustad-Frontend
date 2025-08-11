@@ -220,10 +220,10 @@ const ManageTable: React.FC<ManageTableProps> = ({
                           ) || "Uncategorized"}
                       </span>
                     ) : column.value === "role" ? (
-                      <span 
+                      <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          item.role === "superAdmin" 
-                            ? "bg-purple-100 text-purple-800" 
+                          item.role === "superAdmin"
+                            ? "bg-purple-100 text-purple-800"
                             : item.role === "admin"
                             ? "bg-green-100 text-green-800"
                             : "bg-gray-100 text-gray-800"
@@ -232,10 +232,10 @@ const ManageTable: React.FC<ManageTableProps> = ({
                         {item.role}
                       </span>
                     ) : column.value === "isApproved" ? (
-                      <span 
+                      <span
                         className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          item.isApproved 
-                            ? "bg-green-100 text-green-800" 
+                          item.isApproved
+                            ? "bg-green-100 text-green-800"
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
@@ -251,19 +251,20 @@ const ManageTable: React.FC<ManageTableProps> = ({
                                 .reduce(
                                   (o: any, k: string) => (o?.[k] ? o[k] : ""),
                                   item
-                                )
-                                ?.length > 35
+                                )?.length > 35
                                 ? column.value
                                     .split(".")
                                     .reduce(
-                                      (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                                      (o: any, k: string) =>
+                                        o?.[k] ? o[k] : "",
                                       item
                                     )
                                     ?.substring(0, 35) + "..."
                                 : column.value
                                     .split(".")
                                     .reduce(
-                                      (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                                      (o: any, k: string) =>
+                                        o?.[k] ? o[k] : "",
                                       item
                                     )}
                             </span>
@@ -377,17 +378,18 @@ const ManageTable: React.FC<ManageTableProps> = ({
                   {/* Delete Button */}
                   {(isvalue === "paperadmin" ||
                     isvalue === "researhMembar" ||
-                    isvalue === "blog") && onDelete && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDelete(item._id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  )}
+                    isvalue === "blog") &&
+                    onDelete && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => onDelete(item._id)}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
                 </TableCell>
               </TableRow>
             ))}

@@ -34,8 +34,8 @@ const AllreserchPaperAdmin = () => {
   const columns = [
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
-    { label: "Authors", value: "authors" },
-    { label: "Journal", value: "journal" },
+    // { label: "Authors", value: "authors" },
+    // { label: "Journal", value: "journal" },
     { label: "Visit Link", value: "visitLink" },
     { label: "Paper Type", value: "paperType" },
     { label: "Status", value: "isApproved" },
