@@ -29,8 +29,8 @@ const FilterSidebar = ({
 
   const paperTypes = [
     "all",
-    "Journal",
-    "Conference"
+    "journal",
+    "conference"
   ];
 
   return (
@@ -196,7 +196,7 @@ const FilterSidebar = ({
                 }`}
               >
                 <span className="font-medium">
-                  {type === "all" ? "All Types" : type}
+                  {type === "all" ? "All Types" : type.charAt(0).toUpperCase() + type.slice(1)}
                 </span>
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-semibold ${

@@ -293,10 +293,10 @@ const SingleResearchPaper = ({
                   <div className="space-y-4">
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">
-                        Journal Type
+                        Paper Type
                       </h4>
                       <Badge variant="outline" className="text-sm">
-                        {paper.journalType}
+                        {paper.paperType}
                       </Badge>
                     </div>
                   </div>

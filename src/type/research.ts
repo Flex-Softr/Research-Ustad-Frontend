@@ -21,7 +21,7 @@ export type TPapers = {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  paperType: string;
+  paperType: "journal" | "conference";
   isApproved: boolean;
   researchArea?: string;
   createdAt: string;
@@ -38,7 +38,7 @@ export interface ResearchPaperForm {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  paperType: string;
+  paperType: "journal" | "conference";
 }
 
 export interface FilterState {
@@ -75,7 +75,6 @@ export interface SingleResearchPaperProps {
     researchArea?: string;
     funding?: string;
     createdAt?: string;
-    journalType?: string;
     updatedAt?: string;
   };
   paperId?: string;
@@ -89,5 +88,4 @@ export interface RelatedPaper extends TPapers {
   downloads?: number;
   researchArea?: string;
   funding?: string;
-  journalType?: string;
 }

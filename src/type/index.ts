@@ -176,7 +176,7 @@ export type TPapers = {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  paperType: string;
+  paperType: "journal" | "conference";
   isApproved: boolean;
   researchArea?: string;
   createdAt: string; // ISO date string
