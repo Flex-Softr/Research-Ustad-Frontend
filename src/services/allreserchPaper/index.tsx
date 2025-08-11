@@ -1,6 +1,6 @@
 "use server";
 
-import { ResearchPaperForm } from "@/components/module/userRoutes/AddResearchpaper/AddResearchPaper";
+import { ResearchPaperFormData } from "@/components/module/common/ResearchPaperForm/ResearchPaperForm";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { api } from "@/config";
@@ -141,13 +141,36 @@ export const GetAllResearchPaperPublic = async () => {
   }
 };
 
-export const ApprovePaper = async (id: string) => {
-  console.log(id);
+export const GetPendingResearchPapers = async () => {
   try {
     const cookieStore = await cookies();
-
     let token = cookieStore.get("accessToken")!.value;
-    console.log("idddddddddd", id);
+    const response = await fetch(`${api.baseUrl}/paper/onging`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      next: {
+        tags: ["paper"],
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching pending research papers:", error);
+    return null;
+  }
+};
+
+export const ApprovePaper = async (id: string) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
     const response = await fetch(`${api.baseUrl}/paper/approve/${id}`, {
       method: "PUT",
       headers: {
@@ -158,7 +181,26 @@ export const ApprovePaper = async (id: string) => {
     revalidateTag("paper");
     return await response.json();
   } catch (error) {
-    console.error("Error Aprove researchPaper:", error);
+    console.error("Error approving research paper:", error);
+    return null;
+  }
+};
+
+export const RejectPaper = async (id: string) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/paper/reject/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+    revalidateTag("paper");
+    return await response.json();
+  } catch (error) {
+    console.error("Error rejecting research paper:", error);
     return null;
   }
 };
@@ -182,7 +224,7 @@ export const DeletePaper = async (id: string) => {
   }
 };
 
-export const PostResearchPaper = async (formData: ResearchPaperForm) => {
+export const PostResearchPaper = async (formData: ResearchPaperFormData) => {
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
@@ -195,9 +237,10 @@ export const PostResearchPaper = async (formData: ResearchPaperForm) => {
       body: JSON.stringify(formData),
     });
 
-    // if (!response.ok) {
-    //   throw new Error(`Request failed with status: ${response.status}`);
-    // }
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `Request failed with status: ${response.status}`);
+    }
 
     return await response.json();
   } catch (error) {

@@ -9,6 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ApprovePaper } from "@/services/allreserchPaper";
 import { PromoteRole } from "@/services/Users";
 import { ShieldCheck, Edit, Trash2, Eye } from "lucide-react";
@@ -33,6 +38,8 @@ interface ManageTableProps {
   columns: Column[];
   isvalue: string;
   onDelete?: (id: string) => void;
+  onApprove?: (id: string) => void;
+  onReject?: (id: string) => void;
 }
 
 const ManageTable: React.FC<ManageTableProps> = ({
@@ -40,6 +47,8 @@ const ManageTable: React.FC<ManageTableProps> = ({
   loading,
   columns,
   onDelete,
+  onApprove,
+  onReject,
   isvalue,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -91,9 +100,13 @@ const ManageTable: React.FC<ManageTableProps> = ({
   );
 
   const handleApprove = async (id: string) => {
-    console.log("Approving paper with ID:", id);
-    const res = await ApprovePaper(id);
-    console.log(res);
+    if (onApprove) {
+      await onApprove(id);
+    } else {
+      console.log("Approving paper with ID:", id);
+      const res = await ApprovePaper(id);
+      console.log(res);
+    }
   };
 
   const handleRoleChange = async (id: string, currentRole: string) => {
@@ -218,6 +231,55 @@ const ManageTable: React.FC<ManageTableProps> = ({
                       >
                         {item.role}
                       </span>
+                    ) : column.value === "isApproved" ? (
+                      <span 
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          item.isApproved 
+                            ? "bg-green-100 text-green-800" 
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
+                      >
+                        {item.isApproved ? "Approved" : "Pending"}
+                      </span>
+                    ) : column.value === "title" ? (
+                      <div className="max-w-[200px]">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span className="text-sm cursor-help line-clamp-2">
+                              {column.value
+                                .split(".")
+                                .reduce(
+                                  (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                                  item
+                                )
+                                ?.length > 35
+                                ? column.value
+                                    .split(".")
+                                    .reduce(
+                                      (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                                      item
+                                    )
+                                    ?.substring(0, 35) + "..."
+                                : column.value
+                                    .split(".")
+                                    .reduce(
+                                      (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                                      item
+                                    )}
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="max-w-[300px]">
+                              {column.value
+                                .split(".")
+                                .reduce(
+                                  (o: any, k: string) => (o?.[k] ? o[k] : ""),
+                                  item
+                                )}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
                     ) : (
                       column.value
                         .split(".")
@@ -255,18 +317,47 @@ const ManageTable: React.FC<ManageTableProps> = ({
                     </Link>
                   )}
 
-                  {/* Approve Button for Papers */}
+                  {/* Approve/Reject Buttons for Papers */}
                   {isvalue === "paperadmin" && (
-                    <button
-                      onClick={() => handleApprove(item._id)}
-                      className={`px-2 py-1 cursor-pointer transition border rounded-md ${
-                        item.isApproved
-                          ? "bg-green-500 text-white"
-                          : "bg-red-500 text-white"
-                      }`}
-                    >
-                      {item.isApproved ? "Approved" : "Approve"}
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleApprove(item._id)}
+                        className={`px-2 py-1 cursor-pointer transition border rounded-md ${
+                          item.isApproved
+                            ? "bg-green-500 text-white"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }`}
+                        disabled={item.isApproved}
+                      >
+                        {item.isApproved ? "Approved" : "Approve"}
+                      </button>
+                      {!item.isApproved && onReject && (
+                        <button
+                          onClick={() => onReject(item._id)}
+                          className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
+                        >
+                          Reject
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Pending Papers - Approve/Reject */}
+                  {isvalue === "pendingPaper" && (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleApprove(item._id)}
+                        className="px-2 py-1 cursor-pointer transition border rounded-md bg-green-500 text-white hover:bg-green-600"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => onReject && onReject(item._id)}
+                        className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
+                      >
+                        Reject
+                      </button>
+                    </div>
                   )}
 
                   {/* Role Change Button */}

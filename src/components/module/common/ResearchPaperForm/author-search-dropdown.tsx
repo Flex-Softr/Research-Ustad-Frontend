@@ -41,6 +41,8 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
 
 
 
+
+
   // Debounced search
   useEffect(() => {
     const timeoutId = setTimeout(() => {

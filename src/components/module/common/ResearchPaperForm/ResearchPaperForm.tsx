@@ -20,9 +20,9 @@ export interface ResearchPaperFormData {
   title: string;
   authors: string[];
   journal: string;
-  volume: string;
-  impactFactor: number;
-  journalRank: string;
+  volume?: string;
+  impactFactor?: number;
+  journalRank?: string;
   visitLink: string;
   paperType: string;
 }
@@ -44,7 +44,7 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
   ]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { register, handleSubmit, reset, setValue } =
+  const { register, handleSubmit, reset, setValue, watch } =
     useForm<ResearchPaperFormData>();
 
   const handleAddResearch = (): void => {
@@ -75,14 +75,20 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
       return;
     }
 
+    if (!data.paperType) {
+      toast.error("Please select a paper type");
+      setLoading(false);
+      return;
+    }
+
     const formData = {
       year: Number(data.year),
       title: data.title,
       authors: validAuthors, // Using the filtered authors list
       journal: data.journal,
-      volume: data.volume,
-      impactFactor: Number(data.impactFactor),
-      journalRank: data.journalRank,
+      volume: data.volume || "",
+      impactFactor: data.impactFactor ? Number(data.impactFactor) : undefined,
+      journalRank: data.journalRank || "",
       visitLink: data.visitLink,
       paperType: data.paperType,
     };
@@ -90,6 +96,7 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
     try {
       const result = await PostResearchPaper(formData);
       reset();
+      setValue("paperType", ""); // Explicitly reset paperType
       console.log(result);
       toast.success(result.message);
       setauthorReaseachpaper([""]);
@@ -202,7 +209,7 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
             id="volume"
             type="text"
             placeholder="Enter the volume number"
-            {...register("volume", { required: true })}
+            {...register("volume")}
           />
         </div>
 
@@ -216,7 +223,7 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
             type="number"
             step="0.1"
             placeholder="Enter the impact factor"
-            {...register("impactFactor", { required: true })}
+            {...register("impactFactor")}
           />
         </div>
 
@@ -229,7 +236,7 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
             id="journalRank"
             type="text"
             placeholder="Enter the journal rank"
-            {...register("journalRank", { required: true })}
+            {...register("journalRank")}
           />
         </div>
 
@@ -249,15 +256,18 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
         {/* Paper Type */}
         <div>
           <Label htmlFor="paperType" className="mb-2">
-            Paper Type:
+            Paper Type: *
           </Label>
-          <Select onValueChange={(value) => setValue("paperType", value)}>
+          <Select 
+            value={watch("paperType") || ""} 
+            onValueChange={(value) => setValue("paperType", value)}
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Journal">Journal</SelectItem>
-              <SelectItem value="Conference">Conference</SelectItem>
+              <SelectItem value="journal">Journal</SelectItem>
+              <SelectItem value="conference">Conference</SelectItem>
             </SelectContent>
           </Select>
         </div>

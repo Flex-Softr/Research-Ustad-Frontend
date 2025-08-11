@@ -24,6 +24,7 @@ import {
   Menu,
   BookOpen,
   FolderOpen,
+  Clock,
 } from "lucide-react";
 
 import {
@@ -122,6 +123,11 @@ const adminRoute = {
           title: "All Research Paper",
           url: "/admin/dashboard/allresearchpaper",
           icon: FileText,
+        },
+        {
+          title: "Pending Research Paper",
+          url: "/admin/dashboard/pendingresearchpaper",
+          icon: Clock,
         },
         {
           title: "Create Research Paper",

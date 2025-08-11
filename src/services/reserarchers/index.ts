@@ -140,7 +140,16 @@ export const UpdatePersonalMember = async (data: any, file?: File) => {
         body: formData,
       }
     );
-    return await response.json();
+    
+    const result = await response.json();
+    
+    // Invalidate all relevant caches to ensure updated data is fetched
+    revalidateTag("users");
+    revalidateTag("loginuser");
+    revalidateTag("member");
+    revalidateTag("personalInfo");
+    
+    return result;
   } catch (error) {
     console.error("Error updating member:", error);
     return null;

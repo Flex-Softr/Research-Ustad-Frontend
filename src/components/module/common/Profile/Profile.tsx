@@ -24,7 +24,8 @@ import {
   ExternalLink,
   Calendar,
   BookOpen,
-  Briefcase
+  Briefcase,
+  RefreshCw
 } from "lucide-react";
 
 const Profile = () => {
@@ -76,6 +77,58 @@ const Profile = () => {
     fetchData();
   }, []);
 
+  // Refresh data when component comes into focus (e.g., when user navigates back)
+  useEffect(() => {
+    const handleFocus = () => {
+      // Refresh data when the window regains focus
+      const fetchData = async () => {
+        try {
+          const userResult = await GetMe();
+          setUser(userResult?.data);
+          
+          try {
+            const memberResult = await GetSinglePersonalMember();
+            if (memberResult?.data) {
+              setMemberData(memberResult.data);
+            }
+          } catch (memberError: any) {
+            console.error("Error fetching member data:", memberError);
+          }
+        } catch (error: any) {
+          console.error("Error refreshing user data:", error);
+        }
+      };
+      
+      fetchData();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, []);
+
+  const refreshProfileData = async () => {
+    try {
+      setLoading(true);
+      const userResult = await GetMe();
+      setUser(userResult?.data);
+      
+      try {
+        const memberResult = await GetSinglePersonalMember();
+        if (memberResult?.data) {
+          setMemberData(memberResult.data);
+        }
+      } catch (memberError: any) {
+        console.error("Error fetching member data:", memberError);
+      }
+      toast.success("Profile data refreshed!");
+    } catch (error: any) {
+      console.error("Error refreshing profile data:", error);
+      toast.error("Failed to refresh profile data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const onSubmit = async (data: {
     oldPassword: string;
     newPassword: string;
@@ -113,6 +166,19 @@ const Profile = () => {
         {/* Header Card */}
         <Card className="shadow-xl rounded-lg bg-white">
           <CardContent className="p-8">
+            <div className="flex justify-between items-start mb-4">
+              <h1 className="text-2xl font-bold text-gray-800">Profile Information</h1>
+              <Button
+                onClick={refreshProfileData}
+                disabled={loading}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                Refresh
+              </Button>
+            </div>
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               {/* Profile Image */}
               <Avatar className="w-32 h-32 border-4 border-white shadow-lg">

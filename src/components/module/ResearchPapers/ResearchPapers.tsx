@@ -42,11 +42,9 @@ const ResearchPapers = () => {
     { label: "Title", value: "title" },
     { label: "Authors", value: "authors" },
     { label: "Journal", value: "journal" },
-    { label: "Volume", value: "volume" },
-    { label: "Impact Factor", value: "impactFactor" },
-    { label: "Journal Rank", value: "journalRank" },
     { label: "Visit Link", value: "visitLink" },
     { label: "Paper Type", value: "paperType" },
+    { label: "Status", value: "isApproved" },
   ];
 
   return (
