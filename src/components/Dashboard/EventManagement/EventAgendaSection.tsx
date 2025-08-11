@@ -15,14 +15,11 @@ export const EventAgendaSection: React.FC<EventAgendaSectionProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <div className="space-y-2">
+    
         <Label className="text-lg font-semibold text-gray-900">
           Event Agenda
         </Label>
-        <p className="text-sm text-gray-600">
-          Provide a detailed agenda for your event. You can use rich text formatting to create a comprehensive event schedule.
-        </p>
-      </div>
+    
 
       <div className="space-y-2">
         <RichTextEditor
