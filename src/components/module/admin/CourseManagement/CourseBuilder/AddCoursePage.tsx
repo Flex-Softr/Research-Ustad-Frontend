@@ -193,7 +193,7 @@ export default function AddCoursePage() {
     setErrors(validationErrors);
 
     if (validationErrors.length > 0) {
-      toast.error("Please fix the validation errors before submitting.");
+      toast.error("Please fill all the fields correctly before submitting.");
       return;
     }
 

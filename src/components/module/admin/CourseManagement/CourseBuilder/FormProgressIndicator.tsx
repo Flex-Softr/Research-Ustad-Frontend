@@ -21,7 +21,7 @@ const sections = [
   {
     id: "content",
     title: "Course Content",
-    fields: ["tags", "whatYouWillLearn", "requirements"],
+    fields: ["curriculum", "tags", "whatYouWillLearn", "requirements"],
     icon: CheckCircle,
   },
   {
@@ -70,6 +70,9 @@ export function FormProgressIndicator({
           break;
         case "requirements":
           if (formData.requirements.length > 0) completedFields++;
+          break;
+        case "curriculum":
+          if (formData.curriculum.trim().length >= 50) completedFields++;
           break;
         case "instructors":
           if (formData.instructors.length > 0) {

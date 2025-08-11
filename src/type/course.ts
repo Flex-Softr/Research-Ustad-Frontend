@@ -174,6 +174,7 @@ export interface FormProgressIndicatorProps {
   formData: {
     title: string;
     description: string;
+    curriculum: string;
     category: string;
     fee: string;
     isFree: boolean;
@@ -191,6 +192,7 @@ export interface FormSidebarProps {
   formData: {
     title: string;
     description: string;
+    curriculum: string;
     location: string;
     offlineLocation?: string;
     duration: string;
