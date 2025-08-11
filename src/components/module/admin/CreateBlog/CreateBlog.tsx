@@ -163,12 +163,12 @@ const CreateBlog: React.FC = () => {
 
       if (success) {
         if (!isEditMode) {
+          router.push("/admin/dashboard/allblogs");
           reset();
           setPreviewImage(null);
           setEditorContent("");
           resetCategoryState();
         }
-        router.push("/admin/dashboard/allblogs");
       }
     } catch (error) {
       console.error("Form submission error:", error);
