@@ -235,7 +235,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
                 key={user._id}
                 type="button"
                 onClick={() => handleUserSelect(user)}
-                className="w-full px-3 py-3 text-left hover:bg-gray-50 flex items-center space-x-3 border-b border-gray-100 last:border-b-0 transition-colors duration-150"
+                className="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center space-x-3 border-b border-gray-100 last:border-b-0 transition-colors duration-150"
               >
                 <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <User className="h-4 w-4 text-gray-600" />
