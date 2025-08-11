@@ -17,6 +17,7 @@ import { TagsSection } from "./TagsSection";
 import { LearningObjectivesSection } from "./LearningObjectivesSection";
 import { RequirementsSection } from "./RequirementsSection";
 import { InstructorsSection } from "./InstructorsSection";
+import { CurriculumSection } from "./CurriculumSection";
 import { FormSidebar } from "./FormSidebar";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ export default function AddCoursePage() {
   const [formData, setFormData] = useState<CourseFormData>({
     title: "",
     description: "",
+    curriculum: "",
     location: "Online",
     offlineLocation: "",
     duration: "",
@@ -54,6 +56,7 @@ export default function AddCoursePage() {
     language: "English",
     certificate: true,
     lifetimeAccess: true,
+    enrollLink: "",
     thumbnail: null,
     instructors: [],
     tags: [],
@@ -73,12 +76,13 @@ export default function AddCoursePage() {
     }
   }, [dispatch, isEditMode, courseId]);
 
-  // Update form data when course is loaded (for edit mode)
+// Update form data when course is loaded (for edit mode)
   useEffect(() => {
     if (isEditMode && course) {
       setFormData({
         title: course.title || "",
         description: course.description || "",
+        curriculum: course.curriculum || "",
         location: course.location || "Online",
         offlineLocation: course.offlineLocation || "",
         duration: course.duration || "",
@@ -94,6 +98,7 @@ export default function AddCoursePage() {
         language: course.language || "English",
         certificate: course.certificate ?? true,
         lifetimeAccess: course.lifetimeAccess ?? true,
+        enrollLink: (course as any).enrollLink || "",
         thumbnail: null, // We'll handle image separately
         instructors: course.instructors?.map(instructor => ({
           name: instructor.name || "",
@@ -156,6 +161,7 @@ export default function AddCoursePage() {
     setFormData({
       title: "",
       description: "",
+      curriculum: "",
       location: "Online",
       offlineLocation: "",
       duration: "",
@@ -171,6 +177,7 @@ export default function AddCoursePage() {
       language: "English",
       certificate: true,
       lifetimeAccess: true,
+      enrollLink: "",
       thumbnail: null,
       instructors: [],
       tags: [],
@@ -186,7 +193,7 @@ export default function AddCoursePage() {
     setErrors(validationErrors);
 
     if (validationErrors.length > 0) {
-      toast.error("Please fix the validation errors before submitting.");
+      toast.error("Please fill all the fields correctly before submitting.");
       return;
     }
 
@@ -205,6 +212,7 @@ export default function AddCoursePage() {
       const courseData = {
         title: formData.title,
         description: formData.description,
+        curriculum: formData.curriculum,
         location: formData.location || "Online",
         offlineLocation: formData.offlineLocation,
         duration: formData.duration,
@@ -219,6 +227,7 @@ export default function AddCoursePage() {
         language: formData.language,
         certificate: formData.certificate,
         lifetimeAccess: formData.lifetimeAccess,
+        enrollLink: formData.enrollLink,
         instructors: formData.instructors.map(instructor => ({
           name: instructor.name,
           imageUrl: instructor.imageUrl || "", // Keep existing image URL if no new file
@@ -232,7 +241,8 @@ export default function AddCoursePage() {
         requirements: formData.requirements,
         startDate: formData.startDate ? new Date(formData.startDate).toISOString() : new Date().toISOString(),
         endDate: isEditMode ? (course?.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        status: isEditMode ? (course?.status || "upcoming" as const) : "upcoming" as const,
+        // Remove manual status setting - let backend calculate based on dates
+        // status: isEditMode ? (course?.status || "upcoming" as const) : "upcoming" as const,
       };
       
       // Add the course data as JSON string
@@ -405,6 +415,13 @@ export default function AddCoursePage() {
           />
 
           <CourseFeaturesSection formData={formData} onChange={handleChange} />
+
+          <CurriculumSection
+            curriculum={formData.curriculum}
+            onChange={handleChange}
+            errors={errors}
+            hasAttemptedSubmit={hasAttemptedSubmit}
+          />
 
           <TagsSection
             tags={formData.tags}

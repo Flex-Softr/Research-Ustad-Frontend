@@ -19,8 +19,9 @@ export interface Course {
   language: string;
   certificate: boolean;
   lifetimeAccess: boolean;
+  enrollLink?: string;
   imageUrl: string;
-  status?: "upcoming" | "ongoing" | "completed";
+  status?: "upcoming" | "ongoing";
   curriculum?: string; // HTML content from text editor
   courseFeatures?: Array<{
     title: string;
@@ -147,6 +148,7 @@ export interface BasicInformationSectionProps {
     language: string;
     location: string;
     offlineLocation?: string;
+    enrollLink: string;
   };
   onChange: (field: string, value: any) => void;
   errors: Array<{ field: string; message: string }>;
@@ -172,6 +174,7 @@ export interface FormProgressIndicatorProps {
   formData: {
     title: string;
     description: string;
+    curriculum: string;
     category: string;
     fee: string;
     isFree: boolean;
@@ -189,6 +192,7 @@ export interface FormSidebarProps {
   formData: {
     title: string;
     description: string;
+    curriculum: string;
     location: string;
     offlineLocation?: string;
     duration: string;
@@ -204,6 +208,7 @@ export interface FormSidebarProps {
     language: string;
     certificate: boolean;
     lifetimeAccess: boolean;
+    enrollLink: string;
     thumbnail: File | null;
     tags: string[];
     whatYouWillLearn: string[];

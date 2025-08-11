@@ -41,7 +41,7 @@ const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
       <Breadcrumb
         items={[
           { label: "Events", href: "/event" },
-          { label: typedEvent.title, current: true },
+          { label: typedEvent.title },
         ]}
       />
 

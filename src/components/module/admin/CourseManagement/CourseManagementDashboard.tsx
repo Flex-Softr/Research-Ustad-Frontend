@@ -16,7 +16,6 @@ import {
   TrendingUp,
   Calendar,
   Star,
-  DollarSign,
   BarChart3,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -79,12 +78,6 @@ const CourseManagementDashboard = () => {
     return startDate <= now && endDate > now;
   }).length;
 
-  const completedCourses = courses.filter(course => {
-    const endDate = new Date(course.endDate || "2100-01-01");
-    const now = new Date();
-    return endDate <= now;
-  }).length;
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -144,16 +137,15 @@ const CourseManagementDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()} BDT</p>
               </div>
-              <DollarSign className="h-8 w-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Course Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -174,18 +166,6 @@ const CourseManagementDashboard = () => {
                 <p className="text-2xl font-bold text-green-900">{ongoingCourses}</p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Completed</p>
-                <p className="text-2xl font-bold text-gray-900">{completedCourses}</p>
-              </div>
-              <BarChart3 className="h-8 w-8 text-gray-600" />
             </div>
           </CardContent>
         </Card>

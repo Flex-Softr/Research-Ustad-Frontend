@@ -1,0 +1,536 @@
+{
+  "members": [
+    {
+      "id": "1",
+      "fullName": "Dr. Sarah Johnson",
+      "email": "sarah.johnson@researchustad.com",
+      "contactNo": "+1-555-0123",
+      "role": "researcher",
+      "designation": "Advisor",
+      "profileImg": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Leading researcher in artificial intelligence and machine learning with over 15 years of experience in academia and industry.",
+      "isDeleted": false,
+      "current": {
+        "institution": "Stanford University",
+        "department": "Computer Science",
+        "degree": "Ph.D. in Computer Science"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Computer Science",
+        "institution": "MIT",
+        "status": "Completed",
+        "scholarship": "NSF Graduate Research Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/sarah.johnson",
+        "twitter": "https://twitter.com/sarahjohnson_ai",
+        "linkedin": "https://linkedin.com/in/sarahjohnson"
+      },
+      "researchStats": {
+        "totalPapers": 45,
+        "publishedPapers": 38,
+        "ongoingPapers": 7,
+        "totalCitations": 2847,
+        "hIndex": 32,
+        "impactFactor": 8.5,
+        "researchGrants": 12,
+        "totalGrantAmount": 2500000
+      },
+      "expertise": [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Natural Language Processing",
+        "Computer Vision"
+      ],
+      "awards": [
+        "NSF CAREER Award (2020)",
+        "Best Paper Award - ICML 2023",
+        "Outstanding Researcher Award - Stanford University (2022)"
+      ]
+    },
+    {
+      "id": "2",
+      "fullName": "Dr. Ahmed Hassan",
+      "email": "ahmed.hassan@researchustad.com",
+      "contactNo": "+1-555-0124",
+      "role": "researcher",
+      "designation": "Lead",
+      "profileImg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Expert in quantum computing and quantum machine learning with focus on pharmaceutical applications and drug discovery acceleration.",
+      "isDeleted": false,
+      "current": {
+        "institution": "MIT",
+        "department": "Physics",
+        "degree": "Ph.D. in Quantum Physics"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Quantum Physics",
+        "institution": "Caltech",
+        "status": "Completed",
+        "scholarship": "Caltech Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/ahmed.hassan",
+        "twitter": "https://twitter.com/ahmedhassan_quantum",
+        "linkedin": "https://linkedin.com/in/ahmedhassan"
+      },
+      "researchStats": {
+        "totalPapers": 32,
+        "publishedPapers": 28,
+        "ongoingPapers": 4,
+        "totalCitations": 1893,
+        "hIndex": 24,
+        "impactFactor": 7.2,
+        "researchGrants": 8,
+        "totalGrantAmount": 1800000
+      },
+      "expertise": [
+        "Quantum Computing",
+        "Quantum Machine Learning",
+        "Drug Discovery",
+        "Molecular Modeling"
+      ],
+      "awards": [
+        "MIT Excellence in Research Award (2023)",
+        "Best Quantum Computing Paper - QIP 2023",
+        "Pharmaceutical Innovation Award (2022)"
+      ]
+    },
+    {
+      "id": "3",
+      "fullName": "Dr. Emily Rodriguez",
+      "email": "emily.rodriguez@researchustad.com",
+      "contactNo": "+1-555-0125",
+      "role": "researcher",
+      "designation": "Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Specialist in computer vision and robotics with expertise in autonomous systems, human-robot interaction, and surgical robotics.",
+      "isDeleted": false,
+      "current": {
+        "institution": "UC Berkeley",
+        "department": "Electrical Engineering",
+        "degree": "Ph.D. in Robotics"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Robotics",
+        "institution": "UC Berkeley",
+        "status": "Completed",
+        "scholarship": "NSF Graduate Research Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/emily.rodriguez",
+        "twitter": "https://twitter.com/emily_robotics",
+        "linkedin": "https://linkedin.com/in/emilyrodriguez"
+      },
+      "researchStats": {
+        "totalPapers": 28,
+        "publishedPapers": 22,
+        "ongoingPapers": 6,
+        "totalCitations": 1247,
+        "hIndex": 18,
+        "impactFactor": 6.8,
+        "researchGrants": 6,
+        "totalGrantAmount": 1200000
+      },
+      "expertise": [
+        "Computer Vision",
+        "Robotics",
+        "Autonomous Systems",
+        "Human-Robot Interaction"
+      ],
+      "awards": [
+        "UC Berkeley Outstanding Graduate Student Award (2023)",
+        "Best Robotics Paper - ICRA 2023",
+        "Women in Robotics Award (2022)"
+      ]
+    },
+    {
+      "id": "4",
+      "fullName": "Dr. Jennifer Park",
+      "email": "jennifer.park@researchustad.com",
+      "contactNo": "+1-555-0126",
+      "role": "researcher",
+      "designation": "Lead_Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Leading expert in biomedical engineering and gene editing technologies with focus on CRISPR-Cas9 applications in cancer immunotherapy.",
+      "isDeleted": false,
+      "current": {
+        "institution": "Johns Hopkins University",
+        "department": "Biomedical Engineering",
+        "degree": "Ph.D. in Biomedical Engineering"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Biomedical Engineering",
+        "institution": "Johns Hopkins University",
+        "status": "Completed",
+        "scholarship": "JHU Presidential Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/jennifer.park",
+        "twitter": "https://twitter.com/jenniferpark_bio",
+        "linkedin": "https://linkedin.com/in/jenniferpark"
+      },
+      "researchStats": {
+        "totalPapers": 35,
+        "publishedPapers": 29,
+        "ongoingPapers": 6,
+        "totalCitations": 2156,
+        "hIndex": 26,
+        "impactFactor": 7.5,
+        "researchGrants": 10,
+        "totalGrantAmount": 2200000
+      },
+      "expertise": [
+        "Biomedical Engineering",
+        "Gene Editing",
+        "CRISPR-Cas9",
+        "Cancer Immunotherapy"
+      ],
+      "awards": [
+        "JHU Excellence in Research Award (2023)",
+        "Best Biomedical Paper - BMES 2023",
+        "Cancer Research Innovation Award (2022)"
+      ]
+    },
+    {
+      "id": "5",
+      "fullName": "Dr. Thomas Brown",
+      "email": "thomas.brown@researchustad.com",
+      "contactNo": "+1-555-0127",
+      "role": "researcher",
+      "designation": "Mentor_Panel",
+      "profileImg": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Expert in climate science and environmental modeling with focus on climate change impact assessment and adaptation strategies for global food security.",
+      "isDeleted": false,
+      "current": {
+        "institution": "Columbia University",
+        "department": "Earth and Environmental Sciences",
+        "degree": "Ph.D. in Climate Science"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Climate Science",
+        "institution": "Columbia University",
+        "status": "Completed",
+        "scholarship": "Columbia Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/thomas.brown",
+        "twitter": "https://twitter.com/thomasbrown_climate",
+        "linkedin": "https://linkedin.com/in/thomasbrown"
+      },
+      "researchStats": {
+        "totalPapers": 42,
+        "publishedPapers": 36,
+        "ongoingPapers": 6,
+        "totalCitations": 3245,
+        "hIndex": 35,
+        "impactFactor": 8.8,
+        "researchGrants": 15,
+        "totalGrantAmount": 3200000
+      },
+      "expertise": [
+        "Climate Science",
+        "Environmental Modeling",
+        "Climate Change",
+        "Food Security"
+      ],
+      "awards": [
+        "Columbia Climate Award (2023)",
+        "Best Climate Science Paper - AGU 2023",
+        "Environmental Excellence Award (2022)"
+      ]
+    },
+    {
+      "id": "6",
+      "fullName": "Dr. Amanda White",
+      "email": "amanda.white@researchustad.com",
+      "contactNo": "+1-555-0128",
+      "role": "researcher",
+      "designation": "Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Specialist in blockchain technology and decentralized finance with expertise in security analysis, smart contracts, and DeFi protocols.",
+      "isDeleted": false,
+      "current": {
+        "institution": "Carnegie Mellon University",
+        "department": "Computer Science",
+        "degree": "Ph.D. in Cybersecurity"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Cybersecurity",
+        "institution": "Carnegie Mellon University",
+        "status": "Completed",
+        "scholarship": "CMU Presidential Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/amanda.white",
+        "twitter": "https://twitter.com/amandawhite_blockchain",
+        "linkedin": "https://linkedin.com/in/amandawhite"
+      },
+      "researchStats": {
+        "totalPapers": 31,
+        "publishedPapers": 25,
+        "ongoingPapers": 6,
+        "totalCitations": 1678,
+        "hIndex": 22,
+        "impactFactor": 7.1,
+        "researchGrants": 9,
+        "totalGrantAmount": 1900000
+      },
+      "expertise": [
+        "Blockchain Technology",
+        "Decentralized Finance",
+        "Smart Contracts",
+        "Security Analysis"
+      ],
+      "awards": [
+        "CMU CyLab Security Award (2023)",
+        "Best Blockchain Paper - CCS 2023",
+        "Financial Technology Innovation Award (2022)"
+      ]
+    },
+    {
+      "id": "7",
+      "fullName": "Dr. Mark Johnson",
+      "email": "mark.johnson@researchustad.com",
+      "contactNo": "+1-555-0129",
+      "role": "researcher",
+      "designation": "Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Expert in educational technology and artificial intelligence with focus on personalized learning systems and adaptive educational platforms.",
+      "isDeleted": false,
+      "current": {
+        "institution": "Harvard University",
+        "department": "Education",
+        "degree": "Ph.D. in Educational Technology"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Educational Technology",
+        "institution": "Harvard University",
+        "status": "Completed",
+        "scholarship": "Harvard Graduate Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/mark.johnson",
+        "twitter": "https://twitter.com/markjohnson_edtech",
+        "linkedin": "https://linkedin.com/in/markjohnson"
+      },
+      "researchStats": {
+        "totalPapers": 38,
+        "publishedPapers": 32,
+        "ongoingPapers": 6,
+        "totalCitations": 2456,
+        "hIndex": 28,
+        "impactFactor": 7.8,
+        "researchGrants": 11,
+        "totalGrantAmount": 2100000
+      },
+      "expertise": [
+        "Educational Technology",
+        "Artificial Intelligence",
+        "Personalized Learning",
+        "Adaptive Systems"
+      ],
+      "awards": [
+        "Harvard Excellence in Research Award (2023)",
+        "Best Educational Technology Paper - AERA 2023",
+        "Educational Innovation Award (2022)"
+      ]
+    },
+    {
+      "id": "8",
+      "fullName": "Dr. Rachel Green",
+      "email": "rachel.green@researchustad.com",
+      "contactNo": "+1-555-0130",
+      "role": "researcher",
+      "designation": "Lead_Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Leading expert in cybersecurity and network security with focus on 5G networks, threat detection, and defense mechanisms for critical infrastructure.",
+      "isDeleted": false,
+      "current": {
+        "institution": "UC Berkeley",
+        "department": "Electrical Engineering",
+        "degree": "Ph.D. in Cybersecurity"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Cybersecurity",
+        "institution": "UC Berkeley",
+        "status": "Completed",
+        "scholarship": "UC Berkeley Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/rachel.green",
+        "twitter": "https://twitter.com/rachelgreen_cyber",
+        "linkedin": "https://linkedin.com/in/rachelgreen"
+      },
+      "researchStats": {
+        "totalPapers": 29,
+        "publishedPapers": 24,
+        "ongoingPapers": 5,
+        "totalCitations": 1345,
+        "hIndex": 19,
+        "impactFactor": 6.9,
+        "researchGrants": 7,
+        "totalGrantAmount": 1600000
+      },
+      "expertise": [
+        "Cybersecurity",
+        "Network Security",
+        "5G Networks",
+        "Threat Detection"
+      ],
+      "awards": [
+        "UC Berkeley Cybersecurity Award (2023)",
+        "Best Security Paper - IEEE S&P 2023",
+        "Network Security Innovation Award (2022)"
+      ]
+    },
+    {
+      "id": "9",
+      "fullName": "Dr. Daniel Clark",
+      "email": "daniel.clark@researchustad.com",
+      "contactNo": "+1-555-0131",
+      "role": "researcher",
+      "designation": "Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Specialist in biomedical engineering and neural interface technology with focus on advanced prosthetic technologies and brain-computer interfaces.",
+      "isDeleted": false,
+      "current": {
+        "institution": "Johns Hopkins University",
+        "department": "Biomedical Engineering",
+        "degree": "Ph.D. in Biomedical Engineering"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Biomedical Engineering",
+        "institution": "Johns Hopkins University",
+        "status": "Completed",
+        "scholarship": "JHU Presidential Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/daniel.clark",
+        "twitter": "https://twitter.com/danielclark_bio",
+        "linkedin": "https://linkedin.com/in/danielclark"
+      },
+      "researchStats": {
+        "totalPapers": 33,
+        "publishedPapers": 27,
+        "ongoingPapers": 6,
+        "totalCitations": 1892,
+        "hIndex": 23,
+        "impactFactor": 7.3,
+        "researchGrants": 9,
+        "totalGrantAmount": 1800000
+      },
+      "expertise": [
+        "Biomedical Engineering",
+        "Neural Interfaces",
+        "Prosthetics",
+        "Brain-Computer Interface"
+      ],
+      "awards": [
+        "JHU Biomedical Innovation Award (2023)",
+        "Best Biomedical Paper - BMES 2023",
+        "Neural Interface Innovation Award (2022)"
+      ]
+    },
+    {
+      "id": "10",
+      "fullName": "Dr. Christopher Taylor",
+      "email": "christopher.taylor@researchustad.com",
+      "contactNo": "+1-555-0132",
+      "role": "researcher",
+      "designation": "Research_Associate",
+      "profileImg": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+      "shortBio": "Expert in financial technology and machine learning with focus on credit scoring, risk assessment, and inclusive financial services.",
+      "isDeleted": false,
+      "current": {
+        "institution": "MIT",
+        "department": "Finance",
+        "degree": "Ph.D. in Financial Engineering"
+      },
+      "education": {
+        "degree": "Ph.D.",
+        "field": "Financial Engineering",
+        "institution": "MIT",
+        "status": "Completed",
+        "scholarship": "MIT Sloan Fellowship"
+      },
+      "socialLinks": {
+        "facebook": "https://facebook.com/christopher.taylor",
+        "twitter": "https://twitter.com/christaylor_fintech",
+        "linkedin": "https://linkedin.com/in/christophertaylor"
+      },
+      "researchStats": {
+        "totalPapers": 26,
+        "publishedPapers": 21,
+        "ongoingPapers": 5,
+        "totalCitations": 1156,
+        "hIndex": 17,
+        "impactFactor": 6.2,
+        "researchGrants": 6,
+        "totalGrantAmount": 1400000
+      },
+      "expertise": [
+        "Financial Technology",
+        "Machine Learning",
+        "Credit Scoring",
+        "Risk Assessment"
+      ],
+      "awards": [
+        "MIT Financial Innovation Award (2023)",
+        "Best FinTech Paper - AFA 2023",
+        "Financial Inclusion Award (2022)"
+      ]
+    }
+  ],
+  "metadata": {
+    "totalMembers": 10,
+    "lastUpdated": "2024-04-25",
+    "version": "1.0.0",
+    "description": "Comprehensive team members demo data for ResearchUstad platform",
+    "designationStats": {
+      "Advisor": 1,
+      "Lead": 1,
+      "Lead_Research_Associate": 2,
+      "Research_Associate": 5,
+      "Mentor_Panel": 1
+    },
+    "researchAreas": [
+      "Artificial Intelligence",
+      "Quantum Computing",
+      "Robotics",
+      "Biomedical Engineering",
+      "Climate Science",
+      "Blockchain Technology",
+      "Educational Technology",
+      "Cybersecurity",
+      "Financial Technology"
+    ],
+    "institutions": [
+      "Stanford University",
+      "MIT",
+      "UC Berkeley",
+      "Johns Hopkins University",
+      "Columbia University",
+      "Carnegie Mellon University",
+      "Harvard University"
+    ],
+    "averageStats": {
+      "totalPapers": 33.4,
+      "publishedPapers": 28.1,
+      "totalCitations": 1985.6,
+      "hIndex": 23.3,
+      "impactFactor": 7.2,
+      "researchGrants": 9.3,
+      "totalGrantAmount": 1950000
+    }
+  }
+} 

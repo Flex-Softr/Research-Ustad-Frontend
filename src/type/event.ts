@@ -10,13 +10,14 @@ export interface CustomEvent {
   id?: string;
   title: string;
   description: string;
+  agenda: string;
   eventDuration: number;
   startDate: string;
   endDate: string;
   registered: number;
-  capacity: number;
   tags: string[];
   price: number | string;
+  registrationFee: number; // 0 for free events, positive number for paid events
 
   location: string;
   speakers: EventSpeaker[];

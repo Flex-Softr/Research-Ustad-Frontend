@@ -66,13 +66,17 @@ export const GetSinglePersonalMember = async () => {
     });
 
     if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
+      // Throw specific error with status code for better handling
+      const errorMessage = `Request failed with status: ${response.status}`;
+      const error = new Error(errorMessage);
+      (error as any).status = response.status;
+      throw error;
     }
 
     return await response.json();
   } catch (error) {
     console.error("Error fetching single member:", error);
-    return null;
+    throw error; // Re-throw the error instead of returning null
   }
 };
 
@@ -113,25 +117,32 @@ export const UpdateMember = async (id: string, data: any) => {
     return null;
   }
 };
-export const UpdatePersonalMember = async (data: any) => {
+export const UpdatePersonalMember = async (data: any, file?: File) => {
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
     console.log(token);
+    
+    const formData = new FormData();
+    formData.append('data', data);
+    
+    if (file) {
+      formData.append('file', file);
+    }
+    
     const response = await fetch(
       `${api.baseUrl}/researchAssociate/MembarUpdate`,
       {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           Authorization: token,
         },
-        body: data,
+        body: formData,
       }
     );
     return await response.json();
   } catch (error) {
-    console.error("Error delete memeber:", error);
+    console.error("Error updating member:", error);
     return null;
   }
 };

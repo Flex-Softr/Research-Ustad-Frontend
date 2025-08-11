@@ -187,6 +187,23 @@ export function BasicInformationSection({
             </select>
           </div>
         </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="enrollLink">Enroll Now Link *</Label>
+          <Input
+            id="enrollLink"
+            type="url"
+            placeholder="https://example.com/enroll"
+            value={formData.enrollLink}
+            onChange={(e) => onChange("enrollLink", e.target.value)}
+            className="h-12"
+          />
+          {getFieldError("enrollLink") && hasAttemptedSubmit && (
+            <p className="text-sm text-red-600">
+              {getFieldError("enrollLink")}
+            </p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

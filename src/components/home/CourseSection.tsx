@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Clock,
-  DollarSign,
   MapPin,
   User,
   ArrowRight,
@@ -329,8 +328,7 @@ const CoursesSection = () => {
                       </>
                     ) : (
                       <>
-                        <DollarSign className="h-6 w-6 mr-1" />
-                        <span>{course.fee}</span>
+                        <span> {course.fee} BDT</span>
                       </>
                     )}
                   </div>

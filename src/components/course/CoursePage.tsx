@@ -14,12 +14,12 @@ import {
   Users,
   Clock,
   Star,
-  DollarSign,
   MapPin,
   Calendar,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { calculateCourseStatus } from "@/lib/calculateCourseStatus";
 
 const CoursePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,10 +86,11 @@ const CoursePage = () => {
 
   // Get course status info
   const getCourseStatus = (course) => {
+    const status = calculateCourseStatus(course.startDate, course.endDate, course.duration);
     const now = new Date();
     const startDate = new Date(course.startDate);
 
-    if (startDate > now) {
+    if (status === "upcoming") {
       const daysUntil = Math.ceil(
         (startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
       );
@@ -100,21 +101,13 @@ const CoursePage = () => {
         bgColor: "bg-green-100",
         borderColor: "border-green-200",
       };
-    } else if (now) {
+    } else {
       return {
         status: "ongoing",
         text: "In Progress",
         color: "text-blue-600",
         bgColor: "bg-blue-100",
         borderColor: "border-blue-200",
-      };
-    } else {
-      return {
-        status: "completed",
-        text: "Completed",
-        color: "text-gray-500",
-        bgColor: "bg-gray-100",
-        borderColor: "border-gray-200",
       };
     }
   };
@@ -144,10 +137,8 @@ const CoursePage = () => {
         items={[
           {
             label: "Courses",
-            current: true,
           },
         ]}
-        className="py-8"
       />
 
       {/* Main Content */}
@@ -180,7 +171,6 @@ const CoursePage = () => {
                       { id: "all", name: "All Courses", count: totalItems },
                       { id: "upcoming", name: "Upcoming", count: courses.filter(c => c.status === "upcoming").length },
                       { id: "ongoing", name: "Ongoing", count: courses.filter(c => c.status === "ongoing").length },
-                      { id: "completed", name: "Completed", count: courses.filter(c => c.status === "completed").length },
                     ].map((filter, index) => (
                       <button
                         key={index}
@@ -414,8 +404,7 @@ const CoursePage = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <DollarSign className="h-5 w-5 mr-1" />
-                                      <span>{course.fee}</span>
+                                      <span> {course.fee} BDT</span>
                                     </>
                                   )}
                                 </div>

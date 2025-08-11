@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import Pagination from "../shared/Pagination";
+import { EventPageSkeleton } from "./EventCardSkeleton";
 
 const EventPage = () => {
   const [filter, setFilter] = useState<
@@ -54,18 +55,19 @@ const EventPage = () => {
     currentPage * itemsPerPage
   );
 
+  console.log('eventsss', events)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       <Breadcrumb
-        items={[{ label: "Events", current: true }]}
-        className="py-8"
+        items={[{ label: "Events" }]}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="text-2xl font-bold mb-6">All Events</h2>
 
         {isLoading ? (
-          <p>Loading...</p>
+          <EventPageSkeleton />
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : events.length === 0 ? (
@@ -150,7 +152,7 @@ const EventPage = () => {
 
                       <div className="flex items-center justify-between pt-4">
                         <span className="text-lg font-bold text-brand-secondary">
-                          {"Free"}
+                          {event.registrationFee === 0 ? "Free" : `${event.registrationFee} BDT`}
                         </span>
                         <Button
                           asChild

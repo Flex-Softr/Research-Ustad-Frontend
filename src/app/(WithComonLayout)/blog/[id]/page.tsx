@@ -41,6 +41,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
     }
   }, [blogs, dispatch]);
 
+  console.log("bloghjhjgh", blog);
 
   // Update post state when blog from Redux changes
   useEffect(() => {
@@ -160,7 +161,6 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
             current: false,
           },
         ]}
-        className="py-8"
       />
 
       {/* Main Content - Full Width */}
@@ -190,15 +190,17 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               {/* Author Info */}
               <div className="flex items-center gap-4 mb-8">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                  <Image
-                    src={post.author?.image || "/default-avatar.png"}
+                  <img
+                    src={
+                      post.author.image ||
+                      "https://image.shutterstock.com/image-vector/default-avatar-profile-icon-grey-260nw-767771863.jpg"
+                    }
                     alt={post.author?.fullName || "Author"}
-                    fill
-                    sizes="48px"
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src = "/default-avatar.png";
+                      target.src =
+                        "https://image.shutterstock.com/image-vector/default-avatar-profile-icon-grey-260nw-767771863.jpg";
                     }}
                   />
                 </div>
@@ -242,7 +244,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30"></div>
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100/20 to-transparent rounded-full -translate-y-16 translate-x-16"></div>
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-100/20 to-transparent rounded-full translate-y-12 -translate-x-12"></div>
-              
+
               <div className="relative z-10">
                 {post.content ? (
                   <div
@@ -256,8 +258,12 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                     <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                       <BookOpen className="h-10 w-10 text-gray-500" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No Content Available</h3>
-                    <p className="text-gray-500">This blog post doesn't have any content yet.</p>
+                    <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                      No Content Available
+                    </h3>
+                    <p className="text-gray-500">
+                      This blog post doesn't have any content yet.
+                    </p>
                   </div>
                 )}
               </div>

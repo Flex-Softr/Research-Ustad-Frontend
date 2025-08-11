@@ -1,86 +1,134 @@
 "use client";
-
 import {
-  GetSingleMember,
   GetSinglePersonalMember,
-  UpdateMember,
   UpdatePersonalMember,
 } from "@/services/reserarchers";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-const formSchema = z.object({
-  currentInstitution: z.string().min(2, "Institution name is required"),
-  currentDepartment: z.string().min(2, "Department is required"),
-  currentDegree: z.string().min(2, "Degree is required"),
-  educationDegree: z.string().min(2, "Education degree is required"),
-  educationField: z.string().min(2, "Field of study is required"),
-  educationInstitution: z.string().min(2, "Institution is required"),
-  educationStatus: z.string().min(2, "Education status is required"),
-  scholarship: z.string().optional(),
-  shortBio: z.string().min(10, "Short bio must be at least 10 characters"),
-  facebook: z.string().url("Invalid URL format").optional(),
-  twitter: z.string().url("Invalid URL format").optional(),
-  linkedin: z.string().url("Invalid URL format").optional(),
-});
-
-interface FormData {
-  currentInstitution?: string;
-  currentDepartment?: string;
-  currentDegree?: string;
-  educationDegree?: string;
-  educationField?: string;
-  educationInstitution?: string;
-  educationStatus?: string;
-  scholarship?: string;
-  shortBio?: string;
-  facebook?: string;
-  twitter?: string;
-  linkedin?: string;
-}
-
-interface MemberData {
-  current?: {
-    institution: string;
-    department: string;
-    degree: string;
-  };
-  education?: {
-    degree: string;
-    field: string;
-    institution: string;
-    status: string;
-    scholarship: string;
-  };
-  research?: string[];
-  shortBio: string;
-  socialLinks?: {
-    facebook: string;
-    twitter: string;
-    linkedin: string;
-  };
-}
+import { UpdateInfoFormData, MemberData, Conference } from "@/type";
+import {
+  BasicInformationSection,
+  CurrentInstitutionSection,
+  EducationSection,
+  SocialLinksSection,
+  ExpertiseSection,
+  AwardsSection,
+  ConferencesSection,
+} from "./index";
+import { useRouter } from "next/navigation";
+import { useUserStatus } from "@/hooks/useUserStatus";
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setMember] = useState<MemberData | null>(null);
-  type FormData = z.infer<typeof formSchema>;
+  const [expertiseList, setExpertiseList] = useState<string[]>([]);
+  const [awardsList, setAwardsList] = useState<string[]>([]);
+  const [conferencesList, setConferencesList] = useState<Conference[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const router = useRouter();
+  
+  // Use the user status hook to check for account deletion
+  useUserStatus();
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  } = useForm<UpdateInfoFormData>({
+    mode: "onChange",
+    defaultValues: {
+      fullName: "",
+      contactNo: "",
+      designation: "",
+      profileImg: "",
+      shortBio: "",
+      currentInstitution: "",
+      currentDepartment: "",
+      currentDegree: "",
+      currentInstDesignation: "",
+      educationDegree: "",
+      educationField: "",
+      educationInstitution: "",
+      educationStatus: "Ongoing",
+      scholarship: "",
+      linkedin: "",
+      researchgate: "",
+      googleScholar: "",
+      expertise: [],
+      awards: [],
+      conferences: [],
+      isDeleted: false,
+    },
   });
+
+  // Helper functions for array management
+  const addExpertise = () => {
+    const newList = [...expertiseList, ""];
+    setExpertiseList(newList);
+    setValue("expertise", newList);
+  };
+
+  const removeExpertise = (index: number) => {
+    const newList = expertiseList.filter((_, i) => i !== index);
+    setExpertiseList(newList);
+    setValue("expertise", newList);
+  };
+
+  const updateExpertise = (index: number, value: string) => {
+    const newList = [...expertiseList];
+    newList[index] = value;
+    setExpertiseList(newList);
+    setValue("expertise", newList);
+  };
+
+  const addAward = () => {
+    const newList = [...awardsList, ""];
+    setAwardsList(newList);
+    setValue("awards", newList);
+  };
+
+  const removeAward = (index: number) => {
+    const newList = awardsList.filter((_, i) => i !== index);
+    setAwardsList(newList);
+    setValue("awards", newList);
+  };
+
+  const updateAward = (index: number, value: string) => {
+    const newList = [...awardsList];
+    newList[index] = value;
+    setAwardsList(newList);
+    setValue("awards", newList);
+  };
+
+  // Helper functions for conferences management
+  const addConference = () => {
+    const newList = [...conferencesList, { name: "", role: "", topic: "" }];
+    setConferencesList(newList);
+    setValue("conferences", newList);
+  };
+
+  const removeConference = (index: number) => {
+    const newList = conferencesList.filter((_, i) => i !== index);
+    setConferencesList(newList);
+    setValue("conferences", newList);
+  };
+
+  const updateConference = (
+    index: number,
+    field: keyof Conference,
+    value: string
+  ) => {
+    const newList = [...conferencesList];
+    newList[index] = { ...newList[index], [field]: value };
+    setConferencesList(newList);
+    setValue("conferences", newList);
+  };
 
   useEffect(() => {
     const fetchMember = async () => {
@@ -89,21 +137,60 @@ const UpdateInfo = () => {
         const { data } = await GetSinglePersonalMember();
         setMember(data);
 
-        // Populate default values in the form
+        // Basic Information
+        setValue("fullName", data?.fullName || "");
+        setValue("contactNo", data?.contactNo || "");
+        setValue("designation", data?.designation || "");
+        setValue("profileImg", data?.profileImg || "");
+        setValue("shortBio", data?.shortBio || "");
+
+        // Current Institution
         setValue("currentInstitution", data?.current?.institution || "");
         setValue("currentDepartment", data?.current?.department || "");
         setValue("currentDegree", data?.current?.degree || "");
+        setValue(
+          "currentInstDesignation",
+          data?.current?.inst_designation || ""
+        );
+
+        // Education
         setValue("educationDegree", data?.education?.degree || "");
         setValue("educationField", data?.education?.field || "");
         setValue("educationInstitution", data?.education?.institution || "");
         setValue("educationStatus", data?.education?.status || "Ongoing");
         setValue("scholarship", data?.education?.scholarship || "");
-        setValue("shortBio", data?.shortBio || "N/A");
-        setValue("facebook", data?.socialLinks?.facebook || "");
-        setValue("twitter", data?.socialLinks?.twitter || "");
+
+        // Social Links
         setValue("linkedin", data?.socialLinks?.linkedin || "");
-      } catch (error) {
+        setValue("researchgate", data?.socialLinks?.researchgate || "");
+        setValue("googleScholar", data?.socialLinks?.google_scholar || "");
+
+        // Expertise (set array directly)
+        const expertise = data?.expertise || [];
+        setExpertiseList(expertise.length > 0 ? expertise : [""]);
+        setValue("expertise", expertise);
+
+        // Awards (set array directly)
+        const awards = data?.awards || [];
+        setAwardsList(awards.length > 0 ? awards : [""]);
+        setValue("awards", awards);
+
+        // Conferences (set array directly)
+        const conferences = data?.conferences || [];
+        setConferencesList(
+          conferences.length > 0
+            ? conferences
+            : [{ name: "", role: "", topic: "" }]
+        );
+        setValue("conferences", conferences);
+
+        // System fields
+        setValue("isDeleted", data?.isDeleted || false);
+      } catch (error: any) {
         console.error("Error fetching member:", error);
+        // If user data fails, the useUserStatus hook will handle logout
+        setLoading(false);
+        return;
       } finally {
         setLoading(false);
       }
@@ -112,38 +199,77 @@ const UpdateInfo = () => {
     fetchMember();
   }, [setValue]);
 
-  const onSubmit = async (formData: FormData) => {
+  // Custom validation for expertise - now optional
+  const validateExpertise = () => {
+    // Expertise is now optional, so always return true
+    return true;
+  };
+
+  const onSubmit = async (formData: UpdateInfoFormData) => {
+    // Expertise validation is now optional
     setLoading(true);
 
     const payload = {
       ResearchMembar: {
+        // Basic Information - allow empty strings
+        fullName: formData.fullName ?? "",
+        contactNo: formData.contactNo ?? "",
+        designation: formData.designation ?? "",
+        profileImg: formData.profileImg ?? "",
+        shortBio: formData.shortBio ?? "",
+        isDeleted: formData.isDeleted ?? false,
+
+        // Current Institution - allow empty strings
         current: {
-          institution: formData.currentInstitution || "",
-          department: formData.currentDepartment || "",
-          degree: formData.currentDegree || "",
+          inst_designation: formData.currentInstDesignation ?? "",
+          institution: formData.currentInstitution ?? "",
+          department: formData.currentDepartment ?? "",
+          degree: formData.currentDegree ?? "",
         },
+
+        // Education - allow empty strings
         education: {
-          degree: formData.educationDegree || "",
-          field: formData.educationField || "",
-          institution: formData.educationInstitution || "",
-          status: formData.educationStatus || "Ongoing",
-          scholarship: formData.scholarship || "",
+          degree: formData.educationDegree ?? "",
+          field: formData.educationField ?? "",
+          institution: formData.educationInstitution ?? "",
+          status: formData.educationStatus ?? "Ongoing",
+          scholarship: formData.scholarship ?? "",
         },
+
+        // Keep existing research data
         research: data?.research || [],
-        shortBio: formData.shortBio || "N/A",
+
+        // Social Links - allow empty strings
         socialLinks: {
-          facebook: formData.facebook || "",
-          twitter: formData.twitter || "",
-          linkedin: formData.linkedin || "",
+          linkedin: formData.linkedin ?? "",
+          researchgate: formData.researchgate ?? "",
+          google_scholar: formData.googleScholar ?? "",
         },
+
+        // Expertise - allow empty arrays or filter empty strings
+        expertise: formData.expertise ? formData.expertise.filter((item) => item.trim().length > 0) : [],
+
+        // Awards - allow empty arrays or filter empty strings
+        awards: formData.awards ? formData.awards.filter((item) => item.trim().length > 0) : [],
+
+        // Conferences - allow empty arrays or filter empty conferences
+        conferences: formData.conferences
+          ? formData.conferences.filter(
+              (conf) =>
+                conf.name?.trim() || conf.role?.trim() || conf.topic?.trim()
+            )
+          : [],
       },
     };
 
     try {
-      const res = await UpdatePersonalMember(JSON.stringify(payload));
+      console.log("Sending payload:", payload);
+      const res = await UpdatePersonalMember(JSON.stringify(payload), selectedFile);
       if (res.success === true) {
         toast.success("Member updated successfully!");
         setLoading(false);
+        setSelectedFile(null);
+        router.push("/user/dashboard/profileinfo");
       }
     } catch (error) {
       toast.error("Failed to update member.");
@@ -155,188 +281,77 @@ const UpdateInfo = () => {
   return (
     <Card className="w-full container mx-auto shadow-lg">
       <CardHeader>
-        <CardTitle>Update Member</CardTitle>
+        <CardTitle>Update Member Information</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h3 className="text-lg font-medium mt-4">Current Institution</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label>
-              Institution
-              <Input
-                type="text"
-                {...register("currentInstitution")}
-                placeholder="Enter current institution"
-              />
-              {errors.currentInstitution && (
-                <p className="text-red-500 text-sm">
-                  {errors.currentInstitution.message}
-                </p>
-              )}
-            </label>
-            <label>
-              Department
-              <Input
-                type="text"
-                {...register("currentDepartment")}
-                placeholder="Enter current department"
-              />
-              {errors.currentDepartment && (
-                <p className="text-red-500 text-sm">
-                  {errors.currentDepartment.message}
-                </p>
-              )}
-            </label>
-            <label>
-              Degree
-              <Input
-                type="text"
-                {...register("currentDegree")}
-                placeholder="Enter current degree"
-              />
-              {errors.currentDegree && (
-                <p className="text-red-500 text-sm">
-                  {errors.currentDegree.message}
-                </p>
-              )}
-            </label>
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Hidden Fields */}
+          <input type="hidden" {...register("isDeleted")} />
 
-          <h3 className="text-lg font-medium mt-4">Education</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label>
-              Degree
-              <Input
-                type="text"
-                {...register("educationDegree")}
-                placeholder="Enter education degree"
-              />
-              {errors.educationDegree && (
-                <p className="text-red-500 text-sm">
-                  {errors.educationDegree.message}
-                </p>
-              )}
-            </label>
-            <label>
-              Field
-              <Input
-                type="text"
-                {...register("educationField")}
-                placeholder="Enter field of study"
-              />
-              {errors.educationField && (
-                <p className="text-red-500 text-sm">
-                  {errors.educationField.message}
-                </p>
-              )}
-            </label>
-            <label>
-              Institution
-              <Input
-                type="text"
-                {...register("educationInstitution")}
-                placeholder="Enter education institution"
-              />
-              {errors.educationInstitution && (
-                <p className="text-red-500 text-sm">
-                  {errors.educationInstitution.message}
-                </p>
-              )}
-            </label>
-            <label>
-              Status
-              <select
-                {...register("educationStatus")}
-                className="border rounded p-2 w-full"
-              >
-                <option value="Ongoing">Ongoing</option>
-                <option value="Completed">Completed</option>
-                <option value="Dropped">Dropped</option>
-              </select>
-              {errors.educationStatus && (
-                <p className="text-red-500 text-sm">
-                  {errors.educationStatus.message}
-                </p>
-              )}
-            </label>
+          {/* Basic Information Section */}
+          <BasicInformationSection 
+            register={register} 
+            errors={errors} 
+            selectedFile={selectedFile}
+            onFileChange={setSelectedFile}
+            currentProfileImg={data?.profileImg}
+          />
 
-            <label>
-              Scholarship
-              <Input
-                type="text"
-                {...register("scholarship")}
-                placeholder="Enter scholarship (if any)"
-              />
-              {errors.scholarship && (
-                <p className="text-red-500 text-sm">
-                  {errors.scholarship.message}
-                </p>
-              )}
-            </label>
-          </div>
+          {/* Current Institution Section */}
+          <CurrentInstitutionSection register={register} errors={errors} />
 
-          <h3 className="text-lg font-medium mt-4">Short Bio</h3>
-          <label>
-            Short Bio
-            <Textarea
-              {...register("shortBio")}
-              placeholder="Enter a short bio"
+          {/* Education Section */}
+          <EducationSection register={register} errors={errors} />
+
+          {/* Social Links Section */}
+          <SocialLinksSection register={register} errors={errors} />
+
+                     {/* Expertise & Awards Section */}
+           <div className="space-y-4">
+             <h3 className="text-lg font-medium border-b pb-2">
+               Expertise & Awards
+             </h3>
+
+            {/* Expertise Areas */}
+            <ExpertiseSection
+              expertiseList={expertiseList}
+              onAddExpertise={addExpertise}
+              onRemoveExpertise={removeExpertise}
+              onUpdateExpertise={updateExpertise}
+              errors={errors}
             />
-            {errors.shortBio && (
-              <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
-            )}
-          </label>
 
-          <h3 className="text-lg font-medium mt-4">Social Links</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label>
-              Facebook
-              <Input
-                type="text"
-                {...register("facebook")}
-                placeholder="Enter Facebook URL"
-              />
-              {errors.facebook && (
-                <p className="text-red-500 text-sm">
-                  {errors.facebook.message}
-                </p>
-              )}
-            </label>
-            <label>
-              Twitter
-              <Input
-                type="text"
-                {...register("twitter")}
-                placeholder="Enter Twitter URL"
-              />
-              {errors.twitter && (
-                <p className="text-red-500 text-sm">{errors.twitter.message}</p>
-              )}
-            </label>
-            <label>
-              LinkedIn
-              <Input
-                type="text"
-                {...register("linkedin")}
-                placeholder="Enter LinkedIn URL"
-              />
-              {errors.linkedin && (
-                <p className="text-red-500 text-sm">
-                  {errors.linkedin.message}
-                </p>
-              )}
-            </label>
+            {/* Awards & Achievements */}
+            <AwardsSection
+              awardsList={awardsList}
+              onAddAward={addAward}
+              onRemoveAward={removeAward}
+              onUpdateAward={updateAward}
+              errors={errors}
+            />
           </div>
+
+          {/* Conferences Section */}
+          <ConferencesSection
+            conferencesList={conferencesList}
+            onAddConference={addConference}
+            onRemoveConference={removeConference}
+            onUpdateConference={updateConference}
+            errors={errors}
+          />
 
           <Button
             type="submit"
             disabled={loading}
-            className="w-full mt-4 cursor-pointer"
+            className="w-full mt-6 cursor-pointer"
           >
             {loading ? (
-              <LoadingSpinner size="sm" variant="icon" className="mr-2" />
+              <>
+                <LoadingSpinner size="sm" variant="icon" className="mr-2" />
+                Updating...
+              </>
             ) : (
-              "Update Member"
+              "Update Member Information"
             )}
           </Button>
         </form>
@@ -344,5 +359,4 @@ const UpdateInfo = () => {
     </Card>
   );
 };
-
 export default UpdateInfo;

@@ -1,881 +1,732 @@
 {
-  "members": [
-    {
-      "id": "1",
-      "fullName": "Dr. Sarah Johnson",
-      "email": "sarah.johnson@researchustad.com",
-      "contactNo": "+1-555-0123",
-      "role": "researcher",
-      "designation": "Advisor",
-      "profileImg": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Leading researcher in artificial intelligence and machine learning with over 15 years of experience in academia and industry.",
-      "isDeleted": false,
-      "current": {
-        "institution": "Stanford University",
-        "department": "Computer Science",
-        "degree": "Ph.D. in Computer Science"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Computer Science",
-        "institution": "MIT",
-        "status": "Completed",
-        "scholarship": "NSF Graduate Research Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/sarah.johnson",
-        "twitter": "https://twitter.com/sarahjohnson_ai",
-        "linkedin": "https://linkedin.com/in/sarahjohnson"
-      },
-      "researchStats": {
-        "totalPapers": 45,
-        "publishedPapers": 38,
-        "ongoingPapers": 7,
-        "totalCitations": 2847,
-        "hIndex": 32,
-        "impactFactor": 8.5,
-        "researchGrants": 12,
-        "totalGrantAmount": 2500000
-      },
-      "publications": [
+    "members": [
         {
-          "id": "pub1",
-          "title": "Deep Learning Approaches for Natural Language Processing",
-          "journal": "Nature Machine Intelligence",
-          "year": 2024,
-          "impactFactor": 9.2,
-          "citations": 156,
-          "authors": ["Sarah Johnson", "Michael Chen", "Emily Rodriguez"],
-          "doi": "10.1038/s42256-024-00001-x",
-          "status": "Published"
+            "id": "1",
+            "fullName": "Dr. Sarah Johnson",
+            "email": "sarah.johnson@researchustad.com",
+            "contactNo": "+1-555-0123",
+            "role": "researcher",
+            "designation": "department head",
+            "profileImg": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Leading researcher in artificial intelligence and machine learning with over 15 years of experience in academia and industry.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "department head",
+                "institution": "Stanford University",
+                "department": "Computer Science",
+                "degree": "Ph.D. in Computer Science"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/sarahjohnson",
+                "researchgate": "https://researchgate.net/sarah_johnson",
+                "google_scholar": "https://scholar.google.com/citations?user=1234567890"
+            },
+            "researchStats": {
+                "totalPapers": 45,
+                "publishedPapers": 38,
+                "ongoingPapers": 7,
+                "totalCitations": 2847
+            },
+            "publications": [
+                {
+                    "id": "pub1",
+                    "title": "Deep Learning Approaches for Natural Language Processing",
+                    "journal": "Nature Machine Intelligence",
+                    "year": 2024,
+                    "citations": 156,
+                    "papertype": "journal",
+                    "status": "Published"
+                },
+                {
+                    "id": "pub2",
+                    "title": "Transformer Models in Computer Vision",
+                    "journal": "IEEE Transactions on Pattern Analysis",
+                    "year": 2023,
+                    "citations": 89,
+                    "papertype": "conference",
+                    "status": "Published"
+                }
+            ],
+            "ongoing": [
+              {
+                  "id": "ongoing1",
+                  "title": "Advanced Neural Networks for Medical Diagnosis",
+                  "journal": "Nature Medicine",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "journal",
+                  "status": "Under Review"
+              },
+              {
+                  "id": "ongoing2",
+                  "title": "Ethical AI in Healthcare Applications",
+                  "journal": "IEEE Transactions on Biomedical Engineering",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "journal",
+                  "status": "In Preparation"
+              },
+              {
+                  "id": "ongoing3",
+                  "title": "Multimodal Learning for Autonomous Systems",
+                  "journal": "ICML 2025",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "conference",
+                  "status": "Under Review"
+              }
+          ],
+            "blogs": [
+                {
+                    "id": "blog1",
+                    "title": "The Future of AI in Healthcare",
+                    "publishedDate": "2024-03-15",
+                    "readTime": "8 min read",
+                    "views": 1247,
+                    "likes": 89,
+                    "status": "Published"
+                },
+                {
+                    "id": "blog2",
+                    "title": "Understanding Transformer Architecture",
+                    "publishedDate": "2024-02-28",
+                    "readTime": "12 min read",
+                    "views": 2156,
+                    "likes": 156,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Artificial Intelligence",
+                "Machine Learning",
+                "Natural Language Processing",
+                "Computer Vision"
+            ],
+            "awards": [
+                "NSF CAREER Award (2020)",
+                "Best Paper Award - ICML 2023",
+                "Outstanding Researcher Award - Stanford University (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "NeurIPS 2024",
+                    "role": "Keynote Speaker",
+                    "topic": "Advances in Large Language Models"
+                },
+                {
+                    "name": "ICML 2023",
+                    "role": "Program Committee Member",
+                    "topic": "Machine Learning Applications"
+                }
+            ]
         },
         {
-          "id": "pub2",
-          "title": "Transformer Models in Computer Vision",
-          "journal": "IEEE Transactions on Pattern Analysis",
-          "year": 2023,
-          "impactFactor": 7.8,
-          "citations": 89,
-          "authors": ["Sarah Johnson", "David Kim"],
-          "doi": "10.1109/TPAMI.2023.123456",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj1",
-          "title": "AI-Powered Healthcare Diagnostics",
-          "description": "Developing machine learning models for early disease detection",
-          "startDate": "2024-01-15",
-          "endDate": "2026-01-15",
-          "funding": 500000,
-          "collaborators": ["Dr. Michael Chen", "Dr. Emily Rodriguez"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog1",
-          "title": "The Future of AI in Healthcare",
-          "publishedDate": "2024-03-15",
-          "readTime": "8 min read",
-          "views": 1247,
-          "likes": 89,
-          "status": "Published"
+            "id": "2",
+            "fullName": "Dr. Michael Chen",
+            "email": "michael.chen@researchustad.com",
+            "contactNo": "+1-555-0124",
+            "role": "researcher",
+            "designation": "lead researcher",
+            "profileImg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Expert in data science and statistical modeling with focus on healthcare applications and predictive analytics.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "lead researcher",
+                "institution": "MIT",
+                "department": "Data Science",
+                "degree": "Ph.D. in Statistics"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/michaelchen",
+                "researchgate": "https://researchgate.net/michael_chen",
+                "google_scholar": "https://scholar.google.com/citations?user=2345678901"
+            },
+            "researchStats": {
+                "totalPapers": 32,
+                "publishedPapers": 28,
+                "ongoingPapers": 4,
+                "totalCitations": 1893
+            },
+            "publications": [
+                {
+                    "id": "pub3",
+                    "title": "Predictive Models for Patient Outcomes",
+                    "journal": "JAMA",
+                    "year": 2024,
+                    "citations": 234,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "ongoing": [
+              {
+                  "id": "ongoing_chen1",
+                  "title": "Statistical Models for Precision Medicine",
+                  "journal": "Journal of the American Statistical Association",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "journal",
+                  "status": "Under Review"
+              },
+              {
+                  "id": "ongoing_chen2",
+                  "title": "Big Data Analytics in Personalized Healthcare",
+                  "journal": "KDD 2025",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "conference",
+                  "status": "In Preparation"
+              }
+          ],
+            "blogs": [
+                {
+                    "id": "blog3",
+                    "title": "Data Science in Modern Healthcare",
+                    "publishedDate": "2024-04-01",
+                    "readTime": "10 min read",
+                    "views": 1892,
+                    "likes": 134,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Data Science",
+                "Statistical Modeling",
+                "Healthcare Analytics",
+                "Predictive Modeling"
+            ],
+            "awards": [
+                "MIT Excellence in Research Award (2023)",
+                "Best Statistical Paper - JSM 2023",
+                "Healthcare Innovation Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "JSM 2024",
+                    "role": "Invited Speaker",
+                    "topic": "Statistical Methods in Healthcare"
+                }
+            ]
         },
         {
-          "id": "blog2",
-          "title": "Understanding Transformer Architecture",
-          "publishedDate": "2024-02-28",
-          "readTime": "12 min read",
-          "views": 2156,
-          "likes": 156,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Natural Language Processing",
-        "Computer Vision"
-      ],
-      "awards": [
-        "NSF CAREER Award (2020)",
-        "Best Paper Award - ICML 2023",
-        "Outstanding Researcher Award - Stanford University (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "NeurIPS 2024",
-          "role": "Keynote Speaker",
-          "topic": "Advances in Large Language Models"
+            "id": "3",
+            "fullName": "Dr. Emily Rodriguez",
+            "email": "emily.rodriguez@researchustad.com",
+            "contactNo": "+1-555-0125",
+            "role": "researcher",
+            "designation": "research associate",
+            "profileImg": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Specialist in computer vision and robotics with expertise in autonomous systems and human-robot interaction.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "research associate",
+                "institution": "UC Berkeley",
+                "department": "Electrical Engineering",
+                "degree": "Ph.D. in Robotics"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/emilyrodriguez",
+                "researchgate": "https://researchgate.net/emily_rodriguez",
+                "google_scholar": "https://scholar.google.com/citations?user=3456789012"
+            },
+            "researchStats": {
+                "totalPapers": 28,
+                "publishedPapers": 22,
+                "ongoingPapers": 6,
+                "totalCitations": 1247
+            },
+            "publications": [
+                {
+                    "id": "pub4",
+                    "title": "Autonomous Navigation in Dynamic Environments",
+                    "journal": "Science Robotics",
+                    "year": 2024,
+                    "citations": 167,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog4",
+                    "title": "The Future of Autonomous Vehicles",
+                    "publishedDate": "2024-03-20",
+                    "readTime": "15 min read",
+                    "views": 3421,
+                    "likes": 267,
+                    "status": "Published"
+                },
+                {
+                    "id": "blog5",
+                    "title": "Human-Robot Interaction Design",
+                    "publishedDate": "2024-02-15",
+                    "readTime": "11 min read",
+                    "views": 1897,
+                    "likes": 145,
+                    "status": "Published"
+                }
+            ],
+            "ongoing": [
+              {
+                  "id": "ongoing_rodriguez1",
+                  "title": "Adaptive Learning in Robotic Navigation",
+                  "journal": "IEEE Transactions on Robotics",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "journal",
+                  "status": "Under Review"
+              },
+              {
+                  "id": "ongoing_rodriguez2",
+                  "title": "Ethical Considerations in Autonomous Vehicle Development",
+                  "journal": "ICRA 2025",
+                  "year": 2025,
+                  "citations": 0,
+                  "papertype": "conference",
+                  "status": "Revision"
+              }
+          ],
+            "expertise": [
+                "Computer Vision",
+                "Robotics",
+                "Autonomous Systems",
+                "Human-Robot Interaction"
+            ],
+            "awards": [
+                "UC Berkeley Outstanding Graduate Student Award (2023)",
+                "Best Robotics Paper - ICRA 2023",
+                "Women in Robotics Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "ICRA 2024",
+                    "role": "Session Chair",
+                    "topic": "Autonomous Navigation"
+                }
+            ]
         },
         {
-          "name": "ICML 2023",
-          "role": "Program Committee Member",
-          "topic": "Machine Learning Applications"
-        }
-      ]
-    },
-    {
-      "id": "2",
-      "fullName": "Dr. Michael Chen",
-      "email": "michael.chen@researchustad.com",
-      "contactNo": "+1-555-0124",
-      "role": "researcher",
-      "designation": "Lead",
-      "profileImg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Expert in data science and statistical modeling with focus on healthcare applications and predictive analytics.",
-      "isDeleted": false,
-      "current": {
-        "institution": "MIT",
-        "department": "Data Science",
-        "degree": "Ph.D. in Statistics"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Statistics",
-        "institution": "Harvard University",
-        "status": "Completed",
-        "scholarship": "Harvard Graduate Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/michael.chen",
-        "twitter": "https://twitter.com/michaelchen_ds",
-        "linkedin": "https://linkedin.com/in/michaelchen"
-      },
-      "researchStats": {
-        "totalPapers": 32,
-        "publishedPapers": 28,
-        "ongoingPapers": 4,
-        "totalCitations": 1893,
-        "hIndex": 24,
-        "impactFactor": 7.2,
-        "researchGrants": 8,
-        "totalGrantAmount": 1800000
-      },
-      "publications": [
-        {
-          "id": "pub3",
-          "title": "Predictive Models for Patient Outcomes",
-          "journal": "JAMA",
-          "year": 2024,
-          "impactFactor": 8.9,
-          "citations": 234,
-          "authors": ["Michael Chen", "Sarah Johnson", "Dr. Lisa Wang"],
-          "doi": "10.1001/jama.2024.1234",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj2",
-          "title": "Big Data Analytics in Healthcare",
-          "description": "Analyzing large-scale healthcare datasets for predictive insights",
-          "startDate": "2024-03-01",
-          "endDate": "2025-12-31",
-          "funding": 750000,
-          "collaborators": ["Dr. Sarah Johnson", "Dr. Lisa Wang"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog3",
-          "title": "Data Science in Modern Healthcare",
-          "publishedDate": "2024-04-01",
-          "readTime": "10 min read",
-          "views": 1892,
-          "likes": 134,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Data Science",
-        "Statistical Modeling",
-        "Healthcare Analytics",
-        "Predictive Modeling"
-      ],
-      "awards": [
-        "MIT Excellence in Research Award (2023)",
-        "Best Statistical Paper - JSM 2023",
-        "Healthcare Innovation Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "JSM 2024",
-          "role": "Invited Speaker",
-          "topic": "Statistical Methods in Healthcare"
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "fullName": "Dr. Emily Rodriguez",
-      "email": "emily.rodriguez@researchustad.com",
-      "contactNo": "+1-555-0125",
-      "role": "researcher",
-      "designation": "Research_Associate",
-      "profileImg": "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Specialist in computer vision and robotics with expertise in autonomous systems and human-robot interaction.",
-      "isDeleted": false,
-      "current": {
-        "institution": "UC Berkeley",
-        "department": "Electrical Engineering",
-        "degree": "Ph.D. in Robotics"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Robotics",
-        "institution": "UC Berkeley",
-        "status": "Completed",
-        "scholarship": "NSF Graduate Research Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/emily.rodriguez",
-        "twitter": "https://twitter.com/emily_robotics",
-        "linkedin": "https://linkedin.com/in/emilyrodriguez"
-      },
-      "researchStats": {
-        "totalPapers": 28,
-        "publishedPapers": 22,
-        "ongoingPapers": 6,
-        "totalCitations": 1247,
-        "hIndex": 18,
-        "impactFactor": 6.8,
-        "researchGrants": 6,
-        "totalGrantAmount": 1200000
-      },
-      "publications": [
-        {
-          "id": "pub4",
-          "title": "Autonomous Navigation in Dynamic Environments",
-          "journal": "Science Robotics",
-          "year": 2024,
-          "impactFactor": 9.1,
-          "citations": 167,
-          "authors": ["Emily Rodriguez", "Dr. James Wilson"],
-          "doi": "10.1126/scirobotics.abc123",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj3",
-          "title": "Human-Robot Collaboration Systems",
-          "description": "Developing safe and efficient human-robot interaction protocols",
-          "startDate": "2024-02-01",
-          "endDate": "2026-02-01",
-          "funding": 400000,
-          "collaborators": ["Dr. James Wilson"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog4",
-          "title": "The Future of Autonomous Vehicles",
-          "publishedDate": "2024-03-20",
-          "readTime": "15 min read",
-          "views": 3421,
-          "likes": 267,
-          "status": "Published"
+            "id": "4",
+            "fullName": "Dr. James Wilson",
+            "email": "james.wilson@researchustad.com",
+            "contactNo": "+1-555-0126",
+            "role": "researcher",
+            "designation": "research associate",
+            "profileImg": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Expert in cybersecurity and blockchain technology with focus on secure distributed systems and privacy-preserving algorithms.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "research associate",
+                "institution": "Carnegie Mellon University",
+                "department": "Computer Science",
+                "degree": "Ph.D. in Cybersecurity"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/jameswilson",
+                "researchgate": "https://researchgate.net/james_wilson",
+                "google_scholar": "https://scholar.google.com/citations?user=4567890123"
+            },
+            "researchStats": {
+                "totalPapers": 35,
+                "publishedPapers": 29,
+                "ongoingPapers": 6,
+                "totalCitations": 2156
+            },
+            "publications": [
+                {
+                    "id": "pub5",
+                    "title": "Privacy-Preserving Machine Learning",
+                    "journal": "IEEE Security & Privacy",
+                    "year": 2024,
+                    "citations": 198,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog6",
+                    "title": "Cybersecurity in the Age of AI",
+                    "publishedDate": "2024-04-10",
+                    "readTime": "14 min read",
+                    "views": 2987,
+                    "likes": 223,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Cybersecurity",
+                "Blockchain Technology",
+                "Privacy-Preserving Algorithms",
+                "Distributed Systems"
+            ],
+            "awards": [
+                "CMU CyLab Security Award (2023)",
+                "Best Security Paper - CCS 2023",
+                "Outstanding Researcher Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "CCS 2024",
+                    "role": "Program Committee Member",
+                    "topic": "Security and Privacy"
+                }
+            ]
         },
         {
-          "id": "blog5",
-          "title": "Human-Robot Interaction Design",
-          "publishedDate": "2024-02-15",
-          "readTime": "11 min read",
-          "views": 1897,
-          "likes": 145,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Computer Vision",
-        "Robotics",
-        "Autonomous Systems",
-        "Human-Robot Interaction"
-      ],
-      "awards": [
-        "UC Berkeley Outstanding Graduate Student Award (2023)",
-        "Best Robotics Paper - ICRA 2023",
-        "Women in Robotics Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "ICRA 2024",
-          "role": "Session Chair",
-          "topic": "Autonomous Navigation"
-        }
-      ]
-    },
-    {
-      "id": "4",
-      "fullName": "Dr. James Wilson",
-      "email": "james.wilson@researchustad.com",
-      "contactNo": "+1-555-0126",
-      "role": "researcher",
-      "designation": "Research_Associate",
-      "profileImg": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Expert in cybersecurity and blockchain technology with focus on secure distributed systems and privacy-preserving algorithms.",
-      "isDeleted": false,
-      "current": {
-        "institution": "Carnegie Mellon University",
-        "department": "Computer Science",
-        "degree": "Ph.D. in Cybersecurity"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Cybersecurity",
-        "institution": "Carnegie Mellon University",
-        "status": "Completed",
-        "scholarship": "CMU Presidential Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/james.wilson",
-        "twitter": "https://twitter.com/jameswilson_sec",
-        "linkedin": "https://linkedin.com/in/jameswilson"
-      },
-      "researchStats": {
-        "totalPapers": 35,
-        "publishedPapers": 29,
-        "ongoingPapers": 6,
-        "totalCitations": 2156,
-        "hIndex": 26,
-        "impactFactor": 7.5,
-        "researchGrants": 10,
-        "totalGrantAmount": 2200000
-      },
-      "publications": [
-        {
-          "id": "pub5",
-          "title": "Privacy-Preserving Machine Learning",
-          "journal": "IEEE Security & Privacy",
-          "year": 2024,
-          "impactFactor": 8.3,
-          "citations": 198,
-          "authors": ["James Wilson", "Dr. Maria Garcia"],
-          "doi": "10.1109/MSP.2024.123456",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj4",
-          "title": "Blockchain for Healthcare Data Security",
-          "description": "Implementing secure blockchain solutions for healthcare data management",
-          "startDate": "2024-01-01",
-          "endDate": "2025-12-31",
-          "funding": 600000,
-          "collaborators": ["Dr. Maria Garcia"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog6",
-          "title": "Cybersecurity in the Age of AI",
-          "publishedDate": "2024-04-10",
-          "readTime": "14 min read",
-          "views": 2987,
-          "likes": 223,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Cybersecurity",
-        "Blockchain Technology",
-        "Privacy-Preserving Algorithms",
-        "Distributed Systems"
-      ],
-      "awards": [
-        "CMU CyLab Security Award (2023)",
-        "Best Security Paper - CCS 2023",
-        "Outstanding Researcher Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "CCS 2024",
-          "role": "Program Committee Member",
-          "topic": "Security and Privacy"
-        }
-      ]
-    },
-    {
-      "id": "5",
-      "fullName": "Dr. Lisa Wang",
-      "email": "lisa.wang@researchustad.com",
-      "contactNo": "+1-555-0127",
-      "role": "researcher",
-      "designation": "Mentor_Panel",
-      "profileImg": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Leading expert in bioinformatics and computational biology with focus on genomics and personalized medicine.",
-      "isDeleted": false,
-      "current": {
-        "institution": "Johns Hopkins University",
-        "department": "Biomedical Engineering",
-        "degree": "Ph.D. in Bioinformatics"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Bioinformatics",
-        "institution": "Johns Hopkins University",
-        "status": "Completed",
-        "scholarship": "JHU Presidential Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/lisa.wang",
-        "twitter": "https://twitter.com/lisawang_bio",
-        "linkedin": "https://linkedin.com/in/lisawang"
-      },
-      "researchStats": {
-        "totalPapers": 42,
-        "publishedPapers": 36,
-        "ongoingPapers": 6,
-        "totalCitations": 3245,
-        "hIndex": 35,
-        "impactFactor": 8.8,
-        "researchGrants": 15,
-        "totalGrantAmount": 3200000
-      },
-      "publications": [
-        {
-          "id": "pub6",
-          "title": "Genomic Analysis for Cancer Detection",
-          "journal": "Nature Genetics",
-          "year": 2024,
-          "impactFactor": 9.8,
-          "citations": 445,
-          "authors": ["Lisa Wang", "Dr. Robert Kim"],
-          "doi": "10.1038/ng.2024.123",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj5",
-          "title": "Personalized Medicine through Genomics",
-          "description": "Developing computational tools for personalized treatment recommendations",
-          "startDate": "2024-01-01",
-          "endDate": "2027-01-01",
-          "funding": 1200000,
-          "collaborators": ["Dr. Robert Kim", "Dr. Sarah Johnson"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog7",
-          "title": "The Future of Personalized Medicine",
-          "publishedDate": "2024-03-25",
-          "readTime": "12 min read",
-          "views": 4123,
-          "likes": 345,
-          "status": "Published"
+            "id": "5",
+            "fullName": "Dr. Lisa Wang",
+            "email": "lisa.wang@researchustad.com",
+            "contactNo": "+1-555-0127",
+            "role": "researcher",
+            "designation": "mentor panel",
+            "profileImg": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Leading expert in bioinformatics and computational biology with focus on genomics and personalized medicine.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "mentor panel",
+                "institution": "Johns Hopkins University",
+                "department": "Biomedical Engineering",
+                "degree": "Ph.D. in Bioinformatics"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/lisawang",
+                "researchgate": "https://researchgate.net/lisa_wang",
+                "google_scholar": "https://scholar.google.com/citations?user=5678901234"
+            },
+            "researchStats": {
+                "totalPapers": 42,
+                "publishedPapers": 36,
+                "ongoingPapers": 6,
+                "totalCitations": 3245
+            },
+            "publications": [
+                {
+                    "id": "pub6",
+                    "title": "Genomic Analysis for Cancer Detection",
+                    "journal": "Nature Genetics",
+                    "year": 2024,
+                    "citations": 445,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog7",
+                    "title": "The Future of Personalized Medicine",
+                    "publishedDate": "2024-03-25",
+                    "readTime": "12 min read",
+                    "views": 4123,
+                    "likes": 345,
+                    "status": "Published"
+                },
+                {
+                    "id": "blog8",
+                    "title": "Bioinformatics in Modern Healthcare",
+                    "publishedDate": "2024-02-10",
+                    "readTime": "9 min read",
+                    "views": 2341,
+                    "likes": 178,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Bioinformatics",
+                "Computational Biology",
+                "Genomics",
+                "Personalized Medicine"
+            ],
+            "awards": [
+                "JHU Excellence in Research Award (2023)",
+                "Best Bioinformatics Paper - ISMB 2023",
+                "NIH Outstanding Investigator Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "ISMB 2024",
+                    "role": "Keynote Speaker",
+                    "topic": "Computational Biology Advances"
+                }
+            ]
         },
         {
-          "id": "blog8",
-          "title": "Bioinformatics in Modern Healthcare",
-          "publishedDate": "2024-02-10",
-          "readTime": "9 min read",
-          "views": 2341,
-          "likes": 178,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Bioinformatics",
-        "Computational Biology",
-        "Genomics",
-        "Personalized Medicine"
-      ],
-      "awards": [
-        "JHU Excellence in Research Award (2023)",
-        "Best Bioinformatics Paper - ISMB 2023",
-        "NIH Outstanding Investigator Award (2022)"
-      ],
-      "conferences": [
+            "id": "6",
+            "fullName": "Dr. Maria Garcia",
+            "email": "maria.garcia@researchustad.com",
+            "contactNo": "+1-555-0128",
+            "role": "researcher",
+            "designation": "research associate",
+            "profileImg": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Specialist in quantum computing and quantum algorithms with expertise in quantum machine learning and cryptography.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "research associate",
+                "institution": "Caltech",
+                "department": "Physics",
+                "degree": "Ph.D. in Quantum Physics"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/mariagarcia",
+                "researchgate": "https://researchgate.net/maria_garcia",
+                "google_scholar": "https://scholar.google.com/citations?user=6789012345"
+            },
+            "researchStats": {
+                "totalPapers": 31,
+                "publishedPapers": 25,
+                "ongoingPapers": 6,
+                "totalCitations": 1678
+            },
+            "publications": [
+                {
+                    "id": "pub7",
+                    "title": "Quantum Machine Learning Algorithms",
+                    "journal": "Nature Quantum Information",
+                    "year": 2024,
+                    "citations": 234,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog9",
+                    "title": "Quantum Computing: The Next Frontier",
+                    "publishedDate": "2024-04-05",
+                    "readTime": "16 min read",
+                    "views": 5678,
+                    "likes": 456,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Quantum Computing",
+                "Quantum Algorithms",
+                "Quantum Machine Learning",
+                "Quantum Cryptography"
+            ],
+            "awards": [
+                "Caltech Outstanding Graduate Student Award (2023)",
+                "Best Quantum Computing Paper - QIP 2023",
+                "NSF CAREER Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "QIP 2024",
+                    "role": "Invited Speaker",
+                    "topic": "Quantum Machine Learning"
+                }
+            ]
+        },
         {
-          "name": "ISMB 2024",
-          "role": "Keynote Speaker",
-          "topic": "Computational Biology Advances"
-        }
-      ]
-    },
-    {
-      "id": "6",
-      "fullName": "Dr. Maria Garcia",
-      "email": "maria.garcia@researchustad.com",
-      "contactNo": "+1-555-0128",
-      "role": "researcher",
-      "designation": "Research_Associate",
-      "profileImg": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Specialist in quantum computing and quantum algorithms with expertise in quantum machine learning and cryptography.",
-      "isDeleted": false,
-      "current": {
-        "institution": "Caltech",
-        "department": "Physics",
-        "degree": "Ph.D. in Quantum Physics"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Quantum Physics",
-        "institution": "Caltech",
-        "status": "Completed",
-        "scholarship": "Caltech Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/maria.garcia",
-        "twitter": "https://twitter.com/mariagarcia_quantum",
-        "linkedin": "https://linkedin.com/in/mariagarcia"
-      },
-      "researchStats": {
-        "totalPapers": 31,
-        "publishedPapers": 25,
-        "ongoingPapers": 6,
-        "totalCitations": 1678,
-        "hIndex": 22,
-        "impactFactor": 7.1,
-        "researchGrants": 9,
-        "totalGrantAmount": 1900000
-      },
-      "publications": [
+            "id": "7",
+            "fullName": "Dr. Robert Kim",
+            "email": "robert.kim@researchustad.com",
+            "contactNo": "+1-555-0129",
+            "role": "researcher",
+            "designation": "mentor panel",
+            "profileImg": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Expert in network science and complex systems with focus on social networks, epidemiology, and computational social science.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "mentor panel",
+                "institution": "Harvard University",
+                "department": "Applied Mathematics",
+                "degree": "Ph.D. in Network Science"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/robertkim",
+                "researchgate": "https://researchgate.net/robert_kim",
+                "google_scholar": "https://scholar.google.com/citations?user=7890123456"
+            },
+            "researchStats": {
+                "totalPapers": 38,
+                "publishedPapers": 32,
+                "ongoingPapers": 6,
+                "totalCitations": 2456
+            },
+            "publications": [
+                {
+                    "id": "pub8",
+                    "title": "Network Analysis of Social Media Influence",
+                    "journal": "Science",
+                    "year": 2024,
+                    "citations": 567,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog10",
+                    "title": "Understanding Social Networks",
+                    "publishedDate": "2024-03-30",
+                    "readTime": "13 min read",
+                    "views": 3456,
+                    "likes": 289,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Network Science",
+                "Complex Systems",
+                "Social Networks",
+                "Computational Social Science"
+            ],
+            "awards": [
+                "Harvard Excellence in Research Award (2023)",
+                "Best Network Science Paper - NetSci 2023",
+                "Outstanding Mentor Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "NetSci 2024",
+                    "role": "Keynote Speaker",
+                    "topic": "Network Science Applications"
+                }
+            ]
+        },
         {
-          "id": "pub7",
-          "title": "Quantum Machine Learning Algorithms",
-          "journal": "Nature Quantum Information",
-          "year": 2024,
-          "impactFactor": 8.7,
-          "citations": 234,
-          "authors": ["Maria Garcia", "Dr. David Lee"],
-          "doi": "10.1038/s41534-024-00001-x",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
+            "id": "8",
+            "fullName": "Dr. David Lee",
+            "email": "david.lee@researchustad.com",
+            "contactNo": "+1-555-0130",
+            "role": "researcher",
+            "designation": "research associate",
+            "profileImg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Specialist in renewable energy systems and smart grid technology with focus on sustainable energy solutions.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "research associate",
+                "institution": "UC Berkeley",
+                "department": "Energy Engineering",
+                "degree": "Ph.D. in Energy Systems"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/davidlee",
+                "researchgate": "https://researchgate.net/david_lee",
+                "google_scholar": "https://scholar.google.com/citations?user=8901234567"
+            },
+            "researchStats": {
+                "totalPapers": 29,
+                "publishedPapers": 24,
+                "ongoingPapers": 5,
+                "totalCitations": 1345
+            },
+            "publications": [
+                {
+                    "id": "pub9",
+                    "title": "Smart Grid Optimization Algorithms",
+                    "journal": "IEEE Transactions on Smart Grid",
+                    "year": 2024,
+                    "citations": 123,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog11",
+                    "title": "The Future of Renewable Energy",
+                    "publishedDate": "2024-04-15",
+                    "readTime": "11 min read",
+                    "views": 2987,
+                    "likes": 234,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Renewable Energy",
+                "Smart Grid Technology",
+                "Energy Systems",
+                "Sustainability"
+            ],
+            "awards": [
+                "UC Berkeley Energy Award (2023)",
+                "Best Energy Paper - IEEE PES 2023",
+                "Sustainability Innovation Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "IEEE PES 2024",
+                    "role": "Session Chair",
+                    "topic": "Smart Grid Technologies"
+                }
+            ]
+        },
         {
-          "id": "proj6",
-          "title": "Quantum Cryptography Protocols",
-          "description": "Developing secure quantum communication protocols",
-          "startDate": "2024-02-15",
-          "endDate": "2026-08-15",
-          "funding": 800000,
-          "collaborators": ["Dr. David Lee", "Dr. James Wilson"],
-          "status": "Active"
+            "id": "9",
+            "fullName": "Dr. Jennifer Brown",
+            "email": "jennifer.brown@researchustad.com",
+            "contactNo": "+1-555-0131",
+            "role": "researcher",
+            "designation": "research associate",
+            "profileImg": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+            "shortBio": "Expert in climate modeling and environmental data science with focus on climate change prediction and adaptation strategies.",
+            "isDeleted": false,
+            "current": {
+                "inst_designation": "research associate",
+                "institution": "Columbia University",
+                "department": "Earth and Environmental Sciences",
+                "degree": "Ph.D. in Climate Science"
+            },
+            "socialLinks": {
+                "linkedin": "https://linkedin.com/in/jenniferbrown",
+                "researchgate": "https://researchgate.net/jennifer_brown",
+                "google_scholar": "https://scholar.google.com/citations?user=9012345678"
+            },
+            "researchStats": {
+                "totalPapers": 33,
+                "publishedPapers": 27,
+                "ongoingPapers": 6,
+                "totalCitations": 1892
+            },
+            "publications": [
+                {
+                    "id": "pub10",
+                    "title": "Climate Change Impact Assessment Models",
+                    "journal": "Nature Climate Change",
+                    "year": 2024,
+                    "citations": 345,
+                    "papertype": "journal",
+                    "status": "Published"
+                }
+            ],
+            "blogs": [
+                {
+                    "id": "blog12",
+                    "title": "Climate Modeling in the Digital Age",
+                    "publishedDate": "2024-04-20",
+                    "readTime": "15 min read",
+                    "views": 4123,
+                    "likes": 367,
+                    "status": "Published"
+                }
+            ],
+            "expertise": [
+                "Climate Modeling",
+                "Environmental Data Science",
+                "Climate Change",
+                "Adaptation Strategies"
+            ],
+            "awards": [
+                "Columbia Climate Award (2023)",
+                "Best Climate Science Paper - AGU 2023",
+                "Environmental Excellence Award (2022)"
+            ],
+            "conferences": [
+                {
+                    "name": "AGU 2024",
+                    "role": "Invited Speaker",
+                    "topic": "Climate Change Modeling"
+                }
+            ]
         }
-      ],
-      "blogs": [
-        {
-          "id": "blog9",
-          "title": "Quantum Computing: The Next Frontier",
-          "publishedDate": "2024-04-05",
-          "readTime": "16 min read",
-          "views": 5678,
-          "likes": 456,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Quantum Computing",
-        "Quantum Algorithms",
-        "Quantum Machine Learning",
-        "Quantum Cryptography"
-      ],
-      "awards": [
-        "Caltech Outstanding Graduate Student Award (2023)",
-        "Best Quantum Computing Paper - QIP 2023",
-        "NSF CAREER Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "QIP 2024",
-          "role": "Invited Speaker",
-          "topic": "Quantum Machine Learning"
-        }
-      ]
-    },
-    {
-      "id": "7",
-      "fullName": "Dr. Robert Kim",
-      "email": "robert.kim@researchustad.com",
-      "contactNo": "+1-555-0129",
-      "role": "researcher",
-      "designation": "Mentor_Panel",
-      "profileImg": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Expert in network science and complex systems with focus on social networks, epidemiology, and computational social science.",
-      "isDeleted": false,
-      "current": {
-        "institution": "Harvard University",
-        "department": "Applied Mathematics",
-        "degree": "Ph.D. in Network Science"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Applied Mathematics",
-        "institution": "Harvard University",
-        "status": "Completed",
-        "scholarship": "Harvard Graduate Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/robert.kim",
-        "twitter": "https://twitter.com/robertkim_networks",
-        "linkedin": "https://linkedin.com/in/robertkim"
-      },
-      "researchStats": {
-        "totalPapers": 38,
-        "publishedPapers": 32,
-        "ongoingPapers": 6,
-        "totalCitations": 2456,
-        "hIndex": 28,
-        "impactFactor": 7.8,
-        "researchGrants": 11,
-        "totalGrantAmount": 2100000
-      },
-      "publications": [
-        {
-          "id": "pub8",
-          "title": "Network Analysis of Social Media Influence",
-          "journal": "Science",
-          "year": 2024,
-          "impactFactor": 9.5,
-          "citations": 567,
-          "authors": ["Robert Kim", "Dr. Lisa Wang"],
-          "doi": "10.1126/science.abc123",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj7",
-          "title": "Epidemiological Network Modeling",
-          "description": "Modeling disease spread through social networks",
-          "startDate": "2024-01-01",
-          "endDate": "2026-12-31",
-          "funding": 900000,
-          "collaborators": ["Dr. Lisa Wang", "Dr. Michael Chen"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog10",
-          "title": "Understanding Social Networks",
-          "publishedDate": "2024-03-30",
-          "readTime": "13 min read",
-          "views": 3456,
-          "likes": 289,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Network Science",
-        "Complex Systems",
-        "Social Networks",
-        "Computational Social Science"
-      ],
-      "awards": [
-        "Harvard Excellence in Research Award (2023)",
-        "Best Network Science Paper - NetSci 2023",
-        "Outstanding Mentor Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "NetSci 2024",
-          "role": "Keynote Speaker",
-          "topic": "Network Science Applications"
-        }
-      ]
-    },
-    {
-      "id": "8",
-      "fullName": "Dr. David Lee",
-      "email": "david.lee@researchustad.com",
-      "contactNo": "+1-555-0130",
-      "role": "researcher",
-      "designation": "Research_Associate",
-      "profileImg": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Specialist in renewable energy systems and smart grid technology with focus on sustainable energy solutions.",
-      "isDeleted": false,
-      "current": {
-        "institution": "UC Berkeley",
-        "department": "Energy Engineering",
-        "degree": "Ph.D. in Energy Systems"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Energy Engineering",
-        "institution": "UC Berkeley",
-        "status": "Completed",
-        "scholarship": "UC Berkeley Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/david.lee",
-        "twitter": "https://twitter.com/davidlee_energy",
-        "linkedin": "https://linkedin.com/in/davidlee"
-      },
-      "researchStats": {
-        "totalPapers": 29,
-        "publishedPapers": 24,
-        "ongoingPapers": 5,
-        "totalCitations": 1345,
-        "hIndex": 19,
-        "impactFactor": 6.9,
-        "researchGrants": 7,
-        "totalGrantAmount": 1600000
-      },
-      "publications": [
-        {
-          "id": "pub9",
-          "title": "Smart Grid Optimization Algorithms",
-          "journal": "IEEE Transactions on Smart Grid",
-          "year": 2024,
-          "impactFactor": 7.2,
-          "citations": 123,
-          "authors": ["David Lee", "Dr. Maria Garcia"],
-          "doi": "10.1109/TSG.2024.123456",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj8",
-          "title": "Renewable Energy Integration",
-          "description": "Developing algorithms for optimal renewable energy integration",
-          "startDate": "2024-03-01",
-          "endDate": "2026-03-01",
-          "funding": 550000,
-          "collaborators": ["Dr. Maria Garcia"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog11",
-          "title": "The Future of Renewable Energy",
-          "publishedDate": "2024-04-15",
-          "readTime": "11 min read",
-          "views": 2987,
-          "likes": 234,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Renewable Energy",
-        "Smart Grid Technology",
-        "Energy Systems",
-        "Sustainability"
-      ],
-      "awards": [
-        "UC Berkeley Energy Award (2023)",
-        "Best Energy Paper - IEEE PES 2023",
-        "Sustainability Innovation Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "IEEE PES 2024",
-          "role": "Session Chair",
-          "topic": "Smart Grid Technologies"
-        }
-      ]
-    },
-    {
-      "id": "9",
-      "fullName": "Dr. Jennifer Brown",
-      "email": "jennifer.brown@researchustad.com",
-      "contactNo": "+1-555-0131",
-      "role": "researcher",
-      "designation": "Research_Associate",
-      "profileImg": "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-      "shortBio": "Expert in climate modeling and environmental data science with focus on climate change prediction and adaptation strategies.",
-      "isDeleted": false,
-      "current": {
-        "institution": "Columbia University",
-        "department": "Earth and Environmental Sciences",
-        "degree": "Ph.D. in Climate Science"
-      },
-      "education": {
-        "degree": "Ph.D.",
-        "field": "Climate Science",
-        "institution": "Columbia University",
-        "status": "Completed",
-        "scholarship": "Columbia Fellowship"
-      },
-      "socialLinks": {
-        "facebook": "https://facebook.com/jennifer.brown",
-        "twitter": "https://twitter.com/jenniferbrown_climate",
-        "linkedin": "https://linkedin.com/in/jenniferbrown"
-      },
-      "researchStats": {
-        "totalPapers": 33,
-        "publishedPapers": 27,
-        "ongoingPapers": 6,
-        "totalCitations": 1892,
-        "hIndex": 23,
-        "impactFactor": 7.3,
-        "researchGrants": 9,
-        "totalGrantAmount": 1800000
-      },
-      "publications": [
-        {
-          "id": "pub10",
-          "title": "Climate Change Impact Assessment Models",
-          "journal": "Nature Climate Change",
-          "year": 2024,
-          "impactFactor": 8.9,
-          "citations": 345,
-          "authors": ["Jennifer Brown", "Dr. Robert Kim"],
-          "doi": "10.1038/nclimate.2024.123",
-          "status": "Published"
-        }
-      ],
-      "ongoingProjects": [
-        {
-          "id": "proj9",
-          "title": "Climate Adaptation Strategies",
-          "description": "Developing computational models for climate adaptation planning",
-          "startDate": "2024-01-01",
-          "endDate": "2027-01-01",
-          "funding": 1100000,
-          "collaborators": ["Dr. Robert Kim", "Dr. David Lee"],
-          "status": "Active"
-        }
-      ],
-      "blogs": [
-        {
-          "id": "blog12",
-          "title": "Climate Modeling in the Digital Age",
-          "publishedDate": "2024-04-20",
-          "readTime": "15 min read",
-          "views": 4123,
-          "likes": 367,
-          "status": "Published"
-        }
-      ],
-      "expertise": [
-        "Climate Modeling",
-        "Environmental Data Science",
-        "Climate Change",
-        "Adaptation Strategies"
-      ],
-      "awards": [
-        "Columbia Climate Award (2023)",
-        "Best Climate Science Paper - AGU 2023",
-        "Environmental Excellence Award (2022)"
-      ],
-      "conferences": [
-        {
-          "name": "AGU 2024",
-          "role": "Invited Speaker",
-          "topic": "Climate Change Modeling"
-        }
-      ]
+    ],
+    "metadata": {
+        "totalMembers": 9,
+        "lastUpdated": "2024-12-28",
+        "version": "1.1.0",
+        "description": "Comprehensive team members data for ResearchUstad platform"
     }
-  ],
-  "metadata": {
-    "totalMembers": 9,
-    "lastUpdated": "2024-04-25",
-    "version": "1.0.0",
-    "description": "Comprehensive team members data for ResearchUstad platform"
-  }
 }

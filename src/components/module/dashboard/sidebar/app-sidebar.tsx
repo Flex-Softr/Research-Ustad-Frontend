@@ -132,7 +132,7 @@ const adminRoute = {
       items: [
         {
           title: "Create Member",
-          url: "/admin/dashboard/createassociate",
+          url: "/admin/dashboard/createMember",
           icon: UserPlus,
         },
         {
@@ -315,13 +315,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div className="flex items-center gap-2 px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" />
+            <Link href="/">
+            <GraduationCap className="w-5 h-5 text-white" />
+                </Link>
+            
             </div>
             {!isCollapsed && (
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Research Ustad
-                </h2>
+                <Link href="/">
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    Research Ustad
+                  </h2>
+                </Link>
+
                 <p className="text-xs text-gray-500 capitalize">
                   {user.role} Dashboard
                 </p>

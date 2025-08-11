@@ -22,12 +22,16 @@ export const GetMe = async () => {
     });
 
     if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
+      // Throw specific error with status code for better handling
+      const errorMessage = `Request failed with status: ${response.status}`;
+      const error = new Error(errorMessage);
+      (error as any).status = response.status;
+      throw error;
     }
 
     return await response.json();
   } catch (error) {
     console.error("Error fetching user:", error);
-    return null;
+    throw error; // Re-throw the error instead of returning null
   }
 };

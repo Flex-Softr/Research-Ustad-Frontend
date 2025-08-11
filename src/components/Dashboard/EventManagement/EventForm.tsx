@@ -14,6 +14,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { useState } from "react";
 import { CustomEvent, EventFormProps } from "@/type/event";
 import { formatDateForInput } from "@/lib/dateUtils";
+import { EventAgendaSection } from "./EventAgendaSection";
 
 const EventForm = ({
   event,
@@ -28,11 +29,14 @@ const EventForm = ({
     handleSubmit,
     control,
     reset,
-    formState: { errors },
+    watch,
+    setValue,
+    formState: { errors, touchedFields, isSubmitted },
   } = useForm<CustomEvent>({
     defaultValues: {
       title: event?.title || "",
       description: event?.description || "",
+      agenda: event?.agenda || "",
       startDate: formatDateForInput(event?.startDate),
       endDate: formatDateForInput(event?.endDate),
       location: event?.location || "",
@@ -42,11 +46,21 @@ const EventForm = ({
       imageUrl: event?.imageUrl || "",
       registrationLink: event?.registrationLink || "",
       eventDuration: event?.eventDuration || 60,
+      registrationFee: event?.registrationFee || 0,
+      registered: event?.registered || 0,
       speakers: event?.speakers || [],
     },
     mode: "onChange",
   });
 
+  // Add validation for agenda field
+  const agenda = watch("agenda");
+// Show error only if field is touched or form is submitted
+const agendaError =
+  (touchedFields.agenda || isSubmitted) &&
+  (!agenda || agenda.trim().length < 50)
+    ? "Event agenda must be at least 50 characters"
+    : undefined;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "speakers",
@@ -79,6 +93,12 @@ const EventForm = ({
   // create event
   const onSubmit = async (data: CustomEvent) => {
     try {
+      // Validate agenda
+      if (!data.agenda || data.agenda.trim().length < 50) {
+        toast.error("Event agenda must be at least 50 characters");
+        return;
+      }
+
       // Validate that at least one speaker is added
       if (!data.speakers || data.speakers.length === 0) {
         toast.error("At least one speaker is required");
@@ -92,6 +112,12 @@ const EventForm = ({
       
       if (invalidSpeakers.length > 0) {
         toast.error("All speakers must have a name and bio");
+        return;
+      }
+
+      // Validate maxAttendees vs registered
+      if (data.maxAttendees < data.registered) {
+        toast.error("Max attendees cannot be less than currently registered attendees");
         return;
       }
 
@@ -121,6 +147,8 @@ const EventForm = ({
         speakers: speakersData,
         eventDuration: Number(data.eventDuration),
         maxAttendees: Number(data.maxAttendees),
+        registered: Number(data.registered),
+        registrationFee: Number(data.registrationFee),
       };
 
       formData.append("data", JSON.stringify(eventData));
@@ -133,11 +161,11 @@ const EventForm = ({
         toast.success("Event updated successfully!");
       } else {
         result = await dispatch(addEvent(formData)).unwrap();
+        reset();
         toast.success("Event created successfully!");
       }
 
       onSave(result);
-      reset();
       setSelectedFile(null);
       setSpeakerFiles({});
     } catch (error: any) {
@@ -238,11 +266,55 @@ const EventForm = ({
                 {...register("maxAttendees", { 
                   required: "Max attendees is required",
                   min: { value: 1, message: "Must have at least 1 attendee" },
-                  max: { value: 10000, message: "Cannot exceed 10,000 attendees" }
+                  max: { value: 10000, message: "Cannot exceed 10,000 attendees" },
+                  validate: (value) => {
+                    const registeredValue = watch("registered");
+                    return Number(value) >= Number(registeredValue) || 
+                           "Max attendees cannot be less than currently registered attendees";
+                  }
                 })}
               />
               {errors.maxAttendees && (
                 <p className="text-sm text-red-500">{errors.maxAttendees.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="registered">Currently Registered</Label>
+              <Input
+                type="number"
+                id="registered"
+                min="0"
+                {...register("registered", { 
+                  required: "Registered count is required",
+                  min: { value: 0, message: "Registered count cannot be negative" },
+                  validate: (value) => {
+                    const maxAttendeesValue = watch("maxAttendees");
+                    return Number(value) <= Number(maxAttendeesValue) || 
+                           "Registered attendees cannot exceed max attendees";
+                  }
+                })}
+              />
+              {errors.registered && (
+                <p className="text-sm text-red-500">{errors.registered.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="registrationFee">Registration Fee ($)</Label>
+              <Input
+                type="number"
+                id="registrationFee"
+                min="0"
+                step="0.01"
+                placeholder="0 for free events"
+                {...register("registrationFee", { 
+                  required: "Registration fee is required",
+                  min: { value: 0, message: "Registration fee cannot be negative" }
+                })}
+              />
+              {errors.registrationFee && (
+                <p className="text-sm text-red-500">{errors.registrationFee.message}</p>
               )}
             </div>
 
@@ -292,6 +364,13 @@ const EventForm = ({
               <p className="text-sm text-red-500">{errors.description.message}</p>
             )}
           </div>
+
+          {/* Event Agenda Section */}
+          <EventAgendaSection
+            agenda={agenda}
+            onChange={(value) => setValue("agenda", value)}
+            error={agendaError}
+          />
 
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

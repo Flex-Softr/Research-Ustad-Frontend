@@ -28,8 +28,8 @@ const formSchema = z.object({
     .string()
     .max(500, "Short bio must be at maximum 500 characters")
     .optional(),
-  facebook: z.string().url("Invalid URL format").optional().optional(),
-  twitter: z.string().url("Invalid URL format").optional().optional(),
+  google_scholar: z.string().url("Invalid URL format").optional().optional(),
+  researchgate: z.string().url("Invalid URL format").optional().optional(),
   linkedin: z.string().url("Invalid URL format").optional().optional(),
 });
 
@@ -49,8 +49,8 @@ interface MemberData {
   research?: string[];
   shortBio: string;
   socialLinks?: {
-    facebook: string;
-    twitter: string;
+    researchgate: string;
+    google_scholar: string;
     linkedin: string;
   };
 }
@@ -84,8 +84,8 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
         setValue("educationStatus", data?.education?.status || "Ongoing");
         setValue("scholarship", data?.education?.scholarship || "");
         setValue("shortBio", data?.shortBio || "N/A");
-        setValue("facebook", data?.socialLinks?.facebook || "");
-        setValue("twitter", data?.socialLinks?.twitter || "");
+        setValue("researchgate", data?.socialLinks?.google_scholar || "");
+        setValue("google_scholar", data?.socialLinks?.researchgate || "");
         setValue("linkedin", data?.socialLinks?.linkedin || "");
       } catch (error) {
         console.error("Error fetching member:", error);
@@ -115,8 +115,8 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
         research: data?.research || [],
         shortBio: formData.shortBio,
         socialLinks: {
-          facebook: formData.facebook,
-          twitter: formData.twitter,
+          researchgate: formData.researchgate,
+          google_scholar: formData.google_scholar,
           linkedin: formData.linkedin,
         },
       },
@@ -239,19 +239,19 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
           <h3 className="text-lg font-medium mt-4">Social Links</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label>
-              Facebook
-              <Input type="text" {...register("facebook")} />
-              {errors.facebook && (
+              Google Scholar
+              <Input type="text" {...register("google_scholar")} />
+              {errors.google_scholar && (
                 <p className="text-red-500 text-sm">
-                  {errors.facebook.message}
+                  {errors.google_scholar.message}
                 </p>
               )}
             </label>
             <label>
-              Twitter
-              <Input type="text" {...register("twitter")} />
-              {errors.twitter && (
-                <p className="text-red-500 text-sm">{errors.twitter.message}</p>
+              Researchgate
+              <Input type="text" {...register("researchgate")} />
+              {errors.researchgate && (
+                <p className="text-red-500 text-sm">{errors.researchgate.message}</p>
               )}
             </label>
             <label>

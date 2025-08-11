@@ -9,7 +9,7 @@ import {
   MemberHeader,
   ResearchStats,
   Publications,
-  OngoingProjects,
+  OngoingPapers,
   Blogs,
   Expertise,
 } from "./components";
@@ -19,6 +19,7 @@ const SingleMemberPage = () => {
   const [member, setMember] = useState<TeamMember | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("publications");
 
   useEffect(() => {
     const fetchMember = async () => {
@@ -56,6 +57,8 @@ const SingleMemberPage = () => {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
   }
 
+  console.log("membersssssssssttt", member);
+
   if (error || !member) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
@@ -64,7 +67,6 @@ const SingleMemberPage = () => {
             { label: "Team Members", href: "/team-members" },
             { label: "Member Not Found", current: true },
           ]}
-          className="py-8"
         />
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -102,15 +104,41 @@ const SingleMemberPage = () => {
     );
   }
 
+  const tabs = [
+    {
+      id: "publications",
+      label: "Publications",
+      count: member.publications?.length || 0,
+    },
+    {
+      id: "ongoing",
+      label: "Ongoing Papers",
+      count: member.ongoing?.length || 0,
+    },
+    { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
+  ];
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "publications":
+        return <Publications member={member} />;
+      case "ongoing":
+        return <OngoingPapers member={member} />;
+      case "blogs":
+        return <Blogs member={member} />;
+      default:
+        return <Publications member={member} />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       {/* Breadcrumb Section */}
       <Breadcrumb
         items={[
           { label: "Team Members", href: "/team-members" },
-          { label: member.fullName, current: true },
+          { label: member.fullName },
         ]}
-        className="py-8"
       />
 
       {/* Main Content */}
@@ -126,14 +154,37 @@ const SingleMemberPage = () => {
             {/* Research Statistics */}
             <ResearchStats member={member} />
 
-            {/* Publications */}
-            <Publications member={member} />
+            {/* Tabs Section */}
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+              {/* Tab Navigation */}
+              <div className="border-b border-gray-200">
+                <nav className="flex space-x-8 px-6" aria-label="Tabs">
+                  {tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                        activeTab === tab.id
+                          ? "border-brand-secondary text-brand-secondary"
+                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span>{tab.label}</span>
+                        {tab.count > 0 && (
+                          <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-full">
+                            {tab.count}
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </nav>
+              </div>
 
-            {/* Ongoing Projects */}
-            <OngoingProjects member={member} />
-
-            {/* Blogs */}
-            <Blogs member={member} />
+              {/* Tab Content */}
+              <div className="">{renderTabContent()}</div>
+            </div>
           </div>
 
           {/* Sidebar */}

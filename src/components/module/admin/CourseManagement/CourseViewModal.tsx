@@ -16,7 +16,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Users,
   Star,
-  DollarSign,
   Clock,
   MapPin,
   Calendar,
@@ -28,6 +27,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Course } from "@/type";
+import { calculateCourseStatus } from "@/lib/calculateCourseStatus";
 
 interface CourseViewModalProps {
   course: Course | null;
@@ -65,28 +65,27 @@ const CourseViewModal = ({
   );
 
   const getCourseStatus = () => {
-    const now = new Date();
-    const startDate = new Date(course.startDate);
-    const endDate = course.endDate ? new Date(course.endDate) : null;
-
-    if (now < startDate) {
-      return {
-        status: "Upcoming",
-        color: "bg-blue-100 text-blue-800",
-        icon: Clock,
-      };
-    } else if (!endDate || now <= endDate) {
-      return {
-        status: "Ongoing",
-        color: "bg-green-100 text-green-800",
-        icon: BookOpen,
-      };
-    } else {
-      return {
-        status: "Completed",
-        color: "bg-gray-100 text-gray-800",
-        icon: Award,
-      };
+    const status = calculateCourseStatus(course.startDate, course.endDate, course.duration);
+    
+    switch (status) {
+      case "upcoming":
+        return {
+          status: "Upcoming",
+          color: "bg-blue-100 text-blue-800",
+          icon: Clock,
+        };
+      case "ongoing":
+        return {
+          status: "Ongoing",
+          color: "bg-green-100 text-green-800",
+          icon: BookOpen,
+        };
+      default:
+        return {
+          status: "Upcoming",
+          color: "bg-blue-100 text-blue-800",
+          icon: Clock,
+        };
     }
   };
 
@@ -182,7 +181,7 @@ const CourseViewModal = ({
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-green-600" />
+                 
                   <div>
                     <p className="text-sm text-gray-600">Price</p>
                     {course.isFree ? (
@@ -191,7 +190,7 @@ const CourseViewModal = ({
                       </span>
                     ) : (
                       <p className="font-semibold text-green-600">
-                        ${course.fee}
+                         {course.fee} BDT
                       </p>
                     )}
                   </div>

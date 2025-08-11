@@ -45,8 +45,8 @@ export interface Education {
 }
 
 export interface SocialLinks {
-  facebook?: string;
-  twitter?: string;
+  google_scholar?: string;
+  researchgate?: string;
   linkedin?: string;
 }
 
@@ -65,8 +65,8 @@ export interface TResearchAssociate {
     scholarship: string;
   };
   socialLinks: {
-    facebook: string;
-    twitter: string;
+    google_scholar: string;
+    researchgate: string;
     linkedin: string;
   };
   _id: string;
@@ -92,3 +92,13 @@ export interface JWTPayload {
   name?: string;
   [key: string]: any;
 } 
+
+
+// users form type
+export interface FormData {
+  fullName: string;
+  email: string;
+  password: string;
+  role: string;
+  designation: string;
+}

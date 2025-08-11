@@ -19,6 +19,9 @@ export * from './research';
 // Common Types
 export * from './common';
 
+// UpdateInfo Form Types
+export * from './updateInfo';
+
 // Legacy exports for backward compatibility
 // These are kept to maintain existing imports
 
@@ -75,8 +78,8 @@ export interface Education {
 }
 
 export interface SocialLinks {
-  facebook?: string;
-  twitter?: string;
+  researchgate?: string;
+  google_scholar?: string;
   linkedin?: string;
 }
 
@@ -173,8 +176,9 @@ export type TPapers = {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  journalType: string;
+  paperType: "journal" | "conference";
   isApproved: boolean;
+  researchArea?: string;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   __v: number;

@@ -8,6 +8,7 @@ import {
   MapPin,
   ArrowRight,
   Star,
+  Youtube,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -50,7 +51,7 @@ const Footer = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="group">
@@ -66,34 +67,6 @@ const Footer = () => {
               collaborative platforms to accelerate innovation and knowledge
               discovery.
             </p>
-
-            {/* Social Links */}
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-brand-secondary/20 transition-all duration-300 group"
-              >
-                <Facebook className="h-5 w-5 text-white group-hover:text-brand-secondary transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-brand-secondary/20 transition-all duration-300 group"
-              >
-                <Twitter className="h-5 w-5 text-white group-hover:text-brand-secondary transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-brand-secondary/20 transition-all duration-300 group"
-              >
-                <Linkedin className="h-5 w-5 text-white group-hover:text-brand-secondary transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-brand-secondary/20 transition-all duration-300 group"
-              >
-                <Github className="h-5 w-5 text-white group-hover:text-brand-secondary transition-colors" />
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -151,80 +124,50 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
+          {/* Contact Information */}
           <div>
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Star className="h-5 w-5 text-brand-secondary" />
-              Services
+              Contact Information
             </h3>
-            <ul className="space-y-4">
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Research Tools
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Data Analytics
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Collaboration
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Training
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Support
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-              <Star className="h-5 w-5 text-brand-secondary" />
-              Stay Updated
-            </h3>
-            <p className="text-gray-300 mb-6">
-              Subscribe to our newsletter for the latest research insights and
-              updates.
-            </p>
             <div className="space-y-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-brand-secondary transition-all duration-300"
-              />
-              <button className="w-full bg-gradient-to-r from-brand-secondary to-brand-primary hover:from-brand-primary hover:to-brand-secondary text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Subscribe
-              </button>
+              <div className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 text-brand-secondary mt-1 flex-shrink-0" />
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Administrative Building (Ground Floor) Dhaka-1000, Bangladesh
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-brand-secondary flex-shrink-0" />
+                <p className="text-gray-300 text-sm">Phone: +88-09666911463</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="h-5 w-5 text-brand-secondary flex-shrink-0" />
+                <p className="text-gray-300 text-sm">
+                  Email: vcoffice@du.ac.bd, registrar@du.ac.bd
+                </p>
+              </div>
+
+              {/* Social Media Section */}
+              <div className="mt-6">
+                <p className="text-white font-semibold mb-3">
+                  Stay Connected with Us:
+                </p>
+                <div className="flex space-x-3">
+                  <a
+                    href="#"
+                    className="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded flex items-center justify-center transition-all duration-300 group"
+                  >
+                    <Facebook className="h-4 w-4 text-white" />
+                  </a>
+                  <a
+                    href="#"
+                    className="w-10 h-10 bg-red-600 hover:bg-red-700 rounded flex items-center justify-center transition-all duration-300 group"
+                  >
+                    <Youtube className="h-4 w-4 text-white" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

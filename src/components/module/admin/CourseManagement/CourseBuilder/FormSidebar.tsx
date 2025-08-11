@@ -119,7 +119,7 @@ export function FormSidebar({
       </Card>
 
       {/* Validation Errors */}
-      {errors.length > 0 && hasAttemptedSubmit && (
+      {/* {errors.length > 0 && hasAttemptedSubmit && (
         <Card className="border-red-200 bg-red-50">
           <CardHeader>
             <CardTitle className="text-red-700 text-sm">
@@ -142,7 +142,7 @@ export function FormSidebar({
             </div>
           </CardContent>
         </Card>
-      )}
+      )} */}
 
       {/* Submit Button */}
       <Button
@@ -160,7 +160,7 @@ export function FormSidebar({
       {hasAttemptedSubmit && !isFormValid() && !isSubmitting && (
         <div className="text-center">
           <p className="text-sm text-gray-500">
-            Please fix the validation errors above to enable submission
+            Please fill all the fields correctly above to enable submission
           </p>
         </div>
       )}

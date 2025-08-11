@@ -20,7 +20,8 @@ console.log(papers)
                 <p>Authors: {paper.authors.join(", ")}</p>
                 <p>Journal: {paper.journal}</p>
                 <p>Impact Factor: {paper.impactFactor}</p>
-                <p>Rank: {paper.journalRank}</p>
+                <p>Research Area: {paper.researchArea || 'General'}</p>
+                <p>Journal Rank: {paper.journalRank}</p>
                 <p>Volume: {paper.volume}</p>
               </CardDescription>
             </div>

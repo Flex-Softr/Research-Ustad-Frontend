@@ -1,0 +1,571 @@
+{
+  "papers": [
+    {
+      "_id": "rp001",
+      "year": 2024,
+      "title": "Deep Learning Approaches for Early Detection of Alzheimer's Disease Using MRI Scans",
+      "authors": [
+        "Dr. Sarah Johnson",
+        "Prof. Michael Chen",
+        "Dr. Emily Rodriguez",
+        "Dr. David Kim"
+      ],
+      "journal": "Nature Machine Intelligence",
+      "volume": "6",
+      "impactFactor": 8.5,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s42256-024-00123-4",
+      "isApproved": true,
+      "abstract": "This study presents a novel deep learning framework for early detection of Alzheimer's disease using structural MRI scans. Our convolutional neural network architecture achieves 94.2% accuracy in distinguishing between healthy controls and early-stage Alzheimer's patients, outperforming traditional machine learning approaches by 12.3%.",
+      "keywords": [
+        "Deep Learning",
+        "Alzheimer's Disease",
+        "MRI Analysis",
+        "Early Detection",
+        "Convolutional Neural Networks"
+      ],
+      "doi": "10.1038/s42256-024-00123-4",
+      "citations": 156,
+      "downloads": 3200,
+      "researchArea": "Artificial Intelligence",
+      "funding": "National Institutes of Health (NIH)",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-03-20T14:45:00Z"
+    },
+    {
+      "_id": "rp002",
+      "year": 2024,
+      "title": "Quantum Machine Learning for Drug Discovery: Accelerating Pharmaceutical Research",
+      "authors": [
+        "Dr. Ahmed Hassan",
+        "Prof. Lisa Thompson",
+        "Dr. James Wilson",
+        "Dr. Maria Garcia"
+      ],
+      "journal": "Nature Biotechnology",
+      "volume": "42",
+      "impactFactor": 7.8,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s41587-024-01989-2",
+      "isApproved": true,
+      "abstract": "We demonstrate the application of quantum machine learning algorithms in drug discovery, showing a 3.2x speedup in molecular property prediction compared to classical methods. Our hybrid quantum-classical approach successfully identified novel drug candidates for rare diseases.",
+      "keywords": [
+        "Quantum Computing",
+        "Drug Discovery",
+        "Machine Learning",
+        "Pharmaceutical Research",
+        "Molecular Modeling"
+      ],
+      "doi": "10.1038/s41587-024-01989-2",
+      "citations": 89,
+      "downloads": 2100,
+      "researchArea": "Quantum Computing",
+      "funding": "Department of Energy (DOE)",
+      "createdAt": "2024-02-10T09:15:00Z",
+      "updatedAt": "2024-04-05T16:20:00Z"
+    },
+    {
+      "_id": "rp003",
+      "year": 2024,
+      "title": "Sustainable Smart Cities: IoT Integration for Environmental Monitoring and Resource Optimization",
+      "authors": [
+        "Dr. Robert Kim",
+        "Prof. Maria Garcia",
+        "Dr. David Lee",
+        "Dr. Anna Smith"
+      ],
+      "journal": "IEEE Internet of Things Journal",
+      "volume": "11",
+      "impactFactor": 5.9,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1109/JIOT.2024.001234",
+      "isApproved": false,
+      "abstract": "This research presents a comprehensive IoT framework for smart city environmental monitoring, achieving 23% reduction in energy consumption and 18% improvement in air quality through real-time sensor networks and predictive analytics.",
+      "keywords": [
+        "Smart Cities",
+        "Internet of Things",
+        "Environmental Monitoring",
+        "Sustainability",
+        "Resource Optimization"
+      ],
+      "doi": "10.1109/JIOT.2024.001234",
+      "citations": 23,
+      "downloads": 850,
+      "researchArea": "Environmental Science",
+      "funding": "National Science Foundation (NSF)",
+      "createdAt": "2024-03-05T11:45:00Z",
+      "updatedAt": "2024-03-25T13:30:00Z"
+    },
+    {
+      "_id": "rp004",
+      "year": 2023,
+      "title": "CRISPR-Cas9 Gene Editing in Cancer Immunotherapy: Novel Therapeutic Approaches",
+      "authors": [
+        "Dr. Jennifer Park",
+        "Prof. Carlos Mendez",
+        "Dr. Anna Smith",
+        "Dr. Thomas Brown"
+      ],
+      "journal": "Cell",
+      "volume": "186",
+      "impactFactor": 9.2,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1016/j.cell.2023.08.045",
+      "isApproved": true,
+      "abstract": "This study demonstrates the successful application of CRISPR-Cas9 gene editing in enhancing T-cell immunotherapy for cancer treatment. Our approach resulted in 67% tumor regression in preclinical models and improved patient survival rates by 41%.",
+      "keywords": [
+        "CRISPR-Cas9",
+        "Gene Editing",
+        "Cancer Immunotherapy",
+        "T-cell Therapy",
+        "Precision Medicine"
+      ],
+      "doi": "10.1016/j.cell.2023.08.045",
+      "citations": 234,
+      "downloads": 4500,
+      "researchArea": "Biomedical Engineering",
+      "funding": "American Cancer Society",
+      "createdAt": "2023-11-20T08:30:00Z",
+      "updatedAt": "2024-02-15T10:15:00Z"
+    },
+    {
+      "_id": "rp005",
+      "year": 2023,
+      "title": "Climate Change Impact on Global Food Security: Predictive Modeling and Adaptation Strategies",
+      "authors": [
+        "Dr. Thomas Brown",
+        "Prof. Sofia Rodriguez",
+        "Dr. Kevin Zhang",
+        "Dr. Rachel Green"
+      ],
+      "journal": "Nature Climate Change",
+      "volume": "13",
+      "impactFactor": 7.4,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s41558-023-01867-2",
+      "isApproved": true,
+      "abstract": "Using advanced climate modeling and machine learning, we predict a 15-23% reduction in global crop yields by 2050 due to climate change. Our adaptation strategies could mitigate 60% of these losses through sustainable agricultural practices.",
+      "keywords": [
+        "Climate Change",
+        "Food Security",
+        "Predictive Modeling",
+        "Agricultural Adaptation",
+        "Global Analysis"
+      ],
+      "doi": "10.1038/s41558-023-01867-2",
+      "citations": 189,
+      "downloads": 3800,
+      "researchArea": "Environmental Science",
+      "funding": "United Nations Food and Agriculture Organization",
+      "createdAt": "2023-10-15T14:20:00Z",
+      "updatedAt": "2024-01-30T09:45:00Z"
+    },
+    {
+      "_id": "rp006",
+      "year": 2024,
+      "title": "Blockchain-Based Decentralized Finance (DeFi): Security Analysis and Risk Assessment",
+      "authors": [
+        "Dr. Amanda White",
+        "Prof. Raj Patel",
+        "Dr. Lisa Chang",
+        "Dr. Mark Johnson"
+      ],
+      "journal": "Journal of Financial Technology",
+      "volume": "8",
+      "impactFactor": 4.2,
+      "journalRank": "Q2",
+      "paperType": "conference",
+      "visitLink": "https://doi.org/10.1000/fintech-2024-006",
+      "isApproved": false,
+      "abstract": "This comprehensive analysis examines security vulnerabilities in DeFi protocols, identifying 47 critical vulnerabilities across 15 major platforms. We propose a novel security framework that reduces attack vectors by 73%.",
+      "keywords": [
+        "Blockchain",
+        "Decentralized Finance",
+        "Security Analysis",
+        "Risk Assessment",
+        "Smart Contracts"
+      ],
+      "doi": "10.1000/fintech-2024-006",
+      "citations": 34,
+      "downloads": 950,
+      "researchArea": "Financial Technology",
+      "funding": "Industry Consortium",
+      "createdAt": "2024-02-28T16:10:00Z",
+      "updatedAt": "2024-04-10T11:25:00Z"
+    },
+    {
+      "_id": "rp007",
+      "year": 2023,
+      "title": "Artificial Intelligence in Personalized Education: Adaptive Learning Systems for K-12 Students",
+      "authors": [
+        "Dr. Mark Johnson",
+        "Prof. Sarah Davis",
+        "Dr. Michael Wong",
+        "Dr. Emily Chen"
+      ],
+      "journal": "Computers & Education",
+      "volume": "22",
+      "impactFactor": 5.1,
+      "journalRank": "Q1",
+      "paperType": "conference",
+      "visitLink": "https://doi.org/10.1016/j.compedu.2023.104567",
+      "isApproved": true,
+      "abstract": "Our AI-powered adaptive learning system improved student performance by 34% compared to traditional methods. The system personalizes content delivery based on individual learning styles and progress patterns.",
+      "keywords": [
+        "Artificial Intelligence",
+        "Personalized Education",
+        "Adaptive Learning",
+        "K-12 Education",
+        "Learning Analytics"
+      ],
+      "doi": "10.1016/j.compedu.2023.104567",
+      "citations": 112,
+      "downloads": 2400,
+      "researchArea": "Educational Technology",
+      "funding": "Department of Education",
+      "createdAt": "2023-09-10T12:45:00Z",
+      "updatedAt": "2024-03-01T15:30:00Z"
+    },
+    {
+      "_id": "rp008",
+      "year": 2024,
+      "title": "Cybersecurity in 5G Networks: Threat Landscape and Defense Mechanisms",
+      "authors": [
+        "Dr. Rachel Green",
+        "Prof. Alex Turner",
+        "Dr. Sophia Martinez",
+        "Dr. Daniel Clark"
+      ],
+      "journal": "IEEE Communications Surveys & Tutorials",
+      "volume": "26",
+      "impactFactor": 5.9,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1109/COMST.2024.001234",
+      "isApproved": true,
+      "abstract": "This comprehensive survey examines cybersecurity challenges in 5G networks, identifying 12 major attack vectors and proposing innovative defense mechanisms that achieve 89% threat detection accuracy.",
+      "keywords": [
+        "5G Networks",
+        "Cybersecurity",
+        "Threat Detection",
+        "Network Security",
+        "Mobile Communications"
+      ],
+      "doi": "10.1109/COMST.2024.001234",
+      "citations": 67,
+      "downloads": 1600,
+      "researchArea": "Cybersecurity",
+      "funding": "National Security Agency",
+      "createdAt": "2024-01-25T10:20:00Z",
+      "updatedAt": "2024-04-12T14:15:00Z"
+    },
+    {
+      "_id": "rp009",
+      "year": 2023,
+      "title": "Advanced Prosthetic Technologies: Neural Interface Integration for Enhanced Mobility",
+      "authors": [
+        "Dr. Daniel Clark",
+        "Prof. Emma Wilson",
+        "Dr. Jason Lee",
+        "Dr. Victoria Moore"
+      ],
+      "journal": "Nature Biomedical Engineering",
+      "volume": "7",
+      "impactFactor": 4.3,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s41551-023-01089-2",
+      "isApproved": true,
+      "abstract": "Our neural interface technology enables direct brain-to-prosthetic communication, achieving 92% accuracy in movement prediction and reducing phantom limb pain by 78% in clinical trials.",
+      "keywords": [
+        "Prosthetics",
+        "Neural Interface",
+        "Brain-Computer Interface",
+        "Mobility Enhancement",
+        "Biomedical Engineering"
+      ],
+      "doi": "10.1038/s41551-023-01089-2",
+      "citations": 134,
+      "downloads": 2800,
+      "researchArea": "Biomedical Engineering",
+      "funding": "National Institutes of Health",
+      "createdAt": "2023-12-05T13:15:00Z",
+      "updatedAt": "2024-02-28T16:45:00Z"
+    },
+    {
+      "_id": "rp010",
+      "year": 2024,
+      "title": "Machine Learning in Financial Risk Assessment: Predictive Models for Credit Scoring",
+      "authors": [
+        "Dr. Christopher Taylor",
+        "Prof. Michelle Anderson",
+        "Dr. Ryan Cooper",
+        "Dr. Steven Miller"
+      ],
+      "journal": "Journal of Financial Data Science",
+      "volume": "14",
+      "impactFactor": 3.9,
+      "journalRank": "Q2",
+      "paperType": "conference",
+      "visitLink": "https://doi.org/10.1000/financial-data-2024-010",
+      "isApproved": false,
+      "abstract": "Our ensemble machine learning model improves credit scoring accuracy by 23% while reducing bias by 45%. The model incorporates alternative data sources for more inclusive financial services.",
+      "keywords": [
+        "Machine Learning",
+        "Financial Risk",
+        "Credit Scoring",
+        "Alternative Data",
+        "Financial Inclusion"
+      ],
+      "doi": "10.1000/financial-data-2024-010",
+      "citations": 28,
+      "downloads": 750,
+      "researchArea": "Financial Technology",
+      "funding": "Private Investment Firm",
+      "createdAt": "2024-03-15T09:30:00Z",
+      "updatedAt": "2024-04-08T12:20:00Z"
+    },
+    {
+      "_id": "rp011",
+      "year": 2023,
+      "title": "Autonomous Surgical Robots: Precision and Safety in Minimally Invasive Procedures",
+      "authors": [
+        "Dr. Victoria Moore",
+        "Prof. James Anderson",
+        "Dr. Nicole Garcia",
+        "Dr. Jessica Brown"
+      ],
+      "journal": "Science Robotics",
+      "volume": "8",
+      "impactFactor": 4.7,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1126/scirobotics.ade1234",
+      "isApproved": true,
+      "abstract": "Our autonomous surgical robot system achieves sub-millimeter precision in minimally invasive procedures, reducing surgery time by 35% and complication rates by 42% compared to traditional methods.",
+      "keywords": [
+        "Surgical Robotics",
+        "Autonomous Systems",
+        "Minimally Invasive Surgery",
+        "Precision Medicine",
+        "Healthcare Technology"
+      ],
+      "doi": "10.1126/scirobotics.ade1234",
+      "citations": 98,
+      "downloads": 1900,
+      "researchArea": "Robotics",
+      "funding": "National Robotics Initiative",
+      "createdAt": "2023-08-20T15:45:00Z",
+      "updatedAt": "2024-01-15T11:30:00Z"
+    },
+    {
+      "_id": "rp012",
+      "year": 2024,
+      "title": "Zero-Trust Security Architecture for Cloud-Native Applications",
+      "authors": [
+        "Dr. Steven Miller",
+        "Prof. Jessica Brown",
+        "Dr. Kevin Davis",
+        "Dr. Alex Turner"
+      ],
+      "journal": "ACM Computing Surveys",
+      "volume": "57",
+      "impactFactor": 4.1,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1145/1234567.890123",
+      "isApproved": true,
+      "abstract": "This comprehensive survey presents zero-trust security principles for cloud-native applications, achieving 99.7% threat detection rate and reducing attack surface by 67% through micro-segmentation.",
+      "keywords": [
+        "Zero-Trust Security",
+        "Cloud Computing",
+        "Micro-segmentation",
+        "Threat Detection",
+        "Application Security"
+      ],
+      "doi": "10.1145/1234567.890123",
+      "citations": 56,
+      "downloads": 1400,
+      "researchArea": "Cybersecurity",
+      "funding": "Cloud Security Alliance",
+      "createdAt": "2024-02-12T14:20:00Z",
+      "updatedAt": "2024-04-15T10:45:00Z"
+    },
+    {
+      "_id": "rp013",
+      "year": 2024,
+      "title": "Quantum Cryptography for Post-Quantum Security: Implementation and Performance Analysis",
+      "authors": [
+        "Dr. Robert Kim",
+        "Prof. Maria Garcia",
+        "Dr. David Lee",
+        "Dr. Anna Smith"
+      ],
+      "journal": "Nature Communications",
+      "volume": "15",
+      "impactFactor": 4.8,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s41467-024-45678-9",
+      "isApproved": false,
+      "abstract": "We demonstrate quantum key distribution over 100km with 99.9% security rate, providing post-quantum cryptographic protection against future quantum computer attacks.",
+      "keywords": [
+        "Quantum Cryptography",
+        "Post-Quantum Security",
+        "Quantum Key Distribution",
+        "Cryptographic Protocols",
+        "Quantum Communication"
+      ],
+      "doi": "10.1038/s41467-024-45678-9",
+      "citations": 23,
+      "downloads": 650,
+      "researchArea": "Quantum Computing",
+      "funding": "National Science Foundation",
+      "createdAt": "2024-03-20T12:30:00Z",
+      "updatedAt": "2024-04-18T15:20:00Z"
+    },
+    {
+      "_id": "rp014",
+      "year": 2023,
+      "title": "Sustainable Energy Storage: Advanced Battery Technologies for Renewable Integration",
+      "authors": [
+        "Dr. Ahmed Hassan",
+        "Prof. Lisa Thompson",
+        "Dr. James Wilson",
+        "Dr. Maria Garcia"
+      ],
+      "journal": "Nature Energy",
+      "volume": "8",
+      "impactFactor": 6.2,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s41560-023-01234-5",
+      "isApproved": true,
+      "abstract": "Our solid-state battery technology achieves 500% higher energy density than conventional lithium-ion batteries, enabling 24-hour renewable energy storage with 95% efficiency.",
+      "keywords": [
+        "Energy Storage",
+        "Battery Technology",
+        "Renewable Energy",
+        "Solid-State Batteries",
+        "Grid Integration"
+      ],
+      "doi": "10.1038/s41560-023-01234-5",
+      "citations": 167,
+      "downloads": 3200,
+      "researchArea": "Environmental Science",
+      "funding": "Department of Energy",
+      "createdAt": "2023-11-10T09:45:00Z",
+      "updatedAt": "2024-02-25T14:30:00Z"
+    },
+    {
+      "_id": "rp015",
+      "year": 2024,
+      "title": "Federated Learning for Privacy-Preserving Healthcare Analytics",
+      "authors": [
+        "Dr. Sarah Johnson",
+        "Prof. Michael Chen",
+        "Dr. Emily Rodriguez",
+        "Dr. David Kim"
+      ],
+      "journal": "Nature Machine Intelligence",
+      "volume": "6",
+      "impactFactor": 8.5,
+      "journalRank": "Q1",
+      "paperType": "journal",
+      "visitLink": "https://doi.org/10.1038/s42256-024-00124-5",
+      "isApproved": true,
+      "abstract": "Our federated learning framework enables multi-institutional healthcare analytics while preserving patient privacy, achieving 91% accuracy in disease prediction across 15 hospitals.",
+      "keywords": [
+        "Federated Learning",
+        "Privacy-Preserving Analytics",
+        "Healthcare",
+        "Machine Learning",
+        "Data Privacy"
+      ],
+      "doi": "10.1038/s42256-024-00124-5",
+      "citations": 78,
+      "downloads": 1800,
+      "researchArea": "Artificial Intelligence",
+      "funding": "National Institutes of Health",
+      "createdAt": "2024-02-05T11:20:00Z",
+      "updatedAt": "2024-04-10T16:45:00Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "ai-ml",
+      "name": "Artificial Intelligence & Machine Learning",
+      "count": 4
+    },
+    {
+      "id": "biomedical",
+      "name": "Biomedical Engineering",
+      "count": 3
+    },
+    {
+      "id": "environmental",
+      "name": "Environmental Science",
+      "count": 2
+    },
+    {
+      "id": "cybersecurity",
+      "name": "Cybersecurity",
+      "count": 3
+    },
+    {
+      "id": "robotics",
+      "name": "Robotics",
+      "count": 1
+    },
+    {
+      "id": "finance",
+      "name": "Financial Technology",
+      "count": 2
+    },
+    {
+      "id": "education",
+      "name": "Educational Technology",
+      "count": 1
+    },
+    {
+      "id": "quantum",
+      "name": "Quantum Computing",
+      "count": 2
+    }
+  ],
+  "researchAreas": [
+    "Artificial Intelligence",
+    "Environmental Science",
+    "Computer Science",
+    "Biomedical Engineering",
+    "Financial Technology",
+    "Educational Technology",
+    "Cybersecurity",
+    "Robotics",
+    "Quantum Computing"
+  ],
+  "paperTypes": ["journal", "conference"],
+  "years": [2023, 2024],
+  "approvalStats": {
+    "total": 15,
+    "approved": 12,
+    "pending": 3,
+    "approvalRate": 80
+  },
+  "impactFactors": {
+    "average": 5.8,
+    "highest": 9.2,
+    "lowest": 3.9
+  },
+  "citations": {
+    "total": 1456,
+    "average": 97.1,
+    "highest": 234,
+    "lowest": 23
+  }
+} 

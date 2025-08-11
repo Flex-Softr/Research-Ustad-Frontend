@@ -12,8 +12,42 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/core";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@/services/AuthService";
+import { getDashboardUrl } from "@/lib/dashboardUtils";
 
 const HeroSection = () => {
+  const [user, setUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getCurrentUser();
+        setUser(userData);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const getDashboardLink = () => {
+    if (user?.role) {
+      return getDashboardUrl(user.role);
+    }
+    return "/login";
+  };
+
+  const getButtonText = () => {
+    if (isLoading) return "Loading...";
+    if (user) return "Go to Dashboard";
+    return "Start Researching";
+  };
+
   return (
     <section className="relative w-full min-h-screen bg-gradient-to-br from-slate-900 via-brand-primary to-brand-secondary overflow-hidden">
       {/* Background Pattern */}
@@ -63,22 +97,24 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-              <Button
-                className="relative group bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary text-white p-6 text-lg font-semibold transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-brand-primary/30 border-0 focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 overflow-hidden backdrop-blur-sm"
-                style={{
-                  borderRadius: "1rem 0 1rem 0",
-                }}
-              >
-                <span className="flex items-center relative z-10">
-                  Start Researching
-                  <ArrowRight className="w-5 h-5 ml-2 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110" />
-                </span>
-                {/* Modern gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-6 h-6 bg-white/20 rounded-bl-full"></div>
-                <div className="absolute bottom-0 left-0 w-4 h-4 bg-brand-secondary/30 rounded-tr-full"></div>
-              </Button>
+              <Link href={getDashboardLink()}>
+                <Button
+                  className="relative group bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary text-white p-6 text-lg font-semibold transition-all duration-500 transform hover:scale-105 shadow-2xl hover:shadow-brand-primary/30 border-0 focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 overflow-hidden backdrop-blur-sm"
+                  style={{
+                    borderRadius: "1rem 0 1rem 0",
+                  }}
+                >
+                  <span className="flex items-center relative z-10">
+                    {getButtonText()}
+                    <ArrowRight className="w-5 h-5 ml-2 transition-all duration-300 group-hover:translate-x-1 group-hover:scale-110" />
+                  </span>
+                  {/* Modern gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  {/* Corner accent */}
+                  <div className="absolute top-0 right-0 w-6 h-6 bg-white/20 rounded-bl-full"></div>
+                  <div className="absolute bottom-0 left-0 w-4 h-4 bg-brand-secondary/30 rounded-tr-full"></div>
+                </Button>
+              </Link>
               <Button
                 variant="outline"
                 className="relative group border-2 border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-white p-6 text-lg font-semibold transition-all duration-500 transform hover:scale-105 shadow-xl hover:shadow-brand-secondary/25 focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 overflow-hidden backdrop-blur-sm"

@@ -1,7 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { TResearchAssociate } from "@/type";
+import { GraduationCap, Microscope } from "lucide-react";
 import Image from "next/image";
-import { FaFacebookF, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 
 
 
@@ -11,8 +12,8 @@ const associates = [
     img: "https://res.cloudinary.com/dzxzxdsnq/image/upload/v1741017173/jsjunayet12030%40gmail.comDr.%20Junayet%20Shiblu.png",
     designation: "Research Associate",
     socialLinks: {
-      facebook: "g",
-      twitter: "h",
+      google_scholar: "g",
+      researchgate: "h",
       linkedin: "gfds",
     },
   },
@@ -38,14 +39,14 @@ export default function AllAssociates(data:TResearchAssociate[]) {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               </p>
               <div className="flex gap-3 text-gray-300">
-                {associate.socialLinks.facebook && (
-                  <a href={associate.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-                    <FaFacebookF className="cursor-pointer hover:text-blue-600" />
+                {associate.socialLinks.researchgate && (
+                  <a href={associate.socialLinks.researchgate} target="_blank" rel="noopener noreferrer">
+                    <Microscope className="cursor-pointer hover:text-blue-600" />
                   </a>
                 )}
-                {associate.socialLinks.twitter && (
-                  <a href={associate.socialLinks.twitter} target="_blank" rel="noopener noreferrer">
-                    <FaTwitter className="cursor-pointer hover:text-blue-400" />
+                {associate.socialLinks.google_scholar && (
+                  <a href={associate.socialLinks.google_scholar} target="_blank" rel="noopener noreferrer">
+                    <GraduationCap className="cursor-pointer hover:text-blue-400" />
                   </a>
                 )}
                 {associate.socialLinks.linkedin && (

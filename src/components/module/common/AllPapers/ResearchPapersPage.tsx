@@ -1,22 +1,11 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { TPapers } from "@/type";
+import { FilterState, ResearchPapersPageProps, TPapers } from "@/type";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import Pagination from "@/components/shared/Pagination";
 import FilterSidebar from "./FilterSidebar";
 import PapersTable from "./PapersTable";
-
-interface ResearchPapersPageProps {
-  papers?: TPapers[];
-}
-
-interface FilterState {
-  category: string;
-  status: string;
-  year: string;
-  journalType: string;
-}
 
 const ResearchPapersPage = ({
   papers: propPapers,
@@ -30,7 +19,7 @@ const ResearchPapersPage = ({
     category: "all",
     status: "all",
     year: "all",
-    journalType: "all",
+    paperType: "all",
   });
 
   // Load papers data
@@ -62,28 +51,6 @@ const ResearchPapersPage = ({
   // Use papers state
   const papersData = papers;
 
-  // Extract unique values for filters
-  const categories = useMemo(() => {
-    const uniqueCategories = [
-      ...new Set(papersData.map((paper) => paper.journalRank)),
-    ];
-    return ["all", ...uniqueCategories];
-  }, [papersData]);
-
-  const years = useMemo(() => {
-    const uniqueYears = [
-      ...new Set(papersData.map((paper) => paper.year.toString())),
-    ];
-    return ["all", ...uniqueYears.sort((a, b) => parseInt(b) - parseInt(a))];
-  }, [papersData]);
-
-  const journalTypes = useMemo(() => {
-    const uniqueTypes = [
-      ...new Set(papersData.map((paper) => paper.journalType)),
-    ];
-    return ["all", ...uniqueTypes];
-  }, [papersData]);
-
   // Filter papers based on search and filters
   const filteredPapers = useMemo(() => {
     return papersData.filter((paper) => {
@@ -97,7 +64,7 @@ const ResearchPapersPage = ({
 
       // Category filter
       const categoryMatch =
-        filters.category === "all" || paper.journalRank === filters.category;
+        filters.category === "all" || paper.researchArea === filters.category;
 
       // Status filter (ongoing/published based on isApproved)
       const statusMatch =
@@ -109,17 +76,16 @@ const ResearchPapersPage = ({
       const yearMatch =
         filters.year === "all" || paper.year.toString() === filters.year;
 
-      // Journal type filter
-      const journalTypeMatch =
-        filters.journalType === "all" ||
-        paper.journalType === filters.journalType;
+      // Paper type filter
+      const paperTypeMatch =
+        filters.paperType === "all" || paper.paperType === filters.paperType;
 
       return (
         searchMatch &&
         categoryMatch &&
         statusMatch &&
         yearMatch &&
-        journalTypeMatch
+        paperTypeMatch
       );
     });
   }, [papersData, searchQuery, filters]);
@@ -156,7 +122,7 @@ const ResearchPapersPage = ({
       category: "all",
       status: "all",
       year: "all",
-      journalType: "all",
+      paperType: "all",
     });
     setSearchQuery("");
     setCurrentPage(1);
@@ -180,10 +146,8 @@ const ResearchPapersPage = ({
         items={[
           {
             label: "Research Papers",
-            current: true,
           },
         ]}
-        className="py-8"
       />
 
       {/* Main Content */}

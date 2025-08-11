@@ -1,6 +1,17 @@
+// URL validation helper function
+const isValidUrl = (url: string): boolean => {
+  try {
+    new URL(url);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export interface CourseFormData {
   title: string;
   description: string;
+  curriculum: string;
   location: string;
   offlineLocation?: string;
   duration: string;
@@ -16,6 +27,7 @@ export interface CourseFormData {
   language: string;
   certificate: boolean;
   lifetimeAccess: boolean;
+  enrollLink: string;
   thumbnail: File | null;
   instructors: Array<{
     name: string;
@@ -58,6 +70,19 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
     errors.push({
       field: "description",
       message: "Course description must be at least 20 characters",
+    });
+  }
+
+  // Curriculum validation
+  if (!data.curriculum.trim()) {
+    errors.push({
+      field: "curriculum",
+      message: "Course curriculum is required",
+    });
+  } else if (data.curriculum.length < 50) {
+    errors.push({
+      field: "curriculum",
+      message: "Course curriculum must be at least 50 characters",
     });
   }
 
@@ -202,6 +227,19 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
           message: "Requirement cannot be empty",
         });
       }
+    });
+  }
+
+  // Enroll link validation
+  if (!data.enrollLink.trim()) {
+    errors.push({
+      field: "enrollLink",
+      message: "Enroll link is required",
+    });
+  } else if (!isValidUrl(data.enrollLink)) {
+    errors.push({
+      field: "enrollLink",
+      message: "Please enter a valid URL for the enroll link",
     });
   }
 
