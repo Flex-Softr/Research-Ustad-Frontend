@@ -21,7 +21,7 @@ const CourseSidebar = ({ course }) => {
         <div className="relative overflow-hidden rounded-t-2xl">
           <div className="relative h-48">
             <Image
-              src={imageError ? "/placeholder-course.jpg" : course.imageUrl}
+              src={imageError ? "https://www.shutterstock.com/image-photo/hands-typing-on-laptop-programming-600nw-2480023489.jpg" : course.imageUrl}
               alt={course.title}
               fill
               sizes="(max-width: 768px) 100vw, 400px"

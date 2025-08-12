@@ -35,14 +35,14 @@ const InstructorTab = ({ course }) => {
           >
             <div className="relative">
               <Image
-                src={instructor.imageUrl || "/placeholder-instructor.jpg"}
+                src={instructor.imageUrl || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
                 alt={instructor.name}
                 width={80}
                 height={80}
                 className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder-instructor.jpg";
+                  target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
                 }}
               />
             </div>

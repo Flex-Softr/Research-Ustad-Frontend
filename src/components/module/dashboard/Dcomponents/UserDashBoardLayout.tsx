@@ -333,14 +333,14 @@ const UserDashBoardLayout = () => {
             <div className="text-center">
               <div className="relative w-20 h-20 mx-auto mb-4">
                 <Image
-                  src={user?.image || "/placeholder-instructor.jpg"}
+                  src={user?.image || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
                   alt="Profile"
                   width={80}
                   height={80}
                   className="rounded-full object-cover border-4 w-20 h-20 border-blue-100"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "/placeholder-instructor.jpg";
+                    target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
                   }}
                 />
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>

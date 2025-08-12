@@ -218,14 +218,14 @@ const AllCoursesTable = ({
                         <div className="flex items-center space-x-3">
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                             <Image
-                              src={course.imageUrl || "/placeholder-course.jpg"}
+                              src={course.imageUrl || "https://www.shutterstock.com/image-photo/hands-typing-on-laptop-programming-600nw-2480023489.jpg"}
                               alt={course.title}
                               fill
                               sizes="48px"
                               className="object-cover"
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
-                                target.src = "/placeholder-course.jpg";
+                                target.src = "https://www.shutterstock.com/image-photo/hands-typing-on-laptop-programming-600nw-2480023489.jpg";
                               }}
                             />
                           </div>

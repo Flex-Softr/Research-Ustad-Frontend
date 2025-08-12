@@ -17,14 +17,14 @@ const ProfileDetails = ({data,currentUser}:{data:TPapers[],currentUser:TResearch
   <div className="lg:w-1/4 bg-gradient-to-b from-[#f9f9f9] via-gray-50 to-gray-100 p-8 flex flex-col items-center text-center space-y-6">
     <div className="relative w-40 h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-[#bc986b] shadow-md">
       <Image
-        src={currentUser?.profileImg || "/placeholder-instructor.jpg"}
+        src={currentUser?.profileImg || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
         alt="Profile"
         width={400}
         height={400}
         className="w-full h-full object-cover"
         onError={(e) => {
           const target = e.target as HTMLImageElement;
-          target.src = "/placeholder-instructor.jpg";
+          target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
         }}
       />
     </div>

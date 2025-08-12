@@ -31,14 +31,14 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
           <div className="flex-shrink-0">
             <div className="relative">
               <Image
-                src={member.profileImg || "/placeholder-instructor.jpg"}
+                src={member.profileImg || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
                 alt={member.fullName}
                 width={200}
                 height={200}
                 className="object-cover w-48 h-48 rounded-full ring-4 ring-gray-200 shadow-lg"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  target.src = "/placeholder-instructor.jpg";
+                  target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
                 }}
               />
               <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-secondary rounded-full flex items-center justify-center">

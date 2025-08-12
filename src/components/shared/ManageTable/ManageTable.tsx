@@ -261,13 +261,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
           </Link>
         )}
 
-        {isvalue === "researhMembar" && (
-          <Link href={`members/${item?._id}`}>
-            <Button variant="outline" size="sm">
-              <Edit className="w-4 h-4" />
-            </Button>
-          </Link>
-        )}
+
 
         {/* Approve/Reject Buttons for Papers */}
         {isvalue === "paperadmin" && (

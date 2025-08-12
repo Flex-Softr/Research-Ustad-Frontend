@@ -12,7 +12,7 @@ const ResearchMembar = ({ associate }: { associate: any }) => {
       <div className="flex justify-center">
         <img
           className="object-cover w-24 h-24 rounded-full ring-4 ring-gray-300 transition-transform duration-300 hover:scale-105"
-          src={associate.profileImg || "https://via.placeholder.com/150"}
+          src={associate.profileImg || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
           alt={associate.fullName}
         />
       </div>

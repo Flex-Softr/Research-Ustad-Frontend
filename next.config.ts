@@ -35,6 +35,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "api.researchustad.org",
       },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com", // <-- Add this
+      },
     ],
   },
 };
