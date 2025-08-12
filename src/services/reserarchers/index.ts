@@ -3,10 +3,15 @@
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { api } from "@/config";
+import { getResearchMemberEndpoints } from "@/config/apiEndpoints";
+import { ApiErrorHandler, handleNetworkError } from "@/utils/apiErrorHandler";
+
+// Get endpoints based on configuration
+const ENDPOINTS = getResearchMemberEndpoints();
 
 export const GetAllResearchAssociate = async () => {
   try {
-    const response = await fetch(`${api.baseUrl}/researchAssociate`, {
+    const response = await fetch(ENDPOINTS.getAll, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -16,29 +21,22 @@ export const GetAllResearchAssociate = async () => {
       },
     });
 
-    if (!response.ok) {
-      console.error(`Request failed with status: ${response.status}`);
-      return { data: [] };
-    }
-
-    const result = await response.json();
-    return result;
+    return await ApiErrorHandler.handleApiResponse(response, "fetch research associates");
   } catch (error) {
-    console.error("Error fetching research associates:", error);
+    const apiError = handleNetworkError(error, "fetch research associates");
+    console.error("Error fetching research associates:", apiError);
     return { data: [] };
   }
 };
+
 export const GetSingleMember = async (id: string) => {
   try {
-    const response = await fetch(
-      `${api.baseUrl}/researchAssociate/singleGe/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(ENDPOINTS.getSingle(id), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
@@ -50,6 +48,7 @@ export const GetSingleMember = async (id: string) => {
     return null;
   }
 };
+
 export const GetSinglePersonalMember = async () => {
   try {
     const token = (await cookies()).get("accessToken")?.value;
@@ -57,7 +56,8 @@ export const GetSinglePersonalMember = async () => {
     if (!token) {
       throw new Error("Access token not found");
     }
-    const response = await fetch(`${api.baseUrl}/researchAssociate/singleGet`, {
+    
+    const response = await fetch(ENDPOINTS.getPersonal, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -81,65 +81,78 @@ export const GetSinglePersonalMember = async () => {
 };
 
 export const DeleteMember = async (id: string) => {
-  console.log(id);
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
-    const response = await fetch(`${api.baseUrl}/researchAssociate/${id}`, {
+    
+    const response = await fetch(ENDPOINTS.delete(id), {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
     });
+    
     revalidateTag("member");
     return await response.json();
   } catch (error) {
-    console.error("Error delete memeber:", error);
+    console.error("Error deleting member:", error);
     return null;
   }
 };
+
 export const UpdateMember = async (id: string, data: any) => {
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
-    const response = await fetch(`${api.baseUrl}/researchAssociate/${id}`, {
+    
+    const response = await fetch(ENDPOINTS.update(id), {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
-      body: data,
+      body: JSON.stringify(data),
     });
+    
     return await response.json();
   } catch (error) {
-    console.error("Error delete memeber:", error);
+    console.error("Error updating member:", error);
     return null;
   }
 };
+
 export const UpdatePersonalMember = async (data: any, file?: File) => {
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
-    console.log(token);
     
-    const formData = new FormData();
-    formData.append('data', data);
+    let response;
     
     if (file) {
+      // If there's a file, use FormData
+      const formData = new FormData();
+      formData.append('data', JSON.stringify(data));
       formData.append('file', file);
-    }
-    
-    const response = await fetch(
-      `${api.baseUrl}/researchAssociate/MembarUpdate`,
-      {
+      
+      response = await fetch(ENDPOINTS.updatePersonal, {
         method: "PUT",
         headers: {
           Authorization: token,
         },
         body: formData,
-      }
-    );
+      });
+    } else {
+      // If no file, send JSON directly
+      response = await fetch(ENDPOINTS.updatePersonal, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(data),
+      });
+    }
     
     const result = await response.json();
     
@@ -155,3 +168,8 @@ export const UpdatePersonalMember = async (data: any, file?: File) => {
     return null;
   }
 };
+
+// Legacy function names for backward compatibility
+export const GetAllResearchMembers = GetAllResearchAssociate;
+export const GetResearchMemberById = GetSingleMember;
+export const GetCurrentUserProfile = GetSinglePersonalMember;

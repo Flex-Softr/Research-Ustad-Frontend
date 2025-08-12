@@ -13,6 +13,35 @@ export interface TUser {
   updatedAt: string;
   __v: number;
   passwordChangedAt?: string;
+  // Research member fields (consolidated from MemberData)
+  contactNo?: string;
+  shortBio?: string;
+  current?: {
+    institution?: string;
+    department?: string;
+    degree?: string;
+    inst_designation?: string;
+  };
+  education?: {
+    degree?: string;
+    field?: string;
+    institution?: string;
+    status?: string;
+    scholarship?: string;
+  };
+  research?: string[];
+  socialLinks?: {
+    google_scholar?: string;
+    researchgate?: string;
+    linkedin?: string;
+  };
+  expertise?: string[];
+  awards?: string[];
+  conferences?: Array<{
+    name?: string;
+    role?: string;
+    topic?: string;
+  }>;
 }
 
 export interface UserProfile {
@@ -61,7 +90,7 @@ export interface TResearchAssociate {
     degree: string;
     field: string;
     institution: string;
-    status: "Ongoing" | "Completed";
+    status?: "Ongoing" | "Completed";
     scholarship: string;
   };
   socialLinks: {

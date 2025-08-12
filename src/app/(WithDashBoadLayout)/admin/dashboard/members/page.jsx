@@ -6,6 +6,8 @@ const page = async () => {
   try {
     const response = await GetAllResearchAssociate()
     const data = response?.data || []
+
+    console.log("all members", data)
     
     return (
       <div className="p-4">

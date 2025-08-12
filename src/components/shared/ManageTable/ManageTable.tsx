@@ -40,6 +40,8 @@ interface ManageTableProps {
   onDelete?: (id: string) => void;
   onApprove?: (id: string) => void;
   onReject?: (id: string) => void;
+  customRenderCell?: (column: Column, item: DataItem) => React.ReactNode | null;
+  customActions?: (item: DataItem) => React.ReactNode;
 }
 
 const ManageTable: React.FC<ManageTableProps> = ({
@@ -50,6 +52,8 @@ const ManageTable: React.FC<ManageTableProps> = ({
   onApprove,
   onReject,
   isvalue,
+  customRenderCell,
+  customActions,
 }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -137,6 +141,210 @@ const ManageTable: React.FC<ManageTableProps> = ({
     return <TableSkeleton />;
   }
 
+  const renderCellContent = (column: Column, item: DataItem) => {
+    // Check for custom rendering first
+    if (customRenderCell) {
+      const customContent = customRenderCell(column, item);
+      if (customContent !== null) {
+        return customContent;
+      }
+    }
+
+    // Default rendering logic
+    const cellValue = column.value
+      .split(".")
+      .reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item);
+
+    if (column.value === "visitLink") {
+      return (
+        <a
+          href={cellValue}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline"
+        >
+          Visit
+        </a>
+      );
+    }
+
+    if (column.value === "publishedDate" ||
+      column.value === "createdAt" ||
+      column.value === "updatedAt") {
+      return formatDate(cellValue);
+    }
+
+    if (column.value === "category") {
+      return (
+        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+          {cellValue || "Uncategorized"}
+        </span>
+      );
+    }
+
+    if (column.value === "role") {
+      return (
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            item.role === "superAdmin"
+              ? "bg-purple-100 text-purple-800"
+              : item.role === "admin"
+              ? "bg-green-100 text-green-800"
+              : "bg-gray-100 text-gray-800"
+          }`}
+        >
+          {item.role}
+        </span>
+      );
+    }
+
+    if (column.value === "isApproved") {
+      return (
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            item.isApproved
+              ? "bg-green-100 text-green-800"
+              : "bg-yellow-100 text-yellow-800"
+          }`}
+        >
+          {item.isApproved ? "Approved" : "Pending"}
+        </span>
+      );
+    }
+
+    if (column.value === "title") {
+      return (
+        <div className="max-w-[200px]">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="text-sm cursor-help line-clamp-2">
+                {cellValue?.length > 35
+                  ? cellValue?.substring(0, 35) + "..."
+                  : cellValue}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="max-w-[300px]">{cellValue}</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      );
+    }
+
+    return cellValue;
+  };
+
+  const renderActions = (item: DataItem) => {
+    // Check for custom actions first
+    if (customActions) {
+      return customActions(item);
+    }
+
+    // Default actions logic
+    return (
+      <div className="flex gap-2">
+        {/* View Button */}
+        {isvalue === "blog" && (
+          <Link href={`/blog/${item._id}`}>
+            <Button variant="outline" size="sm">
+              <Eye className="w-4 h-4" />
+            </Button>
+          </Link>
+        )}
+
+        {/* Edit Button */}
+        {isvalue === "blog" && (
+          <Link href={`/admin/dashboard/editblog/${item._id}`}>
+            <Button variant="outline" size="sm">
+              <Edit className="w-4 h-4" />
+            </Button>
+          </Link>
+        )}
+
+        {isvalue === "researhMembar" && (
+          <Link href={`members/${item?._id}`}>
+            <Button variant="outline" size="sm">
+              <Edit className="w-4 h-4" />
+            </Button>
+          </Link>
+        )}
+
+        {/* Approve/Reject Buttons for Papers */}
+        {isvalue === "paperadmin" && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleApprove(item._id)}
+              className={`px-2 py-1 cursor-pointer transition border rounded-md ${
+                item.isApproved
+                  ? "bg-green-500 text-white"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
+              disabled={item.isApproved}
+            >
+              {item.isApproved ? "Approved" : "Approve"}
+            </button>
+            {!item.isApproved && onReject && (
+              <button
+                onClick={() => onReject(item._id)}
+                className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
+              >
+                Reject
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Pending Papers - Approve/Reject */}
+        {isvalue === "pendingPaper" && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleApprove(item._id)}
+              className="px-2 py-1 cursor-pointer transition border rounded-md bg-green-500 text-white hover:bg-green-600"
+            >
+              Approve
+            </button>
+            <button
+              onClick={() => onReject && onReject(item._id)}
+              className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
+            >
+              Reject
+            </button>
+          </div>
+        )}
+
+        {/* Role Change Button */}
+        {isvalue == "userRole" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleRoleChange(item?._id, item?.role)}
+          >
+            <ShieldCheck className="w-4 h-4" />{" "}
+            {item.role === "admin"
+              ? "Promot to User"
+              : "Promote to Admin"}
+          </Button>
+        )}
+
+        {/* Delete Button */}
+        {(isvalue === "paperadmin" ||
+          isvalue === "researhMembar" ||
+          isvalue === "blog") &&
+          onDelete && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onDelete(item._id)}
+              className="text-red-500 hover:text-red-700 hover:bg-red-50"
+              title="Delete"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          )}
+      </div>
+    );
+  };
+
   return (
     <div className="bg-white border rounded-md p-4">
       {/* Search and Filter Section */}
@@ -190,206 +398,11 @@ const ManageTable: React.FC<ManageTableProps> = ({
               <TableRow key={index}>
                 {columns?.map((column, idx) => (
                   <TableCell key={idx}>
-                    {column.value === "visitLink" ? (
-                      <a
-                        href={item[column.value]}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline"
-                      >
-                        Visit
-                      </a>
-                    ) : column.value === "publishedDate" ||
-                      column.value === "createdAt" ||
-                      column.value === "updatedAt" ? (
-                      formatDate(
-                        column.value
-                          .split(".")
-                          .reduce(
-                            (o: any, k: string) => (o?.[k] ? o[k] : ""),
-                            item
-                          )
-                      )
-                    ) : column.value === "category" ? (
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                        {column.value
-                          .split(".")
-                          .reduce(
-                            (o: any, k: string) => (o?.[k] ? o[k] : ""),
-                            item
-                          ) || "Uncategorized"}
-                      </span>
-                    ) : column.value === "role" ? (
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          item.role === "superAdmin"
-                            ? "bg-purple-100 text-purple-800"
-                            : item.role === "admin"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {item.role}
-                      </span>
-                    ) : column.value === "isApproved" ? (
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          item.isApproved
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
-                      >
-                        {item.isApproved ? "Approved" : "Pending"}
-                      </span>
-                    ) : column.value === "title" ? (
-                      <div className="max-w-[200px]">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span className="text-sm cursor-help line-clamp-2">
-                              {column.value
-                                .split(".")
-                                .reduce(
-                                  (o: any, k: string) => (o?.[k] ? o[k] : ""),
-                                  item
-                                )?.length > 35
-                                ? column.value
-                                    .split(".")
-                                    .reduce(
-                                      (o: any, k: string) =>
-                                        o?.[k] ? o[k] : "",
-                                      item
-                                    )
-                                    ?.substring(0, 35) + "..."
-                                : column.value
-                                    .split(".")
-                                    .reduce(
-                                      (o: any, k: string) =>
-                                        o?.[k] ? o[k] : "",
-                                      item
-                                    )}
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p className="max-w-[300px]">
-                              {column.value
-                                .split(".")
-                                .reduce(
-                                  (o: any, k: string) => (o?.[k] ? o[k] : ""),
-                                  item
-                                )}
-                            </p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    ) : (
-                      column.value
-                        .split(".")
-                        .reduce(
-                          (o: any, k: string) => (o?.[k] ? o[k] : ""),
-                          item
-                        )
-                    )}
+                    {renderCellContent(column, item)}
                   </TableCell>
                 ))}
-                <TableCell className="flex gap-2">
-                  {/* View Button */}
-                  {isvalue === "blog" && (
-                    <Link href={`/blog/${item._id}`}>
-                      <Button variant="outline" size="sm">
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                    </Link>
-                  )}
-
-                  {/* Edit Button */}
-                  {isvalue === "blog" && (
-                    <Link href={`/admin/dashboard/editblog/${item._id}`}>
-                      <Button variant="outline" size="sm">
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                    </Link>
-                  )}
-
-                  {isvalue === "researhMembar" && (
-                    <Link href={`members/${item?._id}`}>
-                      <Button variant="outline" size="sm">
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                    </Link>
-                  )}
-
-                  {/* Approve/Reject Buttons for Papers */}
-                  {isvalue === "paperadmin" && (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleApprove(item._id)}
-                        className={`px-2 py-1 cursor-pointer transition border rounded-md ${
-                          item.isApproved
-                            ? "bg-green-500 text-white"
-                            : "bg-blue-500 text-white hover:bg-blue-600"
-                        }`}
-                        disabled={item.isApproved}
-                      >
-                        {item.isApproved ? "Approved" : "Approve"}
-                      </button>
-                      {!item.isApproved && onReject && (
-                        <button
-                          onClick={() => onReject(item._id)}
-                          className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
-                        >
-                          Reject
-                        </button>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Pending Papers - Approve/Reject */}
-                  {isvalue === "pendingPaper" && (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleApprove(item._id)}
-                        className="px-2 py-1 cursor-pointer transition border rounded-md bg-green-500 text-white hover:bg-green-600"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => onReject && onReject(item._id)}
-                        className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
-                      >
-                        Reject
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Role Change Button */}
-                  {isvalue == "userRole" && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleRoleChange(item?._id, item?.role)}
-                    >
-                      <ShieldCheck className="w-4 h-4" />{" "}
-                      {item.role === "admin"
-                        ? "Promot to User"
-                        : "Promote to Admin"}
-                    </Button>
-                  )}
-
-                  {/* Delete Button */}
-                  {(isvalue === "paperadmin" ||
-                    isvalue === "researhMembar" ||
-                    isvalue === "blog") &&
-                    onDelete && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => onDelete(item._id)}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    )}
+                <TableCell>
+                  {renderActions(item)}
                 </TableCell>
               </TableRow>
             ))}

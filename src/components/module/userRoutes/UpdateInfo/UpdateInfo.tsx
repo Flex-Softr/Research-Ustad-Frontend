@@ -1,15 +1,15 @@
 "use client";
 import {
-  GetSinglePersonalMember,
   UpdatePersonalMember,
 } from "@/services/reserarchers";
+import { GetMe } from "@/services/singleUser";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { useForm } from "react-hook-form";
-import { UpdateInfoFormData, MemberData, Conference } from "@/type";
+import { UpdateInfoFormData, Conference } from "@/type";
 import {
   BasicInformationSection,
   CurrentInstitutionSection,
@@ -24,7 +24,7 @@ import { useUserStatus } from "@/hooks/useUserStatus";
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setMember] = useState<MemberData | null>(null);
+  const [data, setMember] = useState<any>(null);
   const [expertiseList, setExpertiseList] = useState<string[]>([]);
   const [awardsList, setAwardsList] = useState<string[]>([]);
   const [conferencesList, setConferencesList] = useState<Conference[]>([]);
@@ -55,7 +55,7 @@ const UpdateInfo = () => {
       educationDegree: "",
       educationField: "",
       educationInstitution: "",
-      educationStatus: "Ongoing",
+      educationStatus: "",
       scholarship: "",
       linkedin: "",
       researchgate: "",
@@ -134,14 +134,15 @@ const UpdateInfo = () => {
     const fetchMember = async () => {
       setLoading(true);
       try {
-        const { data } = await GetSinglePersonalMember();
+        const userResult = await GetMe();
+        const data = userResult?.data;
         setMember(data);
 
         // Basic Information
         setValue("fullName", data?.fullName || "");
         setValue("contactNo", data?.contactNo || "");
         setValue("designation", data?.designation || "");
-        setValue("profileImg", data?.profileImg || "");
+        setValue("profileImg", data?.image || ""); // GetMe returns 'image' instead of 'profileImg'
         setValue("shortBio", data?.shortBio || "");
 
         // Current Institution
@@ -157,7 +158,7 @@ const UpdateInfo = () => {
         setValue("educationDegree", data?.education?.degree || "");
         setValue("educationField", data?.education?.field || "");
         setValue("educationInstitution", data?.education?.institution || "");
-        setValue("educationStatus", data?.education?.status || "Ongoing");
+        setValue("educationStatus", data?.education?.status || "");
         setValue("scholarship", data?.education?.scholarship || "");
 
         // Social Links
@@ -210,61 +211,59 @@ const UpdateInfo = () => {
     setLoading(true);
 
     const payload = {
-      ResearchMembar: {
-        // Basic Information - allow empty strings
-        fullName: formData.fullName ?? "",
-        contactNo: formData.contactNo ?? "",
-        designation: formData.designation ?? "",
-        profileImg: formData.profileImg ?? "",
-        shortBio: formData.shortBio ?? "",
-        isDeleted: formData.isDeleted ?? false,
+      // Basic Information - allow empty strings
+      fullName: formData.fullName ?? "",
+      contactNo: formData.contactNo ?? "",
+      designation: formData.designation ?? "",
+      image: formData.profileImg ?? "", // Use 'image' field for backend
+      shortBio: formData.shortBio ?? "",
+      isDeleted: formData.isDeleted ?? false,
 
-        // Current Institution - allow empty strings
-        current: {
-          inst_designation: formData.currentInstDesignation ?? "",
-          institution: formData.currentInstitution ?? "",
-          department: formData.currentDepartment ?? "",
-          degree: formData.currentDegree ?? "",
-        },
-
-        // Education - allow empty strings
-        education: {
-          degree: formData.educationDegree ?? "",
-          field: formData.educationField ?? "",
-          institution: formData.educationInstitution ?? "",
-          status: formData.educationStatus ?? "Ongoing",
-          scholarship: formData.scholarship ?? "",
-        },
-
-        // Keep existing research data
-        research: data?.research || [],
-
-        // Social Links - allow empty strings
-        socialLinks: {
-          linkedin: formData.linkedin ?? "",
-          researchgate: formData.researchgate ?? "",
-          google_scholar: formData.googleScholar ?? "",
-        },
-
-        // Expertise - allow empty arrays or filter empty strings
-        expertise: formData.expertise ? formData.expertise.filter((item) => item.trim().length > 0) : [],
-
-        // Awards - allow empty arrays or filter empty strings
-        awards: formData.awards ? formData.awards.filter((item) => item.trim().length > 0) : [],
-
-        // Conferences - allow empty arrays or filter empty conferences
-        conferences: formData.conferences
-          ? formData.conferences.filter(
-              (conf) =>
-                conf.name?.trim() || conf.role?.trim() || conf.topic?.trim()
-            )
-          : [],
+      // Current Institution - allow empty strings
+      current: {
+        inst_designation: formData.currentInstDesignation ?? "",
+        institution: formData.currentInstitution ?? "",
+        department: formData.currentDepartment ?? "",
+        degree: formData.currentDegree ?? "",
       },
+
+      // Education - allow empty strings
+      education: {
+        degree: formData.educationDegree ?? "",
+        field: formData.educationField ?? "",
+        institution: formData.educationInstitution ?? "",
+        status: formData.educationStatus ?? "",
+        scholarship: formData.scholarship ?? "",
+      },
+
+      // Keep existing research data
+      research: data?.research || [],
+
+      // Social Links - allow empty strings
+      socialLinks: {
+        linkedin: formData.linkedin ?? "",
+        researchgate: formData.researchgate ?? "",
+        google_scholar: formData.googleScholar ?? "",
+      },
+
+      // Expertise - allow empty arrays or filter empty strings
+      expertise: formData.expertise ? formData.expertise.filter((item) => item.trim().length > 0) : [],
+
+      // Awards - allow empty arrays or filter empty strings
+      awards: formData.awards ? formData.awards.filter((item) => item.trim().length > 0) : [],
+
+      // Conferences - allow empty arrays or filter empty conferences
+      conferences: formData.conferences
+        ? formData.conferences.filter(
+            (conf) =>
+              conf.name?.trim() || conf.role?.trim() || conf.topic?.trim()
+          )
+        : [],
     };
 
     try {
       console.log("Sending payload:", payload);
-      const res = await UpdatePersonalMember(JSON.stringify(payload), selectedFile);
+      const res = await UpdatePersonalMember(payload, selectedFile);
       if (res.success === true) {
         toast.success("Member updated successfully!");
         setLoading(false);
@@ -294,7 +293,7 @@ const UpdateInfo = () => {
             errors={errors} 
             selectedFile={selectedFile}
             onFileChange={setSelectedFile}
-            currentProfileImg={data?.profileImg}
+            currentProfileImg={data?.image}
           />
 
           {/* Current Institution Section */}

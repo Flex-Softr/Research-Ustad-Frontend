@@ -28,9 +28,10 @@ interface PersonalData {
 interface User {
   _id: string;
   email: string;
-  name?: string;
+  fullName?: string;
   role: string;
-  profileImg?: string;
+  image?: string;
+  designation?: string;
 }
 
 interface ResearchPaper {
@@ -196,7 +197,7 @@ const UserDashBoardLayout = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
-              Welcome back, {user?.name || user?.email?.split('@')[0] || 'Researcher'}!
+              Welcome back, {user?.fullName || user?.email?.split('@')[0] || 'Researcher'}!
             </h1>
             <p className="text-blue-100 text-lg">
               Here's what's happening with your research today
@@ -332,11 +333,11 @@ const UserDashBoardLayout = () => {
             <div className="text-center">
               <div className="relative w-20 h-20 mx-auto mb-4">
                 <Image
-                  src={user?.profileImg || "/placeholder-instructor.jpg"}
+                  src={user?.image || "/placeholder-instructor.jpg"}
                   alt="Profile"
                   width={80}
                   height={80}
-                  className="rounded-full object-cover border-4 border-blue-100"
+                  className="rounded-full object-cover border-4 w-20 h-20 border-blue-100"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = "/placeholder-instructor.jpg";
@@ -345,9 +346,12 @@ const UserDashBoardLayout = () => {
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
               <h3 className="font-bold text-gray-900 text-lg">
-                {user?.name || user?.email?.split('@')[0] || 'Researcher'}
+                {user?.fullName || user?.email?.split('@')[0] || 'Researcher'}
               </h3>
-              <p className="text-gray-600 capitalize">{user?.role}</p>
+              {/* <p className="text-gray-600 capitalize">{user?.role}</p> */}
+              {user?.designation && (
+                <p className="text-sm text-gray-500">{user.designation}</p>
+              )}
               <p className="text-sm text-gray-500 mt-1">{user?.email}</p>
             </div>
             <div className="mt-6 pt-6 border-t border-gray-200">

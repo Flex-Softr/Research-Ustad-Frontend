@@ -30,6 +30,7 @@ export const GetAllResearchPaper = async () => {
     return null;
   }
 };
+
 export const GetAllResearchPaperMy = async () => {
   try {
     const cookieStore = await cookies();
@@ -55,6 +56,59 @@ export const GetAllResearchPaperMy = async () => {
     return null;
   }
 };
+
+export const GetSingleResearchPaper = async (id: string) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/paper/personalPapers/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      next: {
+        tags: ["singlePaper"],
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching single research paper:", error);
+    return null;
+  }
+};
+
+export const UpdateResearchPaper = async (id: string, formData: any) => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/paper/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `Request failed with status: ${response.status}`);
+    }
+
+    revalidateTag("paper");
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating research paper:", error);
+    throw error;
+  }
+};
+
 export const GetResearchPaperById = async (id: string) => {
   try {
     const response = await fetch(`${api.baseUrl}/paper/personalPapers/${id}`, {
@@ -77,6 +131,7 @@ export const GetResearchPaperById = async (id: string) => {
     return null;
   }
 };
+
 export const MyResearchPaper = async () => {
   try {
     const cookieStore = await cookies();
@@ -102,6 +157,7 @@ export const MyResearchPaper = async () => {
     return null;
   }
 };
+
 export const MyCourse = async () => {
   try {
     const response = await fetch(`${api.baseUrl}/course`, {
@@ -121,6 +177,7 @@ export const MyCourse = async () => {
     return null;
   }
 };
+
 export const GetAllResearchPaperPublic = async () => {
   try {
     const response = await fetch(`${api.baseUrl}/paper/public`, {
@@ -204,6 +261,7 @@ export const RejectPaper = async (id: string) => {
     return null;
   }
 };
+
 export const DeletePaper = async (id: string) => {
   console.log(id);
   try {

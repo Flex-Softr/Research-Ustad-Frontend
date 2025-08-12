@@ -81,7 +81,7 @@ const UpdateForm: React.FC<Props> = ({ id }) => {
         setValue("educationDegree", data?.education?.degree || "");
         setValue("educationField", data?.education?.field || "");
         setValue("educationInstitution", data?.education?.institution || "");
-        setValue("educationStatus", data?.education?.status || "Ongoing");
+        setValue("educationStatus", data?.education?.status || "");
         setValue("scholarship", data?.education?.scholarship || "");
         setValue("shortBio", data?.shortBio || "N/A");
         setValue("researchgate", data?.socialLinks?.google_scholar || "");
