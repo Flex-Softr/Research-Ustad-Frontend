@@ -3,8 +3,8 @@ import UserDashBoardLayout from "@/components/module/dashboard/Dcomponents/UserD
 
 export default function UserDashboard() {
   return (
-    <div className=" ">
-     <UserDashBoardLayout/>
+    <div className="min-h-screen bg-gray-50">
+      <UserDashBoardLayout />
     </div>
   );
 }

@@ -54,3 +54,55 @@ export const GetAllInfoAdmin = async () => {
     return null;
   }
 };
+
+export const GetUserBlogs = async () => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/blog/author`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      next: {
+        tags: ["userBlogs"],
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user blogs:", error);
+    return null;
+  }
+};
+
+export const GetUserActivityData = async () => {
+  try {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/users/activity-data`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      next: {
+        tags: ["userActivity"],
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user activity data:", error);
+    return null;
+  }
+};
