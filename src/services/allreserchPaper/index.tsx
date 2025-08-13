@@ -1,9 +1,10 @@
 "use server";
 
-import { ResearchPaperFormData } from "@/components/module/common/ResearchPaperForm/ResearchPaperForm";
+
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { api } from "@/config";
+import { ResearchPaperFormData } from "@/components/module/common/ResearchPaperForm/types";
 
 export const GetAllResearchPaper = async () => {
   try {
