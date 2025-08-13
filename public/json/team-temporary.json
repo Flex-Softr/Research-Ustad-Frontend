@@ -29,22 +29,58 @@
             },
             "publications": [
                 {
-                    "id": "pub1",
-                    "title": "Deep Learning Approaches for Natural Language Processing",
-                    "journal": "Nature Machine Intelligence",
+                    "_id": "rp001",
                     "year": 2024,
-                    "citations": 156,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "title": "Advanced Machine Learning Algorithms for Predictive Analytics in Healthcare",
+                    "authors": [
+                        "Dr. Sarah Johnson",
+                        "Prof. Michael Chen",
+                        "Dr. Emily Rodriguez"
+                    ],
+                    "journal": "Journal of Medical Informatics",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/medical-informatics-2024-001",
+                    "isApproved": true,
+                    "abstract": "This study presents novel machine learning approaches for predicting patient outcomes in critical care settings. Our algorithms achieve 94% accuracy in predicting 30-day mortality rates.",
+                    "keywords": [
+                        "Machine Learning",
+                        "Healthcare",
+                        "Predictive Analytics",
+                        "Critical Care"
+                    ],
+                    "citations": 45,
+                    "researchArea": "Artificial Intelligence",
+                    "funding": "National Institutes of Health",
+                    "createdAt": "2024-01-15T10:30:00Z",
+                    "updatedAt": "2024-03-20T14:45:00Z"
                 },
                 {
-                    "id": "pub2",
-                    "title": "Transformer Models in Computer Vision",
-                    "journal": "IEEE Transactions on Pattern Analysis",
-                    "year": 2023,
-                    "citations": 89,
-                    "papertype": "conference",
-                    "status": "Ongoing"
+                    "_id": "rp002",
+                    "year": 2024,
+                    "title": "Sustainable Energy Solutions: A Comprehensive Review of Renewable Technologies",
+                    "authors": [
+                        "Dr. Ahmed Hassan",
+                        "Prof. Lisa Thompson",
+                        "Dr. James Wilson"
+                    ],
+                    "journal": "Renewable Energy Reviews",
+                    "paperType": "journal",
+                    "status": "Ongoing",
+                    "visitLink": "https://doi.org/10.1000/renewable-energy-2024-002",
+                    "isApproved": true,
+                    "abstract": "This comprehensive review examines the latest developments in renewable energy technologies, focusing on solar, wind, and hydroelectric power systems.",
+                    "keywords": [
+                        "Renewable Energy",
+                        "Solar Power",
+                        "Wind Energy",
+                        "Sustainability"
+                    ],
+                    "citations": 78,
+                    "researchArea": "Environmental Science",
+                    "funding": "Department of Energy",
+                    "createdAt": "2024-02-10T09:15:00Z",
+                    "updatedAt": "2024-04-05T16:20:00Z"
                 }
             ],
             "blogs": [

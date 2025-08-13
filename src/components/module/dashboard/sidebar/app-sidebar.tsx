@@ -25,6 +25,7 @@ import {
   BookOpen,
   FolderOpen,
   Clock,
+  Crown,
 } from "lucide-react";
 
 import {
@@ -180,6 +181,11 @@ const adminRoute = {
         },
       ],
     },
+    {
+      title: "SuperAdmin Management",
+      url: "/admin/dashboard/superadmin",
+      icon: Crown,
+    },
   ],
   navSecondary: [
     {
@@ -315,9 +321,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   if (!user) return null;
 
+  // Create admin route with conditional SuperAdmin management
+  const adminRouteWithSuperAdmin = {
+    ...adminRoute,
+    navMain: user.role === "superAdmin" 
+      ? [...adminRoute.navMain]
+      : adminRoute.navMain.filter(item => item.title !== "SuperAdmin Management")
+  };
+
   const data =
     user.role === "superAdmin" || user.role === "admin"
-      ? adminRoute
+      ? adminRouteWithSuperAdmin
       : userRoute;
 
   return (
