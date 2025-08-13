@@ -18,10 +18,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const ResearchPapers = () => {
   const [data, setData] = useState<TPapers[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const pathname = usePathname();
+
+  // Determine if we're in admin or user dashboard
+  const isAdminDashboard = pathname.includes('/admin/dashboard');
+  const editRoute = isAdminDashboard 
+    ? `/admin/dashboard/edit-research-paper` 
+    : `/user/dashboard/edit-research-paper`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,10 +67,10 @@ const ResearchPapers = () => {
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
     { label: "Authors", value: "authors" },
-    { label: "Journal", value: "journal" },
-    { label: "Visit Link", value: "visitLink" },
     { label: "Paper Type", value: "paperType" },
-    { label: "Status", value: "isApproved" },
+    { label: "Status", value: "status" },
+    { label: "Approval", value: "isApproved" },
+    { label: "Visit Link", value: "visitLink" },
   ];
 
   return (
@@ -100,33 +108,29 @@ const ResearchPapers = () => {
             );
           }
           
-          // Custom rendering for title column
-          if (column.value === "title") {
-            const title = item.title || "";
-            const truncatedTitle = title.length > 50 ? title.substring(0, 50) + "..." : title;
+          // Custom rendering for status column
+          if (column.value === "status") {
+            const status = item.status || "ongoing";
+            const statusConfig = {
+              published: { label: "Published", className: "bg-green-100 text-green-800" },
+              ongoing: { label: "Ongoing", className: "bg-yellow-100 text-yellow-800" }
+            };
+            
+            const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.ongoing;
             
             return (
-              <div className="relative group">
-                <span className="text-sm text-gray-900 cursor-help">
-                  {truncatedTitle}
-                </span>
-                {title.length > 50 && (
-                  <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 max-w-xs">
-                    <div className="font-semibold mb-1">Full Title:</div>
-                    <div>{title}</div>
-                    <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
-                  </div>
-                )}
-              </div>
+              <span className={`px-2 py-1 text-xs font-medium rounded-full ${config.className}`}>
+                {config.label}
+              </span>
             );
           }
           
-          return null; // Use default rendering for other columns
+          return null; // Use default rendering for other columns including title
         }}
         customActions={(item) => (
           <div className="flex gap-2">
             {/* Edit Button */}
-            <Link href={`/user/dashboard/edit-research-paper/${item._id}`}>
+            <Link href={`${editRoute}/${item._id}`}>
               <Button variant="outline" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                 <Edit className="w-4 h-4" />
               </Button>

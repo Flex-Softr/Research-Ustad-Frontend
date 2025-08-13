@@ -63,12 +63,12 @@ const FilterSidebar = ({
               {
                 id: "published",
                 name: "Published",
-                count: papers.filter((p) => p.isApproved).length,
+                count: papers.filter((p) => p.status === "published").length,
               },
               {
                 id: "ongoing",
                 name: "Ongoing",
-                count: papers.filter((p) => !p.isApproved).length,
+                count: papers.filter((p) => p.status === "ongoing").length,
               },
             ].map((filter) => (
               <button

@@ -66,11 +66,11 @@ const ResearchPapersPage = ({
       const categoryMatch =
         filters.category === "all" || paper.researchArea === filters.category;
 
-      // Status filter (ongoing/published based on isApproved)
+      // Status filter (ongoing/published based on status)
       const statusMatch =
         filters.status === "all" ||
-        (filters.status === "published" && paper.isApproved) ||
-        (filters.status === "ongoing" && !paper.isApproved);
+        (filters.status === "published" && paper.status === "published") ||
+        (filters.status === "ongoing" && paper.status === "ongoing");
 
       // Year filter
       const yearMatch =

@@ -61,7 +61,7 @@ export const GetSingleResearchPaper = async (id: string) => {
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
-    const response = await fetch(`${api.baseUrl}/paper/personalPapers/${id}`, {
+    const response = await fetch(`${api.baseUrl}/paper/personalPaper/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -111,10 +111,13 @@ export const UpdateResearchPaper = async (id: string, formData: any) => {
 
 export const GetResearchPaperById = async (id: string) => {
   try {
-    const response = await fetch(`${api.baseUrl}/paper/personalPapers/${id}`, {
+    const cookieStore = await cookies();
+    let token = cookieStore.get("accessToken")!.value;
+    const response = await fetch(`${api.baseUrl}/paper/personalPaper/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
       next: {
         tags: ["singlePaper"],

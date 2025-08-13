@@ -177,11 +177,15 @@ export type TPapers = {
   journalRank: string;
   visitLink: string;
   paperType: "journal" | "conference";
+  status: "published" | "ongoing";
   isApproved: boolean;
+  abstract?: string;
+  keywords?: string[];
+  citations?: number;
   researchArea?: string;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-  __v: number;
+  funding?: string;
+  createdAt: string;
+  updatedAt: string
 };
 
 // JWT Payload interface

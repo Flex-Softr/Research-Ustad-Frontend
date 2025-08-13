@@ -14,6 +14,17 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { ApprovePaper, RejectPaper } from "@/services/allreserchPaper";
 import { PromoteRole } from "@/services/Users";
 import { ShieldCheck, Edit, Trash2, Eye } from "lucide-react";
@@ -58,6 +69,8 @@ const ManageTable: React.FC<ManageTableProps> = ({
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<DataItem | null>(null);
   const itemsPerPage = 10;
 
   // Format date function
@@ -75,6 +88,14 @@ const ManageTable: React.FC<ManageTableProps> = ({
     } catch (error) {
       return "Invalid Date";
     }
+  };
+
+  // Get item title for confirmation dialog
+  const getItemTitle = (item: DataItem) => {
+    if (item.title) return item.title;
+    if (item.name) return item.name;
+    if (item.fullName) return item.fullName;
+    return "this item";
   };
 
   // Filter data based on search term and category
@@ -189,6 +210,39 @@ const ManageTable: React.FC<ManageTableProps> = ({
       .split(".")
       .reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item);
 
+    if (column.value === "authors") {
+      const authors = cellValue || [];
+      const authorCount = authors.length;
+      const displayText = authorCount > 0 ? `${authorCount} author${authorCount > 1 ? 's' : ''}` : 'No authors';
+      
+      return (
+        <div className="relative group">
+          <span className="text-sm text-gray-600 cursor-help">
+            {displayText}
+          </span>
+          {authors.length > 0 && (
+            <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap max-w-xs">
+              <div className="font-semibold mb-1">Authors:</div>
+              {authors.map((author: string, index: number) => (
+                <div key={index} className="mb-1">
+                  {author}
+                </div>
+              ))}
+              <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    if (column.value === "paperType") {
+      return (
+        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium capitalize">
+          {cellValue || "N/A"}
+        </span>
+      );
+    }
+
     if (column.value === "visitLink") {
       return (
         <a
@@ -248,12 +302,12 @@ const ManageTable: React.FC<ManageTableProps> = ({
 
     if (column.value === "title") {
       return (
-        <div className="max-w-[200px]">
+        <div className="max-w-[150px]">
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="text-sm cursor-help line-clamp-2">
-                {cellValue?.length > 35
-                  ? cellValue?.substring(0, 35) + "..."
+                {cellValue?.length > 25
+                  ? cellValue?.substring(0, 25) + "..."
                   : cellValue}
               </span>
             </TooltipTrigger>
@@ -357,17 +411,49 @@ const ManageTable: React.FC<ManageTableProps> = ({
         {/* Delete Button */}
         {(isvalue === "paperadmin" ||
           isvalue === "researhMembar" ||
-          isvalue === "blog") &&
+          isvalue === "blog" ||
+          isvalue === "myresearch" ||
+          isvalue === "ongoingproject") &&
           onDelete && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onDelete(item._id)}
-              className="text-red-500 hover:text-red-700 hover:bg-red-50"
-              title="Delete"
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
+            <AlertDialog open={deleteDialogOpen && itemToDelete?._id === item._id} onOpenChange={setDeleteDialogOpen}>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setItemToDelete(item);
+                    setDeleteDialogOpen(true);
+                  }}
+                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  title="Delete"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Confirmation</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete "{getItemTitle(item)}"? This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      if (itemToDelete) {
+                        onDelete(itemToDelete._id);
+                        setItemToDelete(null);
+                      }
+                      setDeleteDialogOpen(false);
+                    }}
+                    className="bg-red-500 hover:bg-red-600"
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
       </div>
     );

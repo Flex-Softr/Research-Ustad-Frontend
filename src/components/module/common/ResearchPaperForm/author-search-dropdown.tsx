@@ -27,12 +27,17 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   className = ""
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(value || '');
   const [users, setUsers] = useState<User[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasLoadedAllUsers, setHasLoadedAllUsers] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Sync searchQuery with value prop when value changes (for edit mode)
+  useEffect(() => {
+    setSearchQuery(value || '');
+  }, [value]);
 
   // Load all users when component mounts
   useEffect(() => {

@@ -27,7 +27,13 @@ interface ResearchPaper {
   journalRank: string;
   visitLink: string;
   paperType: string;
+  status: "published" | "ongoing";
   isApproved: boolean;
+  abstract?: string;
+  keywords?: string[];
+  citations?: number;
+  researchArea?: string;
+  funding?: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -23,6 +23,11 @@ console.log(papers)
                 <p>Research Area: {paper.researchArea || 'General'}</p>
                 <p>Journal Rank: {paper.journalRank}</p>
                 <p>Volume: {paper.volume}</p>
+                <p>Status: <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  paper.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {paper.status === 'published' ? 'Published' : 'Ongoing'}
+                </span></p>
               </CardDescription>
             </div>
             <CardFooter className="p-4">
