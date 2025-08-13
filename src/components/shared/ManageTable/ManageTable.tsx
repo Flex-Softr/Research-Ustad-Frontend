@@ -14,7 +14,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ApprovePaper } from "@/services/allreserchPaper";
+import { ApprovePaper, RejectPaper } from "@/services/allreserchPaper";
 import { PromoteRole } from "@/services/Users";
 import { ShieldCheck, Edit, Trash2, Eye } from "lucide-react";
 import Link from "next/link";
@@ -104,12 +104,46 @@ const ManageTable: React.FC<ManageTableProps> = ({
   );
 
   const handleApprove = async (id: string) => {
-    if (onApprove) {
-      await onApprove(id);
-    } else {
-      console.log("Approving paper with ID:", id);
-      const res = await ApprovePaper(id);
-      console.log(res);
+    try {
+      if (onApprove) {
+        // Call the custom onApprove function if provided (parent handles approval)
+        await onApprove(id);
+      } else {
+        // Default approval logic (ManageTable handles approval)
+        console.log("Approving paper with ID:", id);
+        const res = await ApprovePaper(id);
+        if (res?.success) {
+          toast.success("Paper approved successfully!");
+        } else {
+          toast.error("Failed to approve paper");
+        }
+        console.log(res);
+      }
+    } catch (error) {
+      console.error("Error approving paper:", error);
+      toast.error("Failed to approve paper");
+    }
+  };
+
+  const handleReject = async (id: string) => {
+    try {
+      if (onReject) {
+        // Call the custom onReject function if provided (parent handles rejection)
+        await onReject(id);
+      } else {
+        // Default rejection logic (ManageTable handles rejection)
+        console.log("Rejecting paper with ID:", id);
+        const res = await RejectPaper(id);
+        if (res?.success) {
+          toast.success("Paper rejected successfully!");
+        } else {
+          toast.error("Failed to reject paper");
+        }
+        console.log(res);
+      }
+    } catch (error) {
+      console.error("Error rejecting paper:", error);
+      toast.error("Failed to reject paper");
     }
   };
 
@@ -277,9 +311,9 @@ const ManageTable: React.FC<ManageTableProps> = ({
             >
               {item.isApproved ? "Approved" : "Approve"}
             </button>
-            {!item.isApproved && onReject && (
+            {!item.isApproved && (
               <button
-                onClick={() => onReject(item._id)}
+                onClick={() => handleReject(item._id)}
                 className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
               >
                 Reject
@@ -298,7 +332,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
               Approve
             </button>
             <button
-              onClick={() => onReject && onReject(item._id)}
+              onClick={() => handleReject(item._id)}
               className="px-2 py-1 cursor-pointer transition border rounded-md bg-red-500 text-white hover:bg-red-600"
             >
               Reject

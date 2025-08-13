@@ -14,6 +14,9 @@ import { PostResearchPaper } from "@/services/allreserchPaper";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { getCurrentUser } from "@/services/AuthService";
+import { JWTPayload } from "@/type";
 
 export interface ResearchPaperFormData {
   year: number;
@@ -43,6 +46,7 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
     "",
   ]);
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const { register, handleSubmit, reset, setValue, watch } =
     useForm<ResearchPaperFormData>();
@@ -95,6 +99,21 @@ const ResearchPaperForm: React.FC<ResearchPaperFormProps> = ({
 
     try {
       const result = await PostResearchPaper(formData);
+      
+      // Get current user to determine role-based redirect
+      const userInfo = await getCurrentUser();
+      const userRole = (userInfo as JWTPayload)?.role;
+      
+      // Conditionally redirect based on user role
+      if (userRole === "admin" || userRole === "superAdmin") {
+        router.push("/admin/dashboard/myresearchpaper");
+      } else if (userRole === "user") {
+        router.push("/user/dashboard/mypapers");
+      } else {
+        // Fallback to admin route if role is not recognized
+        router.push("/admin/dashboard/myresearchpaper");
+      }
+      
       reset();
       setValue("paperType", ""); // Explicitly reset paperType
       console.log(result);
