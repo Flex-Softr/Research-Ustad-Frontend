@@ -8,7 +8,11 @@ interface OngoingPapersProps {
 }
 
 const OngoingPapers = ({ member }: OngoingPapersProps) => {
-  if (!member.ongoing || member.ongoing.length === 0) {
+  const ongoingPapers = member.publications?.filter(
+    (pub) => pub.status !== "published" && !pub.isApproved
+  ) || [];
+
+  if (ongoingPapers.length === 0) {
     return (
       <Card className="rounded-none border-0">
         <CardContent className="py-12">
@@ -27,12 +31,12 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
   }
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'under review':
+    switch (status) {
+      case 'Under Review':
         return "bg-blue-100 text-blue-800 border-blue-200";
-      case 'in preparation':
+      case 'In Preparation':
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case 'revision':
+      case 'Revision':
         return "bg-orange-100 text-orange-800 border-orange-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
@@ -50,16 +54,29 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     }
   };
 
+  const getProgressPercentage = (status: string) => {
+    switch (status) {
+      case 'In Preparation':
+        return 25;
+      case 'Under Review':
+        return 75;
+      case 'Revision':
+        return 85;
+      default:
+        return 50;
+    }
+  };
+
   return (
     <Card className="rounded-none border-0">
       <CardContent className="p-6">
         <div className="space-y-6">
-          {member.ongoing.map((paper, index) => (
+          {ongoingPapers.map((paper, index) => (
             <div
-              key={paper.id}
-              className="p-5 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white/50"
+              key={paper._id || index}
+              className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white/50"
             >
-              <div className="flex flex-col space-y-3">
+              <div className="flex flex-col space-y-4">
                 {/* Paper Title and Status */}
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <h3 className="text-lg font-semibold text-gray-900 hover:text-brand-secondary transition-colors flex-1">
@@ -74,10 +91,17 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                   </Badge>
                 </div>
 
+                {/* Abstract */}
+                {paper.abstract && (
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {paper.abstract}
+                  </p>
+                )}
+
                 {/* Journal and Type */}
                 <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    {getTypeIcon(paper.papertype)}
+                    {getTypeIcon(paper.paperType)}
                     <span className="font-medium">{paper.journal}</span>
                   </div>
                   
@@ -91,7 +115,7 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                       variant="outline" 
                       className="bg-gray-50 text-gray-700 border-gray-200 text-xs"
                     >
-                      {paper.papertype.charAt(0).toUpperCase() + paper.papertype.slice(1)}
+                      {paper.paperType.charAt(0).toUpperCase() + paper.paperType.slice(1)}
                     </Badge>
                   </div>
                 </div>
@@ -100,11 +124,7 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                 <div className="mt-3">
                   <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
                     <span>Progress</span>
-                    <span>
-                      {paper.status === 'In Preparation' ? '25%' : 
-                       paper.status === 'Under Review' ? '75%' : 
-                       paper.status === 'Revision' ? '85%' : '50%'}
-                    </span>
+                    <span>{getProgressPercentage(paper.status)}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 

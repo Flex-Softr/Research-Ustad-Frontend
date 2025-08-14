@@ -108,6 +108,8 @@ const AllreserchPaperAdmin = () => {
     { label: "Visit Link", value: "visitLink" },
   ];
 
+  console.log("dataaaa", data);
+
   return (
     <div className="">
       <ManageTable

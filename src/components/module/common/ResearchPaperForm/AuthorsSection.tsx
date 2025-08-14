@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import AuthorSearchDropdown from "./author-search-dropdown";
 import { Users, Plus, X } from "lucide-react";
+import { Author } from "./types";
 
 interface AuthorsSectionProps {
-  authors: string[];
-  onAuthorChange: (index: number, value: string) => void;
+  authors: Author[];
+  onAuthorChange: (index: number, author: Author) => void;
   onAddAuthor: () => void;
   onRemoveAuthor: (index: number) => void;
 }
@@ -33,17 +34,27 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
                 Author {index + 1}
               </Label>
               <AuthorSearchDropdown
-                value={author}
-                onChange={(value) => {
-                  console.log(`Author ${index} changed to:`, value);
-                  onAuthorChange(index, value);
+                value={author.name}
+                email={author.email}
+                onChange={(name: string, email: string) => {
+                  console.log(`Author ${index} changed to:`, { name, email });
+                  onAuthorChange(index, { name, email });
                 }}
                 placeholder={`Search for author ${index + 1}`}
               />
-              {author.trim() !== "" && author.trim().length < 2 && (
-                <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                  <span>⚠</span>
+              {author.name.trim() !== "" && author.name.trim().length < 2 && (
+                <p className="text-sm text-red-500 mt-1">
                   Author name must be at least 2 characters
+                </p>
+              )}
+              {author.email && author.email.trim() !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(author.email) && (
+                <p className="text-sm text-red-500 mt-1">
+                  Invalid email format
+                </p>
+              )}
+              {author.email && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Email: {author.email}
                 </p>
               )}
             </div>

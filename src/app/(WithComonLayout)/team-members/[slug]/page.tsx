@@ -108,12 +108,12 @@ const SingleMemberPage = () => {
     {
       id: "publications",
       label: "Publications",
-      count: member.publications?.length || 0,
+      count: member.publications?.filter(pub => (pub.status === "published" || pub.status === "Published") && pub.isApproved).length || 0,
     },
     {
       id: "ongoing",
       label: "Ongoing Papers",
-      count: member.ongoing?.length || 0,
+      count: member.publications?.filter(pub => (pub.status !== "published" && pub.status !== "Published") && !pub.isApproved).length || 0,
     },
     { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
   ];

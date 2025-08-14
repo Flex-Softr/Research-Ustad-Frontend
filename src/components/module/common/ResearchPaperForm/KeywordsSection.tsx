@@ -43,8 +43,7 @@ const KeywordsSection: React.FC<KeywordsSectionProps> = ({
                 } transition-colors`}
               />
               {keyword.trim() !== "" && keyword.trim().length < 2 && (
-                <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                  <span>⚠</span>
+                <p className="text-sm text-red-500 mt-1">
                   Keyword must be at least 2 characters
                 </p>
               )}

@@ -11,6 +11,8 @@ interface BasicInfoFieldsProps {
 }
 
 const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className="space-y-6">
       {/* Basic Information Section */}
@@ -41,8 +43,7 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
               className={`${errors.title ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.title && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.title.message}
               </p>
             )}
@@ -66,15 +67,15 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
                   message: "Year must be at least 1900",
                 },
                 max: {
-                  value: new Date().getFullYear(),
-                  message: `Year cannot be greater than ${new Date().getFullYear()}`,
+                  value: currentYear,
+                  message: `Year cannot be greater than ${currentYear}`,
                 },
+                valueAsNumber: true,
               })}
               className={`${errors.year ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.year && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.year.message}
               </p>
             )}
@@ -101,8 +102,7 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
               className={`${errors.journal ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.journal && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.journal.message}
               </p>
             )}
@@ -142,7 +142,7 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
             <Input
               id="impactFactor"
               type="number"
-              step="0.1"
+              step="0.01"
               placeholder="e.g., 3.5"
               {...register("impactFactor", {
                 min: {
@@ -153,12 +153,12 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
                   value: 50,
                   message: "Impact factor cannot exceed 50",
                 },
+                valueAsNumber: true,
               })}
               className={`${errors.impactFactor ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.impactFactor && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.impactFactor.message}
               </p>
             )}

@@ -10,13 +10,9 @@ import {
   Calendar,
   Users,
   BookOpen,
-  TrendingUp,
   ExternalLink,
-  Download,
-  Eye,
   Award,
   FileText,
-  Globe,
   Building,
   Clock,
   Tag,
@@ -26,8 +22,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
-
+import {
+  GetAllResearchPaperPublic,
+  GetSingleResearchPaperPublic,
+} from "@/services/allreserchPaper";
 
 const SingleResearchPaper = ({
   paper: propPaper,
@@ -46,62 +44,58 @@ const SingleResearchPaper = ({
         updatedAt?: string;
       })
     | null
-  >(null);
+  >(propPaper || null);
   const [relatedPapers, setRelatedPapers] = useState<RelatedPaper[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!propPaper);
   const [loadingRelated, setLoadingRelated] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Load paper data
+  // Load paper data if paperId is provided
   useEffect(() => {
-    const loadPaper = async () => {
+    const fetchPaper = async () => {
+      if (!paperId || propPaper) return;
+
       try {
-        // If paper is provided as prop, use it
-        if (propPaper) {
-          setPaper(propPaper);
-          setLoading(false);
-          return;
-        }
+        setLoading(true);
+        setError(null);
 
-        // If paperId is provided, load from JSON
-        if (paperId) {
-          const response = await fetch("/json/research-papers.json");
-          const data = await response.json();
-          const foundPaper = data.papers.find((p: any) => p._id === paperId);
+        const paperData = await GetSingleResearchPaperPublic(paperId);
 
-          if (foundPaper) {
-            setPaper(foundPaper);
-          } else {
-            notFound();
-          }
+        if (paperData?.success && paperData?.data) {
+          setPaper(paperData.data);
+        } else {
+          setError("Paper not found");
         }
-      } catch (error) {
-        console.error("Failed to load paper:", error);
-        notFound();
+      } catch (err) {
+        console.error("Error fetching paper:", err);
+        setError("Failed to fetch paper");
       } finally {
         setLoading(false);
       }
     };
 
-    loadPaper();
-  }, [propPaper, paperId]);
+    fetchPaper();
+  }, [paperId, propPaper]);
 
   // Load related papers when paper is loaded
   useEffect(() => {
     const loadRelatedPapers = async () => {
-      if (!paper || !paper.researchArea) return;
+      if (!paper?.researchArea) return;
 
       setLoadingRelated(true);
       try {
-        const response = await fetch("/json/research-papers.json");
-        const data = await response.json();
-        
-        // Find papers with the same research area, excluding the current paper
-        const related = data.papers.filter((p: RelatedPaper) => 
-          p.researchArea === paper.researchArea && p._id !== paper._id
-        );
-        
-        // Limit to 3 related papers
-        setRelatedPapers(related.slice(0, 3));
+        const data = await GetAllResearchPaperPublic();
+
+        if (data?.success && data?.data) {
+          // Find papers with the same research area, excluding the current paper
+          const related = data.data.filter(
+            (p: RelatedPaper) =>
+              p?.researchArea === paper.researchArea && p?._id !== paper._id
+          );
+
+          // Limit to 3 related papers
+          setRelatedPapers(related.slice(0, 3));
+        }
       } catch (error) {
         console.error("Failed to load related papers:", error);
         setRelatedPapers([]);
@@ -137,6 +131,11 @@ const SingleResearchPaper = ({
     );
   }
 
+  if (error) {
+    console.error("Error loading paper:", error);
+    notFound();
+  }
+
   if (!paper) {
     notFound();
   }
@@ -151,7 +150,7 @@ const SingleResearchPaper = ({
             href: "/allpapers",
           },
           {
-            label: paper.title,
+            label: paper?.title || "Untitled Paper",
           },
         ]}
       />
@@ -181,36 +180,48 @@ const SingleResearchPaper = ({
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <CardTitle className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                      {paper.title}
+                      {paper?.title || "Untitled Paper"}
                     </CardTitle>
 
                     {/* Authors */}
                     <div className="flex items-center gap-2 mb-4">
                       <Users className="h-5 w-5 text-brand-secondary" />
                       <div className="flex flex-wrap gap-1">
-                        {paper.authors.map((author, index) => (
+                        {paper?.authors?.map((author: any, index: number) => (
                           <span
                             key={index}
                             className="text-sm text-gray-700 font-medium"
                           >
-                            {author}
-                            {index < paper.authors.length - 1 && ", "}
+                            {typeof author === "string"
+                              ? author
+                              : author?.name || "Unknown Author"}
+                            {index < (paper?.authors?.length || 0) - 1 && ", "}
                           </span>
-                        ))}
+                        )) || (
+                          <span className="text-sm text-gray-500">
+                            No authors listed
+                          </span>
+                        )}
                       </div>
                     </div>
 
                     {/* Status Badge */}
                     <div className="mb-4">
                       <Badge
-                        variant={paper.isApproved ? "default" : "secondary"}
+                        variant={
+                          paper?.status === "published"
+                            ? "default"
+                            : "secondary"
+                        }
                         className={`text-sm ${
-                          paper.isApproved
+                          paper?.status === "published"
                             ? "bg-green-100 text-green-800"
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
-                        {paper.isApproved ? "Published" : "Under Review"}
+                        {paper?.status === "published"
+                          ? "Published"
+                          : "Ongoing"}
                       </Badge>
                     </div>
                   </div>
@@ -219,7 +230,7 @@ const SingleResearchPaper = ({
 
               <CardContent className="space-y-6">
                 {/* Abstract */}
-                {paper.abstract && (
+                {paper?.abstract && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                       <Quote className="h-5 w-5 text-brand-secondary" />
@@ -232,7 +243,7 @@ const SingleResearchPaper = ({
                 )}
 
                 {/* Keywords */}
-                {paper.keywords && paper.keywords.length > 0 && (
+                {paper?.keywords && paper.keywords.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                       <Tag className="h-5 w-5 text-brand-secondary" />
@@ -254,13 +265,15 @@ const SingleResearchPaper = ({
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-4 pt-4">
-                  <Button
-                    onClick={() => window.open(paper.visitLink, "_blank")}
-                    className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
-                  >
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    View Paper
-                  </Button>
+                  {paper?.visitLink && (
+                    <Button
+                      onClick={() => window.open(paper.visitLink, "_blank")}
+                      className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      View Paper
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -280,13 +293,17 @@ const SingleResearchPaper = ({
                       <h4 className="font-semibold text-gray-900 mb-2">
                         Journal
                       </h4>
-                      <p className="text-gray-700">{paper.journal}</p>
+                      <p className="text-gray-700">
+                        {paper?.journal || "Not specified"}
+                      </p>
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2">Year</h4>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-gray-400" />
-                        <span className="text-gray-700">{paper.year}</span>
+                        <span className="text-gray-700">
+                          {paper?.year || "Not specified"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -296,7 +313,7 @@ const SingleResearchPaper = ({
                         Paper Type
                       </h4>
                       <Badge variant="outline" className="text-sm">
-                        {paper.paperType}
+                        {paper?.paperType || "Not specified"}
                       </Badge>
                     </div>
                   </div>
@@ -316,7 +333,7 @@ const SingleResearchPaper = ({
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {paper.citations !== undefined && (
+                {paper?.citations !== undefined && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Citations</span>
                     <span className="font-semibold text-gray-900">
@@ -324,7 +341,7 @@ const SingleResearchPaper = ({
                     </span>
                   </div>
                 )}
-                {paper.researchArea && (
+                {paper?.researchArea && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Research Area</span>
                     <Badge variant="outline" className="text-xs">
@@ -336,7 +353,7 @@ const SingleResearchPaper = ({
             </Card>
 
             {/* Funding Information */}
-            {paper.funding && (
+            {paper?.funding && (
               <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-gray-900 flex items-center gap-2">
@@ -359,7 +376,7 @@ const SingleResearchPaper = ({
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {paper.createdAt && (
+                {paper?.createdAt && (
                   <div>
                     <span className="text-sm text-gray-600">Submitted</span>
                     <p className="text-sm font-medium text-gray-900">
@@ -367,7 +384,7 @@ const SingleResearchPaper = ({
                     </p>
                   </div>
                 )}
-                {paper.updatedAt && (
+                {paper?.updatedAt && (
                   <div>
                     <span className="text-sm text-gray-600">Last Updated</span>
                     <p className="text-sm font-medium text-gray-900">
@@ -378,7 +395,7 @@ const SingleResearchPaper = ({
                 <div>
                   <span className="text-sm text-gray-600">Published</span>
                   <p className="text-sm font-medium text-gray-900">
-                    {paper.year}
+                    {paper?.year || "Not specified"}
                   </p>
                 </div>
               </CardContent>
@@ -396,7 +413,9 @@ const SingleResearchPaper = ({
                 {loadingRelated ? (
                   <div className="text-center py-4">
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-brand-secondary mx-auto mb-2"></div>
-                    <p className="text-sm text-gray-600">Loading related papers...</p>
+                    <p className="text-sm text-gray-600">
+                      Loading related papers...
+                    </p>
                   </div>
                 ) : relatedPapers.length > 0 ? (
                   <div className="space-y-4">
@@ -409,11 +428,21 @@ const SingleResearchPaper = ({
                         className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
                       >
                         <h4 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2">
-                          {truncateText(relatedPaper.title, 80)}
+                          {truncateText(
+                            relatedPaper?.title || "Untitled Paper",
+                            80
+                          )}
                         </h4>
                         <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
-                          <span>{relatedPaper.year}</span>
-                          <span>{relatedPaper.authors[0]}</span>
+                          <span>{relatedPaper?.year || "N/A"}</span>
+                          <span>
+                            {relatedPaper?.authors?.[0]
+                              ? typeof relatedPaper.authors[0] === "string"
+                                ? relatedPaper.authors[0]
+                                : (relatedPaper.authors[0] as any)?.name ||
+                                  "Unknown Author"
+                              : "Unknown Author"}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Button

@@ -40,11 +40,12 @@ export type TResearchAssociate = {
     scholarship: string;
   };
   socialLinks: {
-    facebook: string;
-    twitter: string;
+    google_scholar: string;
+    researchgate: string;
     linkedin: string;
   };
   _id: string;
+  role: string;
   user: string;
   profileImg: string;
   email: string;

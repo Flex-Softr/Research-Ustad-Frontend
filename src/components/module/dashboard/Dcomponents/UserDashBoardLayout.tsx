@@ -288,7 +288,11 @@ const UserDashBoardLayout = () => {
                           {paper.title}
                         </h3>
                         <p className="text-sm text-gray-600 mt-1">
-                          {paper.authors.join(", ")}
+                          {paper.authors.map((author: any) => 
+                            typeof author === 'string' 
+                              ? author 
+                              : author?.name || 'Unknown Author'
+                          ).join(", ")}
                         </p>
                         <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
                           <span>{paper.journal}</span>

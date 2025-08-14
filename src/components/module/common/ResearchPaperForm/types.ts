@@ -1,7 +1,12 @@
+export interface Author {
+  name: string;
+  email?: string;
+}
+
 export interface ResearchPaperFormData {
   year: number;
   title: string;
-  authors: string[];
+  authors: Author[];
   journal: string;
   volume?: string;
   impactFactor?: number;

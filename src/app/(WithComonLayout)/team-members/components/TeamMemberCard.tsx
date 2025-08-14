@@ -18,15 +18,22 @@ export interface TeamMember extends UserProfile {
     totalGrantAmount: number;
   };
   publications?: Array<{
-    id: string;
-    title: string;
-    journal: string;
+    _id: string;
     year: number;
-    impactFactor: number;
-    citations: number;
+    title: string;
     authors: string[];
-    doi: string;
+    journal: string;
+    paperType: string;
     status: string;
+    visitLink: string;
+    isApproved: boolean;
+    abstract: string;
+    keywords: string[];
+    citations: number;
+    researchArea: string;
+    funding: string;
+    createdAt: string;
+    updatedAt: string;
   }>;
   ongoingProjects?: Array<{
     id: string;
@@ -45,15 +52,6 @@ export interface TeamMember extends UserProfile {
     readTime: string;
     views: number;
     likes: number;
-    status: string;
-  }>;
-  ongoing?: Array<{
-    id: string;
-    title: string;
-    journal: string;
-    year: number;
-    citations: number;
-    papertype: string;
     status: string;
   }>;
   expertise?: string[];

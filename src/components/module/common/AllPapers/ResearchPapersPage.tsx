@@ -57,8 +57,11 @@ const ResearchPapersPage = ({
       // Search filter
       const searchMatch =
         paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        paper.authors.some((author) =>
-          author.toLowerCase().includes(searchQuery.toLowerCase())
+        paper.authors.some((author: any) =>
+          (typeof author === 'string' 
+            ? author 
+            : author?.name || ''
+          ).toLowerCase().includes(searchQuery.toLowerCase())
         ) ||
         paper.journal.toLowerCase().includes(searchQuery.toLowerCase());
 

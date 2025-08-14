@@ -17,7 +17,11 @@ console.log(papers)
             <div className="p-4">
               <CardTitle className="text-xl font-semibold">{paper.title}</CardTitle>
               <CardDescription className="text-sm text-gray-600">
-                <p>Authors: {paper.authors.join(", ")}</p>
+                <p>Authors: {paper.authors.map((author: any) => 
+                  typeof author === 'string' 
+                    ? author 
+                    : author?.name || 'Unknown Author'
+                ).join(", ")}</p>
                 <p>Journal: {paper.journal}</p>
                 <p>Impact Factor: {paper.impactFactor}</p>
                 <p>Research Area: {paper.researchArea || 'General'}</p>

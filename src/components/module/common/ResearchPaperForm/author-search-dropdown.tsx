@@ -15,7 +15,8 @@ interface User {
 
 interface AuthorSearchDropdownProps {
   value: string;
-  onChange: (value: string) => void;
+  email?: string;
+  onChange: (name: string, email: string) => void;
   placeholder?: string;
   className?: string;
 }
@@ -108,7 +109,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setSearchQuery(newValue);
-    onChange(newValue);
+    onChange(newValue, undefined); // Use undefined instead of empty string for optional email
     setIsOpen(true);
   };
 
@@ -124,7 +125,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   };
 
   const handleUserSelect = (user: User) => {
-    onChange(user.fullName);
+    onChange(user.fullName, user.email || '');
     setSearchQuery(user.fullName);
     setIsOpen(false);
   };
@@ -133,7 +134,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
     // Directly add the custom author name without showing modal
     const authorName = searchQuery.trim();
     if (authorName) {
-      onChange(authorName);
+      onChange(authorName, undefined); // Use undefined for custom authors without email
       setSearchQuery(authorName);
       setIsOpen(false);
     }
@@ -143,7 +144,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
 
   const clearInput = () => {
     setSearchQuery('');
-    onChange('');
+    onChange('', undefined); // Clear both name and email
     setUsers(allUsers); // Show all users when cleared
   };
 

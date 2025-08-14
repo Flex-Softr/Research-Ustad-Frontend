@@ -1,17 +1,20 @@
 import Members from "@/components/module/users/Members/Members"
-import { GetAllResearchAssociate } from "@/services/reserarchers"
-
+import { getResearchMembers } from "@/services/userService"
 
 const page = async () => {
   try {
-    const response = await GetAllResearchAssociate()
-    const data = response?.data || []
+    const response = await getResearchMembers()
+    const allData = response?.data || []
+    
+    // Filter out admin and superAdmin users
+    const data = allData.filter(
+      (member) => member.role !== 'admin' && member.role !== 'superAdmin'
+    )
 
-    console.log("all members", data)
+    console.log("Research members (filtered)", data)
     
     return (
       <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">All Members</h2>
         <Members data={data} />
       </div>
     )
@@ -19,8 +22,8 @@ const page = async () => {
     console.error("Error in members page:", error)
     return (
       <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">All Members</h2>
-        <div className="text-red-500">Error loading members data</div>
+        <h2 className="text-2xl font-bold mb-4">Research Members</h2>
+        <div className="text-red-500">Error loading research members data</div>
       </div>
     )
   }

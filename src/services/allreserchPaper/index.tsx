@@ -356,3 +356,24 @@ export const GetAllUsers = async () => {
     return { data: [] };
   }
 };
+
+// Public function for getting single research paper (no authentication required)
+export const GetSingleResearchPaperPublic = async (id: string) => {
+  try {
+    const response = await fetch(`${api.baseUrl}/paper/public/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching single research paper:", error);
+    return null;
+  }
+};

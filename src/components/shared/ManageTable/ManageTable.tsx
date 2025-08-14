@@ -223,9 +223,17 @@ const ManageTable: React.FC<ManageTableProps> = ({
           {authors.length > 0 && (
             <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap max-w-xs">
               <div className="font-semibold mb-1">Authors:</div>
-              {authors.map((author: string, index: number) => (
+              {authors.map((author: any, index: number) => (
                 <div key={index} className="mb-1">
-                  {author}
+                  {typeof author === 'string' 
+                    ? author 
+                    : author?.name || 'Unknown Author'
+                  }
+                  {typeof author === 'object' && author?.email && (
+                    <div className="text-gray-300 text-xs ml-2">
+                      {author.email}
+                    </div>
+                  )}
                 </div>
               ))}
               <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>

@@ -82,7 +82,7 @@ const CreateMemberForm: React.FC = () => {
         setShowPassword(false);
         toast.success("Member created successfully");
       } else {
-        toast.error(
+        toast.error( res.error.message ||
           res.err?.code === 11000
             ? "This Email already exists!"
             : "An error occurred."
@@ -90,7 +90,7 @@ const CreateMemberForm: React.FC = () => {
       }
     } catch (error) {
       console.log("Error from backend:", error);
-      toast.error("Member registration failed.");
+      toast.error("Member registration failed, try with different email" );
     } finally {
       setLoading(false);
     }

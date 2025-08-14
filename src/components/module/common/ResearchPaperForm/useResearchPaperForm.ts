@@ -10,10 +10,10 @@ import {
   GetSingleResearchPaper,
   UpdateResearchPaper,
 } from "@/services/allreserchPaper";
-import { ResearchPaperFormData } from "./types";
+import { ResearchPaperFormData, Author } from "./types";
 
 export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?: (error: any) => void) => {
-  const [authorReaseachpaper, setauthorReaseachpaper] = useState<string[]>([""]);
+  const [authorReaseachpaper, setauthorReaseachpaper] = useState<Author[]>([{ name: "", email: "" }]);
   const [keywords, setKeywords] = useState<string[]>([""]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
         researchArea: "",
         funding: "",
       });
-      setauthorReaseachpaper([""]);
+      setauthorReaseachpaper([{ name: "", email: undefined }]);
       setKeywords([""]);
     }
   }, [isEditMode, reset]);
@@ -101,10 +101,27 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
             });
 
             // Set authors and keywords - ensure we have at least one empty field if no authors
-            const authors =
-              paperData.authors && paperData.authors.length > 0
-                ? [...paperData.authors]
-                : [""];
+            let authors: Author[];
+            if (paperData.authors && paperData.authors.length > 0) {
+              // Handle both old string format and new Author object format
+              authors = paperData.authors.map((author: any) => {
+                if (typeof author === 'string') {
+                  // Old format: just a string
+                  return { name: author, email: undefined };
+                } else if (author && typeof author === 'object') {
+                  // New format: object with name and email
+                  return { 
+                    name: author.name || '', 
+                    email: author.email || undefined 
+                  };
+                } else {
+                  return { name: '', email: undefined };
+                }
+              });
+            } else {
+              authors = [{ name: "", email: undefined }];
+            }
+            
             const keywords =
               paperData.keywords && paperData.keywords.length > 0
                 ? [...paperData.keywords]
@@ -150,15 +167,15 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
   };
 
   const handleAddResearch = (): void => {
-    setauthorReaseachpaper([...authorReaseachpaper, ""]);
+    setauthorReaseachpaper([...authorReaseachpaper, { name: "", email: undefined }]);
   };
 
-  const handleResearchChange = (index: number, value: string): void => {
+  const handleResearchChange = (index: number, author: Author): void => {
     console.log(
-      `handleResearchChange called - index: ${index}, value: "${value}"`
+      `handleResearchChange called - index: ${index}, author:`, author
     );
     const updatedResearch = [...authorReaseachpaper];
-    updatedResearch[index] = value;
+    updatedResearch[index] = author;
     console.log("Updated authors array:", updatedResearch);
     setauthorReaseachpaper(updatedResearch);
   };
@@ -186,7 +203,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
     // Filter out empty author entries
     const validAuthors = authorReaseachpaper.filter(
-      (author) => author.trim() !== ""
+      (author) => author.name.trim() !== ""
     );
 
     if (validAuthors.length === 0) {
@@ -197,7 +214,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
     // Validate each author name (minimum 2 characters as per backend)
     const invalidAuthors = validAuthors.filter(
-      (author) => author.trim().length < 2
+      (author) => author.name.trim().length < 2
     );
     if (invalidAuthors.length > 0) {
       toast.error("Each author name must be at least 2 characters long");
@@ -231,23 +248,51 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       return;
     }
 
-    const formData = {
+    // Prepare form data with proper handling of optional fields
+    const formData: any = {
       year: Number(data.year),
       title: data.title,
-      authors: validAuthors, // Using the filtered authors list
+      authors: validAuthors,
       journal: data.journal,
-      volume: data.volume || "",
-      impactFactor: data.impactFactor ? Number(data.impactFactor) : undefined,
-      journalRank: data.journalRank || "",
       visitLink: data.visitLink,
       paperType: data.paperType,
       status: data.status,
-      abstract: data.abstract || "",
-      keywords: validKeywords, // Using the filtered keywords list
-      citations: data.citations ? Number(data.citations) : 0,
-      researchArea: data.researchArea || "",
-      funding: data.funding || "",
     };
+
+    // Only include optional fields if they have content
+    if (data.volume && data.volume.trim() !== "") {
+      formData.volume = data.volume;
+    }
+
+    if (data.impactFactor && data.impactFactor > 0) {
+      formData.impactFactor = Number(data.impactFactor);
+    }
+
+    if (data.journalRank && data.journalRank.trim() !== "") {
+      formData.journalRank = data.journalRank;
+    }
+
+    if (data.abstract && data.abstract.trim() !== "") {
+      formData.abstract = data.abstract;
+    }
+
+    if (validKeywords.length > 0) {
+      formData.keywords = validKeywords;
+    }
+
+    if (data.citations && data.citations > 0) {
+      formData.citations = Number(data.citations);
+    }
+
+    if (data.researchArea && data.researchArea.trim() !== "") {
+      formData.researchArea = data.researchArea;
+    }
+
+    if (data.funding && data.funding.trim() !== "") {
+      formData.funding = data.funding;
+    }
+
+    console.log("Submitting form data:", formData);
 
     try {
       let result;
@@ -282,7 +327,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
         reset();
         setValue("paperType", ""); // Explicitly reset paperType
-        setauthorReaseachpaper([""]);
+        setauthorReaseachpaper([{ name: "", email: undefined }]);
         setKeywords([""]);
       } else {
         // For edit mode, redirect based on current pathname and user role
@@ -302,8 +347,16 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
         }, 1000); // 1 second delay
       }
     } catch (error: any) {
-      toast.error(error.message);
       console.error("Error submitting research paper:", error);
+      
+      // Handle specific validation errors from backend
+      if (error.errors && Array.isArray(error.errors)) {
+        error.errors.forEach((err: any) => {
+          toast.error(err.message);
+        });
+      } else {
+        toast.error(error.message || "Failed to submit research paper");
+      }
 
       // Call onError callback if provided
       if (onError) {

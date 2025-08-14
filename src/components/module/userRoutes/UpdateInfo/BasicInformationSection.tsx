@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UpdateInfoBasicSectionProps } from "@/type";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export function BasicInformationSection({ 
   register, 
@@ -12,22 +12,13 @@ export function BasicInformationSection({
   onFileChange,
   currentProfileImg 
 }: UpdateInfoBasicSectionProps) {
-  const [existingImageUrl, setExistingImageUrl] = useState<string>("");
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       onFileChange?.(file);
-      setExistingImageUrl(""); // Clear existing image when new file is selected
     }
   };
 
-  // Set existing image URL when component mounts or when profileImg changes
-  useEffect(() => {
-    if (currentProfileImg && !selectedFile) {
-      setExistingImageUrl(currentProfileImg);
-    }
-  }, [selectedFile, currentProfileImg]);
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium border-b pb-2">
@@ -87,8 +78,8 @@ export function BasicInformationSection({
               id="profileImage"
             />
             
-            {/* Image Preview */}
-            {selectedFile ? (
+            {/* Image Preview - Only show when user selects a file */}
+            {selectedFile && (
               <div className="w-full mt-4">
                 <img
                   src={URL.createObjectURL(selectedFile)}
@@ -100,18 +91,7 @@ export function BasicInformationSection({
                   <p>Size: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
                 </div>
               </div>
-            ) : existingImageUrl ? (
-              <div className="mt-4">
-                <img
-                  src={existingImageUrl}
-                  alt="Current Profile Image"
-                  className="w-full h-32 object-cover rounded"
-                />
-                <div className="text-sm text-gray-500">
-                  <p>Current image</p>
-                </div>
-              </div>
-            ) : null}
+            )}
             
             {/* Hidden input for form data */}
             <input

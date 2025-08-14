@@ -38,9 +38,9 @@ export interface TUser {
   expertise?: string[];
   awards?: string[];
   conferences?: Array<{
-    name?: string;
-    role?: string;
-    topic?: string;
+    name: string;
+    role: string;
+    topic: string;
   }>;
 }
 
@@ -79,36 +79,48 @@ export interface SocialLinks {
   linkedin?: string;
 }
 
+// Updated TResearchAssociate to match consolidated user model
 export interface TResearchAssociate {
-  image: string;
-  current: {
-    institution: string;
-    department: string;
-    degree: string;
-  };
-  education: {
-    degree: string;
-    field: string;
-    institution: string;
-    status?: "Ongoing" | "Completed";
-    scholarship: string;
-  };
-  socialLinks: {
-    google_scholar: string;
-    researchgate: string;
-    linkedin: string;
-  };
   _id: string;
-  user: string;
-  profileImg: string;
   email: string;
-  contactNo: string;
   fullName: string;
+  role: string;
   designation: string;
-  research: any[]; // Adjust if research has a specific structure
-  shortBio: string;
-  isDeleted: boolean;
-  id: string;
+  status: string;
+  image: string;
+  contactNo?: string;
+  shortBio?: string;
+  current?: {
+    institution?: string;
+    department?: string;
+    degree?: string;
+    inst_designation?: string;
+  };
+  education?: {
+    degree?: string;
+    field?: string;
+    institution?: string;
+    status?: "Ongoing" | "Completed";
+    scholarship?: string;
+  };
+  research?: string[];
+  socialLinks?: {
+    google_scholar?: string;
+    researchgate?: string;
+    linkedin?: string;
+  };
+  expertise?: string[];
+  awards?: string[];
+  conferences?: Array<{
+    name: string;
+    role: string;
+    topic: string;
+  }>;
+  // Legacy fields for backward compatibility
+  user?: string;
+  profileImg?: string;
+  isDeleted?: boolean;
+  id?: string;
 }
 
 // JWT Payload interface
@@ -121,7 +133,6 @@ export interface JWTPayload {
   name?: string;
   [key: string]: any;
 } 
-
 
 // users form type
 export interface FormData {

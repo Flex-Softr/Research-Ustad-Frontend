@@ -59,8 +59,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               className={`${errors.visitLink ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.visitLink && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.visitLink.message}
               </p>
             )}
@@ -92,8 +91,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               </SelectContent>
             </Select>
             {errors.paperType && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.paperType.message}
               </p>
             )}
@@ -133,8 +131,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               </SelectContent>
             </Select>
             {errors.status && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.status.message}
               </p>
             )}
@@ -157,18 +154,19 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
             id="abstract"
             placeholder="Enter a brief summary of your research paper..."
             {...register("abstract", {
-              minLength: {
-                value: 10,
-                message: "Abstract must be at least 10 characters",
-              },
+              validate: (value) => {
+                if (value && value.trim().length > 0 && value.trim().length < 10) {
+                  return "Abstract must be at least 10 characters";
+                }
+                return true;
+              }
             })}
             className={`w-full px-3 py-2 border rounded-md resize-none h-32 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
               errors.abstract ? "border-red-500" : "border-gray-300"
             } transition-colors`}
           />
           {errors.abstract && (
-            <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-              <span>⚠</span>
+            <p className="text-sm text-red-500 mt-1">
               {errors.abstract.message}
             </p>
           )}
@@ -198,12 +196,12 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
                   value: 0,
                   message: "Citations cannot be negative",
                 },
+                valueAsNumber: true,
               })}
               className={`${errors.citations ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.citations && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.citations.message}
               </p>
             )}
@@ -220,16 +218,17 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               type="text"
               placeholder="e.g., Artificial Intelligence"
               {...register("researchArea", {
-                minLength: {
-                  value: 2,
-                  message: "Research area must be at least 2 characters",
-                },
+                validate: (value) => {
+                  if (value && value.trim().length > 0 && value.trim().length < 2) {
+                    return "Research area must be at least 2 characters";
+                  }
+                  return true;
+                }
               })}
               className={`${errors.researchArea ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.researchArea && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.researchArea.message}
               </p>
             )}
@@ -246,16 +245,17 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               type="text"
               placeholder="e.g., National Institutes of Health"
               {...register("funding", {
-                minLength: {
-                  value: 2,
-                  message: "Funding information must be at least 2 characters",
-                },
+                validate: (value) => {
+                  if (value && value.trim().length > 0 && value.trim().length < 2) {
+                    return "Funding information must be at least 2 characters";
+                  }
+                  return true;
+                }
               })}
               className={`${errors.funding ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
             {errors.funding && (
-              <p className="text-sm text-red-500 mt-1 flex items-center gap-1">
-                <span>⚠</span>
+              <p className="text-sm text-red-500 mt-1">
                 {errors.funding.message}
               </p>
             )}
