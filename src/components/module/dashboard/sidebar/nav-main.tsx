@@ -4,32 +4,19 @@ import { ChevronRight, type LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useSidebar } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { getFilteredNavItems, type NavItem } from "./nav-items";
 
 export function NavMain({
-  items,
+  userRole,
 }: {
-  items: {
-    title: string;
-    url: string;
-    icon: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-      icon?: LucideIcon;
-    }[];
-  }[];
+  userRole: string;
 }) {
   const pathname = usePathname();
-  const { state } = useSidebar();
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const isCollapsed = state === "collapsed";
+  const isCollapsed = false; // Always expanded for simplicity
+
+  // Get filtered navigation items based on user role
+  const items = getFilteredNavItems(userRole);
 
   // Auto-expand items that contain the current active path
   useEffect(() => {
@@ -62,51 +49,43 @@ export function NavMain({
 
   const isExpanded = (itemTitle: string) => expandedItems.has(itemTitle);
 
-  const renderNavItem = (item: any, isSubItem = false) => {
+  const renderNavItem = (item: NavItem, isSubItem = false) => {
     const isActive =
       pathname === item.url || pathname.startsWith(item.url + "/");
     const hasSubItems = item.items && item.items.length > 0;
     const expanded = isExpanded(item.title);
 
     const itemContent = (
-      <div
-        className={`flex items-center ${
-          isCollapsed ? "justify-center" : "space-x-3"
-        }`}
-      >
-        <item.icon
-          className={`h-4 w-4 ${isActive ? "text-primary" : "text-gray-400"}`}
-        />
-        {!isCollapsed && (
-          <>
-            <span
-              className={`font-medium ${isSubItem ? "" : "flex-1 text-left"}`}
-            >
-              {item.title}
-            </span>
-            {hasSubItems && !isSubItem && (
-              <ChevronRight
-                className={`h-3 w-3 text-gray-400 transition-transform duration-200 ${
-                  expanded ? "rotate-90" : ""
-                }`}
-              />
-            )}
-          </>
+      <div className="flex items-center space-x-3">
+        {item.icon && (
+          <item.icon
+            className={`h-4 w-4 ${
+              isActive ? "text-blue-600" : "text-gray-500"
+            }`}
+          />
+        )}
+        <span className="font-medium flex-1 text-left">{item.title}</span>
+        {hasSubItems && !isSubItem && (
+          <ChevronRight
+            className={`h-3 w-3 text-gray-400 transition-transform duration-200 ${
+              expanded ? "rotate-90" : ""
+            }`}
+          />
         )}
       </div>
     );
 
-    const itemClasses = `flex items-center px-3 py-2 text-sm rounded-lg transition-colors ${
+    const itemClasses = `flex items-center px-3 py-2 text-sm rounded-lg transition-all duration-200 w-full ${
       isActive
-        ? "bg-primary/10 text-primary border-r-2 border-primary"
-        : "text-gray-600 hover:text-primary hover:bg-primary/5"
-    } ${isCollapsed ? "justify-center" : ""}`;
+        ? "bg-blue-50 text-blue-700 font-medium"
+        : "text-gray-700 hover:text-blue-700 hover:bg-blue-50"
+    }`;
 
     if (hasSubItems && !isSubItem) {
       return (
         <button
           onClick={() => toggleExpanded(item.title)}
-          className={`w-full ${itemClasses}`}
+          className={itemClasses}
         >
           {itemContent}
         </button>
@@ -126,26 +105,17 @@ export function NavMain({
         const hasSubItems = item.items && item.items.length > 0;
         const expanded = isExpanded(item.title);
 
-        const navItem = (
+        return (
           <div key={item.title}>
-            {isCollapsed ? (
-              <Tooltip>
-                <TooltipTrigger asChild>{renderNavItem(item)}</TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>{item.title}</p>
-                </TooltipContent>
-              </Tooltip>
-            ) : (
-              renderNavItem(item)
-            )}
+            {renderNavItem(item)}
 
-            {hasSubItems && !isCollapsed && (
+            {hasSubItems && (
               <div
                 className={`overflow-hidden transition-all duration-200 ease-in-out ${
                   expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="ml-6 mt-1 space-y-1">
+                <div className="ml-4 mt-1 space-y-1 border-l border-gray-200 pl-4">
                   {item.items?.map((subItem) => (
                     <div key={subItem.title}>
                       {renderNavItem(subItem, true)}
@@ -156,8 +126,6 @@ export function NavMain({
             )}
           </div>
         );
-
-        return navItem;
       })}
     </div>
   );

@@ -10,16 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useSidebar } from "@/components/ui/sidebar";
+
 import { useRouter } from "next/navigation";
-import { logout } from "@/services/AuthService";
-import { GetMe } from "@/services/singleUser";
+import { logout, getCurrentUser } from "@/services/AuthService";
 import { useEffect, useState } from "react";
+import { JWTPayload } from "@/type";
 
 interface User {
   _id: string;
@@ -31,16 +26,23 @@ interface User {
 export function NavUser() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const { state } = useSidebar();
-  const isCollapsed = state === "collapsed";
+  const isCollapsed = false; // Always expanded for simplicity
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const result = await GetMe();
-        setUser(result?.data || null);
+        const jwtUser = await getCurrentUser();
+        if (jwtUser) {
+          const jwtPayload = jwtUser as any; // Cast to any to access custom properties
+          setUser({
+            _id: jwtPayload.sub || "",
+            email: jwtPayload.email || "",
+            role: jwtPayload.role || "user",
+            name: jwtPayload.name || "",
+          });
+        }
       } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error("Error getting JWT user:", error);
       }
     };
     fetchUser();
@@ -103,18 +105,7 @@ export function NavUser() {
   return (
     <div className="px-3">
       <DropdownMenu>
-        {isCollapsed ? (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <DropdownMenuTrigger asChild>{userButton}</DropdownMenuTrigger>
-            </TooltipTrigger>
-            <TooltipContent side="right">
-              <p>{user?.name || user?.email || "User"}</p>
-            </TooltipContent>
-          </Tooltip>
-        ) : (
-          <DropdownMenuTrigger asChild>{userButton}</DropdownMenuTrigger>
-        )}
+        <DropdownMenuTrigger asChild>{userButton}</DropdownMenuTrigger>
 
         <DropdownMenuContent
           className="w-56 rounded-lg shadow-lg border border-gray-200"

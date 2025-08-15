@@ -1,8 +1,7 @@
 import { getCurrentUser } from "@/services/AuthService";
 import { NextRequest, NextResponse } from "next/server";
-import { JWTPayload } from "@/type";
 
-// Define public routes that do not require authentication
+// Public routes that don't require authentication
 const publicRoutes = [
   "/",
   "/login",
@@ -11,55 +10,41 @@ const publicRoutes = [
   "/blog",
   "/events",
   "/courses",
+  "/test-auth",
+  "/api",
 ];
 
-// Define protected routes that require authentication
+// Protected routes that require authentication
 const protectedRoutes = [
-  /^\/admin/,
-  /^\/user/,
-  /^\/dashboard/,
-  /^\/profile/,
-  /^\/settings/,
+  "/admin",
+  "/user",
+  "/dashboard",
+  "/profile",
+  "/settings",
 ];
 
-// Define role-based private routes for different user roles
-const roleBasedPrivateRoutes = {
-  user: [/^\/user/, /^\/dashboard/],
-  admin: [/^\/admin/, /^\/dashboard/],
-  superAdmin: [/^\/admin/, /^\/dashboard/],
-};
-
-// Middleware function to handle requests
-export const middleware = async (request: NextRequest) => {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log("Middleware executing for pathname:", pathname);
-
-  // Check if the route is public
+  // Allow public routes
   if (publicRoutes.includes(pathname)) {
-    console.log("Public route, allowing access");
     return NextResponse.next();
   }
 
-  // Check if the route is protected
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    route.test(pathname)
+  // Check if it's a protected route
+  const isProtected = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
   );
 
-  if (!isProtectedRoute) {
-    console.log("Not a protected route, allowing access");
+  if (!isProtected) {
     return NextResponse.next();
   }
 
-  console.log("Protected route detected, checking authentication");
-
   try {
-    const userInfo = await getCurrentUser();
-    console.log("User info:", userInfo);
+    const user = await getCurrentUser();
 
-    // If user is not authenticated
-    if (!userInfo) {
-      console.log("User not authenticated, redirecting to login");
+    if (!user) {
+      // Redirect to login with the original path
       return NextResponse.redirect(
         new URL(
           `/login?redirectPath=${encodeURIComponent(pathname)}`,
@@ -68,35 +53,10 @@ export const middleware = async (request: NextRequest) => {
       );
     }
 
-    // If user is authenticated, check role-based access
-    const userRole = (userInfo as JWTPayload).role;
-    console.log("User role:", userRole);
-    console.log("Available roles:", Object.keys(roleBasedPrivateRoutes));
-
-    if (
-      userRole &&
-      roleBasedPrivateRoutes[userRole as keyof typeof roleBasedPrivateRoutes]
-    ) {
-      const allowedRoutes =
-        roleBasedPrivateRoutes[userRole as keyof typeof roleBasedPrivateRoutes];
-      const hasAccess = allowedRoutes.some((route) => route.test(pathname));
-
-      if (hasAccess) {
-        console.log("User has access to this route");
-        return NextResponse.next();
-      } else {
-        console.log("User role doesn't have access to this specific route");
-      }
-    } else {
-      console.log("User role not found or not authorized:", userRole);
-    }
-
-    // User is authenticated but doesn't have permission
-    console.log("User authenticated but no permission, redirecting to home");
-    return NextResponse.redirect(new URL("/", request.url));
+    // User is authenticated, allow access
+    return NextResponse.next();
   } catch (error) {
     console.error("Middleware error:", error);
-    // On error, redirect to login
     return NextResponse.redirect(
       new URL(
         `/login?redirectPath=${encodeURIComponent(pathname)}`,
@@ -104,19 +64,8 @@ export const middleware = async (request: NextRequest) => {
       )
     );
   }
-};
+}
 
-// Configuration for the middleware to specify which routes it should match
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico|public).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|public).*)"],
 };

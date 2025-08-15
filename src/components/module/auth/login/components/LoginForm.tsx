@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { loginSchema } from "../loginValidation";
 import { useState } from "react";
 import { loginUser } from "@/services/AuthService";
+import { setClientToken } from "@/lib/tokenUtils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
@@ -42,14 +43,33 @@ const LoginForm: React.FC<LoginFormProps> = ({ isLogin }) => {
     console.log(newdata);
     try {
       const res = await loginUser(newdata);
-      console.log(res);
+      console.log("Login response:", res);
+      console.log("Login response data:", res.data);
+      console.log("Access token:", res.data?.accessToken);
+      
       if (res?.success) {
+        // Store token in localStorage for client-side access
+        if (res.data?.accessToken) {
+          console.log("Storing token in localStorage:", res.data.accessToken);
+          setClientToken(res.data.accessToken);
+          console.log("Token stored, checking localStorage:", localStorage.getItem("token"));
+        } else {
+          console.error("No access token in response data");
+        }
+
         // Get the redirect path from URL parameters
         const redirectPath = searchParams.get("redirectPath");
-        const targetPath = redirectPath || "/";
+        const targetPath = redirectPath || "/dashboard";
 
+        console.log("Login successful!");
+        console.log("Redirect path from URL:", redirectPath);
+        console.log("Target path:", targetPath);
+        console.log("Current URL:", window.location.href);
+
+        // Use router for client-side navigation
         console.log("Redirecting to:", targetPath);
         router.push(targetPath);
+
         toast.success(res?.message);
       } else {
         toast.error(res?.message);

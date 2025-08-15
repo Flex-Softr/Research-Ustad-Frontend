@@ -1,7 +1,5 @@
 "use client";
 import { AiOutlineLogin } from "react-icons/ai";
-
-import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 const navLinks = [
   { name: "Home", href: "/" },
+  { name: "Member Search", href: "/member-search" },
   { name: "Our Researchers", href: "/team-members" },
   { name: "Our Blogs", href: "/blog" },
   { name: "Event", href: "/event" },
@@ -32,6 +31,7 @@ interface NavItem {
 
 const links: NavItem[] = [
   { label: "Home", href: "/" },
+  { label: "Member Search", href: "/member-search" },
   { label: "Team Members", href: "/team-members" },
   { label: "News & Blogs", href: "/blog" },
   { label: "Contact Us", href: "/contact" },
@@ -92,42 +92,37 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto hidden lg:flex justify-between items-center py-4 px-6">
         <Link href="/" className="group">
           <h2 className="font-bold text-[22px] flex items-center transition-colors duration-300">
-            Research{" "}
+            No Your{" "}
             <span className="text-brand-primary group-hover:text-brand-secondary transition-colors duration-300">
-              Ustad
+              Client
             </span>
           </h2>
         </Link>
 
         <div className="flex items-center space-x-8">
-          <div>
-            <DroopDown />
-          </div>
-
           {/* Modern Login Button */}
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="outline"
-                  className="relative group border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white px-6 py-2 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-brand-primary/25 focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 overflow-hidden"
+                  className="relative group bg-gradient-to-r from-blue-700 to-cyan-500 hover:from-cyan-600 hover:to-blue-800 text-white px-7 py-2.5 font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-cyan-500/30 border-0 focus:outline-none focus:ring-2 focus:ring-cyan-400/40 overflow-hidden"
                   style={{
-                    borderRadius: "0 1rem 0 1rem",
+                    borderRadius: "0.75rem 1.25rem 0.75rem 1.25rem",
+                    fontFamily: "'Siyam Rupali', sans-serif",
                   }}
                 >
                   <span className="flex items-center relative z-10">
                     <User className="w-4 h-4 mr-2" />
                     Dashboard
                   </span>
-                  <div className="absolute top-0 right-0 w-4 h-4 bg-brand-primary/20 rounded-bl-full"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-800/10 to-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                  <div className="absolute top-0 right-0 w-5 h-5 bg-cyan-400/20 rounded-bl-full"></div>
+                  <div className="absolute bottom-0 left-0 w-4 h-4 bg-blue-700/20 rounded-tr-full"></div>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2">
                 <DropdownMenuItem className="cursor-pointer">
-                  <Link
-                    href={`/${user?.role}/dashboard`}
-                    className="flex items-center w-full"
-                  >
+                  <Link href="/dashboard" className="flex items-center w-full">
                     <User className="w-4 h-4 mr-2" />
                     Dashboard
                   </Link>
@@ -145,18 +140,19 @@ const Navbar = () => {
           ) : (
             <Link href="/login">
               <Button
-                className="relative group bg-gradient-to-r from-brand-primary to-brand-secondary hover:from-brand-secondary hover:to-brand-primary text-white px-6 py-2 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-brand-primary/30 border-0 focus:outline-none focus:ring-2 focus:ring-brand-secondary/40 overflow-hidden"
+                className="relative group bg-gradient-to-r from-blue-700 to-cyan-500 hover:from-cyan-600 hover:to-blue-800 text-white px-7 py-2.5 font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-cyan-500/30 border-0 focus:outline-none focus:ring-2 focus:ring-cyan-400/40 overflow-hidden"
                 style={{
-                  borderRadius: "1rem 0 1rem 0",
+                  borderRadius: "1.25rem 0.75rem 1.25rem 0.75rem",
+                  fontFamily: "'Siyam Rupali', sans-serif",
                 }}
               >
                 <span className="flex items-center relative z-10">
                   <LogIn className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:scale-110" />
                   Login
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute top-0 right-0 w-4 h-4 bg-white/20 rounded-bl-full"></div>
-                <div className="absolute bottom-0 left-0 w-3 h-3 bg-brand-secondary/30 rounded-tr-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-800/10 to-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-5 h-5 bg-cyan-400/20 rounded-bl-full"></div>
+                <div className="absolute bottom-0 left-0 w-4 h-4 bg-blue-700/20 rounded-tr-full"></div>
               </Button>
             </Link>
           )}
@@ -168,9 +164,9 @@ const Navbar = () => {
           <div className="flex justify-between items-center">
             <Link href="/" className="group">
               <h2 className="font-bold text-[20px] flex items-center transition-colors duration-300">
-                Research{" "}
+                No Your{" "}
                 <span className="text-brand-primary group-hover:text-brand-secondary transition-colors duration-300">
-                  Ustad
+                  Client
                 </span>
               </h2>
             </Link>
@@ -197,7 +193,7 @@ const Navbar = () => {
                   <DropdownMenuContent className="w-40 mt-2">
                     <DropdownMenuItem className="cursor-pointer">
                       <Link
-                        href={`/${user?.role}/dashboard`}
+                        href="/dashboard"
                         className="flex items-center w-full text-sm"
                       >
                         <User className="w-3 h-3 mr-2" />

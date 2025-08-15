@@ -1,4 +1,5 @@
 interface Config {
+  apiUrl: any;
   api: {
     baseUrl: string;
     timeout: number;
@@ -37,15 +38,18 @@ const missingEnvVars = Object.entries(requiredEnvVars)
   .filter(([_, value]) => !value)
   .map(([key]) => key);
 
+// Instead of throwing an error, provide default values
 if (missingEnvVars.length > 0) {
-  throw new Error(
-    `Missing required environment variables: ${missingEnvVars.join(", ")}`
+  console.warn(
+    `Missing environment variables: ${missingEnvVars.join(
+      ", "
+    )}. Using default values.`
   );
 }
 
 export const config: Config = {
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API!,
+    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:5000/api/v1",
     timeout: parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || "30000"),
   },
   app: {

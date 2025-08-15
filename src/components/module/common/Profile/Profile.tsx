@@ -3,9 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { logout } from "@/services/AuthService";
+import { logout, getCurrentUser } from "@/services/AuthService";
 import { ChangePassword } from "@/services/ChangePassword";
-import { GetMe } from "@/services/singleUser";
 import { TUser, UserProfile } from "@/type";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,8 +26,24 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await GetMe();
-        setUser(result?.data);
+        const jwtUser = await getCurrentUser();
+        if (jwtUser) {
+          const jwtPayload = jwtUser as any; // Cast to any to access custom properties
+          setUser({
+            _id: jwtPayload.sub || "",
+            email: jwtPayload.email || "",
+            role: jwtPayload.role || "user",
+            fullName: jwtPayload.name || "",
+            designation: jwtPayload.designation || "",
+            image: "",
+            needsPasswordChange: false,
+            status: "active",
+            isDeleted: false,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            __v: 0,
+          });
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

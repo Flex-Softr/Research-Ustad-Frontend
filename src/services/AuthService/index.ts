@@ -44,7 +44,11 @@ export async function loginUser(data: FieldValues) {
     if (res.success) {
       (await cookies()).set("accessToken", res.data.accessToken);
       revalidateTag("loginuser");
-      return { success: true, message: res.message || "Login successful" };
+      return {
+        success: true,
+        message: res.message || "Login successful",
+        data: res.data, // Return the data including accessToken
+      };
     } else {
       return { success: false, message: res.message || "Login failed" };
     }
@@ -95,6 +99,10 @@ export const getCurrentUser = async () => {
 
 export const logout = async () => {
   (await cookies()).delete("accessToken");
+  // Also clear localStorage for client-side access
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("token");
+  }
   revalidateTag("loginuser");
 };
 

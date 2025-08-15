@@ -1,0 +1,93 @@
+[
+  {
+    "id": "1",
+    "name": "ABDULLAH BIN ZIAD",
+    "phone": "01772065894",
+    "address": "Satkhira, Khulna",
+    "district": "Satkhira",
+    "superAdminComment": "none",
+    "companyRecords": [
+      {
+        "id": "1",
+        "company": "HLD LTD",
+        "disDate": "12/02/25",
+        "amount": "1500 BDT",
+        "age": "2 Yers",
+        "endingDate": "29/06/32",
+        "bod": "1256",
+        "eod": "569",
+        "mobile": "01772065894",
+        "note": "Note about the member: Regular",
+        "noteStatus": "Regular",
+        "scheme": "2500"
+      },
+      {
+        "id": "2",
+        "company": "Kabir LTD",
+        "disDate": "1205",
+        "amount": "17800 BDT",
+        "age": "3 Yers",
+        "endingDate": "29/06/32",
+        "bod": "1256",
+        "eod": "569",
+        "mobile": "01772065894",
+        "note": "Note about the member: Not Good",
+        "noteStatus": "Not Good",
+        "scheme": "2500"
+      },
+      {
+        "id": "3",
+        "company": "Kabir LTD",
+        "disDate": "1205",
+        "amount": "17800 BDT",
+        "age": "3 Yers",
+        "endingDate": "29/06/32",
+        "bod": "1256",
+        "eod": "569",
+        "mobile": "01772065894",
+        "note": "Note about the member: Not Good",
+        "noteStatus": "Not Good",
+        "scheme": "2500"
+      },
+      {
+        "id": "4",
+        "company": "Kabir LTD",
+        "disDate": "1205",
+        "amount": "17800 BDT",
+        "age": "3 Yers",
+        "endingDate": "29/06/32",
+        "bod": "1256",
+        "eod": "569",
+        "mobile": "01772065894",
+        "note": "খুব আক্তা ভাল অবস্থা না ",
+        "noteStatus": "Not Good",
+        "scheme": "2500"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "FATIMA AHMED",
+    "nid": "9876543210987",
+    "phone": "01887654321",
+    "superAdminComment": "none",
+    "address": "Chittagong, Bangladesh",
+    "district": "Chittagong",
+    "companyRecords": [
+      {
+        "id": "3",
+        "company": "Digital Solutions",
+        "disDate": "15/03/25",
+        "amount": "2500 BDT",
+        "age": "1 Year",
+        "endingDate": "15/03/26",
+        "bod": "1000",
+        "eod": "500",
+        "mobile": "01887654321",
+        "note": "দেখা যাক , আর কিছুদিন ",
+        "noteStatus": "Good",
+        "scheme": "1500"
+      }
+    ]
+  }
+]
