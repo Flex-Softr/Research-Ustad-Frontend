@@ -106,7 +106,7 @@ export const UpdateMember = async (id: string, data: any) => {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
     
-    const response = await fetch(ENDPOINTS.update(id), {
+    const response = await fetch(`${api.baseUrl}/users/research-members/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export const UpdatePersonalMember = async (data: any, file?: File) => {
       formData.append('data', JSON.stringify(data));
       formData.append('file', file);
       
-      response = await fetch(ENDPOINTS.updatePersonal, {
+      response = await fetch(`${api.baseUrl}/users/research-members/me`, {
         method: "PUT",
         headers: {
           Authorization: token,
@@ -144,7 +144,7 @@ export const UpdatePersonalMember = async (data: any, file?: File) => {
       });
     } else {
       // If no file, send JSON directly
-      response = await fetch(ENDPOINTS.updatePersonal, {
+      response = await fetch(`${api.baseUrl}/users/research-members/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
