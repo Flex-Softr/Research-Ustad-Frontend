@@ -13,7 +13,7 @@ import {
 import { ResearchPaperFormData, Author } from "./types";
 
 export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?: (error: any) => void) => {
-  const [authorReaseachpaper, setauthorReaseachpaper] = useState<Author[]>([{ name: "", email: "" }]);
+  const [authorReaseachpaper, setauthorReaseachpaper] = useState<Author[]>([{ name: "", role: "Author" }]);
   const [keywords, setKeywords] = useState<string[]>([""]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLoadingData, setIsLoadingData] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
         researchArea: "",
         funding: "",
       });
-      setauthorReaseachpaper([{ name: "", email: undefined }]);
+      setauthorReaseachpaper([{ name: "", role: "Author" }]);
       setKeywords([""]);
     }
   }, [isEditMode, reset]);
@@ -100,26 +100,27 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
               funding: paperData.funding || "",
             });
 
-            // Set authors and keywords - ensure we have at least one empty field if no authors
+            // Set authors and keywords - handle both old and new formats
             let authors: Author[];
             if (paperData.authors && paperData.authors.length > 0) {
-              // Handle both old string format and new Author object format
               authors = paperData.authors.map((author: any) => {
                 if (typeof author === 'string') {
                   // Old format: just a string
-                  return { name: author, email: undefined };
+                  return { name: author, role: "Author", isRegisteredUser: false };
                 } else if (author && typeof author === 'object') {
-                  // New format: object with name and email
+                  // New format: object with name, user ObjectId, role, and isRegisteredUser flag
                   return { 
                     name: author.name || '', 
-                    email: author.email || undefined 
+                    user: author.user || undefined,
+                    role: author.role || "Author",
+                    isRegisteredUser: author.isRegisteredUser || !!author.user
                   };
                 } else {
-                  return { name: '', email: undefined };
+                  return { name: '', role: "Author", isRegisteredUser: false };
                 }
               });
             } else {
-              authors = [{ name: "", email: undefined }];
+              authors = [{ name: "", role: "Author", isRegisteredUser: false }];
             }
             
             const keywords =
@@ -167,7 +168,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
   };
 
   const handleAddResearch = (): void => {
-    setauthorReaseachpaper([...authorReaseachpaper, { name: "", email: undefined }]);
+    setauthorReaseachpaper([...authorReaseachpaper, { name: "", role: "Author", isRegisteredUser: false }]);
   };
 
   const handleResearchChange = (index: number, author: Author): void => {
@@ -203,7 +204,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
     // Filter out empty author entries
     const validAuthors = authorReaseachpaper.filter(
-      (author) => author.name.trim() !== ""
+      (author) => author.name && author.name.trim() !== ""
     );
 
     if (validAuthors.length === 0) {
@@ -212,12 +213,12 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       return;
     }
 
-    // Validate each author name (minimum 2 characters as per backend)
+    // Validate each author name and role
     const invalidAuthors = validAuthors.filter(
-      (author) => author.name.trim().length < 2
+      (author) => (author.name && author.name.trim().length < 2) || !author.role || author.role.trim() === ""
     );
     if (invalidAuthors.length > 0) {
-      toast.error("Each author name must be at least 2 characters long");
+      toast.error("Each author must have a valid name (at least 2 characters) and role");
       setLoading(false);
       return;
     }
@@ -327,7 +328,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
         reset();
         setValue("paperType", ""); // Explicitly reset paperType
-        setauthorReaseachpaper([{ name: "", email: undefined }]);
+        setauthorReaseachpaper([{ name: "", role: "Author", isRegisteredUser: false }]);
         setKeywords([""]);
       } else {
         // For edit mode, redirect based on current pathname and user role

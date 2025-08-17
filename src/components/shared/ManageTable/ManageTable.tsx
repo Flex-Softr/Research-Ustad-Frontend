@@ -225,15 +225,20 @@ const ManageTable: React.FC<ManageTableProps> = ({
               <div className="font-semibold mb-1">Authors:</div>
               {authors.map((author: any, index: number) => (
                 <div key={index} className="mb-1">
-                  {typeof author === 'string' 
+                  {/* {typeof author === 'string' 
                     ? author 
                     : author?.name || 'Unknown Author'
-                  }
-                  {typeof author === 'object' && author?.email && (
+                  } */}
+                  {author.user ? <div className="text-gray-300 text-xs ml-2">
+                      {author.user.fullName}
+                    </div> : <div className="text-gray-300 text-xs ml-2">
+                      {author.name}
+                    </div>}
+                  {/* {typeof author === 'object' && author?.email && (
                     <div className="text-gray-300 text-xs ml-2">
                       {author.email}
                     </div>
-                  )}
+                  )} */}
                 </div>
               ))}
               <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>

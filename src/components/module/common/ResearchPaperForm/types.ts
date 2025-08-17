@@ -1,6 +1,15 @@
 export interface Author {
-  name: string;
-  email?: string;
+  // For registered users (preferred)
+  user?: string; // ObjectId as string
+  
+  // For custom authors (when no user ObjectId)
+  name?: string;
+  
+  // Role for both registered and custom authors
+  role: string;
+  
+  // Additional metadata
+  isRegisteredUser?: boolean;
 }
 
 export interface ResearchPaperFormData {

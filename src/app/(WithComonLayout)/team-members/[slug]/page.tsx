@@ -13,6 +13,8 @@ import {
   Blogs,
   Expertise,
 } from "./components";
+import TestPublications from "@/components/module/common/AllPapers/TestPublications";
+import PublicationsDisplay from "@/components/module/common/AllPapers/PublicationsDisplay";
 
 const SingleMemberPage = () => {
   const params = useParams();

@@ -15,8 +15,9 @@ interface User {
 
 interface AuthorSearchDropdownProps {
   value: string;
-  email?: string;
-  onChange: (name: string, email: string) => void;
+  userId?: string; // Add userId prop
+  role?: string; // Add role prop
+  onChange: (name: string, role: string, userId?: string) => void; // Updated callback
   placeholder?: string;
   className?: string;
 }
@@ -24,6 +25,8 @@ interface AuthorSearchDropdownProps {
 const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   value,
   onChange,
+  userId, // Add userId prop
+  role, // Add role prop
   placeholder = "Search for an author...",
   className = ""
 }) => {
@@ -44,10 +47,6 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   useEffect(() => {
     loadAllUsers();
   }, []);
-
-
-
-
 
   // Debounced search
   useEffect(() => {
@@ -109,7 +108,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setSearchQuery(newValue);
-    onChange(newValue, undefined); // Use undefined instead of empty string for optional email
+    onChange(newValue, role || 'Author', undefined); // Clear userId when typing custom name
     setIsOpen(true);
   };
 
@@ -125,7 +124,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   };
 
   const handleUserSelect = (user: User) => {
-    onChange(user.fullName, user.email || '');
+    onChange(user.fullName, role || 'Author', user._id); // Pass userId for registered users
     setSearchQuery(user.fullName);
     setIsOpen(false);
   };
@@ -134,17 +133,15 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
     // Directly add the custom author name without showing modal
     const authorName = searchQuery.trim();
     if (authorName) {
-      onChange(authorName, undefined); // Use undefined for custom authors without email
+      onChange(authorName, role || 'Author', undefined); // No userId for custom authors
       setSearchQuery(authorName);
       setIsOpen(false);
     }
   };
 
-
-
   const clearInput = () => {
-    setSearchQuery('');
-    onChange('', undefined); // Clear both name and email
+    setSearchQuery("");
+    onChange("", role || 'Author', undefined); // Clear name and userId
     setUsers(allUsers); // Show all users when cleared
   };
 
@@ -316,8 +313,6 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
           {getDropdownContent()}
         </div>
       )}
-
-
     </div>
   );
 };

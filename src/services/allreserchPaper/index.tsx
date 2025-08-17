@@ -344,6 +344,9 @@ export const GetAllUsers = async () => {
         "Content-Type": "application/json",
         Authorization: token,
       },
+      next: {
+        tags: ["users"],
+      },
     });
 
     if (!response.ok) {
