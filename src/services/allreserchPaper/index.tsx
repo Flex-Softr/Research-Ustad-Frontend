@@ -162,25 +162,6 @@ export const MyResearchPaper = async () => {
   }
 };
 
-export const MyCourse = async () => {
-  try {
-    const response = await fetch(`${api.baseUrl}/course`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching research associates:", error);
-    return null;
-  }
-};
 
 export const GetAllResearchPaperPublic = async () => {
   try {

@@ -1,9 +1,9 @@
 import Members from "@/components/module/users/Members/Members";
-import { getResearchMembers } from "@/services/userService";
+import { GetAllResearchAssociate } from "@/services/reserarchers";
 
 const page = async () => {
   try {
-    const response = await getResearchMembers();
+    const response = await GetAllResearchAssociate();
     const allData = response?.data || [];
 
     // Filter out admin and superAdmin users

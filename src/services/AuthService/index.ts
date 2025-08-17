@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { api } from "@/config";
-import { createUser } from "../userService";
+import { createUser } from "../Users";
 
 // ===== AUTHENTICATION FUNCTIONS =====
 

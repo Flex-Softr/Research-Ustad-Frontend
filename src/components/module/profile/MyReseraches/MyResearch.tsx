@@ -75,6 +75,7 @@ const MyResearch = () => {
         columns={columns}
         loading={loading}
         onDelete={handleDelete}
+
         customActions={(item) => (
           <div className="flex gap-2">
             {/* Edit Button */}
