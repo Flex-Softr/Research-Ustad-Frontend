@@ -19,18 +19,6 @@ import { ResearchPaper } from "@/type";
 import { Card, CardDescription, CardTitle } from "../../card";
 
 const components: { title: string; href: string; description: string }[] = [
-  // {
-  //   title: "Inter National Wings",
-  //   href: "/docs/primitives/alert-dialog",
-  //   description:
-  //     "A modal dialog that interrupts the user with important content and expects a response.",
-  // },
-  // {
-  //   title: "National Wings",
-  //   href: "/docs/primitives/hover-card",
-  //   description:
-  //     "For sighted users to preview content available behind a link.",
-  // },
   {
     title: "Publications",
     href: "/allpapers",

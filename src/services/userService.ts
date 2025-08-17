@@ -129,27 +129,27 @@ export async function getAllUsers(): Promise<any> {
 /**
  * Get all users (public - limited fields)
  */
-export async function getPublicUsers(): Promise<any> {
-  try {
-    const token = await getToken();
+// export async function getPublicUsers(): Promise<any> {
+//   try {
+//     const token = await getToken();
     
-    const response = await fetch(`${api.baseUrl}/users/all-users`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      next: {
-        tags: ["users"],
-      },
-    });
+//     const response = await fetch(`${api.baseUrl}/users/all-users`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: token,
+//       },
+//       next: {
+//         tags: ["users"],
+//       },
+//     });
 
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching public users:", error);
-    return null;
-  }
-}
+//     return await response.json();
+//   } catch (error) {
+//     console.error("Error fetching public users:", error);
+//     return null;
+//   }
+// }
 /**
  * Get all research members (public)
  */

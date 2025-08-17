@@ -23,6 +23,7 @@ interface MemberHeaderProps {
 }
 
 const MemberHeader = ({ member }: MemberHeaderProps) => {
+  console.log("member", member);
   return (
     <Card className="bg-white/80 backdrop-blur-sm border border-gray-100 overflow-hidden">
       <CardContent className="p-8">
@@ -31,8 +32,8 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
           <div className="flex-shrink-0">
             <div className="relative">
               <Image
-                src={member.profileImg || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
-                alt={member.fullName}
+                src={member?.profileImg || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
+                alt={member?.fullName}
                 width={200}
                 height={200}
                 className="object-cover w-48 h-48 rounded-full ring-4 ring-gray-200 shadow-lg"
@@ -51,14 +52,14 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
           <div className="flex-1">
             <div className="mb-6">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                {member.fullName}
+                {member?.fullName}
               </h1>
               <div className="flex items-center gap-3 mb-4">
                 <Badge className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-1">
-                  {member.role}
+                  {member?.designation}
                 </Badge>
 
-                {member.socialLinks?.linkedin && (
+                {member?.socialLinks?.linkedin && (
                   <Button
                     asChild
                     variant="outline"
@@ -66,7 +67,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     className="flex items-center gap-2"
                   >
                     <a
-                      href={member.socialLinks.linkedin}
+                      href={member?.socialLinks?.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -76,7 +77,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     </a>
                   </Button>
                 )}
-                {member.socialLinks?.google_scholar && (
+                {member?.socialLinks?.google_scholar && (
                   <Button
                     asChild
                     variant="outline"
@@ -84,7 +85,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     className="flex items-center gap-2"
                   >
                     <a
-                      href={member.socialLinks.google_scholar}
+                      href={member?.socialLinks?.google_scholar}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -94,7 +95,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     </a>
                   </Button>
                 )}
-                {member.socialLinks?.researchgate && (
+                {member?.socialLinks?.researchgate && (
                   <Button
                     asChild
                     variant="outline"
@@ -102,7 +103,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     className="flex items-center gap-2"
                   >
                     <a
-                      href={member.socialLinks.researchgate}
+                      href={member?.socialLinks?.researchgate}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -114,41 +115,41 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                 )}
               </div>
 
-              {member.shortBio && (
+              {member?.shortBio && (
                 <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  {member.shortBio}
+                  {member?.shortBio}
                 </p>
               )}
             </div>
 
             {/* Contact & Location Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              {member.current?.institution && (
+              {member?.current?.institution && (
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-brand-secondary" />
                   <span className="text-gray-700">
-                    {member.current.institution}
+                    {member?.current?.institution}
                   </span>
                 </div>
               )}
 
-              {member.education?.field && (
+              {member?.education?.field && (
                 <div className="flex items-center gap-3">
                   <Award className="h-5 w-5 text-brand-secondary" />
                   <span className="text-gray-700">
-                    {member.education.field}
+                    {member?.education?.field}
                   </span>
                 </div>
               )}
 
-              {member.email && (
+              {member?.email && (
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-brand-secondary" />
                   <a
-                    href={`mailto:${member.email}`}
+                    href={`mailto:${member?.email}`}
                     className="text-gray-700 hover:text-brand-secondary transition-colors"
                   >
-                    {member.email}
+                    {member?.email}
                   </a>
                 </div>
               )}

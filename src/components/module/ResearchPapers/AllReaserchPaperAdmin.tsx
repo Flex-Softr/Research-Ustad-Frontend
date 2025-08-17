@@ -1,6 +1,11 @@
 "use client";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
-import { DeletePaper, GetAllResearchPaper, ApprovePaper, RejectPaper } from "@/services/allreserchPaper";
+import {
+  DeletePaper,
+  GetAllResearchPaper,
+  ApprovePaper,
+  RejectPaper,
+} from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -125,19 +130,29 @@ const AllreserchPaperAdmin = () => {
           if (column.value === "status") {
             const status = (item as TPapers).status || "ongoing";
             const statusConfig = {
-              published: { label: "Published", className: "bg-green-100 text-green-800" },
-              ongoing: { label: "Ongoing", className: "bg-yellow-100 text-yellow-800" }
+              published: {
+                label: "Published",
+                className: "bg-green-100 text-green-800",
+              },
+              ongoing: {
+                label: "Ongoing",
+                className: "bg-yellow-100 text-yellow-800",
+              },
             };
-            
-            const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.ongoing;
-            
+
+            const config =
+              statusConfig[status as keyof typeof statusConfig] ||
+              statusConfig.ongoing;
+
             return (
-              <span className={`px-2 py-1 text-xs font-medium rounded-full ${config.className}`}>
+              <span
+                className={`px-2 py-1 text-xs font-medium rounded-full ${config.className}`}
+              >
                 {config.label}
               </span>
             );
           }
-          
+
           return null; // Use default rendering for other columns
         }}
         customActions={(item) => (
@@ -169,7 +184,10 @@ const AllreserchPaperAdmin = () => {
             </div>
 
             {/* Delete Button with Confirmation */}
-            <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+            <AlertDialog
+              open={deleteDialogOpen}
+              onOpenChange={setDeleteDialogOpen}
+            >
               <AlertDialogTrigger asChild>
                 <Button
                   variant="outline"
@@ -185,7 +203,8 @@ const AllreserchPaperAdmin = () => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Research Paper</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete "{(item as TPapers).title}"? This action cannot be undone.
+                    Are you sure you want to delete "{(item as TPapers).title}"?
+                    This action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

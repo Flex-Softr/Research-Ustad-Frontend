@@ -9,9 +9,10 @@ import { ApiErrorHandler, handleNetworkError } from "@/utils/apiErrorHandler";
 // Get endpoints based on configuration
 const ENDPOINTS = getResearchMemberEndpoints();
 
+
 export const GetAllResearchAssociate = async () => {
   try {
-    const response = await fetch(ENDPOINTS.getAll, {
+    const response = await fetch(`${api.baseUrl}/users/research-members`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,20 +32,20 @@ export const GetAllResearchAssociate = async () => {
 
 export const GetSingleMember = async (id: string) => {
   try {
-    const response = await fetch(ENDPOINTS.getSingle(id), {
+    const response = await fetch(`${api.baseUrl}/users/research-members/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      next: {
+        tags: ["member"],
+      },
     });
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
-    }
-
-    return await response.json();
+    return await ApiErrorHandler.handleApiResponse(response, "fetch single research member");
   } catch (error) {
-    console.error("Error fetching single member:", error);
+    const apiError = handleNetworkError(error, "fetch single research member");
+    console.error("Error fetching single member:", apiError);
     return null;
   }
 };

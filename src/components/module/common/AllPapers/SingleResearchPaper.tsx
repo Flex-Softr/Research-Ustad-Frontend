@@ -187,17 +187,45 @@ const SingleResearchPaper = ({
                     <div className="flex items-center gap-2 mb-4">
                       <Users className="h-5 w-5 text-brand-secondary" />
                       <div className="flex flex-wrap gap-1">
-                        {paper?.authors?.map((author: any, index: number) => (
-                          <span
-                            key={index}
-                            className="text-sm text-gray-700 font-medium"
-                          >
-                            {typeof author === "string"
-                              ? author
-                              : author?.name || "Unknown Author"}
-                            {index < (paper?.authors?.length || 0) - 1 && ", "}
-                          </span>
-                        )) || (
+                        {paper?.authors?.map((author: any, index: number) => {
+                          // Handle different author formats
+                          let authorName = "Unknown Author";
+                          let authorRole = "Author";
+
+                          if (typeof author === "string") {
+                            // Legacy string format
+                            authorName = author;
+                          } else if (
+                            author?.isRegisteredUser &&
+                            author?.user?.fullName
+                          ) {
+                            // Registered user with populated user data
+                            authorName = author.user.fullName;
+                            authorRole = author?.role || "Author";
+                          } else if (author?.name) {
+                            // Non-registered user or fallback
+                            authorName = author.name;
+                            authorRole = author?.role || "Author";
+                          }
+
+                          return (
+                            <span
+                              key={author?._id || index}
+                              className="text-sm text-gray-700 font-medium cursor-help relative group"
+                              // title={`${authorName} (${authorRole})`}
+                            >
+                              {authorName}
+                              {index < (paper?.authors?.length || 0) - 1 &&
+                                ", "}
+
+                              {/* Hover tooltip */}
+                              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                {authorName}({authorRole})
+                                <span className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></span>
+                              </span>
+                            </span>
+                          );
+                        }) || (
                           <span className="text-sm text-gray-500">
                             No authors listed
                           </span>
@@ -437,10 +465,20 @@ const SingleResearchPaper = ({
                           <span>{relatedPaper?.year || "N/A"}</span>
                           <span>
                             {relatedPaper?.authors?.[0]
-                              ? typeof relatedPaper.authors[0] === "string"
-                                ? relatedPaper.authors[0]
-                                : (relatedPaper.authors[0] as any)?.name ||
-                                  "Unknown Author"
+                              ? (() => {
+                                  const author = relatedPaper.authors[0] as any;
+                                  if (typeof author === "string") {
+                                    return author;
+                                  } else if (
+                                    author?.isRegisteredUser &&
+                                    author?.user?.fullName
+                                  ) {
+                                    return author.user.fullName;
+                                  } else if (author?.name) {
+                                    return author.name;
+                                  }
+                                  return "Unknown Author";
+                                })()
                               : "Unknown Author"}
                           </span>
                         </div>

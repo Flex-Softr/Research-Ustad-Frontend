@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { FilterState, ResearchPapersPageProps, TPapers } from "@/type";
+import { FilterState, ResearchPapersPageProps } from "@/type";
+import { TPapers } from "@/type/research";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import Pagination from "@/components/shared/Pagination";
 import FilterSidebar from "./FilterSidebar";
@@ -28,15 +29,15 @@ const ResearchPapersPage = ({
       try {
         // If papers are provided as props, use them
         if (propPapers && propPapers.length > 0) {
+          console.log("Using papers from props:", propPapers.length);
           setPapers(propPapers);
           setLoading(false);
           return;
         }
 
-        // Otherwise, load from JSON file
-        const response = await fetch("/json/research-papers.json");
-        const data = await response.json();
-        setPapers(data.papers || []);
+        // If no papers provided, show empty state
+        console.log("No papers data provided from API - showing empty state");
+        setPapers([]);
       } catch (error) {
         console.error("Failed to load papers:", error);
         setPapers([]);
@@ -57,12 +58,16 @@ const ResearchPapersPage = ({
       // Search filter
       const searchMatch =
         paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        paper.authors.some((author: any) =>
-          (typeof author === 'string' 
-            ? author 
-            : author?.name || ''
-          ).toLowerCase().includes(searchQuery.toLowerCase())
-        ) ||
+        paper.authors.some((author: any) => {
+          if (typeof author === "string") {
+            return author.toLowerCase().includes(searchQuery.toLowerCase());
+          } else if (author?.isRegisteredUser && author?.user?.fullName) {
+            return author.user.fullName.toLowerCase().includes(searchQuery.toLowerCase());
+          } else if (author?.name) {
+            return author.name.toLowerCase().includes(searchQuery.toLowerCase());
+          }
+          return false;
+        }) ||
         paper.journal.toLowerCase().includes(searchQuery.toLowerCase());
 
       // Category filter

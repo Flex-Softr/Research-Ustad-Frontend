@@ -26,9 +26,9 @@ const ResearchPapers = () => {
   const pathname = usePathname();
 
   // Determine if we're in admin or user dashboard
-  const isAdminDashboard = pathname.includes('/admin/dashboard');
-  const editRoute = isAdminDashboard 
-    ? `/admin/dashboard/edit-research-paper` 
+  const isAdminDashboard = pathname.includes("/admin/dashboard");
+  const editRoute = isAdminDashboard
+    ? `/admin/dashboard/edit-research-paper`
     : `/user/dashboard/edit-research-paper`;
 
   useEffect(() => {
@@ -86,8 +86,11 @@ const ResearchPapers = () => {
           if (column.value === "authors") {
             const authors = item.authors || [];
             const authorCount = authors.length;
-            const displayText = authorCount > 0 ? `${authorCount} author${authorCount > 1 ? 's' : ''}` : 'No authors';
-            
+            const displayText =
+              authorCount > 0
+                ? `${authorCount} author${authorCount > 1 ? "s" : ""}`
+                : "No authors";
+
             return (
               <div className="relative group">
                 <span className="text-sm text-gray-600 cursor-help">
@@ -98,11 +101,10 @@ const ResearchPapers = () => {
                     <div className="font-semibold mb-1">Authors:</div>
                     {authors.map((author: any, index: number) => (
                       <div key={index} className="mb-1">
-                        {typeof author === 'string' 
-                          ? author 
-                          : author?.name || 'Unknown Author'
-                        }
-                        {typeof author === 'object' && author?.email && (
+                        {typeof author === "string"
+                          ? author
+                          : author?.name || "Unknown Author"}
+                        {typeof author === "object" && author?.email && (
                           <div className="text-gray-300 text-xs ml-2">
                             {author.email}
                           </div>
@@ -115,39 +117,57 @@ const ResearchPapers = () => {
               </div>
             );
           }
-          
+
           // Custom rendering for status column
           if (column.value === "status") {
             const status = item.status || "ongoing";
             const statusConfig = {
-              published: { label: "Published", className: "bg-green-100 text-green-800" },
-              ongoing: { label: "Ongoing", className: "bg-yellow-100 text-yellow-800" }
+              published: {
+                label: "Published",
+                className: "bg-green-100 text-green-800",
+              },
+              ongoing: {
+                label: "Ongoing",
+                className: "bg-yellow-100 text-yellow-800",
+              },
             };
-            
-            const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.ongoing;
-            
+
+            const config =
+              statusConfig[status as keyof typeof statusConfig] ||
+              statusConfig.ongoing;
+
             return (
-              <span className={`px-2 py-1 text-xs font-medium rounded-full ${config.className}`}>
+              <span
+                className={`px-2 py-1 text-xs font-medium rounded-full ${config.className}`}
+              >
                 {config.label}
               </span>
             );
           }
-          
+
           return null; // Use default rendering for other columns including title
         }}
         customActions={(item) => (
           <div className="flex gap-2">
             {/* Edit Button */}
             <Link href={`${editRoute}/${item._id}`}>
-              <Button variant="outline" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+              >
                 <Edit className="w-4 h-4" />
               </Button>
             </Link>
-            
+
             {/* Delete Button */}
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                >
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </AlertDialogTrigger>
@@ -155,7 +175,8 @@ const ResearchPapers = () => {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Research Paper</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                    Are you sure you want to delete "{item.title}"? This action
+                    cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

@@ -11,7 +11,7 @@ interface PublicationsProps {
 const Publications = ({ member }: PublicationsProps) => {
   // Filter only published papers
   const publishedPapers = member.publications?.filter(
-    (pub) => (pub.status === "published" || pub.status === "Published") && pub.isApproved
+    (pub) => (pub.status === "published" || pub.status === "Published")
   ) || [];
 
   if (publishedPapers.length === 0) {
@@ -35,6 +35,7 @@ const Publications = ({ member }: PublicationsProps) => {
   return (
     <Card className="rounded-none border-0">
       <CardContent>
+        
         <div className="space-y-6">
           {publishedPapers.map((publication, index) => (
             <div

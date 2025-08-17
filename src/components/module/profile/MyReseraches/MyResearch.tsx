@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DeletePaper } from "@/services/allreserchPaper";
+import { DeletePaper, GetAllResearchPaperMy } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -20,16 +20,36 @@ import { Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
 
-const MyResearch = ({data}:{data:TPapers[]}) => {
-  const [papers, setPapers] = useState<TPapers[]>(data);
+const MyResearch = () => {
+  const [papers, setPapers] = useState<TPapers[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Fetch data dynamically
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await GetAllResearchPaperMy();
+        setPapers(response?.data || []);
+      } catch (error) {
+        console.error("Error fetching research papers:", error);
+        toast.error("Failed to fetch research papers");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleDelete = async (id: string) => {
     try {
       const res = await DeletePaper(id);
       if (res) {
         toast.success("Research paper deleted successfully");
-        // Remove the deleted paper from the local state
-        setPapers(prev => prev.filter(paper => paper._id !== id));
+        // Refresh data after deletion to get updated information
+        const response = await GetAllResearchPaperMy();
+        setPapers(response?.data || []);
       }
     } catch (error) {
       console.error("Error deleting paper:", error);
@@ -53,7 +73,7 @@ const MyResearch = ({data}:{data:TPapers[]}) => {
         data={papers}
         isvalue="myresearch"
         columns={columns}
-        loading={false}
+        loading={loading}
         onDelete={handleDelete}
         customActions={(item) => (
           <div className="flex gap-2">

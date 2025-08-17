@@ -9,7 +9,7 @@ interface OngoingPapersProps {
 
 const OngoingPapers = ({ member }: OngoingPapersProps) => {
   const ongoingPapers = member.publications?.filter(
-    (pub) => pub.status !== "published" && !pub.isApproved
+    (pub) => pub.status !== "published" && pub.status !== "Published"
   ) || [];
 
   if (ongoingPapers.length === 0) {
@@ -30,7 +30,11 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     );
   }
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status?: string) => {
+    if (!status) {
+      return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+    
     switch (status) {
       case 'Under Review':
         return "bg-blue-100 text-blue-800 border-blue-200";
@@ -43,7 +47,11 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     }
   };
 
-  const getTypeIcon = (type: string) => {
+  const getTypeIcon = (type?: string) => {
+    if (!type) {
+      return <FileText className="h-4 w-4" />;
+    }
+    
     switch (type.toLowerCase()) {
       case 'journal':
         return <FileText className="h-4 w-4" />;
@@ -54,7 +62,11 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     }
   };
 
-  const getProgressPercentage = (status: string) => {
+  const getProgressPercentage = (status?: string) => {
+    if (!status) {
+      return 50;
+    }
+    
     switch (status) {
       case 'In Preparation':
         return 25;
@@ -80,14 +92,14 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                 {/* Paper Title and Status */}
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                   <h3 className="text-lg font-semibold text-gray-900 hover:text-brand-secondary transition-colors flex-1">
-                    {paper.title}
+                    {paper.title || 'Untitled Paper'}
                   </h3>
                   <Badge
                     variant="outline"
                     className={getStatusColor(paper.status)}
                   >
                     <Clock className="h-3 w-3 mr-1" />
-                    {paper.status}
+                    {paper.status || 'Unknown Status'}
                   </Badge>
                 </div>
 
@@ -102,12 +114,12 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                 <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     {getTypeIcon(paper.paperType)}
-                    <span className="font-medium">{paper.journal}</span>
+                    <span className="font-medium">{paper.journal || 'No Journal'}</span>
                   </div>
                   
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
-                    <span>Expected {paper.year}</span>
+                    <span>Expected {paper.year || 'TBD'}</span>
                   </div>
 
                   <div className="flex items-center gap-2">
@@ -115,7 +127,7 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                       variant="outline" 
                       className="bg-gray-50 text-gray-700 border-gray-200 text-xs"
                     >
-                      {paper.paperType.charAt(0).toUpperCase() + paper.paperType.slice(1)}
+                      {paper.paperType ? paper.paperType.charAt(0).toUpperCase() + paper.paperType.slice(1) : 'Paper'}
                     </Badge>
                   </div>
                 </div>

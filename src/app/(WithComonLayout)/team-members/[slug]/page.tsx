@@ -13,8 +13,7 @@ import {
   Blogs,
   Expertise,
 } from "./components";
-import TestPublications from "@/components/module/common/AllPapers/TestPublications";
-import PublicationsDisplay from "@/components/module/common/AllPapers/PublicationsDisplay";
+import { GetSingleMember } from "@/services/reserarchers";
 
 const SingleMemberPage = () => {
   const params = useParams();
@@ -27,20 +26,59 @@ const SingleMemberPage = () => {
     const fetchMember = async () => {
       try {
         setLoading(true);
-        const response = await fetch("/json/team-members.json");
-        const data = await response.json();
+        const response = await GetSingleMember(params.slug as string);
+        console.log("Single Member API Response:", response);
 
-        if (data?.members) {
-          const foundMember = data.members.find(
-            (m: TeamMember) => m.id === params.slug
-          );
-          if (foundMember) {
-            setMember(foundMember);
-          } else {
-            setError("Member not found");
-          }
+        if (response?.success && response?.data) {
+          // Transform API data to match TeamMember interface
+          const transformedMember = {
+            id: response?.data?._id,
+            user: response?.data?._id,
+            fullName: response?.data?.fullName,
+            email: response?.data?.email,
+            contactNo: response?.data?.contactNo,
+            role: response?.data?.role,
+            designation: response?.data?.designation,
+            profileImg: response?.data?.image,
+            shortBio: response?.data?.shortBio,
+            research: response?.data?.research || [],
+            isDeleted: response?.data?.isDeleted,
+            current: response?.data?.current,
+            education: response?.data?.education,
+            socialLinks: response?.data?.socialLinks,
+            expertise: response?.data?.expertise || [],
+            awards: response?.data?.awards || [],
+            conferences: response?.data?.conferences || [],
+            publications: response?.data?.publications || [], // This will be populated from the API
+          };
+          
+          setMember(transformedMember);
+        } else if (response?.data) {
+          // If no success flag but data exists
+          const transformedMember = {
+            id: response?.data?._id,
+            user: response?.data?._id,
+            fullName: response.data.fullName,
+            email: response.data.email,
+            contactNo: response.data.contactNo,
+            role: response.data.role,
+            designation: response.data.designation,
+            profileImg: response.data.image,
+            shortBio: response.data.shortBio,
+            research: response.data.research || [],
+            isDeleted: response.data.isDeleted,
+            current: response.data.current,
+            education: response.data.education,
+            socialLinks: response.data.socialLinks,
+            expertise: response.data.expertise || [],
+            awards: response.data.awards || [],
+            conferences: response.data.conferences || [],
+            publications: response.data.publications || [],
+          };
+          
+          setMember(transformedMember);
         } else {
-          setError("Failed to load member data");
+          setError("Member not found");
         }
       } catch (error) {
         console.error("Error fetching member:", error);
@@ -110,12 +148,12 @@ const SingleMemberPage = () => {
     {
       id: "publications",
       label: "Publications",
-      count: member.publications?.filter(pub => (pub.status === "published" || pub.status === "Published") && pub.isApproved).length || 0,
+      count: member.publications?.filter(pub => (pub.status === "published" || pub.status === "Published")).length || 0,
     },
     {
       id: "ongoing",
       label: "Ongoing Papers",
-      count: member.publications?.filter(pub => (pub.status !== "published" && pub.status !== "Published") && !pub.isApproved).length || 0,
+      count: member.publications?.filter(pub => (pub.status !== "published" && pub.status !== "Published")).length || 0,
     },
     { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
   ];

@@ -213,8 +213,14 @@ const ManageTable: React.FC<ManageTableProps> = ({
     if (column.value === "authors") {
       const authors = cellValue || [];
       const authorCount = authors.length;
-      const displayText = authorCount > 0 ? `${authorCount} author${authorCount > 1 ? 's' : ''}` : 'No authors';
-      
+      const displayText =
+        authorCount > 0
+          ? `${authorCount} author${authorCount > 1 ? "s" : ""}`
+          : "No authors";
+
+      // Debug: Log the authors data to see the structure
+      console.log("Authors data in ManageTable:", authors);
+
       return (
         <div className="relative group">
           <span className="text-sm text-gray-600 cursor-help">
@@ -223,24 +229,25 @@ const ManageTable: React.FC<ManageTableProps> = ({
           {authors.length > 0 && (
             <div className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 whitespace-nowrap max-w-xs">
               <div className="font-semibold mb-1">Authors:</div>
-              {authors.map((author: any, index: number) => (
-                <div key={index} className="mb-1">
-                  {/* {typeof author === 'string' 
-                    ? author 
-                    : author?.name || 'Unknown Author'
-                  } */}
-                  {author.user ? <div className="text-gray-300 text-xs ml-2">
-                      {author.user.fullName}
-                    </div> : <div className="text-gray-300 text-xs ml-2">
-                      {author.name}
-                    </div>}
-                  {/* {typeof author === 'object' && author?.email && (
+              {authors.map((author: any, index: number) => {
+                // Determine the display name
+                let displayName = "";
+                if (author?.user?.fullName) {
+                  displayName = author.user.fullName;
+                } else if (author?.name) {
+                  displayName = author.name;
+                } else {
+                  displayName = "Unknown Author";
+                }
+
+                return (
+                  <div key={index} className="mb-1">
                     <div className="text-gray-300 text-xs ml-2">
-                      {author.email}
+                      {displayName}
                     </div>
-                  )} */}
-                </div>
-              ))}
+                  </div>
+                );
+              })}
               <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
             </div>
           )}
@@ -269,9 +276,11 @@ const ManageTable: React.FC<ManageTableProps> = ({
       );
     }
 
-    if (column.value === "publishedDate" ||
+    if (
+      column.value === "publishedDate" ||
       column.value === "createdAt" ||
-      column.value === "updatedAt") {
+      column.value === "updatedAt"
+    ) {
       return formatDate(cellValue);
     }
 
@@ -362,8 +371,6 @@ const ManageTable: React.FC<ManageTableProps> = ({
           </Link>
         )}
 
-
-
         {/* Approve/Reject Buttons for Papers */}
         {isvalue === "paperadmin" && (
           <div className="flex gap-2">
@@ -415,9 +422,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
             onClick={() => handleRoleChange(item?._id, item?.role)}
           >
             <ShieldCheck className="w-4 h-4" />{" "}
-            {item.role === "admin"
-              ? "Promot to User"
-              : "Promote to Admin"}
+            {item.role === "admin" ? "Promot to User" : "Promote to Admin"}
           </Button>
         )}
 
@@ -428,7 +433,10 @@ const ManageTable: React.FC<ManageTableProps> = ({
           isvalue === "myresearch" ||
           isvalue === "ongoingproject") &&
           onDelete && (
-            <AlertDialog open={deleteDialogOpen && itemToDelete?._id === item._id} onOpenChange={setDeleteDialogOpen}>
+            <AlertDialog
+              open={deleteDialogOpen && itemToDelete?._id === item._id}
+              onOpenChange={setDeleteDialogOpen}
+            >
               <AlertDialogTrigger asChild>
                 <Button
                   variant="outline"
@@ -447,7 +455,8 @@ const ManageTable: React.FC<ManageTableProps> = ({
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete Confirmation</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to delete "{getItemTitle(item)}"? This action cannot be undone.
+                    Are you sure you want to delete "{getItemTitle(item)}"? This
+                    action cannot be undone.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -528,9 +537,7 @@ const ManageTable: React.FC<ManageTableProps> = ({
                     {renderCellContent(column, item)}
                   </TableCell>
                 ))}
-                <TableCell>
-                  {renderActions(item)}
-                </TableCell>
+                <TableCell>{renderActions(item)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
