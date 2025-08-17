@@ -24,6 +24,8 @@ import {
   Menu,
   BookOpen,
   FolderOpen,
+  Clock,
+  Crown,
 } from "lucide-react";
 
 import {
@@ -123,6 +125,16 @@ const adminRoute = {
           url: "/admin/dashboard/allresearchpaper",
           icon: FileText,
         },
+        {
+          title: "Pending Research Paper",
+          url: "/admin/dashboard/pendingresearchpaper",
+          icon: Clock,
+        },
+        {
+          title: "Create Research Paper",
+          url: "/admin/dashboard/adminCreateResearchPaper",
+          icon: PenSquare,
+        },
       ],
     },
     {
@@ -158,17 +170,7 @@ const adminRoute = {
           icon: FileText,
         },
         {
-          title: "Create Research Paper",
-          url: "/admin/dashboard/createresearchPaper",
-          icon: PenSquare,
-        },
-        {
-          title: "Blog Post",
-          url: "/admin/dashboard/blogpost",
-          icon: PenSquare,
-        },
-        {
-          title: "Show All Blog",
+          title: "My Blogs",
           url: "/admin/dashboard/allblog",
           icon: NotebookPen,
         },
@@ -178,6 +180,11 @@ const adminRoute = {
           icon: User,
         },
       ],
+    },
+    {
+      title: "SuperAdmin Management",
+      url: "/admin/dashboard/superadmin",
+      icon: Crown,
     },
   ],
   navSecondary: [
@@ -220,29 +227,38 @@ const userRoute = {
       isActive: true,
     },
     {
-      title: "Update Information",
-      url: "/user/dashboard/updateinfo",
-      icon: UserPlus,
-    },
-    {
-      title: "My All Papers",
-      url: "/user/dashboard/mypapers",
-      icon: FileStack,
-    },
-    {
-      title: "Post a Blog",
-      url: "/user/dashboard/createblog",
-      icon: PenSquare,
-    },
-    {
-      title: "My All Blogs",
+      title: "Blogs",
       url: "/user/dashboard/myallblog",
       icon: NotebookPen,
+      items: [
+        {
+          title: "My All Blogs",
+          url: "/user/dashboard/myallblog",
+          icon: NotebookPen,
+        },
+        {
+          title: "Post a Blog",
+          url: "/user/dashboard/createblog",
+          icon: PenSquare,
+        },
+      ],
     },
     {
-      title: "Add Research Paper",
-      url: "/user/dashboard/addresearchpaper",
+      title: "Research Paper",
+      url: "#",
       icon: FileText,
+      items: [
+        {
+          title: "My All Research Papers",
+          url: "/user/dashboard/mypapers",
+          icon: FileStack,
+        },
+        {
+          title: "Add Research Paper",
+          url: "/user/dashboard/addresearchpaper",
+          icon: FileText,
+        },
+      ],
     },
     {
       title: "Settings",
@@ -253,6 +269,11 @@ const userRoute = {
           title: "Profile",
           url: "/user/dashboard/profileinfo",
           icon: User,
+        },
+        {
+          title: "Update Information",
+          url: "/user/dashboard/updateinfo",
+          icon: UserPlus,
         },
       ],
     },
@@ -300,9 +321,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   if (!user) return null;
 
+  // Create admin route with conditional SuperAdmin management
+  const adminRouteWithSuperAdmin = {
+    ...adminRoute,
+    navMain: user.role === "superAdmin" 
+      ? [...adminRoute.navMain]
+      : adminRoute.navMain.filter(item => item.title !== "SuperAdmin Management")
+  };
+
   const data =
     user.role === "superAdmin" || user.role === "admin"
-      ? adminRoute
+      ? adminRouteWithSuperAdmin
       : userRoute;
 
   return (
@@ -315,10 +344,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div className="flex items-center gap-2 px-4 py-3">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
-            <Link href="/">
-            <GraduationCap className="w-5 h-5 text-white" />
-                </Link>
-            
+              <Link href="/">
+                <GraduationCap className="w-5 h-5 text-white" />
+              </Link>
             </div>
             {!isCollapsed && (
               <div>

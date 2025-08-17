@@ -106,14 +106,14 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                   </td> */}
                   <td className="px-6 py-4">
                     <Badge
-                      variant={paper.isApproved ? "default" : "secondary"}
+                      variant={paper.status === "published" ? "default" : "secondary"}
                       className={`text-xs ${
-                        paper.isApproved
+                        paper.status === "published"
                           ? "bg-green-100 text-green-800"
                           : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
-                      {paper.isApproved ? "Published" : "Ongoing"}
+                      {paper.status === "published" ? "Published" : "Ongoing"}
                     </Badge>
                   </td>
                   <td className="px-6 py-4">

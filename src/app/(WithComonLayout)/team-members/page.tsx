@@ -9,6 +9,7 @@ import {
   TeamMembersGrid,
   TeamMember,
 } from "./components";
+import { GetAllResearchAssociate } from "@/services/reserarchers";
 
 const TeamMembersPage = () => {
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -18,17 +19,67 @@ const TeamMembersPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9); // 3 members per row * 3 rows
 
-  // Load team members data from JSON file
+  // Load team members data from API
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch("/json/team-members.json");
-        const data = await response.json();
-        if (data?.members) {
-          setMembers(data.members);
+        setLoading(true);
+        const response = await GetAllResearchAssociate();
+        console.log("API Response:", response);
+        
+        if (response?.success && response?.data) {
+          // Transform API data to match TeamMember interface
+          const transformedMembers = response.data.map((member: any) => ({
+            id: member._id,
+            user: member._id,
+            fullName: member.fullName,
+            email: member.email,
+            contactNo: member.contactNo,
+            role: member.role,
+            profileImg: member.image,
+            shortBio: member.shortBio,
+            research: member.research || [],
+            isDeleted: member.isDeleted,
+            current: member.current,
+            education: member.education,
+            socialLinks: member.socialLinks,
+            expertise: member.expertise || [],
+            awards: member.awards || [],
+            conferences: member.conferences || [],
+            publications: member.publications || [], // This will be populated from the API
+          }));
+          
+          setMembers(transformedMembers);
+        } else if (response?.data) {
+          // If no success flag but data exists
+          const transformedMembers = response.data.map((member: any) => ({
+            id: member._id,
+            user: member._id,
+            fullName: member.fullName,
+            email: member.email,
+            contactNo: member.contactNo,
+            role: member.role,
+            profileImg: member.image,
+            shortBio: member.shortBio,
+            research: member.research || [],
+            isDeleted: member.isDeleted,
+            current: member.current,
+            education: member.education,
+            socialLinks: member.socialLinks,
+            expertise: member.expertise || [],
+            awards: member.awards || [],
+            conferences: member.conferences || [],
+            publications: member.publications || [],
+          }));
+          
+          setMembers(transformedMembers);
+        } else {
+          console.log("No members data available from API");
+          setMembers([]);
         }
       } catch (error) {
         console.error("Error fetching team members:", error);
+        setMembers([]);
       } finally {
         setLoading(false);
       }

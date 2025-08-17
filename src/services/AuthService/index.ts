@@ -4,26 +4,16 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { api } from "@/config";
-import { JWTPayload } from "@/type";
+import { createUser } from "../Users";
+
+// ===== AUTHENTICATION FUNCTIONS =====
 
 export const registerUser = async (data: any) => {
-  const token = (await cookies()).get("accessToken")?.value;
-  if (!token) {
-    throw new Error("Access token not found");
-  }
   try {
-    const res = await fetch(`${api.baseUrl}/users/create-ResearchMembars`, {
-      method: "POST",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const result = await res.json();
+    const result = await createUser(data);
     return result;
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error.message };
   }
 };
 
@@ -111,6 +101,6 @@ export const getNewToken = async () => {
 
     return res.json();
   } catch (error: any) {
-    return Error(error);
+    return { success: false, message: error.message };
   }
 };

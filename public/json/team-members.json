@@ -29,53 +29,141 @@
             },
             "publications": [
                 {
-                    "id": "pub1",
-                    "title": "Deep Learning Approaches for Natural Language Processing",
-                    "journal": "Nature Machine Intelligence",
+                    "_id": "pub1",
                     "year": 2024,
+                    "title": "Deep Learning Approaches for Natural Language Processing",
+                    "authors": [
+                        "Dr. Sarah Johnson",
+                        "Prof. Michael Chen",
+                        "Dr. Emily Rodriguez"
+                    ],
+                    "journal": "Nature Machine Intelligence",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/nature-mi-2024-001",
+                    "isApproved": true,
+                    "abstract": "This study presents novel deep learning approaches for natural language processing tasks, achieving state-of-the-art performance on multiple benchmarks.",
+                    "keywords": [
+                        "Deep Learning",
+                        "Natural Language Processing",
+                        "Machine Learning",
+                        "Neural Networks"
+                    ],
                     "citations": 156,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Artificial Intelligence",
+                    "funding": "National Science Foundation",
+                    "createdAt": "2024-01-10T09:30:00Z",
+                    "updatedAt": "2024-03-15T14:20:00Z"
                 },
                 {
-                    "id": "pub2",
-                    "title": "Transformer Models in Computer Vision",
-                    "journal": "IEEE Transactions on Pattern Analysis",
+                    "_id": "pub2",
                     "year": 2023,
+                    "title": "Transformer Models in Computer Vision",
+                    "authors": [
+                        "Dr. Sarah Johnson",
+                        "Dr. James Wilson",
+                        "Prof. Lisa Wang"
+                    ],
+                    "journal": "IEEE Transactions on Pattern Analysis",
+                    "paperType": "conference",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/ieee-tpami-2023-002",
+                    "isApproved": true,
+                    "abstract": "This paper explores the application of transformer architectures in computer vision tasks, demonstrating improved performance over traditional CNN approaches.",
+                    "keywords": [
+                        "Transformer Models",
+                        "Computer Vision",
+                        "Deep Learning",
+                        "Image Recognition"
+                    ],
                     "citations": 89,
-                    "papertype": "conference",
-                    "status": "Published"
+                    "researchArea": "Computer Vision",
+                    "funding": "Stanford University",
+                    "createdAt": "2023-06-15T11:45:00Z",
+                    "updatedAt": "2024-02-28T16:30:00Z"
+                },
+                {
+                    "_id": "ongoing1",
+                    "year": 2025,
+                    "title": "Advanced Neural Networks for Medical Diagnosis",
+                    "authors": [
+                        "Dr. Sarah Johnson",
+                        "Dr. Michael Chen",
+                        "Dr. Lisa Wang"
+                    ],
+                    "journal": "Nature Medicine",
+                    "paperType": "journal",
+                    "status": "Under Review",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This research focuses on developing advanced neural network architectures specifically designed for medical diagnosis applications.",
+                    "keywords": [
+                        "Neural Networks",
+                        "Medical Diagnosis",
+                        "Healthcare AI",
+                        "Deep Learning"
+                    ],
+                    "citations": 0,
+                    "researchArea": "Healthcare AI",
+                    "funding": "National Institutes of Health",
+                    "createdAt": "2024-08-20T10:15:00Z",
+                    "updatedAt": "2024-12-15T13:45:00Z"
+                },
+                {
+                    "_id": "ongoing2",
+                    "year": 2025,
+                    "title": "Ethical AI in Healthcare Applications",
+                    "authors": [
+                        "Dr. Sarah Johnson",
+                        "Dr. Emily Rodriguez",
+                        "Prof. Robert Kim"
+                    ],
+                    "journal": "IEEE Transactions on Biomedical Engineering",
+                    "paperType": "journal",
+                    "status": "In Preparation",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This paper examines the ethical considerations and implementation strategies for AI systems in healthcare settings.",
+                    "keywords": [
+                        "Ethical AI",
+                        "Healthcare",
+                        "AI Ethics",
+                        "Medical Applications"
+                    ],
+                    "citations": 0,
+                    "researchArea": "AI Ethics",
+                    "funding": "Stanford Ethics Center",
+                    "createdAt": "2024-09-10T14:20:00Z",
+                    "updatedAt": "2024-12-20T11:30:00Z"
+                },
+                {
+                    "_id": "ongoing3",
+                    "year": 2025,
+                    "title": "Multimodal Learning for Autonomous Systems",
+                    "authors": [
+                        "Dr. Sarah Johnson",
+                        "Dr. David Lee",
+                        "Dr. Maria Garcia"
+                    ],
+                    "journal": "ICML 2025",
+                    "paperType": "conference",
+                    "status": "Under Review",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This research explores multimodal learning approaches for autonomous systems, combining visual, auditory, and sensor data.",
+                    "keywords": [
+                        "Multimodal Learning",
+                        "Autonomous Systems",
+                        "Machine Learning",
+                        "Sensor Fusion"
+                    ],
+                    "citations": 0,
+                    "researchArea": "Autonomous Systems",
+                    "funding": "DARPA",
+                    "createdAt": "2024-07-05T08:45:00Z",
+                    "updatedAt": "2024-12-10T15:20:00Z"
                 }
             ],
-            "ongoing": [
-              {
-                  "id": "ongoing1",
-                  "title": "Advanced Neural Networks for Medical Diagnosis",
-                  "journal": "Nature Medicine",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "journal",
-                  "status": "Under Review"
-              },
-              {
-                  "id": "ongoing2",
-                  "title": "Ethical AI in Healthcare Applications",
-                  "journal": "IEEE Transactions on Biomedical Engineering",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "journal",
-                  "status": "In Preparation"
-              },
-              {
-                  "id": "ongoing3",
-                  "title": "Multimodal Learning for Autonomous Systems",
-                  "journal": "ICML 2025",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "conference",
-                  "status": "Under Review"
-              }
-          ],
             "blogs": [
                 {
                     "id": "blog1",
@@ -149,35 +237,87 @@
             },
             "publications": [
                 {
-                    "id": "pub3",
-                    "title": "Predictive Models for Patient Outcomes",
-                    "journal": "JAMA",
+                    "_id": "pub3",
                     "year": 2024,
+                    "title": "Predictive Models for Patient Outcomes",
+                    "authors": [
+                        "Dr. Michael Chen",
+                        "Dr. Sarah Johnson",
+                        "Prof. Lisa Wang"
+                    ],
+                    "journal": "JAMA",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/jama-2024-003",
+                    "isApproved": true,
+                    "abstract": "This study develops predictive models for patient outcomes using advanced statistical methods and machine learning techniques.",
+                    "keywords": [
+                        "Predictive Modeling",
+                        "Healthcare",
+                        "Patient Outcomes",
+                        "Statistical Analysis"
+                    ],
                     "citations": 234,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Healthcare Analytics",
+                    "funding": "National Institutes of Health",
+                    "createdAt": "2024-02-15T13:20:00Z",
+                    "updatedAt": "2024-04-10T16:45:00Z"
+                },
+                {
+                    "_id": "ongoing_chen1",
+                    "year": 2025,
+                    "title": "Statistical Models for Precision Medicine",
+                    "authors": [
+                        "Dr. Michael Chen",
+                        "Dr. Emily Rodriguez",
+                        "Prof. Robert Kim"
+                    ],
+                    "journal": "Journal of the American Statistical Association",
+                    "paperType": "journal",
+                    "status": "Under Review",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This research focuses on developing statistical models for precision medicine applications.",
+                    "keywords": [
+                        "Precision Medicine",
+                        "Statistical Modeling",
+                        "Healthcare",
+                        "Personalized Treatment"
+                    ],
+                    "citations": 0,
+                    "researchArea": "Precision Medicine",
+                    "funding": "MIT Research Fund",
+                    "createdAt": "2024-09-20T10:30:00Z",
+                    "updatedAt": "2024-12-18T14:15:00Z"
+                },
+                {
+                    "_id": "ongoing_chen2",
+                    "year": 2025,
+                    "title": "Big Data Analytics in Personalized Healthcare",
+                    "authors": [
+                        "Dr. Michael Chen",
+                        "Dr. David Lee",
+                        "Dr. Jennifer Brown"
+                    ],
+                    "journal": "KDD 2025",
+                    "paperType": "conference",
+                    "status": "In Preparation",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This paper explores the application of big data analytics in personalized healthcare systems.",
+                    "keywords": [
+                        "Big Data Analytics",
+                        "Personalized Healthcare",
+                        "Data Science",
+                        "Healthcare Systems"
+                    ],
+                    "citations": 0,
+                    "researchArea": "Healthcare Data Science",
+                    "funding": "NSF Big Data Initiative",
+                    "createdAt": "2024-10-05T11:45:00Z",
+                    "updatedAt": "2024-12-22T09:20:00Z"
                 }
             ],
-            "ongoing": [
-              {
-                  "id": "ongoing_chen1",
-                  "title": "Statistical Models for Precision Medicine",
-                  "journal": "Journal of the American Statistical Association",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "journal",
-                  "status": "Under Review"
-              },
-              {
-                  "id": "ongoing_chen2",
-                  "title": "Big Data Analytics in Personalized Healthcare",
-                  "journal": "KDD 2025",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "conference",
-                  "status": "In Preparation"
-              }
-          ],
             "blogs": [
                 {
                     "id": "blog3",
@@ -237,13 +377,85 @@
             },
             "publications": [
                 {
-                    "id": "pub4",
-                    "title": "Autonomous Navigation in Dynamic Environments",
-                    "journal": "Science Robotics",
+                    "_id": "pub4",
                     "year": 2024,
+                    "title": "Autonomous Navigation in Dynamic Environments",
+                    "authors": [
+                        "Dr. Emily Rodriguez",
+                        "Dr. James Wilson",
+                        "Prof. Maria Garcia"
+                    ],
+                    "journal": "Science Robotics",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/science-robotics-2024-004",
+                    "isApproved": true,
+                    "abstract": "This research presents novel algorithms for autonomous navigation in dynamic and unpredictable environments.",
+                    "keywords": [
+                        "Autonomous Navigation",
+                        "Robotics",
+                        "Dynamic Environments",
+                        "Path Planning"
+                    ],
                     "citations": 167,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Robotics",
+                    "funding": "DARPA Robotics Challenge",
+                    "createdAt": "2024-01-25T15:10:00Z",
+                    "updatedAt": "2024-03-30T12:40:00Z"
+                },
+                {
+                    "_id": "ongoing_rodriguez1",
+                    "year": 2025,
+                    "title": "Adaptive Learning in Robotic Navigation",
+                    "authors": [
+                        "Dr. Emily Rodriguez",
+                        "Dr. Sarah Johnson",
+                        "Dr. David Lee"
+                    ],
+                    "journal": "IEEE Transactions on Robotics",
+                    "paperType": "journal",
+                    "status": "Under Review",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This study explores adaptive learning approaches for improving robotic navigation performance.",
+                    "keywords": [
+                        "Adaptive Learning",
+                        "Robotic Navigation",
+                        "Machine Learning",
+                        "Autonomous Systems"
+                    ],
+                    "citations": 0,
+                    "researchArea": "Robotics",
+                    "funding": "UC Berkeley Robotics Lab",
+                    "createdAt": "2024-08-15T09:25:00Z",
+                    "updatedAt": "2024-12-12T16:50:00Z"
+                },
+                {
+                    "_id": "ongoing_rodriguez2",
+                    "year": 2025,
+                    "title": "Ethical Considerations in Autonomous Vehicle Development",
+                    "authors": [
+                        "Dr. Emily Rodriguez",
+                        "Prof. Robert Kim",
+                        "Dr. Jennifer Brown"
+                    ],
+                    "journal": "ICRA 2025",
+                    "paperType": "conference",
+                    "status": "Revision",
+                    "visitLink": "",
+                    "isApproved": false,
+                    "abstract": "This paper examines ethical considerations in the development of autonomous vehicle systems.",
+                    "keywords": [
+                        "Autonomous Vehicles",
+                        "Ethics",
+                        "Robotics",
+                        "Safety Systems"
+                    ],
+                    "citations": 0,
+                    "researchArea": "Robotics Ethics",
+                    "funding": "NSF Ethics in Engineering",
+                    "createdAt": "2024-07-30T14:15:00Z",
+                    "updatedAt": "2024-12-08T11:35:00Z"
                 }
             ],
             "blogs": [
@@ -266,26 +478,6 @@
                     "status": "Published"
                 }
             ],
-            "ongoing": [
-              {
-                  "id": "ongoing_rodriguez1",
-                  "title": "Adaptive Learning in Robotic Navigation",
-                  "journal": "IEEE Transactions on Robotics",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "journal",
-                  "status": "Under Review"
-              },
-              {
-                  "id": "ongoing_rodriguez2",
-                  "title": "Ethical Considerations in Autonomous Vehicle Development",
-                  "journal": "ICRA 2025",
-                  "year": 2025,
-                  "citations": 0,
-                  "papertype": "conference",
-                  "status": "Revision"
-              }
-          ],
             "expertise": [
                 "Computer Vision",
                 "Robotics",
@@ -334,13 +526,31 @@
             },
             "publications": [
                 {
-                    "id": "pub5",
-                    "title": "Privacy-Preserving Machine Learning",
-                    "journal": "IEEE Security & Privacy",
+                    "_id": "pub5",
                     "year": 2024,
+                    "title": "Privacy-Preserving Machine Learning",
+                    "authors": [
+                        "Dr. James Wilson",
+                        "Dr. Maria Garcia",
+                        "Prof. Robert Kim"
+                    ],
+                    "journal": "IEEE Security & Privacy",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/ieee-sp-2024-005",
+                    "isApproved": true,
+                    "abstract": "This paper presents novel approaches for privacy-preserving machine learning algorithms.",
+                    "keywords": [
+                        "Privacy-Preserving ML",
+                        "Cybersecurity",
+                        "Machine Learning",
+                        "Data Privacy"
+                    ],
                     "citations": 198,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Cybersecurity",
+                    "funding": "CMU CyLab",
+                    "createdAt": "2024-02-20T16:30:00Z",
+                    "updatedAt": "2024-04-15T10:25:00Z"
                 }
             ],
             "blogs": [
@@ -402,13 +612,31 @@
             },
             "publications": [
                 {
-                    "id": "pub6",
-                    "title": "Genomic Analysis for Cancer Detection",
-                    "journal": "Nature Genetics",
+                    "_id": "pub6",
                     "year": 2024,
+                    "title": "Genomic Analysis for Cancer Detection",
+                    "authors": [
+                        "Dr. Lisa Wang",
+                        "Dr. Michael Chen",
+                        "Prof. Sarah Johnson"
+                    ],
+                    "journal": "Nature Genetics",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/nature-genetics-2024-006",
+                    "isApproved": true,
+                    "abstract": "This research presents advanced genomic analysis methods for early cancer detection and diagnosis.",
+                    "keywords": [
+                        "Genomic Analysis",
+                        "Cancer Detection",
+                        "Bioinformatics",
+                        "Personalized Medicine"
+                    ],
                     "citations": 445,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Bioinformatics",
+                    "funding": "National Cancer Institute",
+                    "createdAt": "2024-01-30T12:45:00Z",
+                    "updatedAt": "2024-04-05T18:10:00Z"
                 }
             ],
             "blogs": [
@@ -479,13 +707,31 @@
             },
             "publications": [
                 {
-                    "id": "pub7",
-                    "title": "Quantum Machine Learning Algorithms",
-                    "journal": "Nature Quantum Information",
+                    "_id": "pub7",
                     "year": 2024,
+                    "title": "Quantum Machine Learning Algorithms",
+                    "authors": [
+                        "Dr. Maria Garcia",
+                        "Dr. James Wilson",
+                        "Prof. Robert Kim"
+                    ],
+                    "journal": "Nature Quantum Information",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/nature-quantum-2024-007",
+                    "isApproved": true,
+                    "abstract": "This paper presents novel quantum machine learning algorithms for solving complex computational problems.",
+                    "keywords": [
+                        "Quantum Computing",
+                        "Machine Learning",
+                        "Quantum Algorithms",
+                        "Computational Complexity"
+                    ],
                     "citations": 234,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Quantum Computing",
+                    "funding": "Department of Energy",
+                    "createdAt": "2024-02-05T14:20:00Z",
+                    "updatedAt": "2024-04-12T11:35:00Z"
                 }
             ],
             "blogs": [
@@ -547,13 +793,31 @@
             },
             "publications": [
                 {
-                    "id": "pub8",
-                    "title": "Network Analysis of Social Media Influence",
-                    "journal": "Science",
+                    "_id": "pub8",
                     "year": 2024,
+                    "title": "Network Analysis of Social Media Influence",
+                    "authors": [
+                        "Dr. Robert Kim",
+                        "Dr. Emily Rodriguez",
+                        "Prof. Lisa Wang"
+                    ],
+                    "journal": "Science",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/science-2024-008",
+                    "isApproved": true,
+                    "abstract": "This study analyzes social media influence patterns using advanced network science methodologies.",
+                    "keywords": [
+                        "Network Science",
+                        "Social Media",
+                        "Influence Analysis",
+                        "Complex Systems"
+                    ],
                     "citations": 567,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Network Science",
+                    "funding": "Harvard Data Science Initiative",
+                    "createdAt": "2024-01-20T10:15:00Z",
+                    "updatedAt": "2024-03-25T17:30:00Z"
                 }
             ],
             "blogs": [
@@ -615,13 +879,31 @@
             },
             "publications": [
                 {
-                    "id": "pub9",
-                    "title": "Smart Grid Optimization Algorithms",
-                    "journal": "IEEE Transactions on Smart Grid",
+                    "_id": "pub9",
                     "year": 2024,
+                    "title": "Smart Grid Optimization Algorithms",
+                    "authors": [
+                        "Dr. David Lee",
+                        "Dr. Jennifer Brown",
+                        "Prof. Maria Garcia"
+                    ],
+                    "journal": "IEEE Transactions on Smart Grid",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/ieee-smart-grid-2024-009",
+                    "isApproved": true,
+                    "abstract": "This research presents optimization algorithms for smart grid systems to improve energy efficiency.",
+                    "keywords": [
+                        "Smart Grid",
+                        "Energy Optimization",
+                        "Renewable Energy",
+                        "Grid Management"
+                    ],
                     "citations": 123,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Energy Systems",
+                    "funding": "Department of Energy",
+                    "createdAt": "2024-02-25T11:40:00Z",
+                    "updatedAt": "2024-04-08T15:55:00Z"
                 }
             ],
             "blogs": [
@@ -683,13 +965,31 @@
             },
             "publications": [
                 {
-                    "id": "pub10",
-                    "title": "Climate Change Impact Assessment Models",
-                    "journal": "Nature Climate Change",
+                    "_id": "pub10",
                     "year": 2024,
+                    "title": "Climate Change Impact Assessment Models",
+                    "authors": [
+                        "Dr. Jennifer Brown",
+                        "Dr. David Lee",
+                        "Prof. Robert Kim"
+                    ],
+                    "journal": "Nature Climate Change",
+                    "paperType": "journal",
+                    "status": "published",
+                    "visitLink": "https://doi.org/10.1000/nature-climate-2024-010",
+                    "isApproved": true,
+                    "abstract": "This study presents advanced climate change impact assessment models for predicting environmental changes.",
+                    "keywords": [
+                        "Climate Change",
+                        "Impact Assessment",
+                        "Environmental Modeling",
+                        "Climate Science"
+                    ],
                     "citations": 345,
-                    "papertype": "journal",
-                    "status": "Published"
+                    "researchArea": "Climate Science",
+                    "funding": "National Science Foundation",
+                    "createdAt": "2024-01-15T13:50:00Z",
+                    "updatedAt": "2024-03-28T19:25:00Z"
                 }
             ],
             "blogs": [

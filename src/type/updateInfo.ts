@@ -26,7 +26,7 @@ export interface UpdateInfoFormData {
   educationDegree?: string;
   educationField?: string;
   educationInstitution?: string;
-  educationStatus?: "Ongoing" | "Completed";
+  educationStatus?: "Ongoing" | "Completed" | "";
   scholarship?: string;
 
   // Social Links

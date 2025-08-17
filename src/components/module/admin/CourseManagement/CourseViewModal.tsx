@@ -271,13 +271,13 @@ const CourseViewModal = ({
                   <div key={index} className="flex items-center gap-3">
                     <div className="relative w-10 h-10 rounded-full overflow-hidden">
                       <Image
-                        src={instructor.imageUrl || "/placeholder-instructor.jpg"}
+                        src={instructor.imageUrl || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
                         alt={instructor.name}
                         fill
                         className="object-cover"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "/placeholder-instructor.jpg";
+                          target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
                         }}
                       />
                     </div>

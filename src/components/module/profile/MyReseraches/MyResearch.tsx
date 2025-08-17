@@ -1,71 +1,118 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DeletePaper } from "@/services/allreserchPaper";
+import { DeletePaper, GetAllResearchPaperMy } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Edit, Trash2 } from "lucide-react";
+import Link from "next/link";
+import ManageTable from "@/components/shared/ManageTable/ManageTable";
 
-const MyResearch = ({data}:{data:TPapers[]}) => {
- 
+const MyResearch = () => {
+  const [papers, setPapers] = useState<TPapers[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Fetch data dynamically
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await GetAllResearchPaperMy();
+        setPapers(response?.data || []);
+      } catch (error) {
+        console.error("Error fetching research papers:", error);
+        toast.error("Failed to fetch research papers");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleDelete = async (id: string) => {
     try {
-      console.log("Deleting paper with ID:", id);
       const res = await DeletePaper(id);
+      if (res) {
+        toast.success("Research paper deleted successfully");
+        // Refresh data after deletion to get updated information
+        const response = await GetAllResearchPaperMy();
+        setPapers(response?.data || []);
+      }
     } catch (error) {
       console.error("Error deleting paper:", error);
-      alert("Error deleting paper!");
+      toast.error("Failed to delete research paper");
     }
   };
 
-  return (
-    <div className="overflow-x-auto w-full p-4">
-      <h2 className="text-2xl font-semibold mb-4">Research Papers</h2>
+  const columns = [
+    { label: "Year", value: "year" },
+    { label: "Title", value: "title" },
+    { label: "Authors", value: "authors" },
+    { label: "Paper Type", value: "paperType" },
+    { label: "Status", value: "isApproved" },
+    { label: "Visit Link", value: "visitLink" },
+  ];
 
-      <Table >
-        <TableHeader>
-          <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Authors</TableHead>
-            <TableHead>Year</TableHead>
-            <TableHead>Journal</TableHead>
-            <TableHead>Impact Factor</TableHead>
-            <TableHead>Rank</TableHead>
-            <TableHead>Journal Type</TableHead>
-            <TableHead>Link</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.length > 0 ? (
-            data.map((paper) => (
-              <TableRow key={paper._id}>
-                <TableCell>{paper.title}</TableCell>
-                <TableCell>{paper.authors.join(", ")}</TableCell>
-                <TableCell>{paper.year}</TableCell>
-                <TableCell>{paper.journal}</TableCell>
-                <TableCell>{paper.impactFactor}</TableCell>
-                <TableCell>{paper.journalRank}</TableCell>
-                <TableCell>{paper.paperType}</TableCell>
-                <TableCell>
-                  <Button asChild variant="link">
-                    <a href={paper.visitLink} target="_blank" rel="noopener noreferrer">
-                      View Paper
-                    </a>
-                  </Button>
-                </TableCell>
-               
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={10} className="text-center text-gray-500">
-                No research papers found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+  return (
+    <div className="w-full">
+      <h2 className="text-2xl font-semibold mb-4">Research Papers</h2>
+      <ManageTable
+        data={papers}
+        isvalue="myresearch"
+        columns={columns}
+        loading={loading}
+        onDelete={handleDelete}
+
+        customActions={(item) => (
+          <div className="flex gap-2">
+            {/* Edit Button */}
+            <Link href={`/user/dashboard/edit-research-paper/${item._id}`}>
+              <Button variant="outline" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                <Edit className="w-4 h-4" />
+              </Button>
+            </Link>
+            
+            {/* Delete Button */}
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50">
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Research Paper</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDelete(item._id)}
+                    className="bg-red-500 hover:bg-red-600"
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
+      />
     </div>
   );
 };

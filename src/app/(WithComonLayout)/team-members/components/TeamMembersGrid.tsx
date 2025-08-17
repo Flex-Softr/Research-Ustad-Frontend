@@ -33,6 +33,8 @@ const TeamMembersGrid = ({
     { id: "Mentor_Panel", label: "Mentor Panel" },
   ];
 
+  console.log("TeamMembersGrid - Members data:", members);
+  console.log("TeamMembersGrid - Paginated members:", paginatedMembers);
   return (
     <div className="lg:col-span-3">
       {/* Results Header */}

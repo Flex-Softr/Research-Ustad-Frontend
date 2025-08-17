@@ -3,12 +3,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import image1 from "../../../../../../public/logo.png";
 
-interface LeftPanelProps {
-  isLogin: boolean;
-  setIsLogin: (value: boolean) => void;
-}
-
-const LeftPanel: React.FC<LeftPanelProps> = ({ isLogin, setIsLogin }) => {
+const LeftPanel = () => {
   return (
     <div className="lg:w-1/2 bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600 p-8 lg:p-16 flex flex-col justify-center relative overflow-hidden">
       {/* Background Decorative Elements */}
@@ -39,15 +34,6 @@ const LeftPanel: React.FC<LeftPanelProps> = ({ isLogin, setIsLogin }) => {
         <p className="text-emerald-100 text-lg mb-8">
           To keep connected with us please login with your personal info
         </p>
-
-        {/* Sign In Button */}
-        <Button
-          onClick={() => setIsLogin(true)}
-          variant="outline"
-          className="bg-white/20 hover:bg-white/30 text-white border-white/30 hover:border-white/50 px-10 py-4 text-lg font-semibold rounded-xl transition-all duration-300"
-        >
-          SIGN IN
-        </Button>
       </div>
     </div>
   );

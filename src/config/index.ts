@@ -26,25 +26,25 @@ interface Config {
   };
 }
 
-// Validate required environment variables
+// Validate required environment variables (optional now)
 const requiredEnvVars = {
   NEXT_PUBLIC_BASE_API: process.env.NEXT_PUBLIC_BASE_API,
 };
 
-// Check for missing environment variables
+// Check for missing environment variables (only warn, don't throw)
 const missingEnvVars = Object.entries(requiredEnvVars)
   .filter(([_, value]) => !value)
   .map(([key]) => key);
 
 if (missingEnvVars.length > 0) {
-  throw new Error(
-    `Missing required environment variables: ${missingEnvVars.join(", ")}`
+  console.warn(
+    `Missing environment variables (using defaults): ${missingEnvVars.join(", ")}`
   );
 }
 
 export const config: Config = {
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API!,
+    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:5000",
     timeout: parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || "30000"),
   },
   app: {

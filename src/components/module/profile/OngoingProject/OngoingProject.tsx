@@ -4,75 +4,45 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DeletePaper } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
+import { toast } from "sonner";
+import ManageTable from "@/components/shared/ManageTable/ManageTable";
 
 const OngoingProject = ({data}:{data:TPapers[]}) => {
-  const [ongotinProjects, setOngoingProjects] = useState<TPapers[]>([]);
-  useEffect(() => {
+  const [ongotinProjects, setOngoingProjects] = useState<TPapers[]>(data);
 
-    const unapprovedUsers = data.filter(p => !p.isApproved);
-    setOngoingProjects(unapprovedUsers);
-  }, [data]);
-    
-console.log(ongotinProjects)
   const handleDelete = async (id: string) => {
     try {
-      console.log("Deleting paper with ID:", id);
       const res = await DeletePaper(id);
+      if (res) {
+        toast.success("Research paper deleted successfully");
+        setOngoingProjects(prev => prev.filter(paper => paper._id !== id));
+      }
     } catch (error) {
       console.error("Error deleting paper:", error);
-      alert("Error deleting paper!");
+      toast.error("Failed to delete research paper");
     }
   };
 
-  return (
-    <div className="overflow-x-auto w-full p-4">
-      <h2 className="text-2xl font-semibold mb-4">Research Papers</h2>
+  const columns = [
+    { label: "Year", value: "year" },
+    { label: "Title", value: "title" },
+    { label: "Authors", value: "authors" },
+    { label: "Paper Type", value: "paperType" },
+    { label: "Status", value: "isApproved" },
+    { label: "Visit Link", value: "visitLink" },
+  ];
 
-      <Table >
-        <TableHeader>
-          <TableRow>
-            <TableHead>Title</TableHead>
-            <TableHead>Authors</TableHead>
-            <TableHead>Year</TableHead>
-            <TableHead>Journal</TableHead>
-            <TableHead>Impact Factor</TableHead>
-            <TableHead>Rank</TableHead>
-            <TableHead>Journal Type</TableHead>
-            <TableHead>Link</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {ongotinProjects.length > 0 ? (
-            ongotinProjects.map((paper) => (
-              <TableRow key={paper._id}>
-                <TableCell>{paper.title}</TableCell>
-                <TableCell>{paper.authors.join(", ")}</TableCell>
-                <TableCell>{paper.year}</TableCell>
-                <TableCell>{paper.journal}</TableCell>
-                <TableCell>{paper.impactFactor}</TableCell>
-                <TableCell>{paper.journalRank}</TableCell>
-                <TableCell>{paper.paperType}</TableCell>
-                <TableCell>
-                  <Button asChild variant="link">
-                    <a href={paper.visitLink} target="_blank" rel="noopener noreferrer">
-                      View Paper
-                    </a>
-                  </Button>
-                </TableCell>
-               
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={10} className="text-center text-gray-500">
-                No research papers found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+  return (
+    <div className="w-full">
+      <h2 className="text-2xl font-semibold mb-4">Research Papers</h2>
+      <ManageTable
+        data={ongotinProjects}
+        isvalue="ongoingproject"
+        columns={columns}
+        loading={false}
+        onDelete={handleDelete}
+      />
     </div>
   );
 };

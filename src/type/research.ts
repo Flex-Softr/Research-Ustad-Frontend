@@ -22,8 +22,13 @@ export type TPapers = {
   journalRank: string;
   visitLink: string;
   paperType: "journal" | "conference";
+  status: "published" | "ongoing";
   isApproved: boolean;
+  abstract?: string;
+  keywords?: string[];
+  citations?: number;
   researchArea?: string;
+  funding?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -34,11 +39,17 @@ export interface ResearchPaperForm {
   title: string;
   authors: string[];
   journal: string;
-  volume: string;
-  impactFactor: number;
-  journalRank: string;
+  volume?: string;
+  impactFactor?: number;
+  journalRank?: string;
   visitLink: string;
   paperType: "journal" | "conference";
+  status: "published" | "ongoing";
+  abstract?: string;
+  keywords?: string[];
+  citations?: number;
+  researchArea?: string;
+  funding?: string;
 }
 
 export interface FilterState {
@@ -74,6 +85,7 @@ export interface SingleResearchPaperProps {
     downloads?: number;
     researchArea?: string;
     funding?: string;
+    status: "published" | "ongoing";
     createdAt?: string;
     updatedAt?: string;
   };
@@ -88,4 +100,5 @@ export interface RelatedPaper extends TPapers {
   downloads?: number;
   researchArea?: string;
   funding?: string;
+  status: "published" | "ongoing";
 }

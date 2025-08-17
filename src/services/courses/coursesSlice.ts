@@ -119,7 +119,12 @@ export const deleteCourse = createAsyncThunk("courses/delete", async (id: string
 const coursesSlice = createSlice({
   name: "courses",
   initialState,
-  reducers: {},
+  reducers: {
+    // Real-time update action
+    updateCoursesRealtime: (state, action) => {
+      state.courses = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch all
@@ -196,4 +201,5 @@ const coursesSlice = createSlice({
   },
 });
 
+export const { updateCoursesRealtime } = coursesSlice.actions;
 export default coursesSlice.reducer;
