@@ -19,7 +19,6 @@ const HomePage = () => {
       <EventsSection />
       <TeamSection />
       <TestimonialsSection />
-
       <BlogSection />
       <ContactSection />
     </div>

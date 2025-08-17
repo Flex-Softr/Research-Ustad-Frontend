@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Users, Mail } from "lucide-react";
-import Link from "next/link";
+import EditDesignationModal from "./EditDesignationModal";
 
 interface MembersProps {
   data?: TResearchAssociate[];
@@ -17,6 +17,8 @@ interface MembersProps {
 const Members = ({ data: initialData }: MembersProps) => {
   const [data, setData] = useState<TResearchAssociate[]>(initialData || []);
   const [loading, setLoading] = useState<boolean>(!initialData);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<TResearchAssociate | null>(null);
 
   useEffect(() => {
     if (!initialData) {
@@ -61,6 +63,39 @@ const Members = ({ data: initialData }: MembersProps) => {
         console.error("Error deleting member:", error);
         toast.error("Failed to delete member");
     }
+  };
+
+  const handleEdit = (member: TResearchAssociate) => {
+    setSelectedMember(member);
+    setEditModalOpen(true);
+  };
+
+  const handleEditSuccess = (updatedDesignation?: string) => {
+    // Update the local data immediately for instant feedback
+    if (selectedMember && updatedDesignation) {
+      setData(prevData => 
+        prevData.map(member => 
+          member._id === selectedMember._id 
+            ? { ...member, designation: updatedDesignation }
+            : member
+        )
+      );
+    }
+    
+    // Also refresh from server to ensure consistency
+    const fetchData = async () => {
+      try {
+        const response = await getResearchMembers();
+        const filteredData = (response?.data || []).filter(
+          (member: TResearchAssociate) => 
+            member.role !== 'admin' && member.role !== 'superAdmin'
+        );
+        setData(filteredData);
+      } catch (error) {
+        console.error("Error fetching research members:", error);
+      }
+    };
+    fetchData();
   };
 
   const getDesignationBadgeColor = (designation: string) => {
@@ -138,11 +173,13 @@ const Members = ({ data: initialData }: MembersProps) => {
   const customActions = (item: TResearchAssociate) => {
     return (
       <div className="flex gap-2">
-        <Link href={`/admin/dashboard/editmember/${item._id}`}>
-          <Button variant="outline" size="sm">
-            <Edit className="w-4 h-4" />
-          </Button>
-        </Link>
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={() => handleEdit(item)}
+        >
+          <Edit className="w-4 h-4" />
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -182,6 +219,14 @@ const Members = ({ data: initialData }: MembersProps) => {
         onDelete={handleDelete}
         customRenderCell={customRenderCell}
         customActions={customActions}
+      />
+
+      {/* Edit Designation Modal */}
+      <EditDesignationModal
+        member={selectedMember}
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onSuccess={handleEditSuccess}
       />
     </div>
   );
