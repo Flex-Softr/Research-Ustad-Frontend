@@ -3,10 +3,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { logout } from "@/services/AuthService";
 import { ChangePassword } from "@/services/ChangePassword";
 import { GetMe } from "@/services/singleUser";
-import { TUser } from "@/type";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,28 +15,19 @@ import { useUserStatus } from "@/hooks/useUserStatus";
 import { 
   Mail, 
   Phone, 
-  MapPin, 
   GraduationCap, 
   Award, 
   Users, 
   Linkedin, 
   ExternalLink,
-  Calendar,
   BookOpen,
-  Briefcase,
-  RefreshCw
+  Briefcase
 } from "lucide-react";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-
-
-  console.log('user', user)
-  
-  // Use the user status hook to check for account deletion
+  const router = useRouter(); 
   useUserStatus();
   
   const {
@@ -50,12 +41,10 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // Fetch user data (now includes all research member fields)
         const userResult = await GetMe();
         setUser(userResult?.data);
       } catch (error: any) {
         console.error("Error fetching user data:", error);
-        // If user data fails, the useUserStatus hook will handle logout
         setLoading(false);
         return;
       } finally {
@@ -66,10 +55,8 @@ const Profile = () => {
     fetchData();
   }, []);
 
-  // Refresh data when component comes into focus (e.g., when user navigates back)
   useEffect(() => {
     const handleFocus = () => {
-      // Refresh data when the window regains focus
       const fetchData = async () => {
         try {
           const userResult = await GetMe();
@@ -86,17 +73,26 @@ const Profile = () => {
     return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
-  const refreshProfileData = async () => {
-    try {
-      setLoading(true);
-      const userResult = await GetMe();
-      setUser(userResult?.data);
-      toast.success("Profile data refreshed!");
-    } catch (error: any) {
-      console.error("Error refreshing profile data:", error);
-      toast.error("Failed to refresh profile data");
-    } finally {
-      setLoading(false);
+
+
+  const getRoleBadgeColor = (role: string) => {
+    switch (role?.toLowerCase()) {
+      case 'admin':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'superadmin':
+        return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'research_associate':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'lead_research_associate':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'advisor':
+        return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'lead':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'mentor_panel':
+        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -135,20 +131,21 @@ const Profile = () => {
     <div className="flex justify-center items-start bg-gray-100 p-6 min-h-screen">
       <div className="w-full max-w-6xl space-y-6">
         {/* Header Card */}
-        <Card className="shadow-xl rounded-lg bg-white">
-          <CardContent className="p-8">
-            <div className="flex justify-between items-start mb-4">
-              <h1 className="text-2xl font-bold text-gray-800">Profile Information</h1>
-              <Button
-                onClick={refreshProfileData}
-                disabled={loading}
-                variant="outline"
-                size="sm"
-                className="flex items-center gap-2"
+        <Card className="shadow-xl rounded-lg bg-white relative">
+          {/* Role Badge */}
+          {user?.role && (
+            <div className="absolute top-4 right-4 z-10">
+              <Badge 
+                variant="outline" 
+                className={`text-xs font-semibold ${getRoleBadgeColor(user.role)}`}
               >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-                Refresh
-              </Button>
+                {user.role.charAt(0).toUpperCase() + user.role.slice(1).replace(/_/g, ' ')}
+              </Badge>
+            </div>
+          )}
+          <CardContent className="p-8">
+            <div className="mb-4">
+              <h1 className="text-2xl font-bold text-gray-800">Profile Information</h1>
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
               {/* Profile Image */}

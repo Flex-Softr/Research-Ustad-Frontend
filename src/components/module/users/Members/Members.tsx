@@ -4,6 +4,7 @@ import { TResearchAssociate } from "@/type";
 import { getResearchMembers, deleteResearchMember } from "@/services/userService";
 import { toast } from "sonner";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,8 @@ const Members = ({ data: initialData }: MembersProps) => {
   const [loading, setLoading] = useState<boolean>(!initialData);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<TResearchAssociate | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [memberToDelete, setMemberToDelete] = useState<TResearchAssociate | null>(null);
 
   useEffect(() => {
     if (!initialData) {
@@ -50,18 +53,31 @@ const Members = ({ data: initialData }: MembersProps) => {
   }, [initialData]);
 
   const handleDelete = async (id: string) => {
+    const member = data.find(m => m._id === id);
+    if (member) {
+      setMemberToDelete(member);
+      setDeleteDialogOpen(true);
+    }
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!memberToDelete) return;
+
     try {
-      const res = await deleteResearchMember(id);
-        if (res?.success) {
-          // Remove member from local state
-        setData(prevData => prevData.filter(member => member._id !== id));
-        toast.success("Member deleted successfully");
-        } else {
-          toast.error(res?.message || "Failed to delete member");
-        }
-      } catch (error) {
-        console.error("Error deleting member:", error);
-        toast.error("Failed to delete member");
+      const res = await deleteResearchMember(memberToDelete._id);
+      if (res?.success) {
+        // Remove member from local state immediately for instant feedback
+        setData(prevData => prevData.filter(member => member._id !== memberToDelete._id));
+        toast.success(`Successfully deleted member ${memberToDelete.fullName}`);
+      } else {
+        toast.error(res?.message || "Failed to delete member");
+      }
+    } catch (error) {
+      console.error("Error deleting member:", error);
+      toast.error("Failed to delete member");
+    } finally {
+      setMemberToDelete(null);
+      setDeleteDialogOpen(false);
     }
   };
 
@@ -185,6 +201,7 @@ const Members = ({ data: initialData }: MembersProps) => {
           size="sm"
           onClick={() => handleDelete(item._id)}
           className="text-red-500 hover:text-red-700 hover:bg-red-50"
+          title="Delete Member"
         >
           <Trash2 className="w-4 h-4" />
         </Button>
@@ -227,6 +244,19 @@ const Members = ({ data: initialData }: MembersProps) => {
         isOpen={editModalOpen}
         onClose={() => setEditModalOpen(false)}
         onSuccess={handleEditSuccess}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Member"
+        itemName={memberToDelete?.fullName || null}
+        itemType="member"
+        description={`Are you sure you want to delete "${memberToDelete?.fullName}"? This action cannot be undone and will permanently remove the member from the research team.`}
+        confirmText="Delete Member"
+        cancelText="Cancel"
       />
     </div>
   );

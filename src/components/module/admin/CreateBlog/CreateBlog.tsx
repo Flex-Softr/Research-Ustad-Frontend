@@ -153,7 +153,7 @@ const CreateBlog: React.FC = () => {
     try {
       setIsLoading(true);
 
-      const success = await submitBlogForm(
+      const result = await submitBlogForm(
         blogData,
         selectedFile,
         isEditMode,
@@ -161,14 +161,13 @@ const CreateBlog: React.FC = () => {
         dispatch
       );
 
-      if (success) {
-        if (!isEditMode) {
-          router.push("/admin/dashboard/allblogs");
-          reset();
-          setPreviewImage(null);
-          setEditorContent("");
-          resetCategoryState();
-        }
+      if (result) {
+        // Navigate immediately after successful submission
+        router.replace("/admin/dashboard/allblogs");
+        reset();
+        setPreviewImage(null);
+        setEditorContent("");
+        resetCategoryState();
       }
     } catch (error) {
       console.error("Form submission error:", error);
