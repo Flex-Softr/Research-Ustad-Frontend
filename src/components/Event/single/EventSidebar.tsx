@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react";
 import { CustomEvent } from "@/type/event";
+import CountdownTimer from "../../shared/CountdownTimer";
 
 interface EventSidebarProps {
   event: Partial<CustomEvent>; // 👈 Accept partial Event object to allow missing fields
@@ -42,6 +43,26 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
 
   return (
     <div className="space-y-6">
+      {/* Countdown Timer Card */}
+      {statusInfo.status === "upcoming" && (
+        <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold text-center text-gray-900">
+              Event Countdown
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CountdownTimer
+              startDate={event.startDate}
+              endDate={event.endDate}
+              itemId={event._id}
+              itemType="event"
+              className="text-center"
+            />
+          </CardContent>
+        </Card>
+      )}
+
       {/* Event Information Card */}
       <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
         <CardHeader>

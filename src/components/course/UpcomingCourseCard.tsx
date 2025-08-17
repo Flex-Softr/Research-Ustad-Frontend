@@ -1,13 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-import io from "socket.io-client";
-
-dayjs.extend(duration);
-
-const socket = io("https://researchustad-backend.vercel.app");
+import CountdownTimer from "../shared/CountdownTimer";
 
 interface ICourse {
   _id: string;
@@ -18,30 +12,11 @@ interface ICourse {
 }
 
 const UpcomingCourseCard = ({ course }: { course: ICourse }) => {
-  const [timeLeft, setTimeLeft] = useState("");
-
-  useEffect(() => {
-    const updateTimer = () => {
-      const now = dayjs();
-      const start = dayjs(course.startDate);
-      const diff = start.diff(now, "second");
-
-      if (diff <= 0) {
-        setTimeLeft("Starting Now!");
-        socket.emit("updateCourseStatus", {
-          courseId: course._id,
-          status: "ongoing",
-        });
-      } else {
-        setTimeLeft(dayjs.duration(diff, "seconds").format("HH:mm:ss"));
-      }
-    };
-
-    updateTimer();
-    const timerInterval = setInterval(updateTimer, 1000);
-
-    return () => clearInterval(timerInterval);
-  }, [course.startDate]);
+  const handleStatusChange = (status: "ongoing" | "finished") => {
+    if (status === "ongoing") {
+      course.moveToOngoing(course._id);
+    }
+  };
 
   return (
     <div className="p-4 border rounded shadow bg-white">
@@ -49,7 +24,13 @@ const UpcomingCourseCard = ({ course }: { course: ICourse }) => {
       <p className="text-gray-600">
         Starts at {dayjs(course.startDate).format("MMM D, YYYY h:mm A")}
       </p>
-      <p className="text-blue-500 font-semibold">{timeLeft}</p>
+      <CountdownTimer
+        startDate={course.startDate}
+        itemId={course._id}
+        itemType="course"
+        onStatusChange={handleStatusChange}
+        className="mt-2"
+      />
     </div>
   );
 };

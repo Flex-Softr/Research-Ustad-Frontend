@@ -1,8 +1,9 @@
 import { CheckCircle, Share2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { useState } from "react";
+import CountdownTimer from "../../shared/CountdownTimer";
 
 const CourseSidebar = ({ course }) => {
   const [imageError, setImageError] = useState(false);
@@ -16,6 +17,26 @@ const CourseSidebar = ({ course }) => {
 
   return (
     <div className="sticky top-8 space-y-6">
+      {/* Countdown Timer Card */}
+      {course.status === "upcoming" && (
+        <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
+          <CardHeader>
+            <CardTitle className="text-lg font-bold text-center text-gray-900">
+              Course Countdown
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CountdownTimer
+              startDate={course.startDate}
+              endDate={course.endDate}
+              itemId={course._id}
+              itemType="course"
+              className="text-center"
+            />
+          </CardContent>
+        </Card>
+      )}
+
       {/* Course Card */}
       <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
         <div className="relative overflow-hidden rounded-t-2xl">

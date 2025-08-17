@@ -1,6 +1,4 @@
 "use client";
-import { AiOutlineLogin } from "react-icons/ai";
-
 import { DroopDown } from "@/components/ui/core/DropDown/DropDown";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { getCurrentUser, logout } from "@/services/AuthService";
-import { ChevronDown, Menu, X, LogIn, User } from "lucide-react";
+import { Menu, X, LogIn, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -34,9 +34,7 @@ const CoursePage = () => {
   const { courses, isLoading, error } = useSelector(
     (state: RootState) => state.courses
   );
-  const { categories } = useSelector(
-    (state: RootState) => state.categories
-  );
+  const { categories } = useSelector((state: RootState) => state.categories);
 
   // Load courses and categories on mount
   useEffect(() => {
@@ -44,18 +42,20 @@ const CoursePage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  console.log('coursessssssss', courses)
+  console.log("coursessssssss", courses);
 
   // Helper function to get category name by ID
   const getCategoryName = (categoryId: string) => {
-    const category = categories.find(cat => cat._id === categoryId);
+    const category = categories.find((cat) => cat._id === categoryId);
     return category ? category.name : categoryId; // Fallback to ID if category not found
   };
 
   // Filter courses based on selected filters
   const filteredCourses = courses.filter((course) => {
-    const statusMatch = selectedStatus === "all" || course.status === selectedStatus;
-    const categoryMatch = selectedCategory === "all" || course.category === selectedCategory;
+    const statusMatch =
+      selectedStatus === "all" || course.status === selectedStatus;
+    const categoryMatch =
+      selectedCategory === "all" || course.category === selectedCategory;
     return statusMatch && categoryMatch;
   });
 
@@ -86,7 +86,11 @@ const CoursePage = () => {
 
   // Get course status info
   const getCourseStatus = (course) => {
-    const status = calculateCourseStatus(course.startDate, course.endDate, course.duration);
+    const status = calculateCourseStatus(
+      course.startDate,
+      course.endDate,
+      course.duration
+    );
     const now = new Date();
     const startDate = new Date(course.startDate);
 
@@ -169,8 +173,18 @@ const CoursePage = () => {
                   <div className="space-y-2">
                     {[
                       { id: "all", name: "All Courses", count: totalItems },
-                      { id: "upcoming", name: "Upcoming", count: courses.filter(c => c.status === "upcoming").length },
-                      { id: "ongoing", name: "Ongoing", count: courses.filter(c => c.status === "ongoing").length },
+                      {
+                        id: "upcoming",
+                        name: "Upcoming",
+                        count: courses.filter((c) => c.status === "upcoming")
+                          .length,
+                      },
+                      {
+                        id: "ongoing",
+                        name: "Ongoing",
+                        count: courses.filter((c) => c.status === "ongoing")
+                          .length,
+                      },
                     ].map((filter, index) => (
                       <button
                         key={index}
@@ -214,11 +228,14 @@ const CoursePage = () => {
                   <div className="space-y-2">
                     {[
                       { id: "all", name: "All Categories", count: totalItems },
-                      ...Array.from(new Set(courses.map(c => c.category))).map(categoryId => ({
+                      ...Array.from(
+                        new Set(courses.map((c) => c.category))
+                      ).map((categoryId) => ({
                         id: categoryId,
                         name: getCategoryName(categoryId),
-                        count: courses.filter(c => c.category === categoryId).length
-                      }))
+                        count: courses.filter((c) => c.category === categoryId)
+                          .length,
+                      })),
                     ]
                       .slice(0, showAllCategories ? undefined : 6)
                       .map((filter, index) => (
@@ -374,8 +391,9 @@ const CoursePage = () => {
                                     <MapPin className="h-3 w-3 text-green-600" />
                                   </div>
                                   <span className="font-medium">
-                                    {course.location === "Offline" && course.offlineLocation 
-                                      ? course.offlineLocation 
+                                    {course.location === "Offline" &&
+                                    course.offlineLocation
+                                      ? course.offlineLocation
                                       : course.location}
                                   </span>
                                 </div>
@@ -390,7 +408,9 @@ const CoursePage = () => {
                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                   <div
                                     className="bg-gradient-to-r from-brand-primary to-brand-secondary h-2 rounded-full transition-all duration-300"
-                                    style={{ width: `${enrollmentPercentage}%` }}
+                                    style={{
+                                      width: `${enrollmentPercentage}%`,
+                                    }}
                                   ></div>
                                 </div>
                               </div>
@@ -400,7 +420,9 @@ const CoursePage = () => {
                                 <div className="flex items-center text-xl font-black text-brand-primary">
                                   {course.isFree ? (
                                     <>
-                                      <span className="text-green-600 font-bold">Free</span>
+                                      <span className="text-green-600 font-bold">
+                                        Free
+                                      </span>
                                     </>
                                   ) : (
                                     <>

@@ -130,7 +130,12 @@ export const deleteEvent = createAsyncThunk(
 const eventSlice = createSlice({
   name: "events",
   initialState,
-  reducers: {},
+  reducers: {
+    // Real-time update action
+    updateEventsRealtime: (state, action) => {
+      state.events = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch all events
@@ -201,4 +206,5 @@ const eventSlice = createSlice({
   },
 });
 
+export const { updateEventsRealtime } = eventSlice.actions;
 export default eventSlice.reducer;
