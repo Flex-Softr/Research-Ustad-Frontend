@@ -17,11 +17,7 @@ import { loginUser } from "@/services/AuthService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
-interface LoginFormProps {
-  isLogin: boolean;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ isLogin }) => {
+const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
@@ -63,16 +59,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ isLogin }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {!isLogin && (
-          <div className="relative">
-            <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 z-10" />
-            <Input
-              type="text"
-              placeholder="Name"
-              className="pl-12 py-4 border-gray-300 rounded-xl focus:border-teal-500 focus:ring-teal-500 text-base"
-            />
-          </div>
-        )}
 
         <FormField
           control={form.control}
@@ -135,7 +121,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ isLogin }) => {
           type="submit"
           className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          {isSubmitting ? "Processing..." : isLogin ? "SIGN IN" : "SIGN UP"}
+          {isSubmitting ? "Processing..." :  "SIGN IN"}
         </Button>
       </form>
     </Form>
