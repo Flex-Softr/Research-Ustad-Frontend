@@ -3,6 +3,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { api } from "@/config";
 
+// create user
 export const createUser = async (data: any, file?: File) => {
   try {
     const cookieStore = await cookies();

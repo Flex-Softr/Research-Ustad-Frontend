@@ -46,6 +46,7 @@ const CreateMemberForm: React.FC = () => {
       role: "",
       designation: "",
     },
+    mode: "onChange", // Enable real-time validation
   });
   const onSubmit = async (data: FormData): Promise<void> => {
     setLoading(true);
@@ -82,15 +83,28 @@ const CreateMemberForm: React.FC = () => {
         setShowPassword(false);
         toast.success("Member created successfully");
       } else {
-        toast.error( res.error.message ||
-          res.err?.code === 11000
-            ? "This Email already exists!"
-            : "An error occurred."
-        );
+        // Handle specific backend validation errors
+        if (res.error?.message) {
+          toast.error(res.error.message);
+        } else if (res.err?.code === 11000) {
+          toast.error("This email already exists!");
+        } else if (res.message) {
+          toast.error(res.message);
+        } else {
+          toast.error("An error occurred while creating the member.");
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log("Error from backend:", error);
-      toast.error("Member registration failed, try with different email" );
+      
+      // Handle network errors or other exceptions
+      if (error?.message) {
+        toast.error(error.message);
+      } else if (error?.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Member registration failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -195,13 +209,12 @@ const CreateMemberForm: React.FC = () => {
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
+                    value: 5,
+                    message: "Password must be at least 5 characters",
                   },
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                    message:
-                      "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                  maxLength: {
+                    value: 20,
+                    message: "Password cannot exceed 20 characters",
                   },
                 })}
                 className={`pr-10 transition-all duration-200 ${
@@ -230,8 +243,7 @@ const CreateMemberForm: React.FC = () => {
               </p>
             )}
             <div className="text-xs text-gray-500 mt-1">
-              Password must contain at least one uppercase letter, one lowercase
-              letter, and one number
+              Password must be at least 5 characters long (maximum 20 characters)
             </div>
           </div>
 
@@ -247,7 +259,9 @@ const CreateMemberForm: React.FC = () => {
                 setValue("role", value);
               }}
             >
-              <SelectTrigger className="w-full ">
+              <SelectTrigger className={`w-full ${
+                errors.role ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "focus:border-blue-500 focus:ring-blue-500/20"
+              }`}>
                 <SelectValue>{selectedRole || "Select a role"}</SelectValue>
               </SelectTrigger>
               <SelectContent>
@@ -258,6 +272,14 @@ const CreateMemberForm: React.FC = () => {
                 ))}
               </SelectContent>
             </Select>
+            {/* Hidden input for form validation */}
+            <input
+              type="hidden"
+              {...register("role", {
+                required: "Role is required",
+                validate: (value) => value && value.trim() !== "" || "Please select a role"
+              })}
+            />
             {errors.role && (
               <p className="text-red-500 text-sm flex items-center gap-1">
                 <span className="text-red-500">⚠</span>
@@ -281,7 +303,9 @@ const CreateMemberForm: React.FC = () => {
                 setValue("designation", value);
               }}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className={`w-full ${
+                errors.designation ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "focus:border-blue-500 focus:ring-blue-500/20"
+              }`}>
                 <SelectValue>
                   {selectedDesignation || "Select designation"}
                 </SelectValue>
@@ -294,6 +318,14 @@ const CreateMemberForm: React.FC = () => {
                 ))}
               </SelectContent>
             </Select>
+            {/* Hidden input for form validation */}
+            <input
+              type="hidden"
+              {...register("designation", {
+                required: "Designation is required",
+                validate: (value) => value && value.trim() !== "" || "Please select a designation"
+              })}
+            />
             {errors.designation && (
               <p className="text-red-500 text-sm flex items-center gap-1">
                 <span className="text-red-500">⚠</span>

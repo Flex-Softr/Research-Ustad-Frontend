@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 import { GetAllPersonalInfo, GetUserBlogs } from "@/services/dashbaord";
 import { GetMe } from "@/services/singleUser";
 import { GetAllResearchPaperMy } from "@/services/allreserchPaper";
-import { 
-  FileText, 
-  Clock, 
-  CheckCircle, 
-  BookOpen, 
-  TrendingUp, 
-  Users, 
+import {
+  FileText,
+  Clock,
+  CheckCircle,
+  BookOpen,
+  TrendingUp,
+  Users,
   Plus,
   Edit,
   ArrowRight,
@@ -68,13 +68,14 @@ const UserDashBoardLayout = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [personalResponse, userResponse, papersResponse, blogsResponse] = await Promise.all([
-          GetAllPersonalInfo(),
-          GetMe(),
-          GetAllResearchPaperMy(),
-          GetUserBlogs()
-        ]);
-        
+        const [personalResponse, userResponse, papersResponse, blogsResponse] =
+          await Promise.all([
+            GetAllPersonalInfo(),
+            GetMe(),
+            GetAllResearchPaperMy(),
+            GetUserBlogs(),
+          ]);
+
         setPersonalInfo(personalResponse?.data || null);
         setUser(userResponse?.data || null);
         setRecentPapers(papersResponse?.data?.slice(0, 5) || []);
@@ -95,7 +96,10 @@ const UserDashBoardLayout = () => {
         <div className="h-8 bg-gray-200 rounded-md animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-32 bg-gray-200 rounded-xl animate-pulse"></div>
+            <div
+              key={i}
+              className="h-32 bg-gray-200 rounded-xl animate-pulse"
+            ></div>
           ))}
         </div>
       </div>
@@ -129,7 +133,9 @@ const UserDashBoardLayout = () => {
     },
     {
       title: "Total Papers",
-      value: (personalInfo?.totalApprovedPapers || 0) + (personalInfo?.totalPendingPapers || 0),
+      value:
+        (personalInfo?.totalApprovedPapers || 0) +
+        (personalInfo?.totalPendingPapers || 0),
       icon: FileText,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
@@ -197,7 +203,8 @@ const UserDashBoardLayout = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
-              Welcome back, {user?.fullName || user?.email?.split('@')[0] || 'Researcher'}!
+              Welcome back,{" "}
+              {user?.fullName || user?.email?.split("@")[0] || "Researcher"}!
             </h1>
             <p className="text-blue-100 text-lg">
               Here's what's happening with your research today
@@ -220,16 +227,22 @@ const UserDashBoardLayout = () => {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
+                <p className="text-sm font-medium text-gray-600 mb-1">
+                  {stat.title}
+                </p>
                 <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
               </div>
-              <div className={`p-3 rounded-xl ${stat.bgColor} group-hover:scale-110 transition-transform duration-300`}>
+              <div
+                className={`p-3 rounded-xl ${stat.bgColor} group-hover:scale-110 transition-transform duration-300`}
+              >
                 <stat.icon className={`w-6 h-6 ${stat.color}`} />
               </div>
             </div>
             <div className="mt-4 flex items-center text-sm text-gray-500">
               <TrendingUp className="w-4 h-4 mr-1" />
-              <span className={stat.trendColor}>{stat.trend} from last month</span>
+              <span className={stat.trendColor}>
+                {stat.trend} from last month
+              </span>
             </div>
           </div>
         ))}
@@ -241,7 +254,9 @@ const UserDashBoardLayout = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* Quick Actions */}
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              Quick Actions
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {quickActions.map((action, index) => (
                 <Link
@@ -250,12 +265,18 @@ const UserDashBoardLayout = () => {
                   className={`p-4 rounded-xl border border-gray-200 ${action.bgColor} ${action.hoverBg} transition-all duration-300 transform hover:scale-105 hover:shadow-md group`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg ${action.bgColor} group-hover:scale-110 transition-transform duration-300`}>
+                    <div
+                      className={`p-2 rounded-lg ${action.bgColor} group-hover:scale-110 transition-transform duration-300`}
+                    >
                       <action.icon className={`w-5 h-5 ${action.color}`} />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900">{action.title}</h3>
-                      <p className="text-sm text-gray-600">{action.description}</p>
+                      <h3 className="font-semibold text-gray-900">
+                        {action.title}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {action.description}
+                      </p>
                     </div>
                   </div>
                 </Link>
@@ -266,8 +287,10 @@ const UserDashBoardLayout = () => {
           {/* Recent Research Papers */}
           <div className="bg-white rounded-2xl border border-gray-200 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900">Recent Research Papers</h2>
-              <Link 
+              <h2 className="text-xl font-bold text-gray-900">
+                Recent Research Papers
+              </h2>
+              <Link
                 href="/user/dashboard/mypapers"
                 className="text-blue-600 hover:text-blue-700 font-medium flex items-center space-x-1"
               >
@@ -288,11 +311,13 @@ const UserDashBoardLayout = () => {
                           {paper.title}
                         </h3>
                         <p className="text-sm text-gray-600 mt-1">
-                          {paper.authors.map((author: any) => 
-                            typeof author === 'string' 
-                              ? author 
-                              : author?.name || 'Unknown Author'
-                          ).join(", ")}
+                          {paper.authors
+                            .map((author: any) =>
+                              typeof author === "string"
+                                ? author
+                                : author?.name || "Unknown Author"
+                            )
+                            .join(", ")}
                         </p>
                         <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
                           <span>{paper.journal}</span>
@@ -303,11 +328,13 @@ const UserDashBoardLayout = () => {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          paper.isApproved 
-                            ? "bg-green-100 text-green-800" 
-                            : "bg-orange-100 text-orange-800"
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            paper.isApproved
+                              ? "bg-green-100 text-green-800"
+                              : "bg-orange-100 text-orange-800"
+                          }`}
+                        >
                           {paper.isApproved ? "Approved" : "Pending"}
                         </span>
                       </div>
@@ -318,7 +345,7 @@ const UserDashBoardLayout = () => {
                 <div className="text-center py-8 text-gray-500">
                   <FileText className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                   <p>No research papers yet</p>
-                  <Link 
+                  <Link
                     href="/user/dashboard/addresearchpaper"
                     className="text-blue-600 hover:text-blue-700 font-medium mt-2 inline-block"
                   >
@@ -337,20 +364,24 @@ const UserDashBoardLayout = () => {
             <div className="text-center">
               <div className="relative w-20 h-20 mx-auto mb-4">
                 <Image
-                  src={user?.image || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
+                  src={
+                    user?.image ||
+                    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"
+                  }
                   alt="Profile"
                   width={80}
                   height={80}
                   className="rounded-full object-cover border-4 w-20 h-20 border-blue-100"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
+                    target.src =
+                      "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
                   }}
                 />
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
               <h3 className="font-bold text-gray-900 text-lg">
-                {user?.fullName || user?.email?.split('@')[0] || 'Researcher'}
+                {user?.fullName || user?.email?.split("@")[0] || "Researcher"}
               </h3>
               {/* <p className="text-gray-600 capitalize">{user?.role}</p> */}
               {user?.designation && (

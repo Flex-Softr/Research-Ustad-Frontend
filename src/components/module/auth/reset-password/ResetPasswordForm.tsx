@@ -21,20 +21,26 @@ import { resetPassword } from "@/services/AuthService";
 // import { resetPassword } from "@/services/AuthService";
 
 // Validation schema
-const resetPasswordSchema = z.object({
-  email: z
-    .string({ required_error: "Email is required" })
-    .email("Invalid email address"),
-  newPassword: z
-    .string({ required_error: "Password is required" })
-    .min(8, "Password must be at least 8 characters")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
-  confirmPassword: z
-    .string({ required_error: "Please confirm your password" }),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const resetPasswordSchema = z
+  .object({
+    email: z
+      .string({ required_error: "Email is required" })
+      .email("Invalid email address"),
+    newPassword: z
+      .string({ required_error: "Password is required" })
+      .min(8, "Password must be at least 8 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+      ),
+    confirmPassword: z.string({
+      required_error: "Please confirm your password",
+    }),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 const ResetPasswordForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,8 +51,8 @@ const ResetPasswordForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const email = searchParams.get('email');
-  const token = searchParams.get('token');
+  const email = searchParams.get("email");
+  const token = searchParams.get("token");
 
   useEffect(() => {
     if (!email || !token) {
@@ -71,7 +77,7 @@ const ResetPasswordForm = () => {
     }
 
     setIsSubmitting(true);
-    
+
     try {
       const result = await resetPassword(data.email, data.newPassword, token);
 
@@ -99,7 +105,8 @@ const ResetPasswordForm = () => {
           Invalid Reset Link
         </h3>
         <p className="text-gray-600 mb-6">
-          The password reset link is invalid or has expired. Please request a new password reset.
+          The password reset link is invalid or has expired. Please request a
+          new password reset.
         </p>
         <Link href="/forget-password">
           <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
@@ -120,7 +127,8 @@ const ResetPasswordForm = () => {
           Password Reset Successfully!
         </h3>
         <p className="text-gray-600 mb-6">
-          Your password has been updated. You can now log in with your new password.
+          Your password has been updated. You can now log in with your new
+          password.
         </p>
         <Link href="/login">
           <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
@@ -210,7 +218,9 @@ const ResetPasswordForm = () => {
                       variant="ghost"
                       size="sm"
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 h-10 w-10 p-0 hover:bg-transparent"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-5 w-5 text-gray-500 hover:text-gray-700" />
@@ -245,8 +255,16 @@ const ResetPasswordForm = () => {
       <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
         <div className="flex items-start space-x-3">
           <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-            <svg className="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            <svg
+              className="w-3 h-3 text-blue-600"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
           <div className="text-sm text-blue-800">

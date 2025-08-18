@@ -1,8 +1,8 @@
 "use client";
-import React from 'react';
-import ForgetPasswordForm from '@/components/module/auth/forget-password/ForgetPasswordForm';
-import Container from '@/components/ui/core/Container';
-import Image from 'next/image';
+import React from "react";
+import ForgetPasswordForm from "@/components/module/auth/forget-password/ForgetPasswordForm";
+import Container from "@/components/ui/core/Container";
+import Image from "next/image";
 
 const ForgetPasswordPage = () => {
   return (
@@ -25,7 +25,9 @@ const ForgetPasswordPage = () => {
                 <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
                   <span className="text-emerald-600 font-bold text-xl">RU</span>
                 </div>
-                <span className="text-white font-bold text-xl">ResearchUstad</span>
+                <span className="text-white font-bold text-xl">
+                  ResearchUstad
+                </span>
               </div>
 
               {/* Welcome Content */}
@@ -34,12 +36,23 @@ const ForgetPasswordPage = () => {
                   Forgot Password?
                 </h1>
                 <p className="text-emerald-100 text-lg mb-6">
-                  Don't worry! It happens to the best of us. Enter your email address and we'll send you a link to reset your password.
+                  Don't worry! It happens to the best of us. Enter your email
+                  address and we'll send you a link to reset your password.
                 </p>
                 <div className="flex items-center justify-center lg:justify-start space-x-2 text-emerald-100">
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
                     </svg>
                   </div>
                   <span className="text-sm">Secure password reset process</span>
@@ -58,7 +71,7 @@ const ForgetPasswordPage = () => {
                     Enter your email to receive reset instructions
                   </p>
                 </div>
-                
+
                 <ForgetPasswordForm />
               </div>
             </div>

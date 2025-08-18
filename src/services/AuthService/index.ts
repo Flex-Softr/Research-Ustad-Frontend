@@ -8,6 +8,7 @@ import { createUser } from "../Users";
 
 // ===== AUTHENTICATION FUNCTIONS =====
 
+// register user
 export const registerUser = async (data: any) => {
   try {
     const result = await createUser(data);
@@ -17,6 +18,7 @@ export const registerUser = async (data: any) => {
   }
 };
 
+// login user
 export async function loginUser(data: FieldValues) {
   console.log(data);
 
@@ -44,6 +46,7 @@ export async function loginUser(data: FieldValues) {
   }
 }
 
+// get current user
 export const getCurrentUser = async () => {
   try {
     const accessToken = (await cookies()).get("accessToken")?.value;
@@ -83,11 +86,13 @@ export const getCurrentUser = async () => {
   }
 };
 
+// logout
 export const logout = async () => {
   (await cookies()).delete("accessToken");
   revalidateTag("loginuser");
 };
 
+// get new token
 export const getNewToken = async () => {
   try {
     const res = await fetch(`${api.baseUrl}/auth/refresh-token`, {
@@ -105,6 +110,7 @@ export const getNewToken = async () => {
   }
 };
 
+// forget password
 export const forgetPassword = async (email: string) => {
   try {
     const response = await fetch(`${api.baseUrl}/auth/forget-password`, {
@@ -123,13 +129,18 @@ export const forgetPassword = async (email: string) => {
   }
 };
 
-export const resetPassword = async (email: string, newPassword: string, token: string) => {
+// reset password
+export const resetPassword = async (
+  email: string,
+  newPassword: string,
+  token: string
+) => {
   try {
     const response = await fetch(`${api.baseUrl}/auth/reset-password`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": token,
+        Authorization: token,
       },
       body: JSON.stringify({ email, newPassword }),
     });
