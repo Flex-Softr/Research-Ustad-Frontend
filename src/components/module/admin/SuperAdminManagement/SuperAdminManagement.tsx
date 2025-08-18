@@ -20,6 +20,7 @@ import { GetCurrentSuperAdmin, ReplaceSuperAdmin } from "@/services/Users/superA
 import { GetAllUsers } from "@/services/Users";
 import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
 import { AlertDialog } from "@/components/ui/alert-dialog";
+import Image from "next/image";
 
 interface User {
   _id: string;
@@ -27,6 +28,7 @@ interface User {
   email: string;
   role: string;
   designation: string;
+  image: string;
 }
 
 interface SuperAdmin {
@@ -75,6 +77,9 @@ const SuperAdminManagement = () => {
       setLoading(false);
     }
   };
+
+
+  console.log("userssss", users);
 
   const handleReplaceSuperAdmin = async () => {
     if (!selectedUserId) {
@@ -280,8 +285,8 @@ const SuperAdminManagement = () => {
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
               >
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-gray-100 rounded-full">
-                    <User className="h-4 w-4 text-gray-600" />
+                  <div>
+                    <Image className="rounded-full w-10 h-10 object-cover" src={user?.image} alt={user.fullName} width={20} height={20} />
                   </div>
                   <div>
                     <h4 className="font-medium">{user.fullName}</h4>

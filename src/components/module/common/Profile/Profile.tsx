@@ -116,7 +116,7 @@ const Profile = () => {
                 Profile Information
               </h1>
             </div>
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+            <div className="flex flex-col md:flex-row items-center gap-6">
               {/* Profile Image */}
               <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
                 {user?.image ? (
@@ -135,9 +135,6 @@ const Profile = () => {
                 </CardTitle>
                 <p className="text-xl text-blue-600 font-semibold mb-2">
                   {user?.designation}
-                </p>
-                <p className="text-lg text-gray-600 mb-4">
-                  <span className="font-semibold">Role:</span> {user?.role}
                 </p>
 
                 {/* Contact Info */}

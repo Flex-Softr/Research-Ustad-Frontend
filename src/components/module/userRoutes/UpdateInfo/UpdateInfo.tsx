@@ -1,7 +1,5 @@
 "use client";
-import {
-  UpdatePersonalMember,
-} from "@/services/reserarchers";
+import { UpdatePersonalMember } from "@/services/reserarchers";
 import { GetMe } from "@/services/singleUser";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -31,7 +29,7 @@ const UpdateInfo = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const router = useRouter();
-  
+
   // Use the user status hook to check for account deletion
   useUserStatus();
 
@@ -66,6 +64,8 @@ const UpdateInfo = () => {
       isDeleted: false,
     },
   });
+
+  console.log("user infoooo", data);
 
   // Helper functions for array management
   const addExpertise = () => {
@@ -149,7 +149,10 @@ const UpdateInfo = () => {
         setValue("currentInstitution", data?.current?.institution || "");
         setValue("currentDepartment", data?.current?.department || "");
         setValue("currentDegree", data?.current?.degree || "");
-        setValue("currentInstDesignation", data?.current?.inst_designation || "");
+        setValue(
+          "currentInstDesignation",
+          data?.current?.inst_designation || ""
+        );
 
         // Education - only set if data exists
         setValue("educationDegree", data?.education?.degree || "");
@@ -157,7 +160,12 @@ const UpdateInfo = () => {
         setValue("educationInstitution", data?.education?.institution || "");
         // Only set education status if it's a valid value, otherwise keep empty
         const validStatuses = ["Ongoing", "Completed"];
-        setValue("educationStatus", validStatuses.includes(data?.education?.status) ? data?.education?.status : "");
+        setValue(
+          "educationStatus",
+          validStatuses.includes(data?.education?.status)
+            ? data?.education?.status
+            : ""
+        );
         setValue("scholarship", data?.education?.scholarship || "");
 
         // Social Links - only set if data exists
@@ -199,8 +207,6 @@ const UpdateInfo = () => {
     fetchMember();
   }, [setValue]);
 
-
-
   const onSubmit = async (formData: UpdateInfoFormData) => {
     setLoading(true);
 
@@ -212,16 +218,17 @@ const UpdateInfo = () => {
     // Helper function to clean arrays
     const cleanArray = (arr: string[] | undefined) => {
       if (!arr || arr.length === 0) return [];
-      return arr.filter(item => item && item.trim() !== "");
+      return arr.filter((item) => item && item.trim() !== "");
     };
 
     // Helper function to clean conference objects
     const cleanConferences = (conferences: Conference[] | undefined) => {
       if (!conferences || conferences.length === 0) return [];
-      return conferences.filter(conf => 
-        (conf.name && conf.name.trim() !== "") ||
-        (conf.role && conf.role.trim() !== "") ||
-        (conf.topic && conf.topic.trim() !== "")
+      return conferences.filter(
+        (conf) =>
+          (conf.name && conf.name.trim() !== "") ||
+          (conf.role && conf.role.trim() !== "") ||
+          (conf.topic && conf.topic.trim() !== "")
       );
     };
 
@@ -253,7 +260,12 @@ const UpdateInfo = () => {
     const currentDegree = cleanString(formData.currentDegree);
     const currentInstDesignation = cleanString(formData.currentInstDesignation);
 
-    if (currentInstitution || currentDepartment || currentDegree || currentInstDesignation) {
+    if (
+      currentInstitution ||
+      currentDepartment ||
+      currentDegree ||
+      currentInstDesignation
+    ) {
       payload.current = {
         inst_designation: currentInstDesignation,
         institution: currentInstitution,
@@ -267,11 +279,18 @@ const UpdateInfo = () => {
     const educationField = cleanString(formData.educationField);
     const educationInstitution = cleanString(formData.educationInstitution);
     const scholarship = cleanString(formData.scholarship);
-    
-    // Handle education status - allow empty string for "Select status (optional)"
-    const educationStatus = formData.educationStatus === "" ? "" : formData.educationStatus;
 
-    if (educationDegree || educationField || educationInstitution || educationStatus || scholarship) {
+    // Handle education status - allow empty string for "Select status (optional)"
+    const educationStatus =
+      formData.educationStatus === "" ? "" : formData.educationStatus;
+
+    if (
+      educationDegree ||
+      educationField ||
+      educationInstitution ||
+      educationStatus ||
+      scholarship
+    ) {
       payload.education = {
         degree: educationDegree,
         field: educationField,
@@ -323,7 +342,11 @@ const UpdateInfo = () => {
         toast.success("Member updated successfully!");
         setLoading(false);
         setSelectedFile(null);
-        router.push("/user/dashboard/profileinfo");
+        if (data?.role === "user") {
+          router.push("/user/dashboard/profileinfo");
+        } else {
+          router.push("/admin/dashboard/profileinfo");
+        }
       }
     } catch (error) {
       console.error("Error updating member:", error);
@@ -344,9 +367,9 @@ const UpdateInfo = () => {
           <input type="hidden" {...register("isDeleted")} />
 
           {/* Basic Information Section */}
-          <BasicInformationSection 
-            register={register} 
-            errors={errors} 
+          <BasicInformationSection
+            register={register}
+            errors={errors}
             selectedFile={selectedFile}
             onFileChange={setSelectedFile}
             currentProfileImg={data?.image}
