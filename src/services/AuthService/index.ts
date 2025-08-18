@@ -104,3 +104,40 @@ export const getNewToken = async () => {
     return { success: false, message: error.message };
   }
 };
+
+export const forgetPassword = async (email: string) => {
+  try {
+    const response = await fetch(`${api.baseUrl}/auth/forget-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error: any) {
+    console.error("Forget password error:", error);
+    return { success: false, message: "Network error. Please try again." };
+  }
+};
+
+export const resetPassword = async (email: string, newPassword: string, token: string) => {
+  try {
+    const response = await fetch(`${api.baseUrl}/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token,
+      },
+      body: JSON.stringify({ email, newPassword }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error: any) {
+    console.error("Reset password error:", error);
+    return { success: false, message: "Network error. Please try again." };
+  }
+};

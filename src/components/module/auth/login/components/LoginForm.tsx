@@ -16,6 +16,7 @@ import { useState } from "react";
 import { loginUser } from "@/services/AuthService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import ForgetPassword from "./ForgetPassword";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -124,6 +125,7 @@ const LoginForm = () => {
           {isSubmitting ? "Processing..." :  "SIGN IN"}
         </Button>
       </form>
+      <ForgetPassword />
     </Form>
   );
 };
