@@ -434,63 +434,153 @@ const Profile = () => {
             </div>
 
             {/* Change Password Form */}
-            <div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                Change Password
-              </h3>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md">
-                {/* Old Password */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
                 <div>
-                  <label className="block text-gray-700 font-medium mb-1">
-                    Old Password
+                  <h3 className="text-xl font-bold text-gray-800">
+                    Change Password
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    Update your account password for better security
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                {/* Old Password */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    Current Password
                   </label>
-                  <Input
-                    type="password"
-                    placeholder="Enter Old Password"
-                    {...register("oldPassword", {
-                      required: "Old password is required",
-                    })}
-                    className="w-full border rounded-md p-2"
-                  />
+                  <div className="relative">
+                    <Input
+                      type="password"
+                      placeholder="Enter your current password"
+                      {...register("oldPassword", {
+                        required: "Current password is required",
+                      })}
+                      className={`w-full px-4 py-3 border-2 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        errors.oldPassword 
+                          ? "border-red-300 bg-red-50" 
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    />
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </div>
+                  </div>
                   {errors.oldPassword && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <div className="flex items-center gap-2 text-red-600 text-sm">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
                       {errors.oldPassword.message}
-                    </p>
+                    </div>
                   )}
                 </div>
 
                 {/* New Password */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-1">
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700">
                     New Password
                   </label>
-                  <Input
-                    type="password"
-                    placeholder="Enter New Password"
-                    {...register("newPassword", {
-                      required: "New password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters long",
-                      },
-                    })}
-                    className="w-full border rounded-md p-2"
-                  />
+                  <div className="relative">
+                    <Input
+                      type="password"
+                      placeholder="Enter your new password"
+                      {...register("newPassword", {
+                        required: "New password is required",
+                        minLength: {
+                          value: 6,
+                          message: "Password must be at least 6 characters long",
+                        },
+                        pattern: {
+                          value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+                          message: "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+                        },
+                      })}
+                      className={`w-full px-4 py-3 border-2 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        errors.newPassword 
+                          ? "border-red-300 bg-red-50" 
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    />
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    </div>
+                  </div>
                   {errors.newPassword && (
-                    <p className="text-red-500 text-sm mt-1">
+                    <div className="flex items-center gap-2 text-red-600 text-sm">
+                      <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
                       {errors.newPassword.message}
-                    </p>
+                    </div>
                   )}
+                </div>
+
+                {/* Password Requirements */}
+                <div className="bg-white rounded-lg p-4 border border-gray-200">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Password Requirements:</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                      <span className="text-gray-600">At least 6 characters long</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                      <span className="text-gray-600">Contains uppercase letter</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                      <span className="text-gray-600">Contains lowercase letter</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+                      <span className="text-gray-600">Contains number</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md"
+                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
                 >
-                  Change Password
+                  <div className="flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Update Password
+                  </div>
                 </Button>
               </form>
+
+              {/* Security Notice */}
+              <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <h5 className="text-sm font-semibold text-yellow-800">Security Notice</h5>
+                    <p className="text-sm text-yellow-700 mt-1">
+                      After changing your password, you will be automatically logged out for security purposes. 
+                      Please log in again with your new password.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
