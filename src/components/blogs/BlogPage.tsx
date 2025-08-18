@@ -32,8 +32,6 @@ const BlogPage = () => {
     (state: RootState) => state.blogs
   );
 
-
-  console.log('blogsssssssss', blogs)
   const [errors, setError] = useState<string | null>(null);
   const [data, setData] = useState<TPost[]>([]);
   const [loading, setLoading] = useState(true);

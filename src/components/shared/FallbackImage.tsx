@@ -15,7 +15,7 @@ const FallbackImage = ({
   src,
   alt,
   className,
-  width = 800,
+  width = 5000,
   height = 600,
   ...props
 }: FallbackImageProps) => {

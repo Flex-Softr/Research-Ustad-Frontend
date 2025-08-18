@@ -22,7 +22,7 @@ export type TPapers = {
   journalRank: string;
   visitLink: string;
   paperType: "journal" | "conference";
-  status: "published" | "ongoing";
+  status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   isApproved: boolean;
   abstract?: string;
   keywords?: string[];
@@ -44,7 +44,7 @@ export interface ResearchPaperForm {
   journalRank?: string;
   visitLink: string;
   paperType: "journal" | "conference";
-  status: "published" | "ongoing";
+  status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;
   keywords?: string[];
   citations?: number;
@@ -85,7 +85,7 @@ export interface SingleResearchPaperProps {
     downloads?: number;
     researchArea?: string;
     funding?: string;
-    status: "published" | "ongoing";
+    status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
     createdAt?: string;
     updatedAt?: string;
   };
@@ -100,5 +100,5 @@ export interface RelatedPaper extends TPapers {
   downloads?: number;
   researchArea?: string;
   funding?: string;
-  status: "published" | "ongoing";
+  status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
 }

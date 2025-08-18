@@ -1,6 +1,10 @@
 "use client";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
-import { ApprovePaper, RejectPaper, GetPendingResearchPapers } from "@/services/allreserchPaper";
+import {
+  ApprovePaper,
+  RejectPaper,
+  GetPendingResearchPapers,
+} from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -71,7 +75,7 @@ const PendingResearchPapers = () => {
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
     { label: "Authors", value: "authors" },
-    { label: "Paper Type", value: "paperType" },
+    // { label: "Paper Type", value: "paperType" },
     { label: "Submitted By", value: "user.fullName" },
     { label: "Visit Link", value: "visitLink" },
   ];

@@ -17,7 +17,6 @@ import {
   MapPin,
   Calendar,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { calculateCourseStatus } from "@/lib/calculateCourseStatus";
 import FallbackImage from "../shared/FallbackImage";
@@ -328,8 +327,6 @@ const CoursePage = () => {
                               <FallbackImage
                                 src={course.imageUrl}
                                 alt={course.title}
-                                width={400}
-                                height={240}
                                 className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>

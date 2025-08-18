@@ -38,8 +38,6 @@ const CourseSidebar = ({ course }) => {
             <FallbackImage
               src={course.imageUrl}
               alt={course.title}
-             
-              
               className="object-cover h-full w-full"
             />
           </div>

@@ -70,6 +70,21 @@ const FilterSidebar = ({
                 name: "Ongoing",
                 count: papers.filter((p) => p.status === "ongoing").length,
               },
+              {
+                id: "under_review",
+                name: "Under Review",
+                count: papers.filter((p) => p.status === "under_review").length,
+              },
+              {
+                id: "in_preparation",
+                name: "In Preparation",
+                count: papers.filter((p) => p.status === "in_preparation").length,
+              },
+              {
+                id: "revision",
+                name: "Revision",
+                count: papers.filter((p) => p.status === "revision").length,
+              },
             ].map((filter) => (
               <button
                 key={filter.id}

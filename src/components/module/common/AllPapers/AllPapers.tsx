@@ -4,6 +4,42 @@ import { Button } from "@/components/ui/button"; // Button from ShadCN
 import PageTitle from "@/components/ui/core/PageTitle/PageTitle";
 import { TPapers } from "@/type";
 
+// Helper function to get status display name
+const getStatusDisplayName = (status?: string) => {
+  switch (status) {
+    case "published":
+      return "Published";
+    case "ongoing":
+      return "Ongoing";
+    case "under_review":
+      return "Under Review";
+    case "in_preparation":
+      return "In Preparation";
+    case "revision":
+      return "Revision";
+    default:
+      return "Unknown";
+  }
+};
+
+// Helper function to get status badge styling
+const getStatusBadgeStyle = (status?: string) => {
+  switch (status) {
+    case "published":
+      return "bg-green-100 text-green-800";
+    case "ongoing":
+      return "bg-yellow-100 text-yellow-800";
+    case "under_review":
+      return "bg-blue-100 text-blue-800";
+    case "in_preparation":
+      return "bg-gray-100 text-gray-800";
+    case "revision":
+      return "bg-orange-100 text-orange-800";
+    default:
+      return "bg-gray-100 text-gray-800";
+  }
+};
+
 const AllPapers = ({ papers }:{papers:TPapers[]}) => {
 console.log(papers)
   return (
@@ -27,10 +63,8 @@ console.log(papers)
                 <p>Research Area: {paper.researchArea || 'General'}</p>
                 <p>Journal Rank: {paper.journalRank}</p>
                 <p>Volume: {paper.volume}</p>
-                <p>Status: <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                  paper.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                }`}>
-                  {paper.status === 'published' ? 'Published' : 'Ongoing'}
+                <p>Status: <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusBadgeStyle(paper.status)}`}>
+                  {getStatusDisplayName(paper.status)}
                 </span></p>
               </CardDescription>
             </div>

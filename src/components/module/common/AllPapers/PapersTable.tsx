@@ -7,6 +7,42 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FileText, Calendar, TrendingUp, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
+// Helper function to get status display name
+const getStatusDisplayName = (status?: string) => {
+  switch (status) {
+    case "published":
+      return "Published";
+    case "ongoing":
+      return "Ongoing";
+    case "under_review":
+      return "Under Review";
+    case "in_preparation":
+      return "In Preparation";
+    case "revision":
+      return "Revision";
+    default:
+      return "Unknown";
+  }
+};
+
+// Helper function to get status badge styling
+const getStatusBadgeStyle = (status?: string) => {
+  switch (status) {
+    case "published":
+      return "bg-green-100 text-green-800 border-green-200";
+    case "ongoing":
+      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    case "under_review":
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    case "in_preparation":
+      return "bg-gray-100 text-gray-800 border-gray-200";
+    case "revision":
+      return "bg-orange-100 text-orange-800 border-orange-200";
+    default:
+      return "bg-gray-100 text-gray-800 border-gray-200";
+  }
+};
+
 
 
 const PapersTable = ({ papers }: PapersTableProps) => {
@@ -106,14 +142,10 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                   </td> */}
                   <td className="px-6 py-4">
                     <Badge
-                      variant={paper.status === "published" ? "default" : "secondary"}
-                      className={`text-xs ${
-                        paper.status === "published"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
+                      variant="secondary"
+                      className={`text-xs ${getStatusBadgeStyle(paper.status)}`}
                     >
-                      {paper.status === "published" ? "Published" : "Ongoing"}
+                      {getStatusDisplayName(paper.status)}
                     </Badge>
                   </td>
                   <td className="px-6 py-4">

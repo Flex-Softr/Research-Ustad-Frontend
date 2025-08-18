@@ -35,13 +35,19 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
       return "bg-gray-100 text-gray-800 border-gray-200";
     }
     
-    switch (status) {
-      case 'Under Review':
+    switch (status.toLowerCase()) {
+      case 'under_review':
+      case 'under review':
         return "bg-blue-100 text-blue-800 border-blue-200";
-      case 'In Preparation':
+      case 'in_preparation':
+      case 'in preparation':
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case 'Revision':
+      case 'revision':
         return "bg-orange-100 text-orange-800 border-orange-200";
+      case 'ongoing':
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case 'published':
+        return "bg-green-100 text-green-800 border-green-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
@@ -62,18 +68,45 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     }
   };
 
+  const getStatusDisplayName = (status?: string) => {
+    if (!status) {
+      return 'Unknown Status';
+    }
+    
+    switch (status.toLowerCase()) {
+      case 'in_preparation':
+        return 'In Preparation';
+      case 'under_review':
+        return 'Under Review';
+      case 'revision':
+        return 'Revision';
+      case 'ongoing':
+        return 'Ongoing';
+      case 'published':
+        return 'Published';
+      default:
+        return status;
+    }
+  };
+
   const getProgressPercentage = (status?: string) => {
     if (!status) {
       return 50;
     }
     
-    switch (status) {
-      case 'In Preparation':
+    switch (status.toLowerCase()) {
+      case 'in_preparation':
+      case 'in preparation':
         return 25;
-      case 'Under Review':
+      case 'ongoing':
+        return 35;
+      case 'under_review':
+      case 'under review':
         return 75;
-      case 'Revision':
+      case 'revision':
         return 85;
+      case 'published':
+        return 100;
       default:
         return 50;
     }
@@ -99,7 +132,7 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                     className={getStatusColor(paper.status)}
                   >
                     <Clock className="h-3 w-3 mr-1" />
-                    {paper.status || 'Unknown Status'}
+                    {getStatusDisplayName(paper.status)}
                   </Badge>
                 </div>
 
@@ -141,10 +174,13 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
                       className={`h-2 rounded-full transition-all duration-300 ${
-                        paper.status === 'In Preparation' ? 'bg-yellow-500 w-1/4' :
-                        paper.status === 'Under Review' ? 'bg-purple-500 w-3/4' :
-                        paper.status === 'Revision' ? 'bg-orange-500 w-5/6' : 'bg-gray-500 w-1/2'
+                        paper.status?.toLowerCase() === 'in_preparation' || paper.status?.toLowerCase() === 'in preparation' ? 'bg-yellow-500' :
+                        paper.status?.toLowerCase() === 'under_review' || paper.status?.toLowerCase() === 'under review' ? 'bg-blue-500' :
+                        paper.status?.toLowerCase() === 'revision' ? 'bg-orange-500' :
+                        paper.status?.toLowerCase() === 'ongoing' ? 'bg-yellow-500' :
+                        paper.status?.toLowerCase() === 'published' ? 'bg-green-500' : 'bg-gray-500'
                       }`}
+                      style={{ width: `${getProgressPercentage(paper.status)}%` }}
                     ></div>
                   </div>
                 </div>
