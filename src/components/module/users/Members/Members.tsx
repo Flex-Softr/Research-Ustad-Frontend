@@ -5,7 +5,7 @@ import { GetAllResearchAssociate, DeleteMember } from "@/services/reserarchers";
 import { toast } from "sonner";
 import ManageTable from "@/components/shared/ManageTable/ManageTable";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/shared/UserAvatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Users, Mail } from "lucide-react";
@@ -146,16 +146,12 @@ const Members = ({ data: initialData }: MembersProps) => {
     if (column.value === "fullName") {
       return (
         <div className="flex items-center space-x-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={item.image} alt={item.fullName} />
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs font-semibold">
-              {item.fullName
-                .split(" ")
-                .map((n) => n[0])
-                .join("")
-                .toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            src={item.image}
+            alt={item.fullName}
+            name={item.fullName}
+            size="md"
+          />
           <div>
             <div className="font-medium text-gray-900">{item.fullName}</div>
             {item.shortBio && (

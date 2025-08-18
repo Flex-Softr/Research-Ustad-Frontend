@@ -171,7 +171,7 @@ const adminRoute = {
         },
         {
           title: "My Blogs",
-          url: "/admin/dashboard/allblog",
+          url: "/admin/dashboard/myblogs",
           icon: NotebookPen,
         },
         {

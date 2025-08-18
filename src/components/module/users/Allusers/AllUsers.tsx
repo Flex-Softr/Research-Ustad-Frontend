@@ -4,9 +4,11 @@ import { GetAllUsers, PromoteRole } from "@/services/Users";
 import { TUser } from "@/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/shared/UserAvatar";
 import { Badge } from "@/components/ui/badge";
-import { Users, Shield, UserCheck } from "lucide-react";
+import { logout } from "@/services/AuthService";
+import { useRouter } from "next/navigation";
+import { GetMe } from "@/services/singleUser";
 
 interface ManageAllUserProps {
   data?: TUser[];
@@ -15,6 +17,7 @@ interface ManageAllUserProps {
 const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
   const [loading, setLoading] = useState<boolean>(!initialData);
   const [data, setData] = useState<TUser[]>(initialData || []);
+  const router = useRouter();
 
   const fetchData = async () => {
     try {
@@ -48,16 +51,54 @@ const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
 
       const res = await PromoteRole(id);
       if (res?.success) {
-        toast.success(`Successfully changed role for ${res?.data?.fullName}`);
+        const newRole = currentRole === "admin" ? "user" : "admin";
+        const roleChangeMessage =
+          newRole === "admin"
+            ? "User promoted to admin successfully"
+            : "Admin demoted to user successfully";
+
+        toast.success(`${roleChangeMessage} for ${res?.data?.fullName}`);
 
         // Update local state immediately for instant feedback
         setData((prevData) =>
           prevData.map((user) =>
-            user._id === id
-              ? { ...user, role: user.role === "admin" ? "user" : "admin" }
-              : user
+            user._id === id ? { ...user, role: newRole } : user
           )
         );
+
+        // Check if the response indicates token invalidation
+        if (res?.data?.requiresReauth) {
+          // Check if the current user is the one being changed
+          try {
+            const currentUser = await GetMe();
+            if (currentUser?.data?._id === id) {
+              // Current user's role was changed, log them out
+              const roleChangeType =
+                newRole === "admin" ? "promoted to admin" : "demoted to user";
+              toast.info(
+                `You have been ${roleChangeType}. You will be logged out and redirected to the home page.`
+              );
+
+              // Wait a moment for the toast to be visible
+              // setTimeout(async () => {
+              await logout();
+              router.push("/");
+              // }, 2000);
+            } else {
+              // Another user's role was changed
+              const roleChangeType =
+                newRole === "admin" ? "promoted to admin" : "demoted to user";
+              toast.info(
+                `${res?.data?.fullName} has been ${roleChangeType} and will be logged out. They need to log in again.`
+              );
+            }
+          } catch (error) {
+            console.error("Error checking current user:", error);
+            toast.info(
+              `${res?.data?.fullName} will be logged out due to role change. They need to log in again.`
+            );
+          }
+        }
 
         // Also refresh from server to ensure consistency
         fetchData();
@@ -75,16 +116,12 @@ const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
     if (column.value === "fullName") {
       return (
         <div className="flex items-center space-x-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={item.image} alt={item.fullName} />
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs font-semibold">
-              {item.fullName
-                .split(" ")
-                .map((n) => n[0])
-                .join("")
-                .toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            src={item.image}
+            alt={item.fullName}
+            name={item.fullName}
+            size="md"
+          />
           <div>
             <div className="font-medium text-gray-900">{item.fullName}</div>
             {item.designation && (

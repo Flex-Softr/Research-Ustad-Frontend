@@ -20,6 +20,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { calculateCourseStatus } from "@/lib/calculateCourseStatus";
+import FallbackImage from "../shared/FallbackImage";
 
 const CoursePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -324,11 +325,8 @@ const CoursePage = () => {
                           >
                             {/* Image Section */}
                             <div className="relative overflow-hidden">
-                              <Image
-                                src={
-                                  course.imageUrl ||
-                                  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                                }
+                              <FallbackImage
+                                src={course.imageUrl}
                                 alt={course.title}
                                 width={400}
                                 height={240}

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FallbackImage from "@/components/shared/FallbackImage";
 import { CustomEvent } from "@/type/event";
 
 interface EventImageProps {
@@ -9,10 +9,10 @@ const EventImage = ({ event }: EventImageProps) => {
   return (
     <div className="relative overflow-hidden rounded-2xl shadow-xl">
       <div className="relative h-64 sm:h-80 lg:h-96">
-        <Image
+        <FallbackImage
           src={event.imageUrl}
           alt={event.title}
-          fill
+          
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
           className="object-cover"
           priority

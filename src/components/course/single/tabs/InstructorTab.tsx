@@ -1,5 +1,5 @@
 import { Star, Award, Users } from "lucide-react";
-import Image from "next/image";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 
 const InstructorTab = ({ course }) => {
@@ -34,16 +34,12 @@ const InstructorTab = ({ course }) => {
             className="flex items-start gap-6 p-6 bg-gray-50 rounded-2xl"
           >
             <div className="relative">
-              <Image
-                src={instructor.imageUrl || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
+              <UserAvatar
+                src={instructor.imageUrl}
                 alt={instructor.name}
-                width={80}
-                height={80}
-                className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
-                }}
+                name={instructor.name}
+                size="lg"
+                className="w-20 h-20 border-4 border-white shadow-lg"
               />
             </div>
             <div className="flex-1">

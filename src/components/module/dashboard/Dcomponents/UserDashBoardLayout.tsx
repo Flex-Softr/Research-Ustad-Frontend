@@ -68,20 +68,20 @@ const UserDashBoardLayout = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [personalResponse, userResponse, papersResponse, blogsResponse] =
-          await Promise.all([
-            GetAllPersonalInfo(),
-            GetMe(),
-            GetAllResearchPaperMy(),
-            GetUserBlogs(),
-          ]);
+        setLoading(true);
+
+        const personalResponse = await GetAllPersonalInfo();
+        const userResponse = await GetMe();
+        const papersResponse = await GetAllResearchPaperMy();
+        const blogsResponse = await GetUserBlogs();
 
         setPersonalInfo(personalResponse?.data || null);
         setUser(userResponse?.data || null);
         setRecentPapers(papersResponse?.data?.slice(0, 5) || []);
         setRecentBlogs(blogsResponse?.data?.slice(0, 3) || []);
-      } catch (err) {
-        setError("Failed to fetch data");
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+        setError("Failed to fetch data. Please refresh the page.");
       } finally {
         setLoading(false);
       }
@@ -106,7 +106,30 @@ const UserDashBoardLayout = () => {
     );
   }
 
-  if (error) return <p className="text-red-500">Error: {error}</p>;
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="flex items-center">
+          <div className="flex-shrink-0">
+            <svg
+              className="h-5 w-5 text-red-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+          <div className="ml-3">
+            <p className="text-sm text-red-800">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const stats = [
     {
