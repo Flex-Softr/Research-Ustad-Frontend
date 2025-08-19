@@ -271,7 +271,9 @@ const MyAllBlog = () => {
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                              onClick={() => handleDeleteBlog(blog)}
+                              onClick={() => {
+                                setTimeout(() => handleDeleteBlog(blog), 0);
+                              }}
                               className="text-red-600"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
@@ -290,7 +292,7 @@ const MyAllBlog = () => {
       ) : (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-16">
-            <div className="text-center">
+            <div className="text-center flex flex-col items-center justify-center">
               <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <FileText className="h-12 w-12 text-gray-400" />
               </div>

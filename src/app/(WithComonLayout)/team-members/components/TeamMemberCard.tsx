@@ -46,12 +46,13 @@ export interface TeamMember extends UserProfile {
     status: string;
   }>;
   blogs?: Array<{
-    id: string;
+    _id?: string;
+    id?: string;
     title: string;
+    category: string;
     publishedDate: string;
-    readTime: string;
-    views: number;
-    likes: number;
+    imageUrl?: string;
+    content: string;
     status: string;
   }>;
   expertise?: string[];

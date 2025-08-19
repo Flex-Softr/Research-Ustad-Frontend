@@ -74,10 +74,19 @@ export const GetUserBlogs = async () => {
       throw new Error(`Request failed with status: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    
+    // Return the blogs array directly, matching the expected structure
+    return {
+      success: true,
+      data: data.data?.blogs || []
+    };
   } catch (error) {
     console.error("Error fetching user blogs:", error);
-    return null;
+    return {
+      success: false,
+      data: []
+    };
   }
 };
 

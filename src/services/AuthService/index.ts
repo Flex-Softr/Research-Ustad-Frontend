@@ -88,8 +88,26 @@ export const getCurrentUser = async () => {
 
 // logout
 export const logout = async () => {
-  (await cookies()).delete("accessToken");
-  revalidateTag("loginuser");
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+    
+    if (token) {
+      // Call backend logout endpoint to update isLoggedIn status
+      await fetch(`${api.baseUrl}/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Error calling logout endpoint:", error);
+  } finally {
+    // Always clear the token locally
+    (await cookies()).delete("accessToken");
+    revalidateTag("loginuser");
+  }
 };
 
 // get new token

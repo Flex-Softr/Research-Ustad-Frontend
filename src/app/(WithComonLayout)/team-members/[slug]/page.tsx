@@ -56,6 +56,7 @@ const SingleMemberPage = () => {
             awards: response?.data?.awards || [],
             conferences: response?.data?.conferences || [],
             publications: response?.data?.publications || [], // This will be populated from the API
+            blogs: response?.data?.blogs || [], // This will be populated from the API
           };
           
           setMember(transformedMember);
@@ -64,22 +65,23 @@ const SingleMemberPage = () => {
           const transformedMember = {
             id: response?.data?._id,
             user: response?.data?._id,
-            fullName: response.data.fullName,
-            email: response.data.email,
-            contactNo: response.data.contactNo,
-            role: response.data.role,
-            designation: response.data.designation,
-            profileImg: response.data.image,
-            shortBio: response.data.shortBio,
-            research: response.data.research || [],
-            isDeleted: response.data.isDeleted,
-            current: response.data.current,
-            education: response.data.education,
-            socialLinks: response.data.socialLinks,
-            expertise: response.data.expertise || [],
-            awards: response.data.awards || [],
-            conferences: response.data.conferences || [],
-            publications: response.data.publications || [],
+            fullName: response?.data?.fullName,
+            email: response?.data?.email,
+            contactNo: response?.data?.contactNo,
+            role: response?.data?.role,
+            designation: response?.data?.designation,
+            profileImg: response?.data?.image,
+            shortBio: response?.data?.shortBio,
+            research: response?.data?.research || [],
+            isDeleted: response?.data?.isDeleted,
+            current: response?.data?.current,
+            education: response?.data?.education,
+            socialLinks: response?.data?.socialLinks,
+            expertise: response?.data?.expertise || [],
+            awards: response?.data?.awards || [],
+            conferences: response?.data?.conferences || [],
+            publications: response?.data?.publications || [],
+            blogs: response?.data?.blogs || [],
           };
           
           setMember(transformedMember);

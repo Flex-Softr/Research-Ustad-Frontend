@@ -75,10 +75,33 @@ const UserDashBoardLayout = () => {
         const papersResponse = await GetAllResearchPaperMy();
         const blogsResponse = await GetUserBlogs();
 
+        // Debug logging to understand the response structure
+        console.log("Blogs response:", blogsResponse);
+        console.log("Blogs data type:", typeof blogsResponse?.data);
+        console.log("Blogs data is array:", Array.isArray(blogsResponse?.data));
+
         setPersonalInfo(personalResponse?.data || null);
         setUser(userResponse?.data || null);
-        setRecentPapers(papersResponse?.data?.slice(0, 5) || []);
-        setRecentBlogs(blogsResponse?.data?.slice(0, 3) || []);
+        setRecentPapers(
+          Array.isArray(papersResponse?.data)
+            ? papersResponse.data.slice(0, 5)
+            : []
+        );
+
+        // Handle blogs response with better error checking
+        if (
+          blogsResponse &&
+          blogsResponse.success &&
+          Array.isArray(blogsResponse.data)
+        ) {
+          setRecentBlogs(blogsResponse.data.slice(0, 3));
+        } else {
+          console.warn(
+            "Blogs response is not in expected format:",
+            blogsResponse
+          );
+          setRecentBlogs([]);
+        }
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
         setError("Failed to fetch data. Please refresh the page.");

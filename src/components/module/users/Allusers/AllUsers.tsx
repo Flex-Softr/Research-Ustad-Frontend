@@ -52,12 +52,6 @@ const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
       const res = await PromoteRole(id);
       if (res?.success) {
         const newRole = currentRole === "admin" ? "user" : "admin";
-        const roleChangeMessage =
-          newRole === "admin"
-            ? "User promoted to admin successfully"
-            : "Admin demoted to user successfully";
-
-        toast.success(`${roleChangeMessage} for ${res?.data?.fullName}`);
 
         // Update local state immediately for instant feedback
         setData((prevData) =>
@@ -85,19 +79,29 @@ const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
               router.push("/");
               // }, 2000);
             } else {
-              // Another user's role was changed
-              const roleChangeType =
-                newRole === "admin" ? "promoted to admin" : "demoted to user";
-              toast.info(
-                `${res?.data?.fullName} has been ${roleChangeType} and will be logged out. They need to log in again.`
-              );
+              // Another user's role was changed - show single success message with logout info
+              const roleChangeMessage =
+                newRole === "admin"
+                  ? "User promoted to admin successfully"
+                  : "Admin demoted to user successfully";
+              toast.success(`${roleChangeMessage} for ${res?.data?.fullName}. `);
             }
           } catch (error) {
             console.error("Error checking current user:", error);
-            toast.info(
-              `${res?.data?.fullName} will be logged out due to role change. They need to log in again.`
-            );
+            // Show single success message with logout info
+            const roleChangeMessage =
+              newRole === "admin"
+                ? "User promoted to admin successfully"
+                : "Admin demoted to user successfully";
+            toast.success(`${roleChangeMessage} for ${res?.data?.fullName}. `);
           }
+        } else {
+          // No token invalidation needed, show simple success message
+          const roleChangeMessage =
+            newRole === "admin"
+              ? "User promoted to admin successfully"
+              : "Admin demoted to user successfully";
+          toast.success(`${roleChangeMessage} for ${res?.data?.fullName}`);
         }
 
         // Also refresh from server to ensure consistency

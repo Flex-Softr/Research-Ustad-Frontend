@@ -8,7 +8,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Eye, Edit, Trash2, CheckCircle, XCircle, Clock } from "lucide-react";
+import {
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Trash2,
+  CheckCircle,
+  XCircle,
+  Clock,
+} from "lucide-react";
 import Image from "next/image";
 import { BlogTableRowProps } from "@/type";
 
@@ -74,7 +82,9 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
           </div>
           <div>
             <div className="font-medium text-gray-900 line-clamp-1 max-w-[200px]">
-              {blog.title?.length > 30 ? `${blog.title.substring(0, 30)}...` : blog.title || "Untitled"}
+              {blog.title?.length > 30
+                ? `${blog.title.substring(0, 30)}...`
+                : blog.title || "Untitled"}
             </div>
             <div className="text-sm text-gray-500 line-clamp-2 max-w-[200px]">
               {blog.content?.replace(/<[^>]*>/g, "").substring(0, 50)}...
@@ -104,9 +114,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
           </div>
         </div>
       </TableCell>
-      <TableCell>
-        {getStatusBadge(blog.status)}
-      </TableCell>
+      <TableCell>{getStatusBadge(blog.status)}</TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -126,19 +134,19 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
               <Edit className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
-            
+
             {/* Admin-only approval actions */}
             {isAdmin && blog.status === "pending" && (
               <>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => onApprove?.(blog)}
                   className="text-green-600"
                 >
                   <CheckCircle className="w-4 h-4 mr-2" />
                   Approve
                 </DropdownMenuItem>
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => onReject?.(blog)}
                   className="text-red-600"
                 >
@@ -147,7 +155,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
                 </DropdownMenuItem>
               </>
             )}
-            
+
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {

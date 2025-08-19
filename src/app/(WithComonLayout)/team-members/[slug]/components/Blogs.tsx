@@ -1,7 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, Eye, Heart, Clock } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Calendar, Tag } from "lucide-react";
 import { TeamMember } from "../../components";
+import FallbackImage from "@/components/shared/FallbackImage";
+import Link from "next/link";
 
 interface BlogsProps {
   member: TeamMember;
@@ -33,9 +34,7 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               No Blog Posts
             </h3>
-            <p className="text-gray-600">
-              No blog posts at the moment.
-            </p>
+            <p className="text-gray-600">No blog posts at the moment.</p>
           </div>
         </CardContent>
       </Card>
@@ -45,49 +44,47 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
   return (
     <Card className="rounded-none border-0">
       <CardContent className="">
-        <div className="space-y-4">
+        <div className="space-y-6">
           {blogs.map((blog, index) => (
             <div
-              key={blog.id || index}
-              className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
+              key={blog._id || blog.id || index}
+              className="p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-all duration-300 bg-white"
             >
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Blog Content */}
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-brand-secondary transition-colors">
-                    {blog.title}
-                  </h3>
+                  <div className="mb-3">
+                    <Link
+                      href={`/blog/${blog._id || blog.id}`}
+                      className="text-xl font-semibold text-gray-900 hover:text-brand-secondary hover:underline transition-colors cursor-pointer"
+                    >
+                      {blog.title}
+                    </Link>
+                  </div>
 
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-3">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-4">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
-                      <span>{blog.publishedDate}</span>
+                      <span>
+                        {blog.publishedDate
+                          ? new Date(blog.publishedDate).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )
+                          : "Date not available"}
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{blog.readTime}</span>
+                      <Tag className="h-4 w-4" />
+                      <span className="capitalize">
+                        {blog.category || "Uncategorized"}
+                      </span>
                     </div>
-
-                    <div className="flex items-center gap-1">
-                      <Eye className="h-4 w-4" />
-                      <span>{blog.views.toLocaleString()} views</span>
-                    </div>
-
-                    <div className="flex items-center gap-1">
-                      <Heart className="h-4 w-4" />
-                      <span>{blog.likes} likes</span>
-                    </div>
-
-                    <Badge
-                      variant="outline"
-                      className={
-                        blog.status === "Published"
-                          ? "bg-green-100 text-green-800 border-green-200"
-                          : "bg-yellow-100 text-yellow-800 border-yellow-200"
-                      }
-                    >
-                      {blog.status}
-                    </Badge>
                   </div>
                 </div>
               </div>
