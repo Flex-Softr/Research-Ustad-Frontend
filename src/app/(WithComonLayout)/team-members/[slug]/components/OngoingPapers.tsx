@@ -2,15 +2,21 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, FileText, Clock, Users } from "lucide-react";
 import { TeamMember } from "../../components";
+import Link from "next/link";
 
 interface OngoingPapersProps {
   member: TeamMember;
+  paginatedData?: any[];
 }
 
-const OngoingPapers = ({ member }: OngoingPapersProps) => {
-  const ongoingPapers = member.publications?.filter(
-    (pub) => pub.status !== "published" && pub.status !== "Published"
-  ) || [];
+const OngoingPapers = ({ member, paginatedData }: OngoingPapersProps) => {
+  // Use paginated data if provided, otherwise filter from member data
+  const ongoingPapers =
+    paginatedData ||
+    member.publications?.filter(
+      (pub) => pub.status !== "published" && pub.status !== "Published"
+    ) ||
+    [];
 
   if (ongoingPapers.length === 0) {
     return (
@@ -34,19 +40,19 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     if (!status) {
       return "bg-gray-100 text-gray-800 border-gray-200";
     }
-    
+
     switch (status.toLowerCase()) {
-      case 'under_review':
-      case 'under review':
+      case "under_review":
+      case "under review":
         return "bg-blue-100 text-blue-800 border-blue-200";
-      case 'in_preparation':
-      case 'in preparation':
+      case "in_preparation":
+      case "in preparation":
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case 'revision':
+      case "revision":
         return "bg-orange-100 text-orange-800 border-orange-200";
-      case 'ongoing':
+      case "ongoing":
         return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case 'published':
+      case "published":
         return "bg-green-100 text-green-800 border-green-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
@@ -57,11 +63,11 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     if (!type) {
       return <FileText className="h-4 w-4" />;
     }
-    
+
     switch (type.toLowerCase()) {
-      case 'journal':
+      case "journal":
         return <FileText className="h-4 w-4" />;
-      case 'conference':
+      case "conference":
         return <Users className="h-4 w-4" />;
       default:
         return <FileText className="h-4 w-4" />;
@@ -70,20 +76,20 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
 
   const getStatusDisplayName = (status?: string) => {
     if (!status) {
-      return 'Unknown Status';
+      return "Unknown Status";
     }
-    
+
     switch (status.toLowerCase()) {
-      case 'in_preparation':
-        return 'In Preparation';
-      case 'under_review':
-        return 'Under Review';
-      case 'revision':
-        return 'Revision';
-      case 'ongoing':
-        return 'Ongoing';
-      case 'published':
-        return 'Published';
+      case "in_preparation":
+        return "In Preparation";
+      case "under_review":
+        return "Under Review";
+      case "revision":
+        return "Revision";
+      case "ongoing":
+        return "Ongoing";
+      case "published":
+        return "Published";
       default:
         return status;
     }
@@ -93,19 +99,19 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
     if (!status) {
       return 50;
     }
-    
+
     switch (status.toLowerCase()) {
-      case 'in_preparation':
-      case 'in preparation':
+      case "in_preparation":
+      case "in preparation":
         return 25;
-      case 'ongoing':
-        return 35;
-      case 'under_review':
-      case 'under review':
+      case "ongoing":
+        return 50;
+      case "under_review":
+      case "under review":
         return 75;
-      case 'revision':
+      case "revision":
         return 85;
-      case 'published':
+      case "published":
         return 100;
       default:
         return 50;
@@ -114,76 +120,95 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
 
   return (
     <Card className="rounded-none border-0">
-      <CardContent className="p-6">
+      <CardContent>
         <div className="space-y-6">
           {ongoingPapers.map((paper, index) => (
             <div
               key={paper._id || index}
               className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white/50"
             >
-              <div className="flex flex-col space-y-4">
-                {/* Paper Title and Status */}
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                  <h3 className="text-lg font-semibold text-gray-900 hover:text-brand-secondary transition-colors flex-1">
-                    {paper.title || 'Untitled Paper'}
-                  </h3>
-                  <Badge
-                    variant="outline"
-                    className={getStatusColor(paper.status)}
-                  >
-                    <Clock className="h-3 w-3 mr-1" />
-                    {getStatusDisplayName(paper.status)}
-                  </Badge>
-                </div>
+              <div className="space-y-4">
+                {/* Header */}
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                  <div className="flex-1">
+                    <Link href={`/allpapers/${paper._id}`}>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-brand-secondary hover:underline transition-colors cursor-pointer">
+                        {paper.title}
+                      </h3>
+                    </Link>
 
-                {/* Abstract */}
-                {paper.abstract && (
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    {paper.abstract}
-                  </p>
-                )}
-
-                {/* Journal and Type */}
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    {getTypeIcon(paper.paperType)}
-                    <span className="font-medium">{paper.journal || 'No Journal'}</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>Expected {paper.year || 'TBD'}</span>
+                    {/* Abstract */}
+                    {paper.abstract && (
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                        {paper.abstract}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <Badge 
-                      variant="outline" 
-                      className="bg-gray-50 text-gray-700 border-gray-200 text-xs"
+                  <div className="flex flex-col items-end gap-2">
+                    <Badge
+                      variant="outline"
+                      className={getStatusColor(paper.status)}
                     >
-                      {paper.paperType ? paper.paperType.charAt(0).toUpperCase() + paper.paperType.slice(1) : 'Paper'}
+                      {getStatusDisplayName(paper.status)}
                     </Badge>
+
+                    {/* <div className="flex items-center gap-1 text-sm text-gray-600">
+                      {getTypeIcon(paper.paperType)}
+                      <span className="capitalize">{paper.paperType || 'Research Paper'}</span>
+                    </div> */}
                   </div>
                 </div>
 
-                {/* Progress Indicator */}
-                <div className="mt-3">
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                {/* Progress Bar */}
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm text-gray-600">
                     <span>Progress</span>
                     <span>{getProgressPercentage(paper.status)}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        paper.status?.toLowerCase() === 'in_preparation' || paper.status?.toLowerCase() === 'in preparation' ? 'bg-yellow-500' :
-                        paper.status?.toLowerCase() === 'under_review' || paper.status?.toLowerCase() === 'under review' ? 'bg-blue-500' :
-                        paper.status?.toLowerCase() === 'revision' ? 'bg-orange-500' :
-                        paper.status?.toLowerCase() === 'ongoing' ? 'bg-yellow-500' :
-                        paper.status?.toLowerCase() === 'published' ? 'bg-green-500' : 'bg-gray-500'
-                      }`}
-                      style={{ width: `${getProgressPercentage(paper.status)}%` }}
+                    <div
+                      className="bg-brand-secondary h-2 rounded-full transition-all duration-300"
+                      style={{
+                        width: `${getProgressPercentage(paper.status)}%`,
+                      }}
                     ></div>
                   </div>
                 </div>
+
+                {/* Metadata */}
+                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-4 w-4" />
+                    <span>{paper.year}</span>
+                  </div>
+
+                  {paper.journal && (
+                    <div className="flex items-center gap-1">
+                      <FileText className="h-4 w-4" />
+                      <span className="font-medium">{paper.journal}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Authors */}
+                {paper.authors && paper.authors.length > 0 && (
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Users className="h-4 w-4" />
+                    <span className="font-medium">Authors:</span>
+                    <span>
+                      {paper.authors.map((author: any, idx: number) => {
+                        const name =
+                          author?.user?.fullName ||
+                          author?.name ||
+                          "Unknown Author";
+                        return idx === paper.authors.length - 1
+                          ? name
+                          : `${name}, `;
+                      })}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -193,4 +218,4 @@ const OngoingPapers = ({ member }: OngoingPapersProps) => {
   );
 };
 
-export default OngoingPapers; 
+export default OngoingPapers;

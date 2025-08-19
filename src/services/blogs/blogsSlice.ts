@@ -4,7 +4,6 @@ import Cookies from "universal-cookie";
 // const API_BASE_URL = "http://localhost:5000/api/v1";
 const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_API!;
 
-
 // ----------------------
 // Types
 // ----------------------
@@ -29,96 +28,185 @@ const initialState: BlogState = {
 // Async Thunks
 // ----------------------
 
-// Fetch all blogs
-export const fetchBlogs = createAsyncThunk("blogs/fetchAll", async (_, thunkAPI) => {
-  
-  try {
-    const res = await fetch(`${API_BASE_URL}/blog`, {
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch blogs");
-    return data.data.blogs || [];
-  } catch (error: any) {
-    console.error("Blog fetch error:", error);
-    return thunkAPI.rejectWithValue(error.message);
+// Fetch all blogs (public - only approved)
+export const fetchBlogs = createAsyncThunk(
+  "blogs/fetchAll",
+  async (_, thunkAPI) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog`, {});
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to fetch blogs");
+      return data.data.blogs || [];
+    } catch (error: any) {
+      console.error("Blog fetch error:", error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
+
+// Fetch all blogs for admin (including pending and rejected)
+export const fetchAllBlogsForAdmin = createAsyncThunk(
+  "blogs/fetchAllForAdmin",
+  async (_, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog/admin/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to fetch blogs");
+      return data.data.blogs || [];
+    } catch (error: any) {
+      console.error("Admin blog fetch error:", error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// Fetch user's own blogs
+export const fetchUserBlogs = createAsyncThunk(
+  "blogs/fetchUserBlogs",
+  async (_, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog/author`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.message || "Failed to fetch user blogs");
+      return data.data.blogs || [];
+    } catch (error: any) {
+      console.error("User blog fetch error:", error);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 // Fetch single blog by ID
-export const fetchSingleBlog = createAsyncThunk("blogs/fetchOne", async (id: string, thunkAPI) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/blog/${id}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch blog");
-    return data.data.blog;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+export const fetchSingleBlog = createAsyncThunk(
+  "blogs/fetchOne",
+  async (id: string, thunkAPI) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog/${id}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to fetch blog");
+      return data.data.blog;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Add blog
-export const addBlog = createAsyncThunk("blogs/add", async (formData: FormData, thunkAPI) => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
+export const addBlog = createAsyncThunk(
+  "blogs/add",
+  async (formData: FormData, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/blog`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to add blog");
-    return data.data.blog;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to add blog");
+      return data.data.blog;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Update blog
-export const updateBlog = createAsyncThunk("blogs/update", async ({ id, formData }: { id: string; formData: FormData }, thunkAPI) => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
+export const updateBlog = createAsyncThunk(
+  "blogs/update",
+  async ({ id, formData }: { id: string; formData: FormData }, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to update blog");
-    return data.data.blog;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to update blog");
+      return data.data.blog;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
+// Update blog status (approve/reject)
+export const updateBlogStatus = createAsyncThunk(
+  "blogs/updateStatus",
+  async (
+    { id, status }: { id: string; status: "approved" | "rejected" },
+    thunkAPI
+  ) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog/${id}/status`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.message || "Failed to update blog status");
+      return data.data.blog;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 // Delete blog
-export const deleteBlog = createAsyncThunk("blogs/delete", async (id: string, thunkAPI) => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
+export const deleteBlog = createAsyncThunk(
+  "blogs/delete",
+  async (id: string, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) throw new Error("Failed to delete blog");
-    return id;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    try {
+      const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to delete blog");
+      return id;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // ----------------------
 // Slice
@@ -130,7 +218,7 @@ const blogsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch all
+      // Fetch all (public)
       .addCase(fetchBlogs.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -140,6 +228,34 @@ const blogsSlice = createSlice({
         state.blogs = action.payload;
       })
       .addCase(fetchBlogs.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
+      // Fetch all for admin
+      .addCase(fetchAllBlogsForAdmin.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllBlogsForAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.blogs = action.payload;
+      })
+      .addCase(fetchAllBlogsForAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
+      // Fetch user blogs
+      .addCase(fetchUserBlogs.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserBlogs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.blogs = action.payload;
+      })
+      .addCase(fetchUserBlogs.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
@@ -180,7 +296,9 @@ const blogsSlice = createSlice({
         state.error = null;
       })
       .addCase(updateBlog.fulfilled, (state, action) => {
-        const index = state.blogs.findIndex((b) => b._id === action.payload._id);
+        const index = state.blogs.findIndex(
+          (b) => b._id === action.payload._id
+        );
         if (index !== -1) {
           state.blogs[index] = action.payload;
         }
@@ -188,6 +306,26 @@ const blogsSlice = createSlice({
         state.error = null;
       })
       .addCase(updateBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+
+      // Update status
+      .addCase(updateBlogStatus.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateBlogStatus.fulfilled, (state, action) => {
+        const index = state.blogs.findIndex(
+          (b) => b._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.blogs[index] = action.payload;
+        }
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateBlogStatus.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })

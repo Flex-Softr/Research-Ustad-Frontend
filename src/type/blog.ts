@@ -14,7 +14,7 @@ export interface Blog {
   publishedDate?: string;
   createdAt?: string;
   updatedAt?: string;
-  status?: string;
+  status: "pending" | "approved" | "rejected";
   views?: number;
   likes?: number;
 }
@@ -26,7 +26,10 @@ export interface BlogTableRowProps {
   onView: (blog: Blog) => void;
   onEdit: (blog: Blog) => void;
   onDelete: (blog: Blog) => void;
+  onApprove?: (blog: Blog) => void;
+  onReject?: (blog: Blog) => void;
   formatDate: (dateString: string) => string;
+  isAdmin?: boolean;
 }
 
 export interface BlogPostForm {
@@ -34,6 +37,7 @@ export interface BlogPostForm {
   imageUrl?: string;
   category: string;
   content: string;
+  status?: "pending" | "approved" | "rejected";
 }
 
 export interface BlogSubmissionData {
@@ -41,6 +45,7 @@ export interface BlogSubmissionData {
   category: string;
   content: string;
   imageUrl?: string;
+  status?: "pending" | "approved" | "rejected";
 }
 
 export interface BlogCategory {
@@ -54,6 +59,7 @@ export interface IPost {
   title: string;
   author?: Authors;
   category?: string;
+  status?: "pending" | "approved" | "rejected";
 }
 
 export interface TPost {
@@ -66,6 +72,7 @@ export interface TPost {
   publishedDate: string;
   createdAt: string;
   updatedAt: string;
+  status: "pending" | "approved" | "rejected";
   __v: number;
 }
 

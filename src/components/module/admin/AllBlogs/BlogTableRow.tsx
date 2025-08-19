@@ -5,9 +5,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
+import { MoreHorizontal, Eye, Edit, Trash2, CheckCircle, XCircle, Clock } from "lucide-react";
 import Image from "next/image";
 import { BlogTableRowProps } from "@/type";
 
@@ -18,8 +19,43 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
   onView,
   onEdit,
   onDelete,
+  onApprove,
+  onReject,
   formatDate,
+  isAdmin = false,
 }) => {
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "pending":
+        return (
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700 flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            Pending
+          </span>
+        );
+      case "approved":
+        return (
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 flex items-center gap-1">
+            <CheckCircle className="w-3 h-3" />
+            Approved
+          </span>
+        );
+      case "rejected":
+        return (
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 flex items-center gap-1">
+            <XCircle className="w-3 h-3" />
+            Rejected
+          </span>
+        );
+      default:
+        return (
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+            {status || "Unknown"}
+          </span>
+        );
+    }
+  };
+
   return (
     <TableRow key={blog._id || "temp-key"}>
       <TableCell>
@@ -37,12 +73,11 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
             />
           </div>
           <div>
-            <div className="font-medium text-gray-900 line-clamp-1">
-              {blog.title || "Untitled"}
+            <div className="font-medium text-gray-900 line-clamp-1 max-w-[200px]">
+              {blog.title?.length > 30 ? `${blog.title.substring(0, 30)}...` : blog.title || "Untitled"}
             </div>
-            <div className="text-sm text-gray-500 line-clamp-2">
-              {/* {blog.content?.replace(/<[^>]*>/g, "").substring(0, 10)} */}
-              ...
+            <div className="text-sm text-gray-500 line-clamp-2 max-w-[200px]">
+              {blog.content?.replace(/<[^>]*>/g, "").substring(0, 50)}...
             </div>
           </div>
         </div>
@@ -70,15 +105,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
         </div>
       </TableCell>
       <TableCell>
-        <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${
-            blog.status === "published"
-              ? "bg-green-100 text-green-700"
-              : "bg-yellow-100 text-yellow-700"
-          }`}
-        >
-          {blog.status || "Published"}
-        </span>
+        {getStatusBadge(blog.status)}
       </TableCell>
       <TableCell>
         <DropdownMenu>
@@ -88,14 +115,40 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onView(blog)}>
-              <Eye className="w-4 h-4 mr-2" />
-              View
-            </DropdownMenuItem>
+            {/* Only show View button for approved blogs */}
+            {blog.status === "approved" && (
+              <DropdownMenuItem onClick={() => onView(blog)}>
+                <Eye className="w-4 h-4 mr-2" />
+                View
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem onClick={() => onEdit(blog)}>
               <Edit className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
+            
+            {/* Admin-only approval actions */}
+            {isAdmin && blog.status === "pending" && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  onClick={() => onApprove?.(blog)}
+                  className="text-green-600"
+                >
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  Approve
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => onReject?.(blog)}
+                  className="text-red-600"
+                >
+                  <XCircle className="w-4 h-4 mr-2" />
+                  Reject
+                </DropdownMenuItem>
+              </>
+            )}
+            
+            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
                 setTimeout(() => onDelete(blog), 0);

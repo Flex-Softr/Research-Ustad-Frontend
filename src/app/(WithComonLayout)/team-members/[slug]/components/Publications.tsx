@@ -3,14 +3,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Calendar, Quote, ExternalLink } from "lucide-react";
 import { TeamMember } from "../../components";
+import Link from "next/link";
 
 interface PublicationsProps {
   member: TeamMember;
+  paginatedData?: any[];
 }
 
-const Publications = ({ member }: PublicationsProps) => {
-  // Filter only published papers
-  const publishedPapers = member.publications?.filter(
+const Publications = ({ member, paginatedData }: PublicationsProps) => {
+  // Use paginated data if provided, otherwise filter from member data
+  const publishedPapers = paginatedData || member.publications?.filter(
     (pub) => (pub.status === "published" || pub.status === "Published")
   ) || [];
 
@@ -44,9 +46,11 @@ const Publications = ({ member }: PublicationsProps) => {
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-brand-secondary transition-colors">
-                    {publication.title}
-                  </h3>
+                  <Link href={`/allpapers/${publication._id}`}>
+                    <h3 className="text-lg hover:underline font-semibold text-gray-900 mb-3 hover:text-brand-secondary transition-colors cursor-pointer">
+                      {publication.title}
+                    </h3>
+                  </Link>
 
                   {/* Abstract */}
                   {publication.abstract && (
