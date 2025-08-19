@@ -2,8 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserProfile } from "@/type";
-import Image from "next/image";
 import Link from "next/link";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 // Extended interface for the JSON data structure
 export interface TeamMember extends UserProfile {
@@ -74,16 +74,13 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
         {/* Profile Image */}
         <div className="flex justify-center mb-4">
           <div className="relative">
-            <Image
-              src={member.profileImg || "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg"}
-              alt={member.fullName}
-              width={120}
-              height={120}
-              className="object-cover w-24 h-24 rounded-full ring-4 ring-gray-200 group-hover:ring-brand-secondary/30 transition-all duration-300"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg";
-              }}
+            <UserAvatar
+              src={member?.profileImg}
+              alt={member?.fullName}
+              name={member?.fullName}
+              size="md"
+              className="!w-24 !h-24 ring-4 ring-gray-200 group-hover:ring-brand-secondary/30 transition-all duration-300"   
+              fallbackClassName="text-2xl font-bold"
             />
             <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-brand-secondary rounded-full flex items-center justify-center">
               <div className="w-3 h-3 bg-white rounded-full"></div>

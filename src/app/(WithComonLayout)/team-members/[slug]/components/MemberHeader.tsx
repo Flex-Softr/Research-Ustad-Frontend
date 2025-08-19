@@ -14,9 +14,9 @@ import {
   BookMarked,
   GraduationCap,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { TeamMember } from "../../components";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 interface MemberHeaderProps {
   member: TeamMember;
@@ -30,17 +30,14 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Profile Image Section */}
           <div className="flex-shrink-0">
-            <div className="relative">
-              <Image
-                src={member?.profileImg || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg"}
+            <div className="relative w-48 h-48">
+              <UserAvatar
+                src={member?.profileImg}
                 alt={member?.fullName}
-                width={200}
-                height={200}
-                className="object-cover w-48 h-48 rounded-full ring-4 ring-gray-200 shadow-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1906669723.jpg";
-                }}
+                name={member?.fullName}
+                size="lg"
+                className="  object-cover ring-gray-200 shadow-lg w-full h-full"
+                fallbackClassName="text-5xl font-bold"
               />
               <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-secondary rounded-full flex items-center justify-center">
                 <div className="w-4 h-4 bg-white rounded-full"></div>
