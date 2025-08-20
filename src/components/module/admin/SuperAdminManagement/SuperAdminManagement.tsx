@@ -234,7 +234,11 @@ const SuperAdminManagement = () => {
               </label>
               <Select value={selectedUserId} onValueChange={setSelectedUserId}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose a user to promote to SuperAdmin" />
+                  <SelectValue>
+                    {selectedUserId
+                      ? users.find((u) => u._id === selectedUserId)?.fullName
+                      : "Choose a user to promote to SuperAdmin"}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {users.map((user) => (
@@ -309,22 +313,22 @@ const SuperAdminManagement = () => {
                 <div className="flex items-center gap-3">
                   <div>
                     <UserAvatar
-                      src={user.image}
-                      alt={user.fullName}
-                      name={user.fullName}
+                      src={user?.image}
+                      alt={user?.fullName}
+                      name={user?.fullName}
                       size="md"
                     />
                   </div>
                   <div>
-                    <h4 className="font-medium">{user.fullName}</h4>
-                    <p className="text-sm text-gray-600">{user.email}</p>
-                    <p className="text-xs text-gray-500">{user.designation}</p>
+                    <h4 className="font-medium">{user?.fullName}</h4>
+                    <p className="text-sm text-gray-600">{user?.email}</p>
+                    <p className="text-xs text-gray-500">{user?.designation}</p>
                   </div>
                 </div>
                 <Badge
-                  variant={user.role === "admin" ? "default" : "secondary"}
+                  variant={user?.role === "admin" ? "default" : "secondary"}
                 >
-                  {user.role}
+                  {user?.role}
                 </Badge>
               </div>
             ))}

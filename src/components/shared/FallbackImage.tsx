@@ -29,7 +29,7 @@ const FallbackImage = ({
       width={width}
       height={height}
       className={className}
-      onError={() => setImgSrc("/Cover1.png")} // 👈 fallback in /public
+      onError={() => setImgSrc("/ac3.jpeg")} // 👈 fallback in /public
     />
   );
 };

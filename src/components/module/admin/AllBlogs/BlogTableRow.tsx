@@ -17,8 +17,8 @@ import {
   XCircle,
   Clock,
 } from "lucide-react";
-import Image from "next/image";
 import { BlogTableRowProps } from "@/type";
+import FallbackImage from "@/components/shared/FallbackImage";
 
 const BlogTableRow: React.FC<BlogTableRowProps> = ({
   blog,
@@ -72,12 +72,10 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
       <TableCell>
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-8 rounded overflow-hidden">
-            <Image
-              src={blog.imageUrl || "/img/default-blog.jpg"}
+            <FallbackImage
+              src={blog?.imageUrl}
               alt={blog.title || "Blog"}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
+              className="object-cover w-full h-full"
             />
           </div>
           <div>
@@ -86,9 +84,9 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
                 ? `${blog.title.substring(0, 30)}...`
                 : blog.title || "Untitled"}
             </div>
-            <div className="text-sm text-gray-500 line-clamp-2 max-w-[200px]">
+            {/* <div className="text-sm text-gray-500 line-clamp-2 max-w-[200px]">
               {blog.content?.replace(/<[^>]*>/g, "").substring(0, 50)}...
-            </div>
+            </div> */}
           </div>
         </div>
       </TableCell>

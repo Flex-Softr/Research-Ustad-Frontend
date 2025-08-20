@@ -29,7 +29,7 @@ import {
   Star,
   Calendar,
 } from "lucide-react";
-import Image from "next/image";
+import FallbackImage from "@/components/shared/FallbackImage";
 import { AllCoursesTableProps, Course } from "@/type";
 import Pagination from "@/components/shared/Pagination";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
@@ -217,21 +217,15 @@ const AllCoursesTable = ({
                       <TableCell>
                         <div className="flex items-center space-x-3">
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden">
-                            <Image
-                              src={course.imageUrl || "https://www.shutterstock.com/image-photo/hands-typing-on-laptop-programming-600nw-2480023489.jpg"}
-                              alt={course.title}
-                              fill
-                              sizes="48px"
-                              className="object-cover"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.src = "https://www.shutterstock.com/image-photo/hands-typing-on-laptop-programming-600nw-2480023489.jpg";
-                              }}
+                            <FallbackImage
+                              src={course?.imageUrl}
+                              alt={course?.title}
+                              className="object-cover w-full h-full"
                             />
                           </div>
                           <div>
                             <p className="font-medium text-gray-900 line-clamp-1">
-                              {course.title}
+                              {course?.title}
                             </p>
                             <p className="text-sm text-gray-500 line-clamp-1">
                               {course.description

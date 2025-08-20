@@ -164,7 +164,7 @@ export type TPost = {
   publishedDate: string;
   createdAt: string;
   updatedAt: string;
-  __v: number;
+  // __v: number;
 };
 
 export type TPapers = {

@@ -1,10 +1,10 @@
-import { TPost } from "@/type";
+import { Blog } from "@/type";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, User } from "lucide-react";
 import FallbackImage from "@/components/shared/FallbackImage";
 
-const BlogCard = ({ post }: { post: TPost }) => {
+const BlogCard = ({ post }: { post: Blog }) => {
   // Format date
   const formatDate = (dateString: string) => {
     try {
