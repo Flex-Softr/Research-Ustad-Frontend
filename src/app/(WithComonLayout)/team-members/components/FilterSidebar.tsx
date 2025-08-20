@@ -85,7 +85,7 @@ const FilterSidebar = ({
               onClick={() => onFilterChange(option.id)}
               className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-all duration-300 ${
                 selectedFilter === option.id
-                  ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
+                  ? "bg-brand-primary text-white shadow-lg"
                   : "bg-gray-50 hover:bg-gray-100 text-gray-700"
               }`}
             >
@@ -93,12 +93,16 @@ const FilterSidebar = ({
                 <option.icon className="h-4 w-4 mr-3" />
                 <span className="font-medium">{option.label}</span>
               </div>
-              <Badge
-                variant={selectedFilter === option.id ? "secondary" : "outline"}
-                className="ml-2"
-              >
-                {option.count}
-              </Badge>
+                             <Badge
+                 variant={selectedFilter === option.id ? "secondary" : "outline"}
+                 className={`ml-2 ${
+                   selectedFilter === option.id 
+                     ? "bg-white/20 text-white border-white/30" 
+                     : "bg-brand-secondary/10 text-brand-secondary border-brand-secondary/20"
+                 }`}
+               >
+                 {option.count}
+               </Badge>
             </button>
           ))}
         </div>

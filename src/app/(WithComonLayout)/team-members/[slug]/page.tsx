@@ -114,7 +114,7 @@ const SingleMemberPage = () => {
 
   if (error || !member) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
+      <div className="min-h-screen ">
         <Breadcrumb
           items={[
             { label: "Team Members", href: "/team-members" },

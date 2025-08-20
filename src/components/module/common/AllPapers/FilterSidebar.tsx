@@ -3,8 +3,130 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Filter, Search, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
+import {
+  Filter,
+  Search,
+  ChevronDown,
+  ChevronUp,
+  RotateCcw,
+} from "lucide-react";
 import { FilterSidebarProps } from "@/type";
+
+// Types for filter configuration
+interface FilterOption {
+  id: string;
+  name: string;
+  count: number;
+}
+
+interface FilterConfig {
+  key: keyof FilterSidebarProps['filters'];
+  title: string;
+  options: FilterOption[];
+  showMore?: boolean;
+}
+
+// Reusable Filter Button Component
+const FilterButton = ({ 
+  option, 
+  isSelected, 
+  onClick 
+}: { 
+  option: FilterOption; 
+  isSelected: boolean; 
+  onClick: () => void; 
+}) => (
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
+      isSelected
+        ? "bg-brand-primary text-white shadow-lg"
+        : "bg-gray-50 hover:bg-gray-100 text-gray-700"
+    }`}
+  >
+    <span className="font-medium">{option.name}</span>
+    <span
+      className={`px-2 py-1 rounded-full text-xs font-semibold ${
+        isSelected
+          ? "bg-white/20 text-white"
+          : "bg-brand-secondary/10 text-brand-secondary"
+      }`}
+    >
+      {option.count}
+    </span>
+  </button>
+);
+
+// Reusable Show More/Less Button Component
+const ShowMoreButton = ({ 
+  isExpanded, 
+  totalCount, 
+  onClick 
+}: { 
+  isExpanded: boolean; 
+  totalCount: number; 
+  onClick: () => void; 
+}) => (
+  <button
+    onClick={onClick}
+    className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all duration-300 text-sm font-medium cursor-pointer"
+  >
+    {isExpanded ? (
+      <>
+        <ChevronUp className="h-4 w-4" />
+        Show Less
+      </>
+    ) : (
+      <>
+        <ChevronDown className="h-4 w-4" />
+        Show More ({totalCount - 3} more)
+      </>
+    )}
+  </button>
+);
+
+// Reusable Filter Section Component
+const FilterSection = ({ 
+  config, 
+  filters, 
+  onFilterChange 
+}: { 
+  config: FilterConfig; 
+  filters: FilterSidebarProps['filters']; 
+  onFilterChange: (key: string, value: string) => void; 
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  const filteredOptions = config.options.filter(option => option.count > 0 || option.id === "all");
+  const displayedOptions = isExpanded ? filteredOptions : filteredOptions.slice(0, 3);
+  const showMoreButton = config.showMore && filteredOptions.length > 3;
+
+  if (filteredOptions.length === 0) return null;
+
+  return (
+    <div className="mb-6">
+      <h4 className="font-semibold text-gray-900 mb-3">{config.title}</h4>
+      <div className="space-y-2">
+        {displayedOptions.map((option) => (
+          <FilterButton
+            key={option.id}
+            option={option}
+            isSelected={filters[config.key] === option.id}
+            onClick={() => onFilterChange(config.key, option.id)}
+          />
+        ))}
+        
+        {showMoreButton && (
+          <ShowMoreButton
+            isExpanded={isExpanded}
+            totalCount={filteredOptions.length}
+            onClick={() => setIsExpanded(!isExpanded)}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
 const FilterSidebar = ({
   papers,
@@ -14,23 +136,78 @@ const FilterSidebar = ({
   onSearch,
   onClearFilters,
 }: FilterSidebarProps) => {
-  const [showAllCategories, setShowAllCategories] = useState(false);
+  // Helper function to get count for a specific filter
+  const getFilterCount = (filterType: string, value: string) => {
+    if (value === "all") return papers.length;
+    
+    switch (filterType) {
+      case "status":
+        return papers.filter((p) => p.status === value).length;
+      case "category":
+        return papers.filter((p) => p.researchArea === value).length;
+      case "year":
+        return papers.filter((p) => p.year.toString() === value).length;
+      case "paperType":
+        return papers.filter((p) => p.paperType === value).length;
+      default:
+        return 0;
+    }
+  };
 
-  // Extract unique values for filters
-  const categories = [
-    "all",
-    ...new Set(papers.map((paper) => paper.researchArea).filter(Boolean)),
-  ];
-
-  const years = [
-    "all",
-    ...new Set(papers.map((paper) => paper.year.toString())),
-  ].sort((a, b) => parseInt(b) - parseInt(a));
-
-  const paperTypes = [
-    "all",
-    "journal",
-    "conference"
+  // Generate filter configurations
+  const filterConfigs: FilterConfig[] = [
+    {
+      key: "status",
+      title: "Status",
+      showMore: true,
+      options: [
+        { id: "all", name: "All Papers", count: papers.length },
+        { id: "published", name: "Published", count: getFilterCount("status", "published") },
+        { id: "ongoing", name: "Ongoing", count: getFilterCount("status", "ongoing") },
+        { id: "under_review", name: "Under Review", count: getFilterCount("status", "under_review") },
+        { id: "in_preparation", name: "In Preparation", count: getFilterCount("status", "in_preparation") },
+        { id: "revision", name: "Revision", count: getFilterCount("status", "revision") },
+      ]
+    },
+    {
+      key: "category",
+      title: "Research Area",
+      showMore: true,
+      options: [
+        { id: "all", name: "All", count: papers.length },
+        ...Array.from(new Set(papers.map((paper) => paper.researchArea).filter(Boolean)))
+          .map(area => ({
+            id: area,
+            name: area,
+            count: getFilterCount("category", area)
+          }))
+      ]
+    },
+    {
+      key: "year",
+      title: "Year",
+      showMore: true,
+      options: [
+        { id: "all", name: "All Years", count: papers.length },
+        ...Array.from(new Set(papers.map((paper) => paper.year.toString())))
+          .sort((a, b) => parseInt(b) - parseInt(a))
+          .map(year => ({
+            id: year,
+            name: year,
+            count: getFilterCount("year", year)
+          }))
+      ]
+    },
+    {
+      key: "paperType",
+      title: "Paper Type",
+      showMore: false,
+      options: [
+        { id: "all", name: "All Types", count: papers.length },
+        { id: "journal", name: "Journal", count: getFilterCount("paperType", "journal") },
+        { id: "conference", name: "Conference", count: getFilterCount("paperType", "conference") },
+      ]
+    }
   ];
 
   return (
@@ -54,256 +231,18 @@ const FilterSidebar = ({
           </div>
         </div>
 
-        {/* Status Filter */}
-        {(() => {
-          const statusFilters = [
-            { id: "all", name: "All Papers", count: papers.length },
-            {
-              id: "published",
-              name: "Published",
-              count: papers.filter((p) => p.status === "published").length,
-            },
-            {
-              id: "ongoing",
-              name: "Ongoing",
-              count: papers.filter((p) => p.status === "ongoing").length,
-            },
-            {
-              id: "under_review",
-              name: "Under Review",
-              count: papers.filter((p) => p.status === "under_review").length,
-            },
-            {
-              id: "in_preparation",
-              name: "In Preparation",
-              count: papers.filter((p) => p.status === "in_preparation").length,
-            },
-            {
-              id: "revision",
-              name: "Revision",
-              count: papers.filter((p) => p.status === "revision").length,
-            },
-          ];
-          
-          const hasData = statusFilters.some(filter => filter.count > 0);
-          
-          if (!hasData) return null;
-          
-          return (
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3">Status</h4>
-              <div className="space-y-2">
-                {statusFilters
-                  .filter((filter) => filter.count > 0 || filter.id === "all")
-                  .map((filter) => (
-                    <button
-                      key={filter.id}
-                      onClick={() => onFilterChange("status", filter.id)}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
-                        filters.status === filter.id
-                          ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
-                          : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      <span className="font-medium">{filter.name}</span>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          filters.status === filter.id
-                            ? "bg-white/20 text-white"
-                            : "bg-brand-secondary/10 text-brand-secondary"
-                        }`}
-                      >
-                        {filter.count}
-                      </span>
-                    </button>
-                  ))}
-              </div>
-            </div>
-          );
-        })()}
+        {/* Filter Sections */}
+        {filterConfigs.map((config) => (
+          <FilterSection
+            key={config.key}
+            config={config}
+            filters={filters}
+            onFilterChange={onFilterChange}
+          />
+        ))}
 
-        {/* Category Filter */}
-        {(() => {
-          const filteredCategories = categories.filter(category => {
-            const count = category === "all" 
-              ? papers.length 
-              : papers.filter((p) => p.researchArea === category).length;
-            return count > 0 || category === "all";
-          });
-          
-          const hasData = filteredCategories.some(category => {
-            const count = category === "all" 
-              ? papers.length 
-              : papers.filter((p) => p.researchArea === category).length;
-            return count > 0;
-          });
-          
-          if (!hasData) return null;
-          
-          return (
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3">Research Area</h4>
-              <div className="space-y-2">
-                {(showAllCategories ? filteredCategories : filteredCategories.slice(0, 4))
-                  .map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => onFilterChange("category", category)}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
-                        filters.category === category
-                          ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
-                          : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                      }`}
-                    >
-                      <span className="font-medium">
-                        {category === "all" ? "All" : category}
-                      </span>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          filters.category === category
-                            ? "bg-white/20 text-white"
-                            : "bg-brand-secondary/10 text-brand-secondary"
-                        }`}
-                      >
-                        {category === "all"
-                          ? papers.length
-                          : papers.filter((p) => p.researchArea === category).length}
-                      </span>
-                    </button>
-                  ))}
-                
-                {/* Show More/Less Button */}
-                {filteredCategories.length > 4 && (
-                  <button
-                    onClick={() => setShowAllCategories(!showAllCategories)}
-                    className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-all duration-300 text-sm font-medium cursor-pointer"
-                  >
-                    {showAllCategories ? (
-                      <>
-                        <ChevronUp className="h-4 w-4" />
-                        Show Less
-                      </>
-                    ) : (
-                      <>
-                        <ChevronDown className="h-4 w-4" />
-                        Show More ({filteredCategories.length - 4} more)
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Year Filter */}
-        {(() => {
-          const filteredYears = years.filter((year) => {
-            const count = year === "all" 
-              ? papers.length 
-              : papers.filter((p) => p.year.toString() === year).length;
-            return count > 0 || year === "all";
-          });
-          
-          const hasData = filteredYears.some(year => {
-            const count = year === "all" 
-              ? papers.length 
-              : papers.filter((p) => p.year.toString() === year).length;
-            return count > 0;
-          });
-          
-          if (!hasData) return null;
-          
-          return (
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3">Year</h4>
-              <div className="space-y-2">
-                {filteredYears.map((year) => (
-                  <button
-                    key={year}
-                    onClick={() => onFilterChange("year", year)}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
-                      filters.year === year
-                        ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
-                        : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    <span className="font-medium">
-                      {year === "all" ? "All Years" : year}
-                    </span>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        filters.year === year
-                          ? "bg-white/20 text-white"
-                          : "bg-brand-secondary/10 text-brand-secondary"
-                      }`}
-                    >
-                      {year === "all"
-                        ? papers.length
-                        : papers.filter((p) => p.year.toString() === year).length}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Paper Type Filter */}
-        {(() => {
-          const filteredPaperTypes = paperTypes.filter((type) => {
-            const count = type === "all" 
-              ? papers.length 
-              : papers.filter((p) => p.paperType === type).length;
-            return count > 0 || type === "all";
-          });
-          
-          const hasData = filteredPaperTypes.some(type => {
-            const count = type === "all" 
-              ? papers.length 
-              : papers.filter((p) => p.paperType === type).length;
-            return count > 0;
-          });
-          
-          if (!hasData) return null;
-          
-          return (
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-900 mb-3">Paper Type</h4>
-              <div className="space-y-2">
-                {filteredPaperTypes.map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => onFilterChange("paperType", type)}
-                    className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group cursor-pointer ${
-                      filters.paperType === type
-                        ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
-                        : "bg-gray-50 hover:bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    <span className="font-medium">
-                      {type === "all" ? "All Types" : type.charAt(0).toUpperCase() + type.slice(1)}
-                    </span>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        filters.paperType === type
-                          ? "bg-white/20 text-white"
-                          : "bg-brand-secondary/10 text-brand-secondary"
-                      }`}
-                    >
-                      {type === "all"
-                        ? papers.length
-                        : papers.filter((p) => p.paperType === type).length}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* Reset Button - Always Visible */}
-        <div className="pt-4 border-brand-secondary/10 ">
+        {/* Reset Button */}
+        <div className="pt-4 border-brand-secondary/10">
           <Button
             onClick={onClearFilters}
             variant="outline"

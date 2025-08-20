@@ -191,7 +191,7 @@ const CoursePage = () => {
                         onClick={() => handleFilterChange("status", filter.id)}
                         className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
                           selectedStatus === filter.id
-                            ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
+                            ? "bg-brand-primary text-white shadow-lg"
                             : "bg-gray-50 hover:bg-gray-100 text-gray-700"
                         }`}
                       >
@@ -246,7 +246,7 @@ const CoursePage = () => {
                           }
                           className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
                             selectedCategory === filter.id
-                              ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
+                              ? "bg-brand-primary text-white shadow-lg"
                               : "bg-gray-50 hover:bg-gray-100 text-gray-700"
                           }`}
                         >
@@ -402,7 +402,7 @@ const CoursePage = () => {
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                   <div
-                                    className="bg-gradient-to-r from-brand-primary to-brand-secondary h-2 rounded-full transition-all duration-300"
+                                    className="bg-brand-primary h-2 rounded-full transition-all duration-300"
                                     style={{
                                       width: `${enrollmentPercentage}%`,
                                     }}
@@ -428,7 +428,7 @@ const CoursePage = () => {
 
                                 <Link
                                   href={`/course/${course._id}`}
-                                  className="group/btn inline-flex items-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-2 rounded-full text-sm font-bold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                                  className="group/btn inline-flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-full text-sm font-bold hover:shadow-lg transition-all duration-300 hover:scale-105"
                                 >
                                   <span>View Details</span>
                                 </Link>

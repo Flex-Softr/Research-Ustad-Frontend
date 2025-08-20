@@ -195,7 +195,7 @@ const BlogPage = () => {
                       onClick={() => handleCategoryChange(category.id)}
                       className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
                         selectedCategory === category.id
-                          ? "bg-gradient-to-r from-brand-primary to-brand-secondary text-white shadow-lg"
+                          ? "bg-brand-primary text-white shadow-lg"
                           : "bg-gray-50 hover:bg-gray-100 text-gray-700"
                       }`}
                     >

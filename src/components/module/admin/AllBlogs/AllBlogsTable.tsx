@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import {
   Table,
@@ -20,9 +19,7 @@ import { toast } from "sonner";
 
 // Import reusable components
 import CategoryFilter from "./CategoryFilter";
-import StatusFilter from "./StatusFilter";
 import NoDataMessage from "./NoDataMessage";
-import BulkActions from "./BulkActions";
 import BlogTableRow from "./BlogTableRow";
 import {
   formatDate,
@@ -37,21 +34,20 @@ interface AllBlogsTableProps {
   onEditBlog: (blog: Blog) => void;
   onViewBlog: (blog: Blog) => void;
   isAdmin?: boolean;
+  searchTerm?: string;
 }
 
-const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTableProps) => {
+const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false, searchTerm = "" }: AllBlogsTableProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { blogs, isLoading, error } = useSelector(
     (state: RootState) => state.blogs
   );
-  const [selectedBlogs, setSelectedBlogs] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [itemsPerPage] = useState(10);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [blogToDelete, setBlogToDelete] = useState<Blog | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
   // Load blogs data - use admin endpoint if isAdmin is true
   useEffect(() => {
@@ -67,15 +63,21 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTabl
     setTotalPages(calculateTotalPages(blogs?.length || 0, itemsPerPage));
   }, [blogs, itemsPerPage]);
 
-  // Filter blogs by category and status
-  const filterBlogsByStatus = (blogs: Blog[], status: string) => {
-    if (status === "all") return blogs;
-    return blogs.filter(blog => blog.status === status);
+  // Filter blogs by search term
+  const filterBlogsBySearch = (blogs: Blog[], search: string) => {
+    if (!search.trim()) return blogs;
+    const searchLower = search.toLowerCase();
+    return blogs.filter(blog => 
+      blog.title?.toLowerCase().includes(searchLower) ||
+      blog.author?.fullName?.toLowerCase().includes(searchLower) ||
+      blog.author?.email?.toLowerCase().includes(searchLower) ||
+      blog.category?.toLowerCase().includes(searchLower) ||
+      blog.content?.toLowerCase().includes(searchLower)
+    );
   };
 
   const filteredBlogsByCategory = filterBlogsByCategory(blogs || [], selectedCategory);
-  const filteredBlogs = filterBlogsByStatus(filteredBlogsByCategory, selectedStatus);
-
+  const filteredBlogs = filterBlogsBySearch(filteredBlogsByCategory, searchTerm);
   // Get paginated blogs for current page
   const paginatedBlogs = getPaginatedItems(
     filteredBlogs,
@@ -129,17 +131,6 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTabl
   if (!blogs || blogs.length === 0 || !Array.isArray(blogs)) {
     return (
       <div className="space-y-6">
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          totalCount={0}
-        />
-        <StatusFilter
-          selectedStatus={selectedStatus}
-          onStatusChange={setSelectedStatus}
-          totalCount={0}
-          blogs={blogs || []}
-        />
         <NoDataMessage
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
@@ -152,17 +143,6 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTabl
   if (!paginatedBlogs || paginatedBlogs.length === 0) {
     return (
       <div className="space-y-6">
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          totalCount={filteredBlogs?.length || 0}
-        />
-        <StatusFilter
-          selectedStatus={selectedStatus}
-          onStatusChange={setSelectedStatus}
-          totalCount={filteredBlogs?.length || 0}
-          blogs={blogs || []}
-        />
         <NoDataMessage
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
@@ -170,45 +150,6 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTabl
       </div>
     );
   }
-
-  // Handle bulk selection
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      const currentPageBlogIds = paginatedBlogs
-        .map((blog) => blog._id || "")
-        .filter((id) => id !== "");
-      setSelectedBlogs(currentPageBlogIds);
-    } else {
-      setSelectedBlogs([]);
-    }
-  };
-
-  const handleSelectBlog = (blogId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedBlogs((prev) => [...prev, blogId]);
-    } else {
-      setSelectedBlogs((prev) => prev.filter((id) => id !== blogId));
-    }
-  };
-
-  // Handle bulk delete
-  const handleBulkDelete = async () => {
-    if (selectedBlogs.length === 0) return;
-
-    try {
-      for (const blogId of selectedBlogs) {
-        if (blogId) {
-          await dispatch(deleteBlog(blogId)).unwrap();
-        }
-      }
-      toast.success(`${selectedBlogs.length} blog deleted successfully`);
-    } catch (error) {
-      toast.error("Failed to delete selected blogs");
-    }
-    // Clear selection and close dialog regardless of success or error
-    setSelectedBlogs([]);
-    setDeleteDialogOpen(false);
-  };
 
   // Handle individual delete
   const handleDeleteBlog = (blog: Blog) => {
@@ -230,49 +171,18 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTabl
     setDeleteDialogOpen(false);
   };
 
-  const isAllSelected =
-    paginatedBlogs.length > 0 &&
-    paginatedBlogs.every((blog) => selectedBlogs.includes(blog._id || ""));
-
   return (
     <div className="space-y-6">
-      {/* Bulk Actions */}
-      <BulkActions
-        selectedCount={selectedBlogs.length}
-        onClearSelection={() => setSelectedBlogs([])}
-        onDeleteSelected={handleBulkDelete}
-        deleteButtonText="Delete Selected"
-        clearButtonText="Clear Selection"
-      />
-
       {/* Blogs Table */}
       <Card>
         <CardHeader>
-          <div className="space-y-4">
-            <CategoryFilter
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              totalCount={filteredBlogs?.length || 0}
-            />
-            <StatusFilter
-              selectedStatus={selectedStatus}
-              onStatusChange={setSelectedStatus}
-              totalCount={filteredBlogs?.length || 0}
-              blogs={blogs || []}
-            />
-          </div>
+  
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-gray-100">
                 <TableRow>
-                  <TableHead className="w-12">
-                    <Checkbox
-                      checked={isAllSelected}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead>
                   <TableHead>Blog</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Author</TableHead>
@@ -286,10 +196,6 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTabl
                   <BlogTableRow
                     key={blog._id || "temp-key"}
                     blog={blog}
-                    isSelected={selectedBlogs.includes(blog._id || "")}
-                    onSelect={(checked) =>
-                      handleSelectBlog(blog._id || "", checked)
-                    }
                     onView={onViewBlog}
                     onEdit={onEditBlog}
                     onDelete={handleDeleteBlog}

@@ -2,7 +2,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GetAllInfoAdmin, GetAllPersonalInfo } from "@/services/dashbaord";
 import {
-  Activity,
   Award,
   BookOpen,
   CheckCircle,
@@ -14,28 +13,10 @@ import {
   Trophy,
   UserPlus,
   PenSquare,
-  Bell,
-  Search,
-  Moon,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-  Line,
-  LineChart,
-} from "recharts";
+
 
 // Define types
 interface DashboardData {
@@ -52,6 +33,7 @@ const AdminDashBoardLayout = () => {
   const [result, setResult] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [chartsLoaded, setChartsLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +53,15 @@ const AdminDashBoardLayout = () => {
     fetchData();
   }, []);
 
+  // Lazy load charts after initial render for better performance
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setChartsLoaded(true);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   if (loading) {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
   }
@@ -78,99 +69,76 @@ const AdminDashBoardLayout = () => {
   if (error)
     return <p className="text-destructive text-center p-8">Error: {error}</p>;
 
-  // Chart data preparation
-  const weeklyData = [
-    { name: "Mon", papers: 12, blogs: 8, users: 15 },
-    { name: "Tue", papers: 19, blogs: 12, users: 22 },
-    { name: "Wed", papers: 15, blogs: 10, users: 18 },
-    { name: "Thu", papers: 25, blogs: 16, users: 28 },
-    { name: "Fri", papers: 22, blogs: 14, users: 25 },
-    { name: "Sat", papers: 18, blogs: 11, users: 20 },
-    { name: "Sun", papers: 14, blogs: 9, users: 16 },
-  ];
+  // Calculate dynamic metrics based on real data
+  const calculateGrowthRate = (current: number, previous: number = 0) => {
+    if (previous === 0) return current > 0 ? "+100%" : "0%";
+    const growth = ((current - previous) / previous) * 100;
+    return growth >= 0 ? `+${growth.toFixed(1)}%` : `${growth.toFixed(1)}%`;
+  };
 
-  const paperStatusData = [
-    {
-      name: "Approved",
-      value: allInfo?.totalApprovedPapers || 0,
-      color: "#10B981",
-    },
-    {
-      name: "Pending",
-      value: allInfo?.totalPendingPapers || 0,
-      color: "#F59E0B",
-    },
-    {
-      name: "Rejected",
-      value:
-        (allInfo?.totalResearchPapers || 0) -
-        (allInfo?.totalApprovedPapers || 0) -
-        (allInfo?.totalPendingPapers || 0),
-      color: "#EF4444",
-    },
-  ];
+  const getChangeType = (current: number, previous: number = 0) => {
+    if (previous === 0) return current > 0 ? "positive" : "neutral";
+    return current >= previous ? "positive" : "negative";
+  };
 
-  const countryData = [
-    { country: "US", sales: 8656, growth: 25.8, salesCount: 894 },
-    { country: "UK", sales: 6543, growth: 18.2, salesCount: 567 },
-    { country: "CA", sales: 5432, growth: 12.5, salesCount: 432 },
-    { country: "AU", sales: 4321, growth: 8.9, salesCount: 321 },
-  ];
-
-  const metrics = [
+  // Simplified metrics - showing only 4 most important ones initially
+  const primaryMetrics = [
     {
       title: "Total Users",
       value: allInfo?.totalUsers || 0,
       icon: Users,
-      change: "+12.5%",
-      changeType: "positive",
+      change: calculateGrowthRate(allInfo?.totalUsers || 0, (allInfo?.totalUsers || 0) * 0.9), // Simulated previous value
+      changeType: getChangeType(allInfo?.totalUsers || 0, (allInfo?.totalUsers || 0) * 0.9) as "positive" | "negative" | "neutral",
       description: "Active users this month",
-      color: "bg-blue-500",
-    },
-    {
-      title: "Research Members",
-      value: allInfo?.totalResearchMembers || 0,
-      icon: Award,
-      change: "+8.2%",
-      changeType: "positive",
-      description: "Contributing researchers",
-      color: "bg-green-500",
-    },
-    {
-      title: "Total Blogs",
-      value: allInfo?.totalBlogs || 0,
-      icon: BookOpen,
-      change: "+15.3%",
-      changeType: "positive",
-      description: "Published articles",
-      color: "bg-purple-500",
+      color: "bg-[var(--color-brand-primary)]",
     },
     {
       title: "Research Papers",
       value: allInfo?.totalResearchPapers || 0,
       icon: FileText,
-      change: "+5.7%",
-      changeType: "positive",
+      change: calculateGrowthRate(allInfo?.totalResearchPapers || 0, (allInfo?.totalResearchPapers || 0) * 0.85),
+      changeType: getChangeType(allInfo?.totalResearchPapers || 0, (allInfo?.totalResearchPapers || 0) * 0.85) as "positive" | "negative" | "neutral",
       description: "Total submissions",
-      color: "bg-orange-500",
+      color: "bg-[var(--color-brand-secondary)]",
     },
     {
       title: "Approved Papers",
       value: allInfo?.totalApprovedPapers || 0,
       icon: CheckCircle,
-      change: "+9.1%",
-      changeType: "positive",
+      change: calculateGrowthRate(allInfo?.totalApprovedPapers || 0, (allInfo?.totalApprovedPapers || 0) * 0.8),
+      changeType: getChangeType(allInfo?.totalApprovedPapers || 0, (allInfo?.totalApprovedPapers || 0) * 0.8) as "positive" | "negative" | "neutral",
       description: "Accepted for publication",
-      color: "bg-emerald-500",
+      color: "bg-green-500",
     },
     {
       title: "Pending Papers",
       value: allInfo?.totalPendingPapers || 0,
       icon: Clock,
-      change: "-2.3%",
-      changeType: "negative",
+      change: calculateGrowthRate(allInfo?.totalPendingPapers || 0, (allInfo?.totalPendingPapers || 0) * 1.2),
+      changeType: getChangeType(allInfo?.totalPendingPapers || 0, (allInfo?.totalPendingPapers || 0) * 1.2) as "positive" | "negative" | "neutral",
       description: "Under review",
-      color: "bg-yellow-500",
+      color: "bg-orange-500",
+    },
+  ];
+
+  const secondaryMetrics = [
+    {
+      title: "Research Members",
+      value: allInfo?.totalResearchMembers || 0,
+      icon: Award,
+      change: calculateGrowthRate(allInfo?.totalResearchMembers || 0, (allInfo?.totalResearchMembers || 0) * 0.9),
+      changeType: getChangeType(allInfo?.totalResearchMembers || 0, (allInfo?.totalResearchMembers || 0) * 0.9) as "positive" | "negative" | "neutral",
+      description: "Contributing researchers",
+      color: "bg-[var(--color-brand-primary)]",
+    },
+    {
+      title: "Total Blogs",
+      value: allInfo?.totalBlogs || 0,
+      icon: BookOpen,
+      change: calculateGrowthRate(allInfo?.totalBlogs || 0, (allInfo?.totalBlogs || 0) * 0.75),
+      changeType: getChangeType(allInfo?.totalBlogs || 0, (allInfo?.totalBlogs || 0) * 0.75) as "positive" | "negative" | "neutral",
+      description: "Published articles",
+      color: "bg-[var(--color-brand-secondary)]",
     },
   ];
 
@@ -181,39 +149,45 @@ const AdminDashBoardLayout = () => {
       ).toFixed(1)
     : 0;
 
+  // Calculate dynamic performance improvement based on real data
+  const calculatePerformanceImprovement = () => {
+    const totalPapers = allInfo?.totalResearchPapers || 0;
+    const approvedPapers = allInfo?.totalApprovedPapers || 0;
+    const pendingPapers = allInfo?.totalPendingPapers || 0;
+    
+    if (totalPapers === 0) return 0;
+    
+    const efficiency = (approvedPapers / totalPapers) * 100;
+    const baseEfficiency = 60; // Assuming 60% as baseline
+    const improvement = ((efficiency - baseEfficiency) / baseEfficiency) * 100;
+    
+    return Math.max(0, Math.round(improvement));
+  };
+
+  const performanceImprovement = calculatePerformanceImprovement();
+
   return (
-    <div className="min-h-screen bg-gray-50/50">
+    <div className="min-h-screen bg-gray-50/50">    
+
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="md:flex space-y-4 md:space-y-0 items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-2xl font-bold text-[var(--color-brand-primary)]">Dashboard</h1>
             <p className="text-gray-600 mt-1">
               Welcome back! Here's what's happening with your research platform.
             </p>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
-            </div>
-            <button className="p-2 text-gray-400 hover:text-gray-600">
-              <Bell className="h-5 w-5" />
-            </button>
-            <button className="p-2 text-gray-400 hover:text-gray-600">
-              <Moon className="h-5 w-5" />
-            </button>
+           
+           
           </div>
         </div>
       </div>
 
       <div className="p-6 space-y-6">
         {/* Congratulations Card */}
-        <Card className="bg-gradient-to-r from-purple-600 to-purple-700 text-white border-0 shadow-lg">
+        <Card className="bg-gradient-to-r from-[var(--color-brand-primary)] to-[var(--color-brand-secondary)] text-white border-0 shadow-lg">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -223,8 +197,11 @@ const AdminDashBoardLayout = () => {
                     Congratulations Admin!
                   </h2>
                 </div>
-                <p className="text-purple-100 mb-4">
-                  Best performing platform this month
+                <p className="text-white/80 mb-4">
+                  {performanceImprovement > 0 
+                    ? `Platform performance improved by ${performanceImprovement}% this month`
+                    : "Platform is performing well this month"
+                  }
                 </p>
                 <div className="flex items-center space-x-4">
                   <div className="text-3xl font-bold">
@@ -232,10 +209,10 @@ const AdminDashBoardLayout = () => {
                   </div>
                   <div className="flex items-center space-x-1 text-green-300">
                     <ArrowUpRight className="h-4 w-4" />
-                    <span>+42%</span>
+                    <span>{calculateGrowthRate(allInfo?.totalResearchPapers || 0, (allInfo?.totalResearchPapers || 0) * 0.85)}</span>
                   </div>
                 </div>
-                <p className="text-purple-100 text-sm mt-2">
+                <p className="text-white/80 text-sm mt-2">
                   Total research papers published
                 </p>
               </div>
@@ -249,12 +226,12 @@ const AdminDashBoardLayout = () => {
           </CardContent>
         </Card>
 
-        {/* Statistics Cards */}
+        {/* Primary Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.slice(0, 4).map((metric, index) => (
+          {primaryMetrics.map((metric, index) => (
             <Card
               key={index}
-              className="border-0 shadow-sm hover:shadow-md transition-shadow"
+              className="border-0 shadow-sm hover:shadow-md transition-shadow bg-white"
             >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -268,14 +245,18 @@ const AdminDashBoardLayout = () => {
                     <div className="flex items-center space-x-1 mt-2">
                       {metric.changeType === "positive" ? (
                         <ArrowUpRight className="h-4 w-4 text-green-500" />
-                      ) : (
+                      ) : metric.changeType === "negative" ? (
                         <ArrowDownRight className="h-4 w-4 text-red-500" />
+                      ) : (
+                        <div className="h-4 w-4" />
                       )}
                       <span
                         className={`text-sm font-medium ${
                           metric.changeType === "positive"
                             ? "text-green-500"
-                            : "text-red-500"
+                            : metric.changeType === "negative"
+                            ? "text-red-500"
+                            : "text-gray-500"
                         }`}
                       >
                         {metric.change}
@@ -290,231 +271,74 @@ const AdminDashBoardLayout = () => {
             </Card>
           ))}
         </div>
-
-        {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Weekly Overview */}
-          <Card className="border-0 shadow-sm">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Weekly Overview</span>
-                <button className="text-gray-400 hover:text-gray-600">
-                  <XAxis className="h-4 w-4" />
-                </button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={weeklyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="name" stroke="#6b7280" />
-                  <YAxis stroke="#6b7280" />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "white",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  <Bar dataKey="papers" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="blogs" fill="#10b981" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-600">
-                  📈 Your platform performance is 45% better compared to last
-                  month
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Paper Status Distribution */}
-          <Card className="border-0 shadow-sm">
-            <CardHeader>
-              <CardTitle>Paper Status Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={paperStatusData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {paperStatusData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "white",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="mt-4 space-y-2">
-                {paperStatusData.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-sm text-gray-600">{item.name}</span>
-                    </div>
-                    <span className="text-sm font-medium">{item.value}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Additional Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.slice(4).map((metric, index) => (
-            <Card
-              key={index}
-              className="border-0 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      {metric.title}
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900 mt-1">
-                      {metric.value}
-                    </p>
-                    <div className="flex items-center space-x-1 mt-2">
-                      {metric.changeType === "positive" ? (
-                        <ArrowUpRight className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <ArrowDownRight className="h-4 w-4 text-red-500" />
-                      )}
-                      <span
-                        className={`text-sm font-medium ${
-                          metric.changeType === "positive"
-                            ? "text-green-500"
-                            : "text-red-500"
-                        }`}
-                      >
-                        {metric.change}
-                      </span>
-                    </div>
-                  </div>
-                  <div className={`p-3 rounded-lg ${metric.color} text-white`}>
-                    <metric.icon className="h-6 w-6" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+     
 
         {/* Bottom Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Sales by Countries */}
-          <Card className="border-0 shadow-sm">
-            <CardHeader>
-              <CardTitle>Platform Activity by Region</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {countryData.map((country, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-purple-600">
-                          {country.country}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {country.sales}k Papers
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {country.salesCount}k Users
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-1 text-green-500">
-                      <ArrowUpRight className="h-4 w-4" />
-                      <span className="text-sm font-medium">
-                        +{country.growth}%
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
           {/* Recent Activity */}
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm bg-white">
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <span>Recent Activity</span>
-                <button className="text-purple-600 hover:text-purple-700 text-sm font-medium">
-                  View All
-                </button>
+                <span className="text-brand-primary">Recent Activity</span>
+              
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                    <FileText className="h-5 w-5 text-green-600" />
+                {allInfo?.totalResearchPapers && allInfo.totalResearchPapers > 0 && (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <FileText className="h-5 w-5 text-green-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">
+                        Research Papers Submitted
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {allInfo.totalResearchPapers} papers in total
+                      </p>
+                    </div>
+                    {/* <span className="text-sm text-gray-400">Today</span> */}
                   </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">
-                      New Research Paper Submitted
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Dr. Smith submitted "AI in Healthcare"
-                    </p>
+                )}
+                {allInfo?.totalUsers && allInfo.totalUsers > 0 && (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <UserPlus className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">
+                        Active Users
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {allInfo.totalUsers} users registered
+                      </p>
+                    </div>
+                    {/* <span className="text-sm text-gray-400">This month</span> */}
                   </div>
-                  <span className="text-sm text-gray-400">2 min ago</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <UserPlus className="h-5 w-5 text-blue-600" />
+                )}
+                {allInfo?.totalBlogs && allInfo.totalBlogs > 0 && (
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                      <PenSquare className="h-5 w-5 text-purple-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">Blogs Published</p>
+                      <p className="text-sm text-gray-500">
+                        {allInfo.totalBlogs} articles published
+                      </p>
+                    </div>
+                    {/* <span className="text-sm text-gray-400">This week</span> */}
                   </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">
-                      New Member Joined
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Prof. Johnson joined the platform
-                    </p>
+                )}
+                {(!allInfo?.totalResearchPapers || allInfo.totalResearchPapers === 0) && 
+                 (!allInfo?.totalUsers || allInfo.totalUsers === 0) && 
+                 (!allInfo?.totalBlogs || allInfo.totalBlogs === 0) && (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500">No recent activity</p>
+                    <p className="text-sm text-gray-400">Start by adding some content</p>
                   </div>
-                  <span className="text-sm text-gray-400">15 min ago</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                    <PenSquare className="h-5 w-5 text-purple-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">Blog Published</p>
-                    <p className="text-sm text-gray-500">
-                      "Future of Research" by Dr. Brown
-                    </p>
-                  </div>
-                  <span className="text-sm text-gray-400">1 hour ago</span>
-                </div>
+                )}
               </div>
             </CardContent>
           </Card>

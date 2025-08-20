@@ -5,8 +5,8 @@ const page = () => {
   return (
     <div>
       <ContactSection />
-      <section className=" max-w-7xl mx-auto py-10 px-6">
-        <h3 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-3xl md:text-4xl font-bold  mb-4">
+      <section className="max-w-7xl mx-auto py-10 px-6">
+        <h3 className="text-brand-primary text-3xl md:text-4xl font-bold  mb-4">
           Location
         </h3>
         <div className="h-96 bg-muted rounded-xl overflow-hidden">

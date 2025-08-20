@@ -17,7 +17,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 }) => {
   return (
     <Card>
-      <CardHeader>
+      {/* <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>{title} ({totalCount})</span>
           <div className="flex items-center gap-4">
@@ -38,7 +38,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
             </div>
           </div>
         </CardTitle>
-      </CardHeader>
+      </CardHeader> */}
     </Card>
   );
 };

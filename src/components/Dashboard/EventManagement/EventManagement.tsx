@@ -107,7 +107,7 @@ const EventManagement = () => {
               </p>
               <Button
                 onClick={handleAddEvent}
-                className="flex items-center justify-center w-fit gap-2 bg-purple-600 hover:bg-purple-700"
+                className="flex items-center justify-center w-fit gap-2 bg-brand-primary"
               >
                 <Plus className="w-4 h-4" />
                 Create First Event
@@ -130,7 +130,7 @@ const EventManagement = () => {
         </div>
         <Button
           onClick={handleAddEvent}
-          className="bg-purple-600 hover:bg-purple-700 w-full sm:w-auto"
+          className="bg-brand-primary w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Create Event

@@ -38,8 +38,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --color-brand-primary: #471396;
-  --color-brand-secondary: #b13bff;
+  --color-brand-primary: #3A5A78;
+  --color-brand-secondary: #C99589;
+  --color-orange-accent: #f97316;
   --color-slate-900: #0f172a;
   --color-gray-200: #e5e7eb;
   --color-gray-300: #d1d5db;

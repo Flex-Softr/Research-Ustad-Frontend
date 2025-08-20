@@ -6,7 +6,7 @@ const ForgetPassword = () => {
     <div className="mt-4 text-center">
       <Link
         href="/forget-password"
-        className="text-sm text-gray-500 hover:text-gray-700 hover:underline transition-colors duration-200"
+        className="text-sm text-brand-primary underline hover:text-brand-secondary hover:underline transition-colors duration-200 font-medium"
       >
         Forgot your password?
       </Link>

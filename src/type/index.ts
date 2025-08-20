@@ -164,6 +164,7 @@ export type TPost = {
   publishedDate: string;
   createdAt: string;
   updatedAt: string;
+  status: "pending" | "approved" | "rejected";
   // __v: number;
 };
 

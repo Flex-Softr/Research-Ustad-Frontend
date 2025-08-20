@@ -59,7 +59,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <FormField
           control={form.control}
           name="email"
@@ -71,7 +71,7 @@ const LoginForm = () => {
                   <Input
                     type="email"
                     placeholder="Email"
-                    className="pl-12 py-6 border-gray-300 rounded-xl focus:border-teal-500 focus:ring-teal-500 text-base"
+                    className="pl-12 py-6 border-gray-300 rounded-xl text-base"
                     {...field}
                     value={field.value || ""}
                   />
@@ -93,7 +93,7 @@ const LoginForm = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
-                    className="pl-12 pr-14 py-6 border-gray-300 rounded-xl focus:border-teal-500 focus:ring-teal-500 text-base"
+                    className="pl-12 pr-14 py-6 border-gray-300 rounded-xl text-base"
                     {...field}
                     value={field.value || ""}
                   />
@@ -119,7 +119,7 @@ const LoginForm = () => {
 
         <Button
           type="submit"
-          className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+          className="w-full bg-brand-primary hover:bg-brand-secondary cursor-pointer text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           {isSubmitting ? "Processing..." : "SIGN IN"}
         </Button>

@@ -1,7 +1,8 @@
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, CheckCircle, XCircle } from "lucide-react";
 import { Blog } from "@/type";
+import { Button } from "@/components/ui/core";
 
 interface StatusFilterProps {
   selectedStatus: string;
@@ -37,7 +38,7 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
           return (
             <Button
               key={option.value}
-              variant={selectedStatus === option.value ? "default" : "outline"}
+              variant={selectedStatus === option.value ? "primary" : "secondary"}
               size="sm"
               onClick={() => onStatusChange(option.value)}
               className="flex items-center gap-2"
@@ -45,7 +46,7 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
               {Icon && <Icon className="w-3 h-3" />}
               {option.label}
               {option.value !== "all" && (
-                <Badge variant="secondary" className="ml-1">
+                <Badge className="ml-1 bg-brand-primary text-white">
                   {option.count}
                 </Badge>
               )}

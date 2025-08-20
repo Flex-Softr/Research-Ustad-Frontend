@@ -1,15 +1,21 @@
 import ManageAllUser from "@/components/module/users/Allusers/AllUsers";
 import { GetAllUsers } from "@/services/Users";
 
+// Force dynamic rendering since this page uses cookies
+export const dynamic = 'force-dynamic';
+
 const ManageUser = async () => {
   // Fetch data server-side for better UX
   let initialData = [];
   try {
     const response = await GetAllUsers();
-    initialData = response?.data || [];
+    if (response?.data) {
+      initialData = response.data;
+    }
   } catch (error) {
     console.error("Error fetching users:", error);
     // Continue with empty data - client will handle fetching
+    initialData = [];
   }
 
   return (

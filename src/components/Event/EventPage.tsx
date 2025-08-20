@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react";
 import Breadcrumb from "@/components/shared/Breadcrumb";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { fetchEvents } from "@/services/events/eventSlice";
@@ -27,6 +27,7 @@ import {
 import Pagination from "../shared/Pagination";
 import { EventPageSkeleton } from "./EventCardSkeleton";
 import FallbackImage from "@/components/shared/FallbackImage";
+import { Button } from "../ui/core";
 
 const EventPage = () => {
   const [filter, setFilter] = useState<
@@ -112,7 +113,7 @@ const EventPage = () => {
                         alt={event.title}
                         className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
                       />
-                      <span className="absolute top-4 left-4 bg-brand-secondary text-white px-3 py-1 rounded-full text-xs">
+                      <span className="absolute top-4 left-4 bg-brand-primary text-white px-3 py-1 rounded-full text-xs">
                         {event.category}
                       </span>
                       <span
@@ -157,17 +158,19 @@ const EventPage = () => {
                             ? "Free"
                             : `${event.registrationFee} BDT`}
                         </span>
-                        <Button
-                          asChild
-                          className="bg-gradient-to-r from-brand-primary to-brand-secondary"
-                        >
-                          <Link href={`/event/${event._id}`}>
-                            {statusInfo.status === "upcoming"
-                              ? "Register"
-                              : "Details"}
+                        <Link href={`/event/${event._id}`}>
+                         
+                          <Button
+                           size="sm"
+                            variant="primary"
+                            // className="bg-brand-primary"
+                          >
+                             {statusInfo.status === "upcoming"
+                            ? "Register"
+                            : "Details"}
                             <ExternalLink className="w-4 h-4 ml-2" />
-                          </Link>
-                        </Button>
+                          </Button>
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>

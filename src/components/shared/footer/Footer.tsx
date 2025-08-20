@@ -55,7 +55,8 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="group">
-              <h2 className="font-bold text-[28px] flex items-center mb-6">
+            
+              <h2 className="font-bold text-[28px] flex items-center text-[#C99589] mb-6">
                 Research{" "}
                 <span className="text-white group-hover:text-brand-secondary transition-colors duration-300">
                   Ustad

@@ -52,7 +52,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                 {member?.fullName}
               </h1>
               <div className="flex items-center gap-3 mb-4">
-                <Badge className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-1">
+                <Badge className="bg-brand-primary text-white px-4 py-1">
                   {member?.designation}
                 </Badge>
 

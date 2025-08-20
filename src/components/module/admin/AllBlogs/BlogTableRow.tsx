@@ -67,9 +67,6 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
   return (
     <TableRow key={blog._id || "temp-key"}>
       <TableCell>
-        <Checkbox checked={isSelected} onCheckedChange={onSelect} />
-      </TableCell>
-      <TableCell>
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-8 rounded overflow-hidden">
             <FallbackImage

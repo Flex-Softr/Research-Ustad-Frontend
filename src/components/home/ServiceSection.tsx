@@ -6,7 +6,7 @@ import {
   TrendingUp,
   ArrowRight,
 } from "lucide-react";
-import { Container } from "@/components/ui/core";
+import { Container, SectionHeader } from "@/components/ui/core";
 
 const wings = [
   {
@@ -67,23 +67,10 @@ const ServicesSection = () => {
   return (
     <section className=" bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
       <Container>
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-brand-secondary/10 border border-brand-secondary/20 text-brand-secondary px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <TrendingUp className="w-4 h-4" />
-            Our Specialized Programs
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight flex items-center justify-center gap-2">
-            Our
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary ml-2">
-              Wings
-            </span>
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Explore our specialized programs designed to support your academic
-            journey and professional development.
-          </p>
-        </div>
-
+        <SectionHeader
+          title="Our Wings"
+          description="Explore our specialized programs designed to support your academic journey and professional development."
+        />
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
           {wings.map((wing, index) => (
             <div

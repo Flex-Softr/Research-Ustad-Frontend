@@ -161,7 +161,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
         {/* View Profile Button */}
         <Button
           asChild
-          className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
+          className="w-full bg-brand-primary hover:bg-brand-primary/80 hover:shadow-lg transition-all duration-300"
         >
           <Link href={`/team-members/${member.id}`}>View Profile</Link>
         </Button>

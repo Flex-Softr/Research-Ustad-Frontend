@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus, Download, Upload } from "lucide-react";
+// import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Plus, Search } from "lucide-react";
 import AllBlogsTable from "./AllBlogsTable";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { fetchAllBlogsForAdmin } from "@/services/blogs/blogsSlice";
+import { Button } from "@/components/ui/core";
 
 interface Blog {
   _id: string;
@@ -34,6 +36,7 @@ const AllBlogs = () => {
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // Load all blogs for admin (including pending and rejected)
@@ -60,6 +63,10 @@ const AllBlogs = () => {
     router.push("/admin/dashboard/createblog");
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -69,11 +76,25 @@ const AllBlogs = () => {
           <p className="text-gray-600">Manage all blogs in the system (including pending approvals)</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleCreateBlog}>
+          <Button variant="primary" onClick={handleCreateBlog}>
             <Plus className="w-4 h-4 mr-2" />
             Add Blog
           </Button>
         </div>
+      </div>
+
+      {/* Search Bar */}
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Search className="h-5 w-5 text-gray-400" />
+        </div>
+        <Input
+          type="text"
+          placeholder="Search blogs by title, author, or category..."
+          value={searchTerm}
+          onChange={handleSearch}
+          className="pl-10 py-3 border-gray-300 rounded-lg"
+        />
       </div>
 
       {/* Table */}
@@ -81,10 +102,8 @@ const AllBlogs = () => {
         onEditBlog={handleEditBlog}
         onViewBlog={handleViewBlog}
         isAdmin={true}
+        searchTerm={searchTerm}
       />
-
-      {/* TODO: Add Edit/View Modals here */}
-      {/* These will be implemented as separate components */}
     </div>
   );
 };

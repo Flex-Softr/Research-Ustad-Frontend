@@ -128,7 +128,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
           <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <BookOpen className="h-12 w-12 text-red-500" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          <h2 className="text-2xl font-bold text-brand-primary mb-2">
             Blog Post Not Found
           </h2>
           <p className="text-gray-600 mb-6">
@@ -193,9 +193,9 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex items-center gap-4 mb-8">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden">
                   <UserAvatar
-                    src={post.author.image}
+                    src={post?.author?.image}
                     alt={post.author?.fullName || "Author"}
-                    name={post.author?.fullName || "Unknown Author"}
+                    name={post?.author?.fullName || "Unknown Author"}
                     size="lg"
                     className="w-full h-full"
                   />
@@ -220,8 +220,6 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                 <FallbackImage
                   src={post.imageUrl}
                   alt={post.title}
-                  
-                  
                   className="object-cover w-full h-full"
                   priority
                 />
@@ -285,8 +283,6 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                           <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
                             <FallbackImage
                               src={latestPost.imageUrl}
-                             
-                              
                               className="object-cover group-hover:scale-110 w-full h-full transition-transform duration-300"
                               alt={latestPost.title}
                             />
@@ -327,7 +323,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <Link
                   href="/blog"
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300"
+                  className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white px-4 py-3 rounded-sm font-medium hover:shadow-lg transition-all duration-300"
                 >
                   View All Posts
                   <ChevronRight className="w-4 h-4" />

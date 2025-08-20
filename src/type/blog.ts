@@ -21,8 +21,8 @@ export interface Blog {
 
 export interface BlogTableRowProps {
   blog: Blog;
-  isSelected: boolean;
-  onSelect: (checked: boolean) => void;
+  isSelected?: boolean;
+  onSelect?: (checked: boolean) => void;
   onView: (blog: Blog) => void;
   onEdit: (blog: Blog) => void;
   onDelete: (blog: Blog) => void;

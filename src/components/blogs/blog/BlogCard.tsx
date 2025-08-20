@@ -41,7 +41,7 @@ const BlogCard = ({ post }: { post: Blog }) => {
 
         {/* Category Badge */}
         <div className="absolute top-4 left-4">
-          <span className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+          <span className="bg-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
             {post.category || "Blog"}
           </span>
         </div>
@@ -87,8 +87,6 @@ const BlogCard = ({ post }: { post: Blog }) => {
         <h2 className="text-xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors duration-300 mb-3 line-clamp-2">
           {post.title || "Untitled Post"}
         </h2>
-
-        <div className="w-16 h-1 bg-gradient-to-r from-brand-primary to-brand-secondary rounded-full mb-4 group-hover:w-20 transition-all duration-300"></div>
 
         {/* Meta Information */}
         <div className="flex items-center justify-between mb-4 text-sm text-gray-500">

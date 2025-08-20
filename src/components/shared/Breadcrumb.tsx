@@ -14,13 +14,11 @@ const Breadcrumb = ({
   showHome = true,
 }: BreadcrumbProps) => {
   return (
-    <section
-      className={`w-full bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-primary ${className}`}
-    >
+    <section className={`w-full bg-brand-primary ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex items-center justify-between">
           {/* Breadcrumb Navigation */}
-          <div className="flex items-center space-x-2 text-white">
+          <div className="flex items-center space-x-2 text-brand-secondary">
             {showHome && (
               <>
                 <Link

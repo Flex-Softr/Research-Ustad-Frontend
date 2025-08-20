@@ -62,9 +62,13 @@ const ResearchPapersPage = ({
           if (typeof author === "string") {
             return author.toLowerCase().includes(searchQuery.toLowerCase());
           } else if (author?.isRegisteredUser && author?.user?.fullName) {
-            return author.user.fullName.toLowerCase().includes(searchQuery.toLowerCase());
+            return author.user.fullName
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
           } else if (author?.name) {
-            return author.name.toLowerCase().includes(searchQuery.toLowerCase());
+            return author.name
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase());
           }
           return false;
         }) ||
@@ -76,8 +80,7 @@ const ResearchPapersPage = ({
 
       // Status filter (all status options)
       const statusMatch =
-        filters.status === "all" ||
-        paper.status === filters.status;
+        filters.status === "all" || paper.status === filters.status;
 
       // Year filter
       const yearMatch =
@@ -158,7 +161,7 @@ const ResearchPapersPage = ({
       />
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <FilterSidebar

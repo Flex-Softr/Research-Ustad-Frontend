@@ -26,25 +26,13 @@ import {
   GetAllResearchPaperPublic,
   GetSingleResearchPaperPublic,
 } from "@/services/allreserchPaper";
+// import { Button } from "@/components/ui/core";
 
 const SingleResearchPaper = ({
   paper: propPaper,
   paperId,
 }: SingleResearchPaperProps) => {
-  const [paper, setPaper] = useState<
-    | (TPapers & {
-        abstract?: string;
-        keywords?: string[];
-        doi?: string;
-        citations?: number;
-        downloads?: number;
-        researchArea?: string;
-        funding?: string;
-        createdAt?: string;
-        updatedAt?: string;
-      })
-    | null
-  >(propPaper || null);
+  const [paper, setPaper] = useState<any>(propPaper || null);
   const [relatedPapers, setRelatedPapers] = useState<RelatedPaper[]>([]);
   const [loading, setLoading] = useState(!propPaper);
   const [loadingRelated, setLoadingRelated] = useState(false);
@@ -294,12 +282,16 @@ const SingleResearchPaper = ({
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-4 pt-4">
                   {paper?.visitLink && (
-                    <Button
-                      onClick={() => window.open(paper.visitLink, "_blank")}
-                      className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      View Paper
+                    <Button className="bg-brand-primary hover:bg-brand-secondary shadow-lg transition-all duration-300">
+                      <a
+                        href={paper.visitLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1"
+                      >
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        View Paper
+                      </a>
                     </Button>
                   )}
                 </div>

@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
+import { handleNetworkError } from "@/lib/utils";
 
 // const API_BASE_URL = "http://localhost:5000/api/v1";
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_API!;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
 // ----------------------
 // Types
@@ -39,7 +40,7 @@ export const fetchBlogs = createAsyncThunk(
       return data.data.blogs || [];
     } catch (error: any) {
       console.error("Blog fetch error:", error);
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(handleNetworkError(error));
     }
   }
 );
@@ -62,7 +63,7 @@ export const fetchAllBlogsForAdmin = createAsyncThunk(
       return data.data.blogs || [];
     } catch (error: any) {
       console.error("Admin blog fetch error:", error);
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(handleNetworkError(error));
     }
   }
 );

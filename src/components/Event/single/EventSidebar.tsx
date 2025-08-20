@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react";
 import { CustomEvent } from "@/type/event";
 import CountdownTimer from "../../shared/CountdownTimer";
+import { Button } from "@/components/ui/core";
 
 interface EventSidebarProps {
   event: Partial<CustomEvent>; // 👈 Accept partial Event object to allow missing fields
@@ -175,15 +175,18 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </div>
 
           {/* Registration Button */}
-          {statusInfo.status === "upcoming" ? (
+     <div className="flex items-center justify-center">
+     {statusInfo.status === "upcoming" ? (
             <Button
-              asChild
-              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
+              size="sm"
+             variant="primary"
+             className="flex items-center justify-center"
             >
               <a
                 href={event?.registrationLink ?? "#"}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="flex items-center justify-center"
               >
                 Register Now
                 <ExternalLink className="h-4 w-4 ml-2" />
@@ -191,12 +194,14 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
             </Button>
           ) : (
             <Button
-              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300"
+             variant="primary"
+             size="sm"
               disabled
             >
               Registration Closed
             </Button>
           )}
+     </div>
         </CardContent>
       </Card>
 

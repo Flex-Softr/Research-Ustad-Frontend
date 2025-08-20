@@ -93,20 +93,29 @@ export const logout = async () => {
     
     if (token) {
       // Call backend logout endpoint to update isLoggedIn status
-      await fetch(`${api.baseUrl}/auth/logout`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        await fetch(`${api.baseUrl}/auth/logout`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (networkError) {
+        // Silently handle network errors - backend might be down
+        console.warn("Backend logout endpoint unavailable, proceeding with local logout");
+      }
     }
   } catch (error) {
-    console.error("Error calling logout endpoint:", error);
+    console.error("Error during logout process:", error);
   } finally {
-    // Always clear the token locally
-    (await cookies()).delete("accessToken");
-    revalidateTag("loginuser");
+    // Always clear the token locally regardless of backend status
+    try {
+      (await cookies()).delete("accessToken");
+      revalidateTag("loginuser");
+    } catch (cookieError) {
+      console.error("Error clearing local token:", cookieError);
+    }
   }
 };
 
