@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/ui/core";
 import { useState, useEffect } from "react";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 const team = [
   {
@@ -149,7 +150,7 @@ const TeamSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <section className="py-10 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-brand-primary/10 to-brand-secondary/10 rounded-full blur-2xl animate-pulse"></div>
@@ -199,9 +200,10 @@ const TeamSection = () => {
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {Array.from({ length: totalSlides }, (_, slideIndex) => (
-                <div key={slideIndex} className="w-full flex-shrink-0">
-                  <div
-                    className={`grid gap-8 ${
+                <div key={slideIndex} className="w-full flex-shrink-0 pb-14"> 
+                
+                  <div 
+                    className={`grid  gap-8 ${
                       cardsPerSlide === 1
                         ? "grid-cols-1"
                         : cardsPerSlide === 2
@@ -224,11 +226,14 @@ const TeamSection = () => {
 
                           {/* Image Section */}
                           <div className="relative p-6">
-                            <div className="relative mx-auto w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-2xl group-hover:border-brand-primary/30 transition-all duration-500">
-                              <img
+                            <div className="relative mx-auto w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-2xl group-hover:border-brand-primary/30 transition-all duration-500 group-hover:scale-110 transition-transform duration-700">
+                              <UserAvatar
                                 src={member.image}
                                 alt={member.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                name={member.name}
+                                size="4xl"
+                                className="w-full h-full"
+                                fallbackClassName="text-3xl font-bold"
                               />
                               <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/20 via-transparent to-brand-secondary/20 group-hover:from-brand-primary/30 group-hover:to-brand-secondary/30 transition-all duration-500"></div>
                             </div>

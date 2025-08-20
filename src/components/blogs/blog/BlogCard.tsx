@@ -1,9 +1,10 @@
-import { TPost } from "@/type";
+import { Blog } from "@/type";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, User } from "lucide-react";
+import FallbackImage from "@/components/shared/FallbackImage";
 
-const BlogCard = ({ post }: { post: TPost }) => {
+const BlogCard = ({ post }: { post: Blog }) => {
   // Format date
   const formatDate = (dateString: string) => {
     try {
@@ -28,18 +29,15 @@ const BlogCard = ({ post }: { post: TPost }) => {
     <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200">
       <div className="relative overflow-hidden">
         {/* Blog Image */}
-        <Image
-          className="object-cover object-center w-full h-64 lg:h-80 group-hover:scale-105 transition-transform duration-300"
-          src={post.imageUrl || "/default-blog-image.jpg"}
-          alt={post.title || "Blog post"}
-          width={500}
-          height={320}
-          onError={(e) => {
-            // Fallback to default image on error
-            const target = e.target as HTMLImageElement;
-            target.src = "/default-blog-image.jpg";
-          }}
-        />
+        <div className="relative w-full h-64 lg:h-80">
+          <FallbackImage
+            className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-300"
+            src={post.imageUrl}
+            alt={post.title || "Blog post"}
+            
+           
+          />
+        </div>
 
         {/* Category Badge */}
         <div className="absolute top-4 left-4">

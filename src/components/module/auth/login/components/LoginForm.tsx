@@ -16,6 +16,7 @@ import { useState } from "react";
 import { loginUser } from "@/services/AuthService";
 import { useRouter, useSearchParams } from "next/navigation";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import ForgetPassword from "./ForgetPassword";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -59,7 +60,6 @@ const LoginForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-
         <FormField
           control={form.control}
           name="email"
@@ -121,9 +121,10 @@ const LoginForm = () => {
           type="submit"
           className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          {isSubmitting ? "Processing..." :  "SIGN IN"}
+          {isSubmitting ? "Processing..." : "SIGN IN"}
         </Button>
       </form>
+      <ForgetPassword />
     </Form>
   );
 };

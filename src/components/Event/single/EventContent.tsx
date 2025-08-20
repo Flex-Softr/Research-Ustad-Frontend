@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Users, Calendar, Clock, MapPin } from "lucide-react";
-import Image from "next/image";
+import UserAvatar from "@/components/shared/UserAvatar";
 import { CustomEvent } from "@/type/event";
 
 interface EventContentProps {
@@ -302,13 +302,13 @@ const EventContent = ({ event }: EventContentProps) => {
                 key={index}
                 className="flex items-start space-x-4 p-4 rounded-lg bg-gray-50/50"
               >
-                <div className="relative w-16 h-16 flex-shrink-0">
-                  <Image
+                <div className="flex-shrink-0">
+                  <UserAvatar
                     src={speaker.imageUrl}
                     alt={speaker.name}
-                    fill
-                    sizes="64px"
-                    className="object-cover rounded-full"
+                    name={speaker.name}
+                    size="lg"
+                    className="w-16 h-16"
                   />
                 </div>
                 <div className="flex-1 min-w-0">

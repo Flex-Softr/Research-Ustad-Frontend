@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, User } from "lucide-react";
+import FallbackImage from "../shared/FallbackImage";
 
 // If you have a Container component, import it here. Otherwise, use a div with the same classes.
 const Container = ({ children }: { children: React.ReactNode }) => (
@@ -58,27 +59,23 @@ const posts = [
     category: "Security",
   },
 ];
-
 const FeaturedBlogCard = ({ post }: { post: (typeof posts)[number] }) => (
   <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 hover:border-blue-200 h-full">
     <div className="relative overflow-hidden h-80">
-      <img
+      <FallbackImage
         src={post.image}
         alt={post.title}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
 
-      {/* Category badge - top left corner */}
       <div className="absolute top-4 left-4">
         <span className="bg-white/80 backdrop-blur-sm text-gray-800 px-4 py-2 rounded-full text-xs font-semibold shadow-lg border border-gray-200">
           {post.category}
         </span>
       </div>
 
-      {/* Gradient overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-      {/* Content overlay at bottom */}
       <div className="absolute bottom-0 left-0 right-0 p-6">
         <div className="flex items-center justify-between text-white mb-3">
           <div className="flex items-center gap-3">
@@ -106,13 +103,11 @@ const FeaturedBlogCard = ({ post }: { post: (typeof posts)[number] }) => (
         {post.excerpt}
       </p>
 
-      {/* Minimal read more link */}
       <div className="text-blue-600 hover:text-blue-700 font-semibold cursor-pointer transition-colors duration-300">
         Read more →
       </div>
     </div>
 
-    {/* Hover effect overlay */}
     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-purple-50/0 group-hover:from-blue-50/20 group-hover:to-purple-50/20 transition-all duration-500 pointer-events-none rounded-2xl"></div>
   </div>
 );
@@ -120,23 +115,20 @@ const FeaturedBlogCard = ({ post }: { post: (typeof posts)[number] }) => (
 const SmallBlogCard = ({ post }: { post: (typeof posts)[number] }) => (
   <div className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 border border-gray-100 hover:border-blue-200">
     <div className="relative overflow-hidden h-40">
-      <img
+      <FallbackImage
         src={post.image}
         alt={post.title}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
 
-      {/* Category badge - top left */}
       <div className="absolute top-3 left-3">
         <span className="bg-white/80 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-xs font-semibold shadow-lg border border-gray-200">
           {post.category}
         </span>
       </div>
 
-      {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 
-      {/* Content overlay at bottom */}
       <div className="absolute bottom-0 left-0 right-0 p-4">
         <div className="flex items-center justify-between text-white">
           <div className="flex items-center gap-2">
@@ -164,13 +156,11 @@ const SmallBlogCard = ({ post }: { post: (typeof posts)[number] }) => (
         {post.excerpt}
       </p>
 
-      {/* Minimal read more link */}
       <div className="text-blue-600 hover:text-blue-700 font-semibold cursor-pointer transition-colors duration-300 text-sm">
         Read more →
       </div>
     </div>
 
-    {/* Hover effect overlay */}
     <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-purple-50/0 group-hover:from-blue-50/20 group-hover:to-purple-50/20 transition-all duration-500 pointer-events-none rounded-xl"></div>
   </div>
 );
@@ -200,12 +190,10 @@ const BlogSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Featured Blog Card - Left Side */}
           <div className="lg:col-span-1">
             <FeaturedBlogCard post={featuredPost} />
           </div>
 
-          {/* Small Blog Cards Grid - Right Side */}
           <div className="lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {smallPosts.map((post, idx) => (
@@ -226,9 +214,7 @@ const BlogSection = () => {
               View All Articles
               <ArrowRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110" />
             </span>
-            {/* Modern gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            {/* Corner accent */}
             <div className="absolute top-0 right-0 w-6 h-6 bg-white/20 rounded-bl-full"></div>
             <div className="absolute bottom-0 left-0 w-4 h-4 bg-brand-secondary/30 rounded-tr-full"></div>
           </Button>

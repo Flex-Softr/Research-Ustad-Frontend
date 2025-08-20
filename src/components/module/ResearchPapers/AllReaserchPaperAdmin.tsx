@@ -9,19 +9,9 @@ import {
 import { TPapers } from "@/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 
 const AllreserchPaperAdmin = () => {
   const [data, setData] = useState<TPapers[]>([]);
@@ -59,15 +49,15 @@ const AllreserchPaperAdmin = () => {
     }
   };
 
-  const confirmDelete = async () => {
+  const handleConfirmDelete = async () => {
     if (paperToDelete) {
       await handleDelete(paperToDelete._id);
+      setDeleteDialogOpen(false);
       setPaperToDelete(null);
     }
-    setDeleteDialogOpen(false);
   };
 
-  const handleDeleteClick = (paper: TPapers) => {
+  const openDeleteDialog = (paper: any) => {
     setPaperToDelete(paper);
     setDeleteDialogOpen(true);
   };
@@ -106,14 +96,12 @@ const AllreserchPaperAdmin = () => {
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
     { label: "Authors", value: "authors" },
-    { label: "Paper Type", value: "paperType" },
+    // { label: "Paper Type", value: "paperType" },
     { label: "Status", value: "status" },
     { label: "Approval", value: "isApproved" },
     { label: "Submitted By", value: "user.fullName" },
     { label: "Visit Link", value: "visitLink" },
   ];
-
-  console.log("dataaaa", data);
 
   return (
     <div className="">
@@ -138,6 +126,18 @@ const AllreserchPaperAdmin = () => {
                 label: "Ongoing",
                 className: "bg-yellow-100 text-yellow-800",
               },
+              under_review: {
+                label: "Under Review",
+                className: "bg-blue-100 text-blue-800",
+              },
+              in_preparation: {
+                label: "In Preparation",
+                className: "bg-gray-100 text-gray-800",
+              },
+              revision: {
+                label: "Revision",
+                className: "bg-orange-100 text-orange-800",
+              },
             };
 
             const config =
@@ -152,7 +152,6 @@ const AllreserchPaperAdmin = () => {
               </span>
             );
           }
-
           return null; // Use default rendering for other columns
         }}
         customActions={(item) => (
@@ -183,43 +182,29 @@ const AllreserchPaperAdmin = () => {
               )}
             </div>
 
-            {/* Delete Button with Confirmation */}
-            <AlertDialog
-              open={deleteDialogOpen}
-              onOpenChange={setDeleteDialogOpen}
+            {/* Delete Button */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => openDeleteDialog(item)}
+              className="text-red-500 hover:text-red-700 hover:bg-red-50 border-red-200"
+              title="Delete"
             >
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDeleteClick(item as TPapers)}
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50 border-red-200"
-                  title="Delete"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Research Paper</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete "{(item as TPapers).title}"?
-                    This action cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={confirmDelete}
-                    className="bg-red-500 hover:bg-red-600"
-                  >
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+              <Trash2 className="w-4 h-4" />
+            </Button>
           </div>
         )}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmationDialog
+        isOpen={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleConfirmDelete}
+        title="Delete Research Paper"
+        itemName={paperToDelete?.title || null}
+        itemType="research paper"
+        description={`Are you sure you want to delete "${paperToDelete?.title}"? This action cannot be undone.`}
       />
     </div>
   );

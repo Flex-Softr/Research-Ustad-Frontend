@@ -171,13 +171,18 @@ const adminRoute = {
         },
         {
           title: "My Blogs",
-          url: "/admin/dashboard/allblog",
+          url: "/admin/dashboard/myblogs",
           icon: NotebookPen,
         },
         {
           title: "Profile",
           url: "/admin/dashboard/profile",
           icon: User,
+        },
+        {
+          title: "Update Profile",
+          url: "/admin/dashboard/updateinfo",
+          icon: UserPlus,
         },
       ],
     },
@@ -271,7 +276,7 @@ const userRoute = {
           icon: User,
         },
         {
-          title: "Update Information",
+          title: "Update Profile",
           url: "/user/dashboard/updateinfo",
           icon: UserPlus,
         },
@@ -324,9 +329,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Create admin route with conditional SuperAdmin management
   const adminRouteWithSuperAdmin = {
     ...adminRoute,
-    navMain: user.role === "superAdmin" 
-      ? [...adminRoute.navMain]
-      : adminRoute.navMain.filter(item => item.title !== "SuperAdmin Management")
+    navMain:
+      user.role === "superAdmin"
+        ? [...adminRoute.navMain]
+        : adminRoute.navMain.filter(
+            (item) => item.title !== "SuperAdmin Management"
+          ),
   };
 
   const data =

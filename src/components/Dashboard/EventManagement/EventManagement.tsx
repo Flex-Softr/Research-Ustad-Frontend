@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
+import FallbackImage from "@/components/shared/FallbackImage";
 import { Calendar, Edit, MapPin, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import EventForm from "./EventForm";
@@ -118,6 +119,8 @@ const EventManagement = () => {
     );
   }
 
+  console.log("events", events);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -143,7 +146,7 @@ const EventManagement = () => {
               className="border-0 shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="relative">
-                <img
+                <FallbackImage
                   src={event.imageUrl}
                   alt={event.title}
                   className="w-full h-48 object-cover rounded-t-lg"

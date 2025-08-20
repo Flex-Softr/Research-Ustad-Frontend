@@ -14,34 +14,61 @@ const FilterSidebar = ({
   selectedFilter,
   onFilterChange,
 }: FilterSidebarProps) => {
+  // Get unique designations from members data
+  const getUniqueDesignations = () => {
+    const designations = new Set<string>();
+    members.forEach((member) => {
+      if (member.designation && member.designation.trim()) {
+        designations.add(member.designation);
+      }
+    });
+    return Array.from(designations).filter(designation => 
+      designation && 
+      designation !== "user" && 
+      designation !== "admin" && 
+      designation !== "superAdmin"
+    );
+  };
+
+  const uniqueDesignations = getUniqueDesignations();
+
+  // Helper function to get appropriate icon based on designation
+  const getIconForDesignation = (designation: string) => {
+    const lowerDesignation = designation.toLowerCase();
+    if (lowerDesignation.includes("advisor") || lowerDesignation.includes("mentor")) {
+      return Award;
+    } else if (lowerDesignation.includes("lead") || lowerDesignation.includes("head")) {
+      return UserCheck;
+    } else if (lowerDesignation.includes("research") || lowerDesignation.includes("associate")) {
+      return GraduationCap;
+    } else {
+      return Users;
+    }
+  };
+
+  // Helper function to format designation label
+  const formatDesignationLabel = (designation: string) => {
+    return designation
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, l => l.toUpperCase())
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
   // Filter options
   const filterOptions = [
-    { id: "all", label: "All Members", icon: Users, count: members.length },
-    {
-      id: "Advisor",
-      label: "Advisors",
-      icon: Award,
-      count: members.filter((m) => m.designation === "Advisor").length,
+    { 
+      id: "all", 
+      label: "All Members", 
+      icon: Users, 
+      count: members.length 
     },
-    {
-      id: "Lead",
-      label: "Lead Members",
-      icon: UserCheck,
-      count: members.filter((m) => m.designation === "Lead").length,
-    },
-    {
-      id: "Research_Associate",
-      label: "Research Associates",
-      icon: GraduationCap,
-      count: members.filter((m) => m.designation === "Research_Associate")
-        .length,
-    },
-    {
-      id: "Mentor_Panel",
-      label: "Mentor Panel",
-      icon: Users,
-      count: members.filter((m) => m.designation === "Mentor_Panel").length,
-    },
+    ...uniqueDesignations.map((designation) => ({
+      id: designation,
+      label: formatDesignationLabel(designation),
+      icon: getIconForDesignation(designation),
+      count: members.filter((m) => m.designation === designation).length,
+    })),
   ];
 
   return (

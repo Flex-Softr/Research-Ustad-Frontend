@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { deleteBlog, fetchBlogs } from "@/services/blogs/blogsSlice";
+import { deleteBlog, fetchAllBlogsForAdmin, updateBlogStatus } from "@/services/blogs/blogsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import Pagination from "@/components/shared/Pagination";
@@ -20,6 +20,7 @@ import { toast } from "sonner";
 
 // Import reusable components
 import CategoryFilter from "./CategoryFilter";
+import StatusFilter from "./StatusFilter";
 import NoDataMessage from "./NoDataMessage";
 import BulkActions from "./BulkActions";
 import BlogTableRow from "./BlogTableRow";
@@ -32,7 +33,13 @@ import {
 // import { formatDate } from "@/lib/dateUtils";
 import { Blog } from "@/type";
 
-const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
+interface AllBlogsTableProps {
+  onEditBlog: (blog: Blog) => void;
+  onViewBlog: (blog: Blog) => void;
+  isAdmin?: boolean;
+}
+
+const AllBlogsTable = ({ onEditBlog, onViewBlog, isAdmin = false }: AllBlogsTableProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { blogs, isLoading, error } = useSelector(
     (state: RootState) => state.blogs
@@ -44,19 +51,30 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [blogToDelete, setBlogToDelete] = useState<Blog | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
-  // Load blogs data
+  // Load blogs data - use admin endpoint if isAdmin is true
   useEffect(() => {
-    dispatch(fetchBlogs());
-  }, [dispatch]);
+    if (isAdmin) {
+      dispatch(fetchAllBlogsForAdmin());
+    } else {
+      dispatch(fetchAllBlogsForAdmin()); // For now, always use admin endpoint
+    }
+  }, [dispatch, isAdmin]);
 
   // Update total pages when blogs change
   useEffect(() => {
     setTotalPages(calculateTotalPages(blogs?.length || 0, itemsPerPage));
   }, [blogs, itemsPerPage]);
 
-  // Filter blogs by category
-  const filteredBlogs = filterBlogsByCategory(blogs || [], selectedCategory);
+  // Filter blogs by category and status
+  const filterBlogsByStatus = (blogs: Blog[], status: string) => {
+    if (status === "all") return blogs;
+    return blogs.filter(blog => blog.status === status);
+  };
+
+  const filteredBlogsByCategory = filterBlogsByCategory(blogs || [], selectedCategory);
+  const filteredBlogs = filterBlogsByStatus(filteredBlogsByCategory, selectedStatus);
 
   // Get paginated blogs for current page
   const paginatedBlogs = getPaginatedItems(
@@ -65,13 +83,32 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
     itemsPerPage
   );
 
+  // Handle approval/rejection
+  const handleApproveBlog = async (blog: Blog) => {
+    try {
+      await dispatch(updateBlogStatus({ id: blog._id!, status: "approved" })).unwrap();
+      toast.success("Blog approved successfully");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to approve blog");
+    }
+  };
+
+  const handleRejectBlog = async (blog: Blog) => {
+    try {
+      await dispatch(updateBlogStatus({ id: blog._id!, status: "rejected" })).unwrap();
+      toast.success("Blog rejected successfully");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to reject blog");
+    }
+  };
+
   // Show error state
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <p className="text-red-600 mb-4">Error loading blogs: {error}</p>
-          <Button onClick={() => dispatch(fetchBlogs())} variant="outline">
+          <Button onClick={() => dispatch(fetchAllBlogsForAdmin())} variant="outline">
             Retry
           </Button>
         </div>
@@ -97,6 +134,12 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
           onCategoryChange={setSelectedCategory}
           totalCount={0}
         />
+        <StatusFilter
+          selectedStatus={selectedStatus}
+          onStatusChange={setSelectedStatus}
+          totalCount={0}
+          blogs={blogs || []}
+        />
         <NoDataMessage
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
@@ -113,6 +156,12 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
           totalCount={filteredBlogs?.length || 0}
+        />
+        <StatusFilter
+          selectedStatus={selectedStatus}
+          onStatusChange={setSelectedStatus}
+          totalCount={filteredBlogs?.length || 0}
+          blogs={blogs || []}
         />
         <NoDataMessage
           selectedCategory={selectedCategory}
@@ -199,11 +248,19 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
       {/* Blogs Table */}
       <Card>
         <CardHeader>
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            totalCount={filteredBlogs?.length || 0}
-          />
+          <div className="space-y-4">
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              totalCount={filteredBlogs?.length || 0}
+            />
+            <StatusFilter
+              selectedStatus={selectedStatus}
+              onStatusChange={setSelectedStatus}
+              totalCount={filteredBlogs?.length || 0}
+              blogs={blogs || []}
+            />
+          </div>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -236,7 +293,10 @@ const AllBlogsTable = ({ onEditBlog, onViewBlog }: any) => {
                     onView={onViewBlog}
                     onEdit={onEditBlog}
                     onDelete={handleDeleteBlog}
+                    onApprove={handleApproveBlog}
+                    onReject={handleRejectBlog}
                     formatDate={formatDate}
+                    isAdmin={isAdmin}
                   />
                 ))}
               </TableBody>

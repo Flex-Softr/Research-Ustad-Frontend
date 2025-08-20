@@ -1,41 +1,27 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { logout } from "@/services/AuthService";
-import { ChangePassword } from "@/services/ChangePassword";
 import { GetMe } from "@/services/singleUser";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { useUserStatus } from "@/hooks/useUserStatus";
-import { 
-  Mail, 
-  Phone, 
-  GraduationCap, 
-  Award, 
-  Users, 
-  Linkedin, 
+import {
+  Mail,
+  Phone,
+  GraduationCap,
+  Award,
+  Users,
+  Linkedin,
   ExternalLink,
   BookOpen,
-  Briefcase
+  Briefcase,
 } from "lucide-react";
+import ChangePasswordSection from "./ChangePasswordSection";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter(); 
   useUserStatus();
-  
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<{ oldPassword: string; newPassword: string }>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,54 +51,32 @@ const Profile = () => {
           console.error("Error refreshing user data:", error);
         }
       };
-      
+
       fetchData();
     };
 
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
   }, []);
-
-
 
   const getRoleBadgeColor = (role: string) => {
     switch (role?.toLowerCase()) {
-      case 'admin':
-        return 'bg-red-100 text-red-800 border-red-200';
-      case 'superadmin':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'research_associate':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'lead_research_associate':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'advisor':
-        return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'lead':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'mentor_panel':
-        return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+      case "admin":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "superadmin":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "research_associate":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "lead_research_associate":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "advisor":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      case "lead":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "mentor_panel":
+        return "bg-indigo-100 text-indigo-800 border-indigo-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
-    }
-  };
-
-  const onSubmit = async (data: {
-    oldPassword: string;
-    newPassword: string;
-  }) => {
-    try {
-      if (data) {
-        const res = await ChangePassword(data);
-        if (res.success) {
-          reset();
-          logout();
-          router.push("/");
-          toast.success("Password changed successfully!");
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to change password. Please try again.");
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
@@ -135,19 +99,24 @@ const Profile = () => {
           {/* Role Badge */}
           {user?.role && (
             <div className="absolute top-4 right-4 z-10">
-              <Badge 
-                variant="outline" 
-                className={`text-xs font-semibold ${getRoleBadgeColor(user.role)}`}
+              <Badge
+                variant="outline"
+                className={`text-xs font-semibold ${getRoleBadgeColor(
+                  user.role
+                )}`}
               >
-                {user.role.charAt(0).toUpperCase() + user.role.slice(1).replace(/_/g, ' ')}
+                {user.role.charAt(0).toUpperCase() +
+                  user.role.slice(1).replace(/_/g, " ")}
               </Badge>
             </div>
           )}
           <CardContent className="p-8">
             <div className="mb-4">
-              <h1 className="text-2xl font-bold text-gray-800">Profile Information</h1>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Profile Information
+              </h1>
             </div>
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+            <div className="flex flex-col md:flex-row items-center gap-6">
               {/* Profile Image */}
               <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
                 {user?.image ? (
@@ -158,7 +127,7 @@ const Profile = () => {
                   </AvatarFallback>
                 )}
               </Avatar>
-              
+
               {/* Basic Info */}
               <div className="flex-1 text-center md:text-left">
                 <CardTitle className="text-3xl font-bold text-gray-800 mb-2">
@@ -167,10 +136,7 @@ const Profile = () => {
                 <p className="text-xl text-blue-600 font-semibold mb-2">
                   {user?.designation}
                 </p>
-                <p className="text-lg text-gray-600 mb-4">
-                  <span className="font-semibold">Role:</span> {user?.role}
-                </p>
-                
+
                 {/* Contact Info */}
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                   {user?.email && user.email.trim() !== "" && (
@@ -207,293 +173,284 @@ const Profile = () => {
           )}
 
           {/* Current Institution */}
-          {user?.current && (
-            (user.current.institution && user.current.institution.trim() !== "") ||
-            (user.current.department && user.current.department.trim() !== "") ||
-            (user.current.degree && user.current.degree.trim() !== "") ||
-            (user.current.inst_designation && user.current.inst_designation.trim() !== "")
-          ) && (
-            <Card className="shadow-lg rounded-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Briefcase className="w-5 h-5 text-green-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">Current Position</h3>
-                </div>
-                <div className="space-y-2">
-                  {user.current.institution && user.current.institution.trim() !== "" && (
-                    <p><span className="font-semibold">Institution:</span> {user.current.institution}</p>
-                  )}
-                  {user.current.department && user.current.department.trim() !== "" && (
-                    <p><span className="font-semibold">Department:</span> {user.current.department}</p>
-                  )}
-                  {user.current.degree && user.current.degree.trim() !== "" && (
-                    <p><span className="font-semibold">Degree:</span> {user.current.degree}</p>
-                  )}
-                  {user.current.inst_designation && user.current.inst_designation.trim() !== "" && (
-                    <p><span className="font-semibold">Designation:</span> {user.current.inst_designation}</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {user?.current &&
+            ((user.current.institution &&
+              user.current.institution.trim() !== "") ||
+              (user.current.department &&
+                user.current.department.trim() !== "") ||
+              (user.current.degree && user.current.degree.trim() !== "") ||
+              (user.current.inst_designation &&
+                user.current.inst_designation.trim() !== "")) && (
+              <Card className="shadow-lg rounded-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Briefcase className="w-5 h-5 text-green-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Current Position
+                    </h3>
+                  </div>
+                  <div className="space-y-2">
+                    {user.current.institution &&
+                      user.current.institution.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Institution:</span>{" "}
+                          {user.current.institution}
+                        </p>
+                      )}
+                    {user.current.department &&
+                      user.current.department.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Department:</span>{" "}
+                          {user.current.department}
+                        </p>
+                      )}
+                    {user.current.degree &&
+                      user.current.degree.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Degree:</span>{" "}
+                          {user.current.degree}
+                        </p>
+                      )}
+                    {user.current.inst_designation &&
+                      user.current.inst_designation.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Designation:</span>{" "}
+                          {user.current.inst_designation}
+                        </p>
+                      )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
           {/* Education */}
-          {user?.education && (
-            (user.education.degree && user.education.degree.trim() !== "") ||
-            (user.education.field && user.education.field.trim() !== "") ||
-            (user.education.institution && user.education.institution.trim() !== "") ||
-            (user.education.status && user.education.status.trim() !== "") ||
-            (user.education.scholarship && user.education.scholarship.trim() !== "")
-          ) && (
-            <Card className="shadow-lg rounded-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <GraduationCap className="w-5 h-5 text-purple-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">Education</h3>
-                </div>
-                <div className="space-y-2">
-                  {user.education.degree && user.education.degree.trim() !== "" && (
-                    <p><span className="font-semibold">Degree:</span> {user.education.degree}</p>
-                  )}
-                  {user.education.field && user.education.field.trim() !== "" && (
-                    <p><span className="font-semibold">Field:</span> {user.education.field}</p>
-                  )}
-                  {user.education.institution && user.education.institution.trim() !== "" && (
-                    <p><span className="font-semibold">Institution:</span> {user.education.institution}</p>
-                  )}
-                  {user.education.status && user.education.status.trim() !== "" && (
-                    <p><span className="font-semibold">Status:</span> {user.education.status}</p>
-                  )}
-                  {user.education.scholarship && user.education.scholarship.trim() !== "" && (
-                    <p><span className="font-semibold">Scholarship:</span> {user.education.scholarship}</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {user?.education &&
+            ((user.education.degree && user.education.degree.trim() !== "") ||
+              (user.education.field && user.education.field.trim() !== "") ||
+              (user.education.institution &&
+                user.education.institution.trim() !== "") ||
+              // (user.education.status && user.education.status.trim() !== "") ||
+              (user.education.scholarship &&
+                user.education.scholarship.trim() !== "")) && (
+              <Card className="shadow-lg rounded-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <GraduationCap className="w-5 h-5 text-purple-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Education
+                    </h3>
+                  </div>
+                  <div className="space-y-2">
+                    {user.education.degree &&
+                      user.education.degree.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Degree:</span>{" "}
+                          {user.education.degree}
+                        </p>
+                      )}
+                    {user.education.field &&
+                      user.education.field.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Field:</span>{" "}
+                          {user.education.field}
+                        </p>
+                      )}
+                    {user.education.institution &&
+                      user.education.institution.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Institution:</span>{" "}
+                          {user.education.institution}
+                        </p>
+                      )}
+                    {user.education.degree &&
+                      user.education.status.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Status:</span>{" "}
+                          {user.education.status}
+                        </p>
+                      )}
+                    {user.education.scholarship &&
+                      user.education.scholarship.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Scholarship:</span>{" "}
+                          {user.education.scholarship}
+                        </p>
+                      )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
           {/* Expertise */}
-          {user?.expertise && user.expertise.length > 0 && user.expertise.some(item => item && item.trim() !== "") && (
-            <Card className="shadow-lg rounded-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="w-5 h-5 text-yellow-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">Areas of Expertise</h3>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {user.expertise
-                    .filter(expertise => expertise && expertise.trim() !== "")
-                    .map((expertise, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
-                      >
-                        {expertise}
-                      </span>
-                    ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {user?.expertise &&
+            user.expertise.length > 0 &&
+            user.expertise.some((item) => item && item.trim() !== "") && (
+              <Card className="shadow-lg rounded-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Award className="w-5 h-5 text-yellow-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Areas of Expertise
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {user.expertise
+                      .filter(
+                        (expertise) => expertise && expertise.trim() !== ""
+                      )
+                      .map((expertise, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                        >
+                          {expertise}
+                        </span>
+                      ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
           {/* Awards */}
-          {user?.awards && user.awards.length > 0 && user.awards.some(item => item && item.trim() !== "") && (
-            <Card className="shadow-lg rounded-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Award className="w-5 h-5 text-orange-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">Awards & Achievements</h3>
-                </div>
-                <ul className="space-y-2">
-                  {user.awards
-                    .filter(award => award && award.trim() !== "")
-                    .map((award, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
-                        <span className="text-gray-700">{award}</span>
-                      </li>
-                    ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
+          {user?.awards &&
+            user.awards.length > 0 &&
+            user.awards.some((item) => item && item.trim() !== "") && (
+              <Card className="shadow-lg rounded-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Award className="w-5 h-5 text-orange-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Awards & Achievements
+                    </h3>
+                  </div>
+                  <ul className="space-y-2">
+                    {user.awards
+                      .filter((award) => award && award.trim() !== "")
+                      .map((award, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
+                          <span className="text-gray-700">{award}</span>
+                        </li>
+                      ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            )}
 
           {/* Conferences */}
-          {user?.conferences && user.conferences.length > 0 && user.conferences.some(conf => 
-            (conf.name && conf.name.trim() !== "") || 
-            (conf.role && conf.role.trim() !== "") || 
-            (conf.topic && conf.topic.trim() !== "")
-          ) && (
-            <Card className="shadow-lg rounded-lg lg:col-span-2">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <Users className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">Conference Participation</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {user.conferences
-                    .filter(conf => 
-                      (conf.name && conf.name.trim() !== "") || 
-                      (conf.role && conf.role.trim() !== "") || 
-                      (conf.topic && conf.topic.trim() !== "")
-                    )
-                    .map((conference, index) => (
-                      <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                        {conference.name && conference.name.trim() !== "" && (
-                          <p className="font-semibold text-gray-800">{conference.name}</p>
-                        )}
-                        {conference.role && conference.role.trim() !== "" && (
-                          <p className="text-sm text-gray-600">Role: {conference.role}</p>
-                        )}
-                        {conference.topic && conference.topic.trim() !== "" && (
-                          <p className="text-sm text-gray-600">Topic: {conference.topic}</p>
-                        )}
-                      </div>
-                    ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {user?.conferences &&
+            user.conferences.length > 0 &&
+            user.conferences.some(
+              (conf) =>
+                (conf.name && conf.name.trim() !== "") ||
+                (conf.role && conf.role.trim() !== "") ||
+                (conf.topic && conf.topic.trim() !== "")
+            ) && (
+              <Card className="shadow-lg rounded-lg lg:col-span-2">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Users className="w-5 h-5 text-indigo-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Conference Participation
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {user.conferences
+                      .filter(
+                        (conf) =>
+                          (conf.name && conf.name.trim() !== "") ||
+                          (conf.role && conf.role.trim() !== "") ||
+                          (conf.topic && conf.topic.trim() !== "")
+                      )
+                      .map((conference, index) => (
+                        <div
+                          key={index}
+                          className="border rounded-lg p-4 bg-gray-50"
+                        >
+                          {conference.name && conference.name.trim() !== "" && (
+                            <p className="font-semibold text-gray-800">
+                              {conference.name}
+                            </p>
+                          )}
+                          {conference.role && conference.role.trim() !== "" && (
+                            <p className="text-sm text-gray-600">
+                              Role: {conference.role}
+                            </p>
+                          )}
+                          {conference.topic &&
+                            conference.topic.trim() !== "" && (
+                              <p className="text-sm text-gray-600">
+                                Topic: {conference.topic}
+                              </p>
+                            )}
+                        </div>
+                      ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
           {/* Social Links */}
-          {user?.socialLinks && (
-            (user.socialLinks.linkedin && user.socialLinks.linkedin.trim() !== "") ||
-            (user.socialLinks.researchgate && user.socialLinks.researchgate.trim() !== "") ||
-            (user.socialLinks.google_scholar && user.socialLinks.google_scholar.trim() !== "")
-          ) && (
-            <Card className="shadow-lg rounded-lg lg:col-span-2">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <ExternalLink className="w-5 h-5 text-green-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">Professional Links</h3>
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {user.socialLinks.linkedin && user.socialLinks.linkedin.trim() !== "" && (
-                    <a
-                      href={user.socialLinks.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      <Linkedin className="w-4 h-4" />
-                      LinkedIn
-                    </a>
-                  )}
-                  {user.socialLinks.researchgate && user.socialLinks.researchgate.trim() !== "" && (
-                    <a
-                      href={user.socialLinks.researchgate}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      ResearchGate
-                    </a>
-                  )}
-                  {user.socialLinks.google_scholar && user.socialLinks.google_scholar.trim() !== "" && (
-                    <a
-                      href={user.socialLinks.google_scholar}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition-colors"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Google Scholar
-                    </a>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {user?.socialLinks &&
+            ((user.socialLinks.linkedin &&
+              user.socialLinks.linkedin.trim() !== "") ||
+              (user.socialLinks.researchgate &&
+                user.socialLinks.researchgate.trim() !== "") ||
+              (user.socialLinks.google_scholar &&
+                user.socialLinks.google_scholar.trim() !== "")) && (
+              <Card className="shadow-lg rounded-lg lg:col-span-2">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <ExternalLink className="w-5 h-5 text-green-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Professional Links
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-4">
+                    {user.socialLinks.linkedin &&
+                      user.socialLinks.linkedin.trim() !== "" && (
+                        <a
+                          href={user.socialLinks.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        >
+                          <Linkedin className="w-4 h-4" />
+                          LinkedIn
+                        </a>
+                      )}
+                    {user.socialLinks.researchgate &&
+                      user.socialLinks.researchgate.trim() !== "" && (
+                        <a
+                          href={user.socialLinks.researchgate}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          ResearchGate
+                        </a>
+                      )}
+                    {user.socialLinks.google_scholar &&
+                      user.socialLinks.google_scholar.trim() !== "" && (
+                        <a
+                          href={user.socialLinks.google_scholar}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition-colors"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Google Scholar
+                        </a>
+                      )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
         </div>
 
         {/* Password Management Section */}
-        <Card className="shadow-lg rounded-lg">
-          <CardContent className="p-6">
-            {/* Password Change Notice */}
-            <div
-              className={`p-4 rounded-md mb-6 text-center font-semibold 
-              ${
-                user?.needsPasswordChange
-                  ? "bg-green-100 text-green-600"
-                  : "bg-blue-100 text-blue-600"
-              }
-            `}
-            >
-              {user?.needsPasswordChange ? (
-                <p>Please change your password as soon as possible!</p>
-              ) : (
-                <div>
-                  <p>Password Up to Date</p>
-                  <p>
-                    Password changed at:{" "}
-                    {new Date(user?.passwordChangedAt as string).toLocaleString()}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Change Password Form */}
-            <div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                Change Password
-              </h3>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md">
-                {/* Old Password */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-1">
-                    Old Password
-                  </label>
-                  <Input
-                    type="password"
-                    placeholder="Enter Old Password"
-                    {...register("oldPassword", {
-                      required: "Old password is required",
-                    })}
-                    className="w-full border rounded-md p-2"
-                  />
-                  {errors.oldPassword && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.oldPassword.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* New Password */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-1">
-                    New Password
-                  </label>
-                  <Input
-                    type="password"
-                    placeholder="Enter New Password"
-                    {...register("newPassword", {
-                      required: "New password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters long",
-                      },
-                    })}
-                    className="w-full border rounded-md p-2"
-                  />
-                  {errors.newPassword && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.newPassword.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  className="w-full cursor-pointer bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md"
-                >
-                  Change Password
-                </Button>
-              </form>
-            </div>
-          </CardContent>
-        </Card>
+        <ChangePasswordSection user={user} />
       </div>
     </div>
   );

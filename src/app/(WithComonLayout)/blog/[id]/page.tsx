@@ -17,6 +17,8 @@ import {
 import Link from "next/link";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import { Blog } from "@/type";
+import FallbackImage from "@/components/shared/FallbackImage";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -190,18 +192,12 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               {/* Author Info */}
               <div className="flex items-center gap-4 mb-8">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                  <img
-                    src={
-                      post.author.image ||
-                      "https://image.shutterstock.com/image-vector/default-avatar-profile-icon-grey-260nw-767771863.jpg"
-                    }
+                  <UserAvatar
+                    src={post.author.image}
                     alt={post.author?.fullName || "Author"}
-                    className="object-cover w-full h-full"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src =
-                        "https://image.shutterstock.com/image-vector/default-avatar-profile-icon-grey-260nw-767771863.jpg";
-                    }}
+                    name={post.author?.fullName || "Unknown Author"}
+                    size="lg"
+                    className="w-full h-full"
                   />
                 </div>
                 <div>
@@ -221,17 +217,13 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
             {/* Featured Image */}
             {post.imageUrl && (
               <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden mb-12 shadow-2xl">
-                <Image
+                <FallbackImage
                   src={post.imageUrl}
                   alt={post.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-                  className="object-cover"
+                  
+                  
+                  className="object-cover w-full h-full"
                   priority
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "/default-blog-image.jpg";
-                  }}
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
@@ -291,18 +283,12 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                       <div className="bg-gray-50 hover:bg-gray-100 rounded-xl p-2 transition-all duration-300 group-hover:shadow-md">
                         <div className="flex items-start gap-3">
                           <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                            <Image
-                              src={
-                                latestPost.imageUrl || "/default-blog-image.jpg"
-                              }
-                              fill
-                              sizes="64px"
-                              className="object-cover group-hover:scale-110 transition-transform duration-300"
+                            <FallbackImage
+                              src={latestPost.imageUrl}
+                             
+                              
+                              className="object-cover group-hover:scale-110 w-full h-full transition-transform duration-300"
                               alt={latestPost.title}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.src = "/default-blog-image.jpg";
-                              }}
                             />
                           </div>
                           <div className="flex-1 min-w-0">

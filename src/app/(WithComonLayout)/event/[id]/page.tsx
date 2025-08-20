@@ -50,9 +50,9 @@ const EventSinglePage = ({ params }: { params: Promise<{ id: string }> }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left: Main Event Info */}
           <div className="lg:col-span-2 space-y-8">
-            <EventHeader event={typedEvent} />
-            <EventImage event={typedEvent} />
-            <EventContent event={typedEvent} />
+            <EventHeader key={`header-${typedEvent._id}`} event={typedEvent} />
+            <EventImage key={`image-${typedEvent._id}`} event={typedEvent} />
+            <EventContent key={`content-${typedEvent._id}`} event={typedEvent} />
           </div>
 
           {/* Right: Sidebar */}

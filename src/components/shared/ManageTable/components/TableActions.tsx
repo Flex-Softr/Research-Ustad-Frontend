@@ -124,7 +124,7 @@ export const TableActions: React.FC<TableActionsProps> = ({
       )}
 
       {/* Role Change Button */}
-      {isvalue === "userRole" && (
+      {isvalue === "userRole" && item?.role !== "superAdmin" && (
         <Button
           variant="outline"
           size="sm"

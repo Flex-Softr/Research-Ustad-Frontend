@@ -26,6 +26,7 @@ import {
 } from "../ui/select";
 import Pagination from "../shared/Pagination";
 import { EventPageSkeleton } from "./EventCardSkeleton";
+import FallbackImage from "@/components/shared/FallbackImage";
 
 const EventPage = () => {
   const [filter, setFilter] = useState<
@@ -100,13 +101,16 @@ const EventPage = () => {
               {paginatedEvents.map((event) => {
                 const statusInfo = getEventStatus(event);
                 return (
-                  <Card key={event._id} className="overflow-hidden group">
+                  <Card
+                    key={`event-card-${event._id}`}
+                    className="overflow-hidden group"
+                  >
                     <div className="relative h-48">
-                      <Image
+                      <FallbackImage
+                        key={event._id}
                         src={event.imageUrl}
                         alt={event.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
                       />
                       <span className="absolute top-4 left-4 bg-brand-secondary text-white px-3 py-1 rounded-full text-xs">
                         {event.category}

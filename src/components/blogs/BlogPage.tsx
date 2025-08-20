@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import BlogCard from "./blog/BlogCard";
 import BlogCardSkeleton from "./blog/BlogCardSkeleton";
-import { TPost } from "@/type";
+import { Blog } from "@/type";
 import { Filter, TrendingUp, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import Pagination from "@/components/shared/Pagination";
@@ -16,7 +16,7 @@ interface BlogApiResponse {
   success: boolean;
   message: string;
   data: {
-    blogs: TPost[];
+    blogs: Blog[];
   };
 }
 
@@ -32,10 +32,8 @@ const BlogPage = () => {
     (state: RootState) => state.blogs
   );
 
-
-  console.log('blogsssssssss', blogs)
   const [errors, setError] = useState<string | null>(null);
-  const [data, setData] = useState<TPost[]>([]);
+  const [data, setData] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
@@ -62,7 +60,7 @@ const BlogPage = () => {
 
     try {
       // Use blogs from Redux
-      const allData = blogs as TPost[]; // safely cast based on structure you confirmed
+      const allData = blogs as Blog[]; // safely cast based on structure you confirmed
 
       // Filter by category
       const filteredData =

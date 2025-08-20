@@ -1,19 +1,13 @@
 import { CheckCircle, Share2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import { useState } from "react";
+import FallbackImage from "@/components/shared/FallbackImage";
 import CountdownTimer from "../../shared/CountdownTimer";
 
 const CourseSidebar = ({ course }) => {
-  const [imageError, setImageError] = useState(false);
   const enrollmentPercentage = Math.round(
     (course.enrolled / course.capacity) * 100
   );
-
-  const handleImageError = () => {
-    setImageError(true);
-  };
 
   return (
     <div className="sticky top-8 space-y-6">
@@ -41,13 +35,10 @@ const CourseSidebar = ({ course }) => {
       <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
         <div className="relative overflow-hidden rounded-t-2xl">
           <div className="relative h-48">
-            <Image
-              src={imageError ? "https://www.shutterstock.com/image-photo/hands-typing-on-laptop-programming-600nw-2480023489.jpg" : course.imageUrl}
+            <FallbackImage
+              src={course.imageUrl}
               alt={course.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 400px"
-              className="object-cover"
-              onError={handleImageError}
+              className="object-cover h-full w-full"
             />
           </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>

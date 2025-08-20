@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { TeamMember } from "../components";
 import {
   MemberHeader,
@@ -21,6 +23,10 @@ const SingleMemberPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("publications");
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const fetchMember = async () => {
@@ -50,6 +56,7 @@ const SingleMemberPage = () => {
             awards: response?.data?.awards || [],
             conferences: response?.data?.conferences || [],
             publications: response?.data?.publications || [], // This will be populated from the API
+            blogs: response?.data?.blogs || [], // This will be populated from the API
           };
           
           setMember(transformedMember);
@@ -58,22 +65,23 @@ const SingleMemberPage = () => {
           const transformedMember = {
             id: response?.data?._id,
             user: response?.data?._id,
-            fullName: response.data.fullName,
-            email: response.data.email,
-            contactNo: response.data.contactNo,
-            role: response.data.role,
-            designation: response.data.designation,
-            profileImg: response.data.image,
-            shortBio: response.data.shortBio,
-            research: response.data.research || [],
-            isDeleted: response.data.isDeleted,
-            current: response.data.current,
-            education: response.data.education,
-            socialLinks: response.data.socialLinks,
-            expertise: response.data.expertise || [],
-            awards: response.data.awards || [],
-            conferences: response.data.conferences || [],
-            publications: response.data.publications || [],
+            fullName: response?.data?.fullName,
+            email: response?.data?.email,
+            contactNo: response?.data?.contactNo,
+            role: response?.data?.role,
+            designation: response?.data?.designation,
+            profileImg: response?.data?.image,
+            shortBio: response?.data?.shortBio,
+            research: response?.data?.research || [],
+            isDeleted: response?.data?.isDeleted,
+            current: response?.data?.current,
+            education: response?.data?.education,
+            socialLinks: response?.data?.socialLinks,
+            expertise: response?.data?.expertise || [],
+            awards: response?.data?.awards || [],
+            conferences: response?.data?.conferences || [],
+            publications: response?.data?.publications || [],
+            blogs: response?.data?.blogs || [],
           };
           
           setMember(transformedMember);
@@ -92,6 +100,11 @@ const SingleMemberPage = () => {
       fetchMember();
     }
   }, [params.slug]);
+
+  // Reset pagination when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
 
   if (loading) {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
@@ -158,17 +171,110 @@ const SingleMemberPage = () => {
     { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
   ];
 
+  // Get current tab data and pagination info
+  const getCurrentTabData = () => {
+    switch (activeTab) {
+      case "publications":
+        const publishedPapers = member.publications?.filter(
+          pub => (pub.status === "published" || pub.status === "Published")
+        ) || [];
+        return {
+          data: publishedPapers,
+          totalItems: publishedPapers.length,
+          hasPagination: publishedPapers.length > itemsPerPage
+        };
+      case "ongoing":
+        const ongoingPapers = member.publications?.filter(
+          pub => (pub.status !== "published" && pub.status !== "Published")
+        ) || [];
+        return {
+          data: ongoingPapers,
+          totalItems: ongoingPapers.length,
+          hasPagination: ongoingPapers.length > itemsPerPage
+        };
+      case "blogs":
+        const blogs = member.blogs || [];
+        return {
+          data: blogs,
+          totalItems: blogs.length,
+          hasPagination: blogs.length > itemsPerPage
+        };
+      default:
+        return { data: [], totalItems: 0, hasPagination: false };
+    }
+  };
+
+  const { data: currentData, totalItems, hasPagination } = getCurrentTabData();
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = currentData.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "publications":
-        return <Publications member={member} />;
+        return <Publications member={member} paginatedData={paginatedData} />;
       case "ongoing":
-        return <OngoingPapers member={member} />;
+        return <OngoingPapers member={member} paginatedData={paginatedData} />;
       case "blogs":
-        return <Blogs member={member} />;
+        return <Blogs member={member} paginatedData={paginatedData} />;
       default:
-        return <Publications member={member} />;
+        return <Publications member={member} paginatedData={paginatedData} />;
     }
+  };
+
+  const renderPagination = () => {
+    if (!hasPagination) return null;
+
+    return (
+      <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
+        <div className="text-sm text-gray-700">
+          Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of {totalItems} items
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="flex items-center gap-1"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+          
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => handlePageChange(page)}
+                className="w-8 h-8 p-0"
+              >
+                {page}
+              </Button>
+            ))}
+          </div>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="flex items-center gap-1"
+          >
+            Next
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -223,7 +329,10 @@ const SingleMemberPage = () => {
               </div>
 
               {/* Tab Content */}
-              <div className="">{renderTabContent()}</div>
+              <div className="">
+                {renderTabContent()}
+                {renderPagination()}
+              </div>
             </div>
           </div>
 

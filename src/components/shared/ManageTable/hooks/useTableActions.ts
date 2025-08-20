@@ -73,9 +73,16 @@ export const useTableActions = ({
         if (currentRole === "user" || currentRole === "admin") {
           const res = await PromoteRole(id);
           if (res?.success) {
-            toast.success(
-              `Successfully changed role for ${res?.data?.fullName}`
-            );
+            // Show single success message with logout info if applicable
+            if (res?.data?.requiresReauth) {
+              toast.success(
+                `Successfully changed role for ${res?.data?.fullName}. They will be logged out and need to log in again.`
+              );
+            } else {
+              toast.success(
+                `Successfully changed role for ${res?.data?.fullName}`
+              );
+            }
           } else {
             toast.error(res?.message || "Failed to change role");
           }

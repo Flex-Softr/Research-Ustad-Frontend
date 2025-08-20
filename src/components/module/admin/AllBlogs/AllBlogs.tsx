@@ -6,6 +6,9 @@ import { Plus, Download, Upload } from "lucide-react";
 import AllBlogsTable from "./AllBlogsTable";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { fetchAllBlogsForAdmin } from "@/services/blogs/blogsSlice";
 
 interface Blog {
   _id: string;
@@ -20,16 +23,22 @@ interface Blog {
   publishedDate: string;
   createdAt: string;
   updatedAt: string;
-  status?: string;
+  status: "pending" | "approved" | "rejected";
   views?: number;
   likes?: number;
 }
 
 const AllBlogs = () => {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Load all blogs for admin (including pending and rejected)
+    dispatch(fetchAllBlogsForAdmin());
+  }, [dispatch]);
 
   const handleEditBlog = (blog: Blog) => {
     setSelectedBlog(blog);
@@ -57,7 +66,7 @@ const AllBlogs = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">All Blogs</h1>
-          <p className="text-gray-600">Manage all blogs in the system</p>
+          <p className="text-gray-600">Manage all blogs in the system (including pending approvals)</p>
         </div>
         <div className="flex gap-2">
           <Button onClick={handleCreateBlog}>
@@ -71,6 +80,7 @@ const AllBlogs = () => {
       <AllBlogsTable
         onEditBlog={handleEditBlog}
         onViewBlog={handleViewBlog}
+        isAdmin={true}
       />
 
       {/* TODO: Add Edit/View Modals here */}

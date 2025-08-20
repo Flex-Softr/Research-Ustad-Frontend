@@ -9,6 +9,7 @@ import { Calendar, MapPin, Users, ArrowRight, Star, Clock, AlertCircle } from "l
 import Link from "next/link";
 import { Container } from "@/components/ui/core";
 import { Skeleton } from "@/components/ui/skeleton";
+import FallbackImage from "../shared/FallbackImage";
 
 // Common background elements component
 const BackgroundElements = () => (
@@ -250,11 +251,12 @@ const EventCard = ({ event }: { event: any }) => {
       
       {/* Event Image */}
       <div className="relative h-48 overflow-hidden">
-        <img
+      <FallbackImage src={event.imageUrl}  alt={event.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"  />
+        {/* <img
           src={event.imageUrl || ""}
           alt={event.title}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-        />
+        /> */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
 
         {/* Image Overlay Effects */}
@@ -344,9 +346,11 @@ const EventCard = ({ event }: { event: any }) => {
                 alt={speaker.name}
                 className="w-8 h-8 rounded-full border-2 border-white/20 shadow-lg"
               />
+              
             ))}
             {event.speakers && event.speakers.length > 3 && (
               <div className="w-8 h-8 rounded-full bg-purple-500/20 border-2 border-white/20 flex items-center justify-center">
+               
                 <span className="text-xs text-purple-300 font-bold">
                   +{event.speakers.length - 3}
                 </span>

@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/core";
 import { useState, useEffect } from "react";
+import UserAvatar from "../shared/UserAvatar";
 
 const testimonials = [
   {
@@ -198,10 +199,12 @@ const TestimonialsSection = () => {
               {/* Author Section */}
               <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                 <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white/20 shadow-2xl">
-                  <img
+                  <UserAvatar
+                    name={testimonials[currentSlide].author}
                     src={testimonials[currentSlide].avatar}
                     alt={testimonials[currentSlide].author}
-                    className="w-full h-full object-cover"
+                    size="2xl"
+                    className="w-full h-full"
                   />
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-transparent to-pink-500/20"></div>
                 </div>

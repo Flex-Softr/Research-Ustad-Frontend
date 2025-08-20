@@ -8,6 +8,7 @@ import { createUser } from "../Users";
 
 // ===== AUTHENTICATION FUNCTIONS =====
 
+// register user
 export const registerUser = async (data: any) => {
   try {
     const result = await createUser(data);
@@ -17,6 +18,7 @@ export const registerUser = async (data: any) => {
   }
 };
 
+// login user
 export async function loginUser(data: FieldValues) {
   console.log(data);
 
@@ -44,6 +46,7 @@ export async function loginUser(data: FieldValues) {
   }
 }
 
+// get current user
 export const getCurrentUser = async () => {
   try {
     const accessToken = (await cookies()).get("accessToken")?.value;
@@ -83,11 +86,31 @@ export const getCurrentUser = async () => {
   }
 };
 
+// logout
 export const logout = async () => {
-  (await cookies()).delete("accessToken");
-  revalidateTag("loginuser");
+  try {
+    const token = (await cookies()).get("accessToken")?.value;
+    
+    if (token) {
+      // Call backend logout endpoint to update isLoggedIn status
+      await fetch(`${api.baseUrl}/auth/logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Error calling logout endpoint:", error);
+  } finally {
+    // Always clear the token locally
+    (await cookies()).delete("accessToken");
+    revalidateTag("loginuser");
+  }
 };
 
+// get new token
 export const getNewToken = async () => {
   try {
     const res = await fetch(`${api.baseUrl}/auth/refresh-token`, {
@@ -102,5 +125,48 @@ export const getNewToken = async () => {
     return res.json();
   } catch (error: any) {
     return { success: false, message: error.message };
+  }
+};
+
+// forget password
+export const forgetPassword = async (email: string) => {
+  try {
+    const response = await fetch(`${api.baseUrl}/auth/forget-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error: any) {
+    console.error("Forget password error:", error);
+    return { success: false, message: "Network error. Please try again." };
+  }
+};
+
+// reset password
+export const resetPassword = async (
+  email: string,
+  newPassword: string,
+  token: string
+) => {
+  try {
+    const response = await fetch(`${api.baseUrl}/auth/reset-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify({ email, newPassword }),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (error: any) {
+    console.error("Reset password error:", error);
+    return { success: false, message: "Network error. Please try again." };
   }
 };

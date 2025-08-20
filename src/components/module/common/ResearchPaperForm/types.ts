@@ -22,7 +22,7 @@ export interface ResearchPaperFormData {
   journalRank?: string;
   visitLink: string;
   paperType: string;
-  status: "published" | "ongoing";
+  status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;
   keywords?: string[];
   citations?: number;

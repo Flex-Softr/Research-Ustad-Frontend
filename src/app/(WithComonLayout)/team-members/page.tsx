@@ -26,7 +26,7 @@ const TeamMembersPage = () => {
         setLoading(true);
         const response = await GetAllResearchAssociate();
         console.log("API Response:", response);
-        
+
         if (response?.success && response?.data) {
           // Transform API data to match TeamMember interface
           const transformedMembers = response.data.map((member: any) => ({
@@ -36,6 +36,7 @@ const TeamMembersPage = () => {
             email: member.email,
             contactNo: member.contactNo,
             role: member.role,
+            designation: member.designation, // Map role to designation for compatibility
             profileImg: member.image,
             shortBio: member.shortBio,
             research: member.research || [],
@@ -48,7 +49,10 @@ const TeamMembersPage = () => {
             conferences: member.conferences || [],
             publications: member.publications || [], // This will be populated from the API
           }));
-          
+
+          console.log("Available roles:", [
+            ...new Set(transformedMembers.map((m) => m.role)),
+          ]);
           setMembers(transformedMembers);
         } else if (response?.data) {
           // If no success flag but data exists
@@ -59,6 +63,7 @@ const TeamMembersPage = () => {
             email: member.email,
             contactNo: member.contactNo,
             role: member.role,
+            designation: member.designation, // Map role to designation for compatibility
             profileImg: member.image,
             shortBio: member.shortBio,
             research: member.research || [],
@@ -71,7 +76,10 @@ const TeamMembersPage = () => {
             conferences: member.conferences || [],
             publications: member.publications || [],
           }));
-          
+
+          console.log("Available roles:", [
+            ...new Set(transformedMembers.map((m) => m.designation)),
+          ]);
           setMembers(transformedMembers);
         } else {
           console.log("No members data available from API");
@@ -92,7 +100,9 @@ const TeamMembersPage = () => {
   const filteredMembers = members.filter((member) => {
     const matchesSearch =
       member.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.designation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (member.designation || "")
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
       member.current?.institution
         ?.toLowerCase()
         .includes(searchQuery.toLowerCase()) ||

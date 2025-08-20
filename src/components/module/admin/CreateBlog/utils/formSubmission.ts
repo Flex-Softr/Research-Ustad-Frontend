@@ -11,7 +11,8 @@ export const prepareBlogData = (
   editorContent: string,
   isEditMode: boolean,
   selectedFile: File | null,
-  previewImage: string | null
+  previewImage: string | null,
+  isAdmin: boolean = false
 ): BlogSubmissionData => {
   // Determine the final category to use
   let finalCategory = selectedCategory;
@@ -26,6 +27,7 @@ export const prepareBlogData = (
     category: finalCategory,
     content: editorContent,
     imageUrl: isEditMode && !selectedFile ? previewImage || "" : "",
+    status: isAdmin ? "approved" : "pending", // Admin blogs are approved by default
   };
 };
 
@@ -34,31 +36,33 @@ export const submitBlogForm = async (
   selectedFile: File | null,
   isEditMode: boolean,
   blogId: string | null,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
+  isAdmin: boolean = false
 ): Promise<boolean> => {
   try {
     const formData = new FormData();
     if (selectedFile) {
       formData.append("file", selectedFile);
     }
-    formData.append("data", JSON.stringify(blogData));
+    
+    // Set status based on user role
+    const finalBlogData = {
+      ...blogData,
+      status: isAdmin ? "approved" : "pending",
+    };
+    
+    formData.append("data", JSON.stringify(finalBlogData));
 
     if (isEditMode && blogId) {
       await dispatch(updateBlog({ id: blogId, formData })).unwrap();
-      toast.success("Blog updated successfully!");
+      return true;
     } else {
       const result = await dispatch(addBlog(formData)).unwrap();
-      toast.success("Blog post created successfully!");
       // Return the created blog data for immediate use
       return result;
     }
-
-    return true;
   } catch (err: any) {
-    toast.error(
-      err.message ||
-        (isEditMode ? "Failed to update blog" : "Failed to create blog post")
-    );
-    return false;
+    // Let the calling component handle error toasts
+    throw err;
   }
 };
