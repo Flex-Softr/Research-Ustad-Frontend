@@ -247,7 +247,6 @@ const EventsSection = () => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  console.log("eventsss", events);
 
   // Error state
   if (error) {

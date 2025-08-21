@@ -75,11 +75,6 @@ const UserDashBoardLayout = () => {
         const papersResponse = await GetAllResearchPaperMy();
         const blogsResponse = await GetUserBlogs();
 
-        // Debug logging to understand the response structure
-        console.log("Blogs response:", blogsResponse);
-        console.log("Blogs data type:", typeof blogsResponse?.data);
-        console.log("Blogs data is array:", Array.isArray(blogsResponse?.data));
-
         setPersonalInfo(personalResponse?.data || null);
         setUser(userResponse?.data || null);
         setRecentPapers(

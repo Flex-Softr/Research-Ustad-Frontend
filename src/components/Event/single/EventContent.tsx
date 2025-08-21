@@ -16,7 +16,6 @@ const EventContent = ({ event }: EventContentProps) => {
       return event.agenda;
     }
 
-    console.log("Event data for dynamic agenda:", event);
 
     // Generate dynamic agenda based on actual event data
     const startDate = new Date(event.startDate);

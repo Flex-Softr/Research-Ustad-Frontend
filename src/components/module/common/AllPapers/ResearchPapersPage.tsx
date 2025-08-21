@@ -29,7 +29,7 @@ const ResearchPapersPage = ({
       try {
         // If papers are provided as props, use them
         if (propPapers && propPapers.length > 0) {
-          console.log("Using papers from props:", propPapers.length);
+          // console.log("Using papers from props:", propPapers.length);
           setPapers(propPapers);
           setLoading(false);
           return;

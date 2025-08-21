@@ -50,9 +50,9 @@ const TeamMembersPage = () => {
             publications: member.publications || [], // This will be populated from the API
           }));
 
-          console.log("Available roles:", [
-            ...new Set(transformedMembers.map((m) => m.role)),
-          ]);
+          // console.log("Available roles:", [
+          //   ...new Set(transformedMembers.map((m) => m.role)),
+          // ]);
           setMembers(transformedMembers);
         } else if (response?.data) {
           // If no success flag but data exists
@@ -77,9 +77,9 @@ const TeamMembersPage = () => {
             publications: member.publications || [],
           }));
 
-          console.log("Available roles:", [
-            ...new Set(transformedMembers.map((m) => m.designation)),
-          ]);
+          // console.log("Available roles:", [
+          //   ...new Set(transformedMembers.map((m) => m.designation)),
+          // ]);
           setMembers(transformedMembers);
         } else {
           console.log("No members data available from API");

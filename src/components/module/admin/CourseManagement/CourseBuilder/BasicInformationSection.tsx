@@ -35,7 +35,6 @@ export function BasicInformationSection({
   const activeCategories = categories.filter(cat => cat.status === 'active');
 
 
-  console.log('category', categories)
 
   return (
     <Card>

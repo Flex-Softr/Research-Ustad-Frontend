@@ -42,7 +42,6 @@ const CoursePage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  console.log("coursessssssss", courses);
 
   // Helper function to get category name by ID
   const getCategoryName = (categoryId: string) => {

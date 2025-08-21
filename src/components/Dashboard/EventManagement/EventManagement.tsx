@@ -119,7 +119,6 @@ const EventManagement = () => {
     );
   }
 
-  console.log("events", events);
 
   return (
     <div className="space-y-6">

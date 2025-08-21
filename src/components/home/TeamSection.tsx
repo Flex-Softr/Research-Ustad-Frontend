@@ -32,7 +32,6 @@ const TeamSection = () => {
         setLoading(true);
         setError(null);
         const response = await GetAllResearchAssociate();
-        console.log("API Response:", response);
 
         if (response?.success && response?.data && Array.isArray(response.data)) {
           // Transform API data to match TeamMember interface
@@ -45,7 +44,6 @@ const TeamSection = () => {
             category: member.designation || member.role || "Other",
           }));
 
-          console.log("Transformed members:", transformedMembers);
           
           // Generate categories dynamically from the data using designation
           const uniqueCategories = [...new Set(transformedMembers.map(m => m.category))];
@@ -54,7 +52,6 @@ const TeamSection = () => {
             ...uniqueCategories.map(cat => ({ id: String(cat), label: String(cat) }))
           ];
           
-          console.log("Dynamic categories:", dynamicCategories);
           setCategories(dynamicCategories);
           setMembers(transformedMembers);
         } else if (response?.data && Array.isArray(response.data)) {
@@ -68,7 +65,7 @@ const TeamSection = () => {
             category: member.designation || member.role || "Other",
           }));
 
-          console.log("Transformed members:", transformedMembers);
+          // console.log("Transformed members:", transformedMembers);
           
           // Generate categories dynamically from the data using designation
           const uniqueCategories = [...new Set(transformedMembers.map(m => m.category))];
@@ -77,7 +74,7 @@ const TeamSection = () => {
             ...uniqueCategories.map(cat => ({ id: String(cat), label: String(cat) }))
           ];
           
-          console.log("Dynamic categories:", dynamicCategories);
+          // console.log("Dynamic categories:", dynamicCategories);
           setCategories(dynamicCategories);
           setMembers(transformedMembers);
         } else {
@@ -101,10 +98,10 @@ const TeamSection = () => {
       ? members.slice(0, 3) // Show first 3 items by default without filtering
       : members.filter((member) => member.category === activeCategory);
 
-  console.log("Active category:", activeCategory);
-  console.log("Filtered members count:", filteredMembers.length);
-  console.log("All members count:", members.length);
-  console.log("Members with categories:", members.map(m => ({ name: m.name, category: m.category })));
+  // console.log("Active category:", activeCategory);
+  // console.log("Filtered members count:", filteredMembers.length);
+  // console.log("All members count:", members.length);
+  // console.log("Members with categories:", members.map(m => ({ name: m.name, category: m.category })));
 
   // Show loading state
   if (loading) {

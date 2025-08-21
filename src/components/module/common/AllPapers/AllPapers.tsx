@@ -41,7 +41,7 @@ const getStatusBadgeStyle = (status?: string) => {
 };
 
 const AllPapers = ({ papers }:{papers:TPapers[]}) => {
-console.log(papers)
+
   return (
     <>
       <div>

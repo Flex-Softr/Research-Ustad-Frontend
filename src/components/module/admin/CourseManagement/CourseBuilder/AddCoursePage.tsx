@@ -260,8 +260,8 @@ export default function AddCoursePage() {
         }
       });
       
-      console.log(`${isEditMode ? 'Updating' : 'Submitting'} course data:`, courseData);
-      console.log("FormData contents:");
+      // console.log(`${isEditMode ? 'Updating' : 'Submitting'} course data:`, courseData);
+      // console.log("FormData contents:");
       for (let [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
@@ -270,7 +270,7 @@ export default function AddCoursePage() {
       if (isEditMode && courseId) {
         // Update existing course
         result = await dispatch(updateCourse({ id: courseId, formData: formDataToSend })).unwrap();
-        console.log("Course Updated Successfully:", result);
+        // console.log("Course Updated Successfully:", result);
         toast.success("Course updated successfully!");
         // Redirect instantly after successful update
         router.push("/admin/dashboard/managecourse");

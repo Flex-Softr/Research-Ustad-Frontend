@@ -90,7 +90,6 @@ const SuperAdminManagement = () => {
     }
   };
 
-  console.log("userssss", users);
 
   const handleReplaceSuperAdmin = async () => {
     if (!selectedUserId) {

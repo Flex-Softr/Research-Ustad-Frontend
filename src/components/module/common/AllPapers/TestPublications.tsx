@@ -12,9 +12,7 @@ export default function TestPublications() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        console.log('🔍 Calling GetAllUsers...');
         const response = await GetAllUsers();
-        console.log('🔍 Response:', response);
         setData(response);
       } catch (err) {
         console.error('🔍 Error:', err);

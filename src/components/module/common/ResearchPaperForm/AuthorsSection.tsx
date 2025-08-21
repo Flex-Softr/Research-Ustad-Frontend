@@ -65,7 +65,7 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
                   userId={author.user}
                   role={author.role}
                   onChange={(name: string, role: string, userId?: string) => {
-                    console.log(`Author ${index} changed to:`, { name, role, userId });
+                    // console.log(`Author ${index} changed to:`, { name, role, userId });
                     handleAuthorChange(index, name, role, userId);
                   }}
                   placeholder={`Search for author ${index + 1}`}

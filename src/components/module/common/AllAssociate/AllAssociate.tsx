@@ -20,7 +20,7 @@ const associates = [
 ];
 
 export default function AllAssociates(data:TResearchAssociate[]) {
-   console.log(data)
+
   return (
     <section className="container mx-auto py-12">
       <h2 className="text-4xl font-bold text-center mb-10">Team Member</h2>

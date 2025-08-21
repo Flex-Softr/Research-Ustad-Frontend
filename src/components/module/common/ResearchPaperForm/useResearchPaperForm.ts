@@ -41,10 +41,6 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
     },
   });
 
-  // Debug authors state changes
-  useEffect(() => {
-    console.log("Authors state changed:", authorReaseachpaper);
-  }, [authorReaseachpaper]);
 
   // Reset form when switching between create and edit modes
   useEffect(() => {
@@ -75,13 +71,12 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       if (isEditMode && paperId) {
         try {
           setIsLoadingData(true);
-          console.log("Loading paper data for ID:", paperId);
+          // console.log("Loading paper data for ID:", paperId);
           const response = await GetSingleResearchPaper(paperId);
-          console.log("Response from GetSingleResearchPaper:", response);
+          // console.log("Response from GetSingleResearchPaper:", response);
 
           if (response?.data) {
             const paperData = response.data;
-            console.log("Paper data to populate:", paperData);
 
             // Reset form with paper data
             reset({
@@ -128,13 +123,11 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
                 ? [...paperData.keywords]
                 : [""];
 
-            console.log("Setting authors:", authors);
-            console.log("Setting keywords:", keywords);
+    
 
             setauthorReaseachpaper(authors);
             setKeywords(keywords);
 
-            console.log("Form data populated successfully");
           } else if (response?.success === false) {
             console.error("API returned error:", response);
             toast.error(
@@ -177,7 +170,6 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
     );
     const updatedResearch = [...authorReaseachpaper];
     updatedResearch[index] = author;
-    console.log("Updated authors array:", updatedResearch);
     setauthorReaseachpaper(updatedResearch);
   };
 
@@ -293,7 +285,6 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       formData.funding = data.funding;
     }
 
-    console.log("Submitting form data:", formData);
 
     try {
       let result;

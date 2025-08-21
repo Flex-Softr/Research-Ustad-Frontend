@@ -36,7 +36,7 @@ const LoginForm = () => {
       email: data.email,
       password: data.password,
     };
-    console.log(newdata);
+    // console.log(newdata);
     try {
       const res = await loginUser(newdata);
       console.log(res);
@@ -45,7 +45,7 @@ const LoginForm = () => {
         const redirectPath = searchParams.get("redirectPath");
         const targetPath = redirectPath || "/";
 
-        console.log("Redirecting to:", targetPath);
+        // console.log("Redirecting to:", targetPath);
         router.push(targetPath);
         toast.success(res?.message);
       } else {

@@ -24,13 +24,12 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     // Dynamically import CKEditor to avoid SSR issues
     const loadEditor = async () => {
       try {
-        console.log("Loading CKEditor...");
+        // console.log("Loading CKEditor...");
         const [{ CKEditor }, { default: ClassicEditor }] = await Promise.all([
           import("@ckeditor/ckeditor5-react"),
           import("@ckeditor/ckeditor5-build-classic"),
         ]);
         
-        console.log("CKEditor loaded successfully");
         
         // Create a component that combines CKEditor with ClassicEditor
         const EditorComponent = (props: any) => (
@@ -138,11 +137,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         }}
         onChange={(_, editor) => {
           const data = editor.getData();
-          console.log("CKEditor onChange:", data);
           onChange(data);
         }}
         onReady={(editor) => {
-          console.log("CKEditor ready");
           
           // Set minimum height
           editor.editing.view.change((writer) => {

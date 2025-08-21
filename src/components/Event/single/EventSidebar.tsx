@@ -39,7 +39,6 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
   const capacity = event?.maxAttendees ?? 100;
   const registrationPercentage = Math.round((registered / capacity) * 100);
 
-  console.log("event", event.registrationFee);
 
   return (
     <div className="space-y-6">
