@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
+import { api } from "@/config";
 
 // Types
 import { Course } from "@/type";
@@ -10,9 +11,6 @@ interface CourseState {
   isLoading: boolean;
   error: string | null;
 }
-
-// const API_BASE_URL = "http://localhost:5000/api/v1";
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_API!;
 
 const initialState: CourseState = {
   courses: [],
@@ -26,91 +24,106 @@ const initialState: CourseState = {
 // ----------------------
 
 // Get all courses
-export const fetchCourses = createAsyncThunk("courses/fetchAll", async (_, thunkAPI) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/course`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch courses");
-    return data.data || [];
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+export const fetchCourses = createAsyncThunk(
+  "courses/fetchAll",
+  async (_, thunkAPI) => {
+    try {
+      const res = await fetch(`${api.baseUrl}/course`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to fetch courses");
+      return data.data || [];
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Get single course
-export const fetchSingleCourse = createAsyncThunk("courses/fetchOne", async (id: string, thunkAPI) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/course/${id}`);
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to fetch course");
-    return data.data;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+export const fetchSingleCourse = createAsyncThunk(
+  "courses/fetchOne",
+  async (id: string, thunkAPI) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/course/${id}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to fetch course");
+      return data.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Add course
-export const addCourse = createAsyncThunk("courses/add", async (formData: FormData, thunkAPI) => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
+export const addCourse = createAsyncThunk(
+  "courses/add",
+  async (formData: FormData, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/course`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        // Don't set Content-Type for FormData, let the browser set it
-      },
-      body: formData,
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to add course");
-    return data.data;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    try {
+      const res = await fetch(`${API_BASE_URL}/course`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Don't set Content-Type for FormData, let the browser set it
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to add course");
+      return data.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Update course
-export const updateCourse = createAsyncThunk("courses/update", async ({ id, formData }: { id: string; formData: FormData }, thunkAPI) => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
+export const updateCourse = createAsyncThunk(
+  "courses/update",
+  async ({ id, formData }: { id: string; formData: FormData }, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/course/${id}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        // Don't set Content-Type for FormData, let the browser set it
-      },
-      body: formData,
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to update course");
-    return data.data;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    try {
+      const res = await fetch(`${API_BASE_URL}/course/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // Don't set Content-Type for FormData, let the browser set it
+        },
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to update course");
+      return data.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // Delete course
-export const deleteCourse = createAsyncThunk("courses/delete", async (id: string, thunkAPI) => {
-  const cookies = new Cookies();
-  const token = cookies.get("accessToken");
+export const deleteCourse = createAsyncThunk(
+  "courses/delete",
+  async (id: string, thunkAPI) => {
+    const cookies = new Cookies();
+    const token = cookies.get("accessToken");
 
-  try {
-    const res = await fetch(`${API_BASE_URL}/course/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) throw new Error("Failed to delete course");
-    return id;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.message);
+    try {
+      const res = await fetch(`${API_BASE_URL}/course/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to delete course");
+      return id;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
 // ----------------------
 // Slice
@@ -168,7 +181,9 @@ const coursesSlice = createSlice({
       })
       .addCase(updateCourse.fulfilled, (state, action) => {
         // Update the course in the courses array
-        const index = state.courses.findIndex(course => course._id === action.payload._id);
+        const index = state.courses.findIndex(
+          (course) => course._id === action.payload._id
+        );
         if (index !== -1) {
           state.courses[index] = action.payload;
         }
@@ -190,7 +205,9 @@ const coursesSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteCourse.fulfilled, (state, action) => {
-        state.courses = state.courses.filter((course) => course._id !== action.payload);
+        state.courses = state.courses.filter(
+          (course) => course._id !== action.payload
+        );
         state.isLoading = false;
         state.error = null;
       })

@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
-
-// const API_BASE_URL = "http://localhost:5000/api/v1";
-const API_BASE_URL = process.env.NEXT_PUBLIC_BASE_API!;
+import { api } from "@/config";
 
 // Types
 import { CustomEvent, Speaker } from "@/type";
@@ -42,7 +40,7 @@ export const fetchSingleEvent = createAsyncThunk(
   "events/fetchOne",
   async (id: string, thunkAPI) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/event/${id}`);
+      const res = await fetch(`${api.baseUrl}/event/${id}`);
       const event = await res.json();
       return event.data;
     } catch (error: any) {

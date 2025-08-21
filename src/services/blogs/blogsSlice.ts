@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
 import { handleNetworkError } from "@/lib/utils";
-
-// const API_BASE_URL = "http://localhost:5000/api/v1";
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+import { api } from "@/config";
 
 // ----------------------
 // Types
@@ -34,7 +32,7 @@ export const fetchBlogs = createAsyncThunk(
   "blogs/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/blog`, {});
+      const res = await fetch(`${api.baseUrl}/blog`, {});
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to fetch blogs");
       return data.data.blogs || [];
@@ -53,7 +51,7 @@ export const fetchAllBlogsForAdmin = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/blog/admin/all`, {
+      const res = await fetch(`${api.baseUrl}/blog/admin/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +74,7 @@ export const fetchUserBlogs = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/blog/author`, {
+      const res = await fetch(`${api.baseUrl}/blog/author`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -97,7 +95,7 @@ export const fetchSingleBlog = createAsyncThunk(
   "blogs/fetchOne",
   async (id: string, thunkAPI) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/blog/${id}`);
+      const res = await fetch(`${api.baseUrl}/blog/${id}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to fetch blog");
       return data.data.blog;
@@ -115,7 +113,7 @@ export const addBlog = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/blog`, {
+      const res = await fetch(`${api.baseUrl}/blog`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -140,7 +138,7 @@ export const updateBlog = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
+      const res = await fetch(`${api.baseUrl}/blog/${id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -168,7 +166,7 @@ export const updateBlogStatus = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/blog/${id}/status`, {
+      const res = await fetch(`${api.baseUrl}/blog/${id}/status`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -195,7 +193,7 @@ export const deleteBlog = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/blog/${id}`, {
+      const res = await fetch(`${api.baseUrl}/blog/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

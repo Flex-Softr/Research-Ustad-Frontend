@@ -2,19 +2,20 @@
 const nextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: "10mb",
     },
   },
+  swcMinify: false,
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "i.ibb.co",
-      },      
+      },
       {
         protocol: "https",
         hostname: "i.ibb.co.com",
-      },      
+      },
       {
         protocol: "https",
         hostname: "res.cloudinary.com",
@@ -30,7 +31,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "www.shutterstock.com",
-      },      
+      },
       {
         protocol: "http",
         hostname: "localhost",
