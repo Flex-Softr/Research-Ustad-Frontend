@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Star,
   Youtube,
+  FacebookIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -55,7 +56,6 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <Link href="/" className="group">
-            
               <h2 className="font-bold text-[28px] flex items-center text-[#C99589] mb-6">
                 Research{" "}
                 <span className="text-white group-hover:text-brand-secondary transition-colors duration-300">
@@ -77,16 +77,7 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-4">
-              <li>
-                <a
-                  href="#features"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Features
-                </a>
-              </li>
-              <li>
+            <li>
                 <a
                   href="#about"
                   className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
@@ -95,6 +86,16 @@ const Footer = () => {
                   About Us
                 </a>
               </li>
+              <li>
+                <a
+                  href="#services"
+                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
+                >
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  Features
+                </a>
+              </li>
+          
               <li>
                 <a
                   href="#team"
@@ -135,18 +136,26 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-brand-secondary mt-1 flex-shrink-0" />
                 <p className="text-gray-300 text-sm leading-relaxed">
-                  Administrative Building (Ground Floor) Dhaka-1000, Bangladesh
+                Nabinagar, Savar, Dhaka, Bangladesh
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-brand-secondary flex-shrink-0" />
-                <p className="text-gray-300 text-sm">Phone: +88-09666911463</p>
+                <p className="text-gray-300 text-sm">
+                  WhatsApp: +880 1724-653054
+                </p>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-brand-secondary flex-shrink-0" />
                 <p className="text-gray-300 text-sm">
-                  Email: vcoffice@du.ac.bd, registrar@du.ac.bd
+                  Email: info@researchustad.org
                 </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <FacebookIcon className="h-5 w-5 text-brand-secondary flex-shrink-0" />
+                <a target="_blank" href="https://www.facebook.com/groups/research.ustadbd/" className="text-gray-300 text-sm">
+                  FaceBook Group
+                </a>
               </div>
 
               {/* Social Media Section */}
@@ -156,14 +165,38 @@ const Footer = () => {
                 </p>
                 <div className="flex space-x-3">
                   <a
-                    href="#"
+                    href="https://www.facebook.com/ResearchUstad/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded flex items-center justify-center transition-all duration-300 group"
+                    title="Facebook Page"
                   >
                     <Facebook className="h-4 w-4 text-white" />
                   </a>
                   <a
-                    href="#"
+                    href="https://x.com/ResearchUstad"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-black hover:bg-gray-800 rounded flex items-center justify-center transition-all duration-300 group"
+                    title="Twitter/X"
+                  >
+                    <Twitter className="h-4 w-4 text-white" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/company/researchustad"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-blue-700 hover:bg-blue-800 rounded flex items-center justify-center transition-all duration-300 group"
+                    title="LinkedIn"
+                  >
+                    <Linkedin className="h-4 w-4 text-white" />
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@ResearchUstad"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 bg-red-600 hover:bg-red-700 rounded flex items-center justify-center transition-all duration-300 group"
+                    title="YouTube"
                   >
                     <Youtube className="h-4 w-4 text-white" />
                   </a>
@@ -180,7 +213,7 @@ const Footer = () => {
               © 2025 ResearchUstad. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a
+              {/* <a
                 href="#"
                 className="text-gray-300 hover:text-brand-secondary text-sm transition-colors duration-300"
               >
@@ -197,7 +230,7 @@ const Footer = () => {
                 className="text-gray-300 hover:text-brand-secondary text-sm transition-colors duration-300"
               >
                 Cookie Policy
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

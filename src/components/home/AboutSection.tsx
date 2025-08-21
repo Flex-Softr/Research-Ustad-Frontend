@@ -25,14 +25,14 @@ const AboutSection = () => {
               comprehensive support tailored to your academic needs.
             </p>
             
-            <div className="pt-4">
+            {/* <div className="pt-4">
               <Button
                 variant="primary"
                 size="lg"
               >
                 DISCOVER OUR APPROACH
               </Button>
-            </div>
+            </div> */}
           </div>
           
           {/* Right Content - Image */}

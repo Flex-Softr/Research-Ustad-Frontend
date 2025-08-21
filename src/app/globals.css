@@ -256,6 +256,12 @@
   color: #6b7280 !important;
 }
 
+
+
+html{
+  scroll-behavior: smooth;
+}
+
 /* globals.css */
 .blog-content {
   font-family: "Siyam Rupali", sans-serif;

@@ -2,27 +2,23 @@ import { Button, Container, SectionHeader } from "@/components/ui/core";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 
 const contactInfo = [
   {
     icon: MapPin,
     title: "Our Location",
-    details: ["123 Research Avenue, Academic City, RC 45678"],
+    details: ["Nabinagar, Savar, Dhaka, Bangladesh"],
   },
   {
     icon: Mail,
     title: "Email Us",
-    details: ["contact@researchustad.com"],
+    details: ["info@researchustad.org"],
   },
   {
-    icon: Phone,
-    title: "Call Us",
-    details: ["+1 (555) 123-4567"],
-  },
-  {
-    icon: Clock,
-    title: "Office Hours",
-    details: ["Mon-Fri: 9:00 AM - 6:00 PM", "Sat: 10:00 AM - 4:00 PM"],
+    icon: FaWhatsapp,
+    title: "WhatsApp",
+    details: ["+880 1724-653054"],
   },
 ];
 

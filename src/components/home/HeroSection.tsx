@@ -77,9 +77,11 @@ const HeroSection = () => {
                 </Button>
               </Link>
 
-              <Button variant="secondary" size="lg">
-                MEET OUR MENTORS
-              </Button>
+              <Link href="/team-members">
+                <Button variant="secondary" size="lg">
+                  MEET OUR MENTORS
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

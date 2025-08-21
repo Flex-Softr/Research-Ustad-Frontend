@@ -7,26 +7,33 @@ import EventsSection from "@/components/home/EventSection";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServiceSection";
 import AboutSection from "@/components/home/AboutSection";
-import CoreValuesSection from "@/components/home/CoreValuesSection";
-import ImpactSection from "@/components/home/ImpactSection";
-
 import TeamSection from "@/components/home/TeamSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
 
 const HomePage = () => {
   return (
     <div className="space-y-0">
       <HeroSection />
-      <AboutSection />
-      {/* <CoreValuesSection /> */}
-      {/* <ImpactSection /> */}
-      <ServicesSection />
-      <CoursesSection />
-      <EventsSection />
-      <TeamSection />
-      <TestimonialsSection />
-      <BlogSection />
-      <ContactSection />
+      <div id="about">
+        <AboutSection />
+      </div>
+      <div id="services">
+        <ServicesSection />
+      </div>
+      <div id="courses">
+        <CoursesSection />
+      </div>
+      <div id="events">
+        <EventsSection />
+      </div>
+      <div id="team">
+        <TeamSection />
+      </div>
+      <div id="blog">
+        <BlogSection />
+      </div>
+      <div id="contact">
+        <ContactSection />
+      </div>
     </div>
   );
 };
