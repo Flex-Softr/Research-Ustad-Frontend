@@ -6,7 +6,7 @@ const page = async () => {
     // Fetch approved research papers from API
     const papersData = await GetAllResearchPaperPublic();
     
-    // console.log("papersData", papersData);
+    console.log("papersData", papersData);
     
     // Handle different response scenarios
     let papers = [];
