@@ -49,7 +49,7 @@ const HeroSection = () => {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-[#3A5A78]/60"></div>
+        <div className="absolute inset-0 bg-brand-primary/60"></div>
       </div>
 
       {/* Main Content */}

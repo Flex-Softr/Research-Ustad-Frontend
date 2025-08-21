@@ -6,6 +6,7 @@ import UserAvatar from "@/components/shared/UserAvatar";
 import Image from "next/image";
 import { GetAllResearchAssociate } from "@/services/reserarchers";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+import Link from "next/link";
 
 interface TeamMember {
   id: string;
@@ -21,9 +22,9 @@ const TeamSection = () => {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [categories, setCategories] = useState<{ id: string; label: string }[]>([
-    { id: "all", label: "All" }
-  ]);
+  const [categories, setCategories] = useState<{ id: string; label: string }[]>(
+    [{ id: "all", label: "All" }]
+  );
 
   // Load team members data from API
   useEffect(() => {
@@ -33,25 +34,33 @@ const TeamSection = () => {
         setError(null);
         const response = await GetAllResearchAssociate();
 
-        if (response?.success && response?.data && Array.isArray(response.data)) {
+        if (
+          response?.success &&
+          response?.data &&
+          Array.isArray(response.data)
+        ) {
           // Transform API data to match TeamMember interface
           const transformedMembers = response.data.map((member: any) => ({
             id: member._id,
             name: member.fullName || "Unknown Member",
-            title: member.designation || member.role || "Team Member",
-            institution: member.current?.institution || "Not specified",
+            title: member.designation || member.role || "",
+            institution: member.current?.institution || "",
             image: member.image || "/default-avatar.jpg",
             category: member.designation || member.role || "Other",
           }));
 
-          
           // Generate categories dynamically from the data using designation
-          const uniqueCategories = [...new Set(transformedMembers.map(m => m.category))];
+          const uniqueCategories = [
+            ...new Set(transformedMembers.map((m) => m.category)),
+          ];
           const dynamicCategories = [
             { id: "all", label: "All" },
-            ...uniqueCategories.map(cat => ({ id: String(cat), label: String(cat) }))
+            ...uniqueCategories.map((cat) => ({
+              id: String(cat),
+              label: String(cat),
+            })),
           ];
-          
+
           setCategories(dynamicCategories);
           setMembers(transformedMembers);
         } else if (response?.data && Array.isArray(response.data)) {
@@ -59,21 +68,24 @@ const TeamSection = () => {
           const transformedMembers = response.data.map((member: any) => ({
             id: member._id,
             name: member.fullName || "Unknown Member",
-            title: member.designation || member.role || "Team Member",
-            institution: member.current?.institution || "Not specified",
+            title: member.designation || member.role || "",
+            institution: member.current?.institution || "",
             image: member.image || "/default-avatar.jpg",
             category: member.designation || member.role || "Other",
           }));
 
-          // console.log("Transformed members:", transformedMembers);
-          
           // Generate categories dynamically from the data using designation
-          const uniqueCategories = [...new Set(transformedMembers.map(m => m.category))];
+          const uniqueCategories = [
+            ...new Set(transformedMembers.map((m) => m.category)),
+          ];
           const dynamicCategories = [
             { id: "all", label: "All" },
-            ...uniqueCategories.map(cat => ({ id: String(cat), label: String(cat) }))
+            ...uniqueCategories.map((cat) => ({
+              id: String(cat),
+              label: String(cat),
+            })),
           ];
-          
+
           // console.log("Dynamic categories:", dynamicCategories);
           setCategories(dynamicCategories);
           setMembers(transformedMembers);
@@ -98,11 +110,6 @@ const TeamSection = () => {
       ? members.slice(0, 3) // Show first 3 items by default without filtering
       : members.filter((member) => member.category === activeCategory);
 
-  // console.log("Active category:", activeCategory);
-  // console.log("Filtered members count:", filteredMembers.length);
-  // console.log("All members count:", members.length);
-  // console.log("Members with categories:", members.map(m => ({ name: m.name, category: m.category })));
-
   // Show loading state
   if (loading) {
     return (
@@ -113,7 +120,11 @@ const TeamSection = () => {
             description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
           />
           <div className="flex items-center justify-center h-64">
-            <LoadingSpinner size="md" variant="border" text="Loading team members..." />
+            <LoadingSpinner
+              size="md"
+              variant="border"
+              text="Loading team members..."
+            />
           </div>
         </Container>
       </section>
@@ -131,9 +142,11 @@ const TeamSection = () => {
           />
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <p className="text-red-600 mb-4">Error loading team members: {error}</p>
-              <Button 
-                onClick={() => window.location.reload()} 
+              <p className="text-red-600 mb-4">
+                Error loading team members: {error}
+              </p>
+              <Button
+                onClick={() => window.location.reload()}
                 variant="primary"
                 className="px-6 py-3"
               >
@@ -158,8 +171,8 @@ const TeamSection = () => {
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
               <p className="text-gray-600 mb-4">No team members found</p>
-              <Button 
-                onClick={() => window.location.reload()} 
+              <Button
+                onClick={() => window.location.reload()}
                 variant="primary"
                 className="px-6 py-3"
               >
@@ -184,7 +197,9 @@ const TeamSection = () => {
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories?.map((category) => {
-            const categoryCount = members.filter(member => member.category === category.id).length;
+            const categoryCount = members.filter(
+              (member) => member.category === category.id
+            ).length;
             return (
               <Button
                 key={category.id}
@@ -237,8 +252,12 @@ const TeamSection = () => {
                 <h3 className="text-xl font-bold text-gray-900">
                   {member?.name}
                 </h3>
-                <p className="text-base text-gray-600">{member?.title}</p>
-                <p className="text-sm text-gray-500">{member?.institution}</p>
+                {member?.title && (
+                  <p className="text-base text-gray-600">{member.title}</p>
+                )}
+                {member?.institution && (
+                  <p className="text-sm text-gray-500">{member.institution}</p>
+                )}
               </div>
             </div>
           ))}
@@ -246,9 +265,11 @@ const TeamSection = () => {
 
         {/* Call to Action Button */}
         <div className="text-center">
-          <Button variant="primary" size="md" className="px-8 py-4">
-            VIEW FULL FACULTY
-          </Button>
+          <Link href="/team-members">
+            <Button variant="primary" size="md" className="px-8 py-4">
+              VIEW FULL FACULTY
+            </Button>
+          </Link>
         </div>
       </Container>
     </section>

@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getDashboardUrl } from "@/lib/dashboardUtils";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -116,11 +117,12 @@ const Navbar = () => {
           : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto hidden lg:flex justify-between items-center py-4 px-6">
-        <Link href="/" className="group">
-          <h2 className="font-bold text-[22px] flex items-center transition-colors text-[#3A5A78] group-hover:text-[#C99589] duration-300">
+      <div className="max-w-7xl mx-auto hidden lg:flex justify-between items-center px-6">
+        <Link href="/" className="group flex items-center gap-2">
+        <Image src="/logo.png" alt="logo" width={1000} height={100} className="w-20 h-20" />
+          <h2 className="font-bold text-[22px] flex items-center transition-colors text-brand-primary group-hover:text-brand-secondary duration-300">
             Research{" "}
-            <span className="group-hover:text-[#3A5A78] text-[#C99589] transition-colors duration-300">
+            <span className="group-hover:text-brand-primary text-brand-secondary transition-colors duration-300">
               Ustad
             </span>
           </h2>
@@ -138,7 +140,7 @@ const Navbar = () => {
                 <Button
                   variant="primary"
                   size="md"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 cursor-pointer"
                 >
                   <User className="w-4 h-4" />
                   Dashboard
@@ -169,7 +171,7 @@ const Navbar = () => {
               <Button
                 variant="primary"
                 size="md"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 cursor-pointer"
               >
                 <LogIn className="w-4 h-4" />
                 Login
@@ -184,9 +186,9 @@ const Navbar = () => {
         <div className="p-4 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100">
           <div className="flex justify-between items-center">
             <Link href="/" className="group">
-              <h2 className="font-bold text-[#C99589] text-[20px] flex items-center transition-colors duration-300">
+              <h2 className="font-bold text-brand-secondary text-[20px] flex items-center transition-colors duration-300">
                 Research
-                <span className="text-[#3A5A78] group-hover:text-[#C99589] transition-colors duration-300">
+                <span className="text-brand-primary group-hover:text-brand-secondary transition-colors duration-300">
                   Ustad
                 </span>
               </h2>
@@ -199,7 +201,7 @@ const Navbar = () => {
                     <Button
                       variant="secondary"
                       size="sm"
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 cursor-pointer"
                     >
                       <User className="w-3 h-3" />
                       <span className="text-sm">Dashboard</span>

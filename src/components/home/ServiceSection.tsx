@@ -7,6 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Container, SectionHeader } from "@/components/ui/core";
+import Link from "next/link";
 
 const wings = [
   {
@@ -21,6 +22,7 @@ const wings = [
       "International Conferences",
     ],
     status: "Active",
+    link: "/allpapers",
   },
   {
     icon: TrendingUp,
@@ -34,6 +36,7 @@ const wings = [
       "LLM & ChatGPT",
     ],
     status: "Active",
+    link: "/trending",
   },
   {
     icon: GraduationCap,
@@ -47,6 +50,7 @@ const wings = [
       "Application Support",
     ],
     status: "Coming Soon",
+    link: "/higher-study",
   },
   {
     icon: Globe,
@@ -60,6 +64,7 @@ const wings = [
       "Communication Skills",
     ],
     status: "Coming Soon",
+    link: "/language",
   },
 ];
 
@@ -153,9 +158,11 @@ const ServicesSection = () => {
 
                 {/* Action Button */}
                 <div className="flex w-full items-center justify-between pt-6 border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300">
-                  <Button className="w-full text-sm font-semibold px-4 py-2 h-auto bg-brand-primary hover:bg-brand-primary/90 text-white transition-all duration-300">
-                    Explore Now
-                  </Button>
+                  <Link href={wing.link} className="w-full">
+                    <Button className="w-full cursor-pointer text-sm font-semibold px-4 py-2 h-auto bg-brand-primary hover:bg-brand-primary/90 text-white transition-all duration-300">
+                      Explore Now
+                    </Button>
+                  </Link>
 
                   {/* Hover Indicator */}
                   <div

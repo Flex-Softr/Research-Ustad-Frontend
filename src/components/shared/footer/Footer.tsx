@@ -1,6 +1,5 @@
 import {
   Facebook,
-  Github,
   Linkedin,
   Twitter,
   Mail,
@@ -12,14 +11,13 @@ import {
   FacebookIcon,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
     <footer className="relative bg-gradient-to-br from-brand-primary via-black-400/30 to-brand-primary overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        {/* Moving Background Pattern */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
 
         {/* Floating Orbs */}
         <div className="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-brand-primary/20 to-brand-secondary/20 rounded-full blur-3xl animate-pulse"></div>
@@ -55,9 +53,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <Link href="/" className="group">
-              <h2 className="font-bold text-[28px] flex items-center text-[#C99589] mb-6">
-                Research{" "}
+            <Link href="/" className="group flex items-center gap-2">
+            <Image src="/logo.png" alt="Research Ustad" width={80} height={80} />
+              <h2 className="font-bold text-[28px] flex items-center text-brand-secondary">
+                Research
                 <span className="text-white group-hover:text-brand-secondary transition-colors duration-300">
                   Ustad
                 </span>
@@ -160,45 +159,72 @@ const Footer = () => {
 
               {/* Social Media Section */}
               <div className="mt-6">
-                <p className="text-white font-semibold mb-3">
-                  Stay Connected with Us:
+                <p className="text-white font-semibold mb-4 text-sm">
+                  Follow Us On Social Media:
                 </p>
-                <div className="flex space-x-3">
+                <div className="flex space-x-4">
                   <a
                     href="https://www.facebook.com/ResearchUstad/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded flex items-center justify-center transition-all duration-300 group"
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group hover:scale-110 overflow-hidden"
                     title="Facebook Page"
                   >
-                    <Facebook className="h-4 w-4 text-white" />
+                    <Image 
+                      src="/icons/fb.jpg" 
+                      alt="Facebook" 
+                      width={40} 
+                      height={40} 
+                      className="object-cover rounded-full"
+                    />
                   </a>
+                  
                   <a
                     href="https://x.com/ResearchUstad"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-black hover:bg-gray-800 rounded flex items-center justify-center transition-all duration-300 group"
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group hover:scale-110 overflow-hidden"
                     title="Twitter/X"
                   >
-                    <Twitter className="h-4 w-4 text-white" />
+                    <Image 
+                      src="/icons/twitter2.jpg" 
+                      alt="Twitter/X" 
+                      width={40} 
+                      height={40} 
+                      className="object-cover rounded-full"
+                    />
                   </a>
+                  
                   <a
                     href="https://www.linkedin.com/company/researchustad"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-blue-700 hover:bg-blue-800 rounded flex items-center justify-center transition-all duration-300 group"
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group hover:scale-110 overflow-hidden"
                     title="LinkedIn"
                   >
-                    <Linkedin className="h-4 w-4 text-white" />
+                    <Image 
+                      src="/icons/linkedin.jpg" 
+                      alt="LinkedIn" 
+                      width={40} 
+                      height={40} 
+                      className="object-cover rounded-full"
+                    />
                   </a>
+                  
                   <a
                     href="https://www.youtube.com/@ResearchUstad"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-red-600 hover:bg-red-700 rounded flex items-center justify-center transition-all duration-300 group"
+                    className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 group hover:scale-110 overflow-hidden"
                     title="YouTube"
                   >
-                    <Youtube className="h-4 w-4 text-white" />
+                    <Image 
+                      src="/icons/youtube.png" 
+                      alt="YouTube" 
+                      width={40} 
+                      height={40} 
+                      className="object-cover rounded-full"
+                    />
                   </a>
                 </div>
               </div>

@@ -20,19 +20,9 @@ import { useRouter } from "next/navigation";
 // Role options array - must match backend enum values
 const roleOptions = ["user", "admin"];
 
-// Designation options array - must match backend enum values
-const designationOptions = [
-  "Advisor",
-  "Lead",
-  "Mentor_Panel",
-  "Lead_Research_Associate",
-  "Research_Associate",
-];
-
 const CreateMemberForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const [selectedDesignation, setSelectedDesignation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
   const {
@@ -59,7 +49,7 @@ const CreateMemberForm: React.FC = () => {
     }
 
     if (!data.designation) {
-      toast.error("Please select a designation");
+      toast.error("Please enter a designation");
       setLoading(false);
       return;
     }
@@ -79,7 +69,6 @@ const CreateMemberForm: React.FC = () => {
         router.push("/admin/dashboard/allusers");
         reset();
         setSelectedRole("");
-        setSelectedDesignation("");
         setShowPassword(false);
         toast.success("Member created successfully");
       } else {
@@ -288,7 +277,7 @@ const CreateMemberForm: React.FC = () => {
             )}
           </div>
 
-          {/* Designation Field */}
+          {/* Designation Field - Now an Input */}
           <div className="space-y-2">
             <Label
               htmlFor="designation"
@@ -296,35 +285,26 @@ const CreateMemberForm: React.FC = () => {
             >
               Designation *
             </Label>
-            <Select
-              value={selectedDesignation}
-              onValueChange={(value) => {
-                setSelectedDesignation(value);
-                setValue("designation", value);
-              }}
-            >
-              <SelectTrigger className={`w-full ${
-                errors.designation ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "focus:border-blue-500 focus:ring-blue-500/20"
-              }`}>
-                <SelectValue>
-                  {selectedDesignation || "Select designation"}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                {designationOptions.map((designation) => (
-                  <SelectItem key={designation} value={designation}>
-                    {designation.replace(/_/g, " ")}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {/* Hidden input for form validation */}
-            <input
-              type="hidden"
+            <Input
+              id="designation"
+              type="text"
+              placeholder="Enter designation (e.g., Research Associate, Lead, Advisor)"
               {...register("designation", {
                 required: "Designation is required",
-                validate: (value) => value && value.trim() !== "" || "Please select a designation"
+                minLength: {
+                  value: 2,
+                  message: "Designation must be at least 2 characters",
+                },
+                maxLength: {
+                  value: 50,
+                  message: "Designation cannot exceed 50 characters",
+                },
               })}
+              className={`transition-all duration-200 ${
+                errors.designation
+                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                  : "focus:border-blue-500 focus:ring-blue-500/20"
+              }`}
             />
             {errors.designation && (
               <p className="text-red-500 text-sm flex items-center gap-1">
@@ -332,6 +312,9 @@ const CreateMemberForm: React.FC = () => {
                 {errors.designation.message}
               </p>
             )}
+            <div className="text-xs text-gray-500 mt-1">
+              Enter the member's designation or role in the research team
+            </div>
           </div>
 
           {/* Submit Button */}

@@ -7,8 +7,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-[#3A5A78] text-white hover:bg-[#2d4a65] shadow-sm rounded-sm",
-        secondary: "bg-white text-[#3A5A78]  shadow-sm rounded-sm",
+        primary: "bg-brand-primary text-white cursor-pointer hover:bg-brand-secondary shadow-sm rounded-sm",
+        secondary: "bg-white text-brand-secondary hover:bg-brand-primary hover:text-white cursor-pointer shadow-sm rounded-sm",
         disabled: "bg-gray-300 text-gray-600 rounded-sm cursor-not-allowed",
       },
       size: {
