@@ -185,11 +185,12 @@ const CoursesSection = () => {
                   height={1000}
                 />
                 <div className="absolute top-4 left-4 flex flex-col gap-2">
-                  <span className="bg-[var(--color-brand-primary)] text-white px-3 py-1 rounded-full text-xs font-semibold">
+                  <span className="bg-brand-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
                     {getCategoryName(course.category)}
                   </span>
                   {course.isFree && (
-                    <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    <span className="bg-green-500 w-fit
+                     text-white px-3 py-1 rounded-full text-xs font-semibold">
                       Free
                     </span>
                   )}

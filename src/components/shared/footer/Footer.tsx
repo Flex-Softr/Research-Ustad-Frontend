@@ -152,7 +152,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <FacebookIcon className="h-5 w-5 text-brand-secondary flex-shrink-0" />
-                <a target="_blank" href="https://www.facebook.com/groups/research.ustadbd/" className="text-gray-300 text-sm">
+                <a target="_blank" href="https://www.facebook.com/groups/research.ustadbd/" className="text-gray-300 text-sm hover:underline">
                   FaceBook Group
                 </a>
               </div>
@@ -171,7 +171,7 @@ const Footer = () => {
                     title="Facebook Page"
                   >
                     <Image 
-                      src="/icons/fb.jpg" 
+                      src="/icons/2021_Facebook_icon.svg" 
                       alt="Facebook" 
                       width={40} 
                       height={40} 
@@ -187,7 +187,7 @@ const Footer = () => {
                     title="Twitter/X"
                   >
                     <Image 
-                      src="/icons/twitter2.jpg" 
+                      src="/icons/twitter_2.svg.png" 
                       alt="Twitter/X" 
                       width={40} 
                       height={40} 
@@ -203,7 +203,7 @@ const Footer = () => {
                     title="LinkedIn"
                   >
                     <Image 
-                      src="/icons/linkedin.jpg" 
+                      src="/icons/LinkedIn_icon.svg" 
                       alt="LinkedIn" 
                       width={40} 
                       height={40} 

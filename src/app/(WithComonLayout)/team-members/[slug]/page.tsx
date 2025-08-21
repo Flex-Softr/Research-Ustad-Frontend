@@ -23,7 +23,7 @@ const SingleMemberPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("publications");
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
@@ -58,7 +58,7 @@ const SingleMemberPage = () => {
             publications: response?.data?.publications || [], // This will be populated from the API
             blogs: response?.data?.blogs || [], // This will be populated from the API
           };
-          
+
           setMember(transformedMember);
         } else if (response?.data) {
           // If no success flag but data exists
@@ -83,7 +83,7 @@ const SingleMemberPage = () => {
             publications: response?.data?.publications || [],
             blogs: response?.data?.blogs || [],
           };
-          
+
           setMember(transformedMember);
         } else {
           setError("Member not found");
@@ -157,47 +157,79 @@ const SingleMemberPage = () => {
     );
   }
 
+  // Check if there are any publications, ongoing papers, or blogs
+  const hasPublishedPapers =
+    (member.publications?.filter(
+      (pub) => pub.status === "published" || pub.status === "Published"
+    ).length || 0) > 0;
+  const hasOngoingPapers =
+    (member.publications?.filter(
+      (pub) => pub.status !== "published" && pub.status !== "Published"
+    ).length || 0) > 0;
+  const hasBlogs = (member.blogs?.length || 0) > 0;
+
+  // Only show tabs if there's content to display
+  const hasContent = hasPublishedPapers || hasOngoingPapers || hasBlogs;
+
   const tabs = [
     {
       id: "publications",
       label: "Publications",
-      count: member.publications?.filter(pub => (pub.status === "published" || pub.status === "Published")).length || 0,
+      count:
+        member.publications?.filter(
+          (pub) => pub.status === "published" || pub.status === "Published"
+        ).length || 0,
+      show: hasPublishedPapers,
     },
     {
       id: "ongoing",
       label: "Ongoing Papers",
-      count: member.publications?.filter(pub => (pub.status !== "published" && pub.status !== "Published")).length || 0,
+      count:
+        member.publications?.filter(
+          (pub) => pub.status !== "published" && pub.status !== "Published"
+        ).length || 0,
+      show: hasOngoingPapers,
     },
-    { id: "blogs", label: "Blog Posts", count: member.blogs?.length || 0 },
+    {
+      id: "blogs",
+      label: "Blog Posts",
+      count: member.blogs?.length || 0,
+      show: hasBlogs,
+    },
   ];
+
+  // Filter tabs to only show those with content
+  const visibleTabs = tabs.filter((tab) => tab.show);
 
   // Get current tab data and pagination info
   const getCurrentTabData = () => {
     switch (activeTab) {
       case "publications":
-        const publishedPapers = member.publications?.filter(
-          pub => (pub.status === "published" || pub.status === "Published")
-        ) || [];
+        const publishedPapers =
+          member.publications?.filter(
+            (pub) => pub.status === "published" || pub.status === "Published"
+          ) || [];
         return {
           data: publishedPapers,
           totalItems: publishedPapers.length,
-          hasPagination: publishedPapers.length > itemsPerPage
+          hasPagination: publishedPapers.length > itemsPerPage,
         };
       case "ongoing":
-        const ongoingPapers = member.publications?.filter(
-          pub => (pub.status !== "published" && pub.status !== "Published")
-        ) || [];
+        const ongoingPapers =
+          member.publications?.filter(
+            (pub) => pub.status !== "published" && pub.status !== "Published"
+          ) || [];
         return {
           data: ongoingPapers,
           totalItems: ongoingPapers.length,
-          hasPagination: ongoingPapers.length > itemsPerPage
+          hasPagination: ongoingPapers.length > itemsPerPage,
         };
       case "blogs":
         const blogs = member.blogs || [];
         return {
           data: blogs,
           totalItems: blogs.length,
-          hasPagination: blogs.length > itemsPerPage
+          hasPagination: blogs.length > itemsPerPage,
         };
       default:
         return { data: [], totalItems: 0, hasPagination: false };
@@ -233,9 +265,10 @@ const SingleMemberPage = () => {
     return (
       <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
         <div className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of {totalItems} items
+          Showing {startIndex + 1} to {Math.min(endIndex, totalItems)} of{" "}
+          {totalItems} items
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -247,7 +280,7 @@ const SingleMemberPage = () => {
             <ChevronLeft className="h-4 w-4" />
             Previous
           </Button>
-          
+
           <div className="flex items-center gap-1">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <Button
@@ -261,7 +294,7 @@ const SingleMemberPage = () => {
               </Button>
             ))}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
@@ -300,40 +333,42 @@ const SingleMemberPage = () => {
             {/* Research Statistics */}
             <ResearchStats member={member} />
 
-            {/* Tabs Section */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100">
-              {/* Tab Navigation */}
-              <div className="border-b border-gray-200">
-                <nav className="flex space-x-8 px-6" aria-label="Tabs">
-                  {tabs.map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                        activeTab === tab.id
-                          ? "border-brand-secondary text-brand-secondary"
-                          : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span>{tab.label}</span>
-                        {tab.count > 0 && (
-                          <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-full">
-                            {tab.count}
-                          </span>
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </nav>
-              </div>
+            {/* Tabs Section - Only show if there's content */}
+            {hasContent && (
+              <div className="bg-white rounded-xl shadow-lg border border-gray-100">
+                {/* Tab Navigation */}
+                <div className="border-b border-gray-200">
+                  <nav className="flex space-x-8 px-6" aria-label="Tabs">
+                    {visibleTabs.map((tab) => (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                          activeTab === tab.id
+                            ? "border-brand-secondary text-brand-secondary"
+                            : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span>{tab.label}</span>
+                          {tab.count > 0 && (
+                            <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-full">
+                              {tab.count}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </nav>
+                </div>
 
-              {/* Tab Content */}
-              <div className="">
-                {renderTabContent()}
-                {renderPagination()}
+                {/* Tab Content */}
+                <div className="">
+                  {renderTabContent()}
+                  {renderPagination()}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Sidebar */}

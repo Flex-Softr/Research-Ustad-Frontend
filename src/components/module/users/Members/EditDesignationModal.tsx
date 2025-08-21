@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Combobox } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
 import { UpdateMember } from "@/services/reserarchers";
 import { toast } from "sonner";
 import { TResearchAssociate } from "@/type";
@@ -22,42 +22,34 @@ interface EditDesignationModalProps {
   onSuccess: (updatedDesignation?: string) => void;
 }
 
-const designationOptions = [
-  { value: "Advisor", label: "Advisor" },
-  { value: "Lead", label: "Lead" },
-  { value: "Mentor_Panel", label: "Mentor Panel" },
-  { value: "Lead_Research_Associate", label: "Lead Research Associate" },
-  { value: "Research_Associate", label: "Research Associate" },
-];
-
 export default function EditDesignationModal({
   member,
   isOpen,
   onClose,
   onSuccess,
 }: EditDesignationModalProps) {
-  const [selectedDesignation, setSelectedDesignation] = useState(
+  const [designation, setDesignation] = useState(
     member?.designation || ""
   );
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
-    if (!member || !selectedDesignation) {
-      toast.error("Please select a designation");
+    if (!member || !designation.trim()) {
+      toast.error("Please enter a designation");
       return;
     }
 
     setLoading(true);
     try {
       const response = await UpdateMember(member._id, {
-        designation: selectedDesignation,
+        designation: designation.trim(),
       });
 
-             if (response?.success) {
-         toast.success("Designation updated successfully");
-         onSuccess(selectedDesignation);
-         onClose();
-       } else {
+      if (response?.success) {
+        toast.success("Designation updated successfully");
+        onSuccess(designation.trim());
+        onClose();
+      } else {
         toast.error(response?.message || "Failed to update designation");
       }
     } catch (error) {
@@ -69,7 +61,7 @@ export default function EditDesignationModal({
   };
 
   const handleClose = () => {
-    setSelectedDesignation(member?.designation || "");
+    setDesignation(member?.designation || "");
     onClose();
   };
 
@@ -90,13 +82,13 @@ export default function EditDesignationModal({
           
           <div className="space-y-2">
             <Label htmlFor="designation">Designation</Label>
-            <Combobox
-              options={designationOptions}
-              value={selectedDesignation}
-              onValueChange={setSelectedDesignation}
-              placeholder="Select designation..."
-              searchPlaceholder="Search designations..."
-              emptyText="No designation found."
+            <Input
+              id="designation"
+              type="text"
+              value={designation}
+              onChange={(e) => setDesignation(e.target.value)}
+              placeholder="Enter designation..."
+              className="w-full"
             />
           </div>
         </div>
@@ -107,8 +99,8 @@ export default function EditDesignationModal({
           </Button>
           <Button 
             onClick={handleSave} 
-            disabled={loading || !selectedDesignation}
-            className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg"
+            disabled={loading || !designation.trim()}
+            className="bg-brand-primary hover:shadow-lg"
           >
             {loading ? "Saving..." : "Save Changes"}
           </Button>

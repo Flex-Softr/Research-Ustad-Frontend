@@ -118,23 +118,6 @@ const Members = ({ data: initialData }: MembersProps) => {
     fetchData();
   };
 
-  const getDesignationBadgeColor = (designation: string) => {
-    switch (designation) {
-      case "Advisor":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "Lead":
-        return "bg-orange-100 text-orange-800 border-orange-200";
-      case "Mentor_Panel":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "Lead_Research_Associate":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "Research_Associate":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
   const columns = [
     { label: "Name", value: "fullName" },
     { label: "Email", value: "email" },
@@ -180,7 +163,7 @@ const Members = ({ data: initialData }: MembersProps) => {
       return item.designation ? (
         <Badge
           variant="outline"
-          className={`text-xs ${getDesignationBadgeColor(item.designation)}`}
+          className="text-xs bg-brand-primary text-white"
         >
           {item.designation}
         </Badge>

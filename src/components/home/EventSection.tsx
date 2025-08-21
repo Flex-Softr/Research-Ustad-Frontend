@@ -89,7 +89,7 @@ const EventCard = ({ event }: { event: any }) => {
 
         {/* Category Badge */}
         <div className="absolute top-4 left-4">
-          <span className="bg-[#3A5A78] text-white px-3 py-1 rounded-full text-xs font-semibold">
+          <span className="bg-brand-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
             {event.category}
           </span>
         </div>
@@ -97,7 +97,7 @@ const EventCard = ({ event }: { event: any }) => {
         {/* Date Badge */}
         <div className="absolute top-4 right-4">
           <div className="bg-white rounded-lg p-2 shadow-sm">
-            <div className="text-[#3A5A78] text-xs font-bold text-center">
+            <div className="text-brand-primary text-xs font-bold text-center">
               {new Date(event.startDate).getDate()}
             </div>
             <div className="text-gray-500 text-xs text-center">
@@ -111,7 +111,7 @@ const EventCard = ({ event }: { event: any }) => {
 
       {/* Event Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold font-serif text-[#3A5A78] mb-3 line-clamp-1">
+        <h3 className="text-xl font-bold font-serif text-brand-primary mb-3 line-clamp-1">
           {event.title}
         </h3>
         <p className="text-gray-600 text-sm leading-relaxed mb-6">
@@ -121,19 +121,19 @@ const EventCard = ({ event }: { event: any }) => {
         {/* Event Details */}
         <div className="space-y-3 mb-6">
           <div className="flex items-center text-sm text-gray-600">
-            <Calendar className="h-4 w-4 text-[#3A5A78] mr-3" />
+            <Calendar className="h-4 w-4 text-brand-primary mr-3" />
             <span className="font-medium">
               {formatDate(event.startDate)} - {formatDate(event.endDate)}
             </span>
           </div>
 
           <div className="flex items-center text-sm text-gray-600">
-            <MapPin className="h-4 w-4 text-[#3A5A78] mr-3" />
+            <MapPin className="h-4 w-4 text-brand-primary mr-3" />
             <span className="font-medium">{event.location}</span>
           </div>
 
           <div className="flex items-center text-sm text-gray-600">
-            <Users className="h-4 w-4 text-[#3A5A78] mr-3" />
+            <Users className="h-4 w-4 text-brand-primary mr-3" />
             <span className="font-medium">
               {event.speakers?.length || 0} Speakers
             </span>
@@ -153,12 +153,12 @@ const EventCard = ({ event }: { event: any }) => {
                   name={speaker.name}
                   size="sm"
                   className="border-2 border-white shadow-lg"
-                  fallbackClassName="bg-[#3A5A78] text-white"
+                  fallbackClassName="bg-brand-primary text-white"
                 />
               ))}
             {event.speakers && event.speakers.length > 3 && (
-              <div className="w-8 h-8 rounded-full bg-[#3A5A78]/20 border-2 border-white flex items-center justify-center">
-                <span className="text-xs text-[#3A5A78] font-bold">
+              <div className="w-8 h-8 rounded-full bg-brand-primary/20 border-2 border-white flex items-center justify-center">
+                <span className="text-xs text-brand-primary font-bold">
                   +{event.speakers.length - 3}
                 </span>
               </div>
@@ -169,7 +169,7 @@ const EventCard = ({ event }: { event: any }) => {
         {/* CTA Button */}
         <Link
           href={`/event/${event._id}`}
-          className="block w-full bg-[#3A5A78] text-white py-3 px-6 rounded-lg text-center font-semibold hover:bg-[#2d4a65] transition-colors duration-300"
+          className="block w-full bg-brand-primary text-white py-3 px-6 rounded-lg text-center font-semibold hover:bg-brand-primary/80 transition-colors duration-300"
         >
           View Event Details
         </Link>
@@ -190,7 +190,7 @@ const ErrorState = ({
     <Container>
       <div className="text-center">
         <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-[#3A5A78] mb-2">
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">
           Failed to load events
         </h3>
         <p className="text-gray-600 mb-4">{error}</p>
@@ -226,7 +226,7 @@ const EmptyState = () => (
     <Container>
       <div className="text-center">
         <Star className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-[#3A5A78] mb-2">
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">
           No events available
         </h3>
         <p className="text-gray-600">Check back later for upcoming events!</p>
@@ -246,7 +246,6 @@ const EventsSection = () => {
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
-
 
   // Error state
   if (error) {
