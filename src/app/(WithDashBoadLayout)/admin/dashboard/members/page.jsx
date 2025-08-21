@@ -11,8 +11,6 @@ const page = async () => {
       (member) => member.role !== "admin" && member.role !== "superAdmin"
     );
 
-    console.log("Research members (filtered)", data);
-
     return (
       <div className="p-4">
         <Members data={data} />
