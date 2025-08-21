@@ -25,7 +25,7 @@ const TeamMembersPage = () => {
       try {
         setLoading(true);
         const response = await GetAllResearchAssociate();
-        console.log("API Response:", response);
+        // console.log("API Response:", response);
 
         if (response?.success && response?.data) {
           // Transform API data to match TeamMember interface

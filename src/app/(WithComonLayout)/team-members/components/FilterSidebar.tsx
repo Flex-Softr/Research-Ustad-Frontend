@@ -22,11 +22,12 @@ const FilterSidebar = ({
         designations.add(member.designation);
       }
     });
-    return Array.from(designations).filter(designation => 
-      designation && 
-      designation !== "user" && 
-      designation !== "admin" && 
-      designation !== "superAdmin"
+    return Array.from(designations).filter(
+      (designation) =>
+        designation &&
+        designation !== "user" &&
+        designation !== "admin" &&
+        designation !== "superAdmin"
     );
   };
 
@@ -35,11 +36,20 @@ const FilterSidebar = ({
   // Helper function to get appropriate icon based on designation
   const getIconForDesignation = (designation: string) => {
     const lowerDesignation = designation.toLowerCase();
-    if (lowerDesignation.includes("advisor") || lowerDesignation.includes("mentor")) {
+    if (
+      lowerDesignation.includes("advisor") ||
+      lowerDesignation.includes("mentor")
+    ) {
       return Award;
-    } else if (lowerDesignation.includes("lead") || lowerDesignation.includes("head")) {
+    } else if (
+      lowerDesignation.includes("lead") ||
+      lowerDesignation.includes("head")
+    ) {
       return UserCheck;
-    } else if (lowerDesignation.includes("research") || lowerDesignation.includes("associate")) {
+    } else if (
+      lowerDesignation.includes("research") ||
+      lowerDesignation.includes("associate")
+    ) {
       return GraduationCap;
     } else {
       return Users;
@@ -50,18 +60,18 @@ const FilterSidebar = ({
   const formatDesignationLabel = (designation: string) => {
     return designation
       .replace(/_/g, " ")
-      .replace(/\b\w/g, l => l.toUpperCase())
+      .replace(/\b\w/g, (l) => l.toUpperCase())
       .replace(/\s+/g, " ")
       .trim();
   };
 
   // Filter options
   const filterOptions = [
-    { 
-      id: "all", 
-      label: "All Members", 
-      icon: Users, 
-      count: members.length 
+    {
+      id: "all",
+      label: "All Members",
+      icon: Users,
+      count: members.length,
     },
     ...uniqueDesignations.map((designation) => ({
       id: designation,
@@ -93,16 +103,16 @@ const FilterSidebar = ({
                 <option.icon className="h-4 w-4 mr-3" />
                 <span className="font-medium">{option.label}</span>
               </div>
-                             <Badge
-                 variant={selectedFilter === option.id ? "secondary" : "outline"}
-                 className={`ml-2 ${
-                   selectedFilter === option.id 
-                     ? "bg-white/20 text-white border-white/30" 
-                     : "bg-brand-secondary/10 text-brand-secondary border-brand-secondary/20"
-                 }`}
-               >
-                 {option.count}
-               </Badge>
+              <Badge
+                variant={selectedFilter === option.id ? "secondary" : "outline"}
+                className={`ml-2 ${
+                  selectedFilter === option.id
+                    ? "bg-white/20 text-white border-white/30"
+                    : "bg-brand-secondary/10 text-brand-secondary border-brand-secondary/20"
+                }`}
+              >
+                {option.count}
+              </Badge>
             </button>
           ))}
         </div>

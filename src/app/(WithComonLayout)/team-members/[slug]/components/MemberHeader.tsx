@@ -23,7 +23,7 @@ interface MemberHeaderProps {
 }
 
 const MemberHeader = ({ member }: MemberHeaderProps) => {
-  console.log("member", member);
+  // console.log("member", member);
   return (
     <Card className="bg-white/80 backdrop-blur-sm border border-gray-100 overflow-hidden">
       <CardContent className="p-8">
