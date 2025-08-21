@@ -177,7 +177,7 @@ const agendaError =
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{isEditing ? "Edit Event" : "Create New Event"}</CardTitle>
-        <Button variant="ghost" size="sm" onClick={onCancel}>
+        <Button variant="ghost" size="sm" onClick={onCancel} className="cursor-pointer">
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
@@ -543,10 +543,10 @@ const agendaError =
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit" className="bg-purple-600 hover:bg-purple-700">
+            <Button type="submit" className="bg-purple-600 hover:bg-purple-700 cursor-pointer">
               {isEditing ? "Update Event" : "Create Event"}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onClick={onCancel} className="cursor-pointer">
               Cancel
             </Button>
           </div>

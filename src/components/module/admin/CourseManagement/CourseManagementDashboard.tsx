@@ -87,7 +87,7 @@ const CourseManagementDashboard = () => {
           <p className="text-gray-600">Manage all courses and track performance</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleCreateCourse} className="bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg">
+          <Button onClick={handleCreateCourse} className="bg-brand-primary to-brand-secondary hover:shadow-lg cursor-pointer">
             <Plus className="w-4 h-4 mr-2" />
             Add Course
           </Button>

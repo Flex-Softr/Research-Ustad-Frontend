@@ -25,13 +25,11 @@ interface CategoryFormProps {
   category?: Category | null;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (
-    category: {
-      name: string;
-      description?: string;
-      status?: 'active' | 'inactive';
-    }
-  ) => void;
+  onSave: (category: {
+    name: string;
+    description?: string;
+    status?: "active" | "inactive";
+  }) => void;
 }
 
 const CategoryForm = ({
@@ -43,7 +41,7 @@ const CategoryForm = ({
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    status: "active" as 'active' | 'inactive',
+    status: "active" as "active" | "inactive",
   });
 
   useEffect(() => {
@@ -134,10 +132,19 @@ const CategoryForm = ({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setTimeout(onClose, 0)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setTimeout(onClose, 0)}
+              className="cursor-pointer"
+            >
               Cancel
             </Button>
-            <Button type="submit" disabled={!isFormValid}>
+            <Button
+              type="submit"
+              disabled={!isFormValid}
+              className="cursor-pointer bg-brand-primary hover:bg-brand-primary/80"
+            >
               {category ? "Update Category" : "Create Category"}
             </Button>
           </DialogFooter>

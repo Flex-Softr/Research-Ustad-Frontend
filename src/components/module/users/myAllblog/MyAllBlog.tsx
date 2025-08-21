@@ -182,7 +182,7 @@ const MyAllBlog = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleCreateBlog}>
+          <Button onClick={handleCreateBlog} className="cursor-pointer">
             <Plus className="w-4 h-4 mr-2" />
             Create Blog
           </Button>
@@ -247,7 +247,7 @@ const MyAllBlog = () => {
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" className="cursor-pointer">
                               <MoreHorizontal className="w-4 h-4" />
                             </Button>
                           </DropdownMenuTrigger>
@@ -272,7 +272,7 @@ const MyAllBlog = () => {
                               onClick={() => {
                                 setTimeout(() => handleDeleteBlog(blog), 0);
                               }}
-                              className="text-red-600"
+                              className="text-red-600 cursor-pointer"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
                               Delete
@@ -303,7 +303,7 @@ const MyAllBlog = () => {
               </p>
               <Button
                 onClick={handleCreateBlog}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 Create Your First Blog

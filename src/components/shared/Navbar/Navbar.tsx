@@ -17,10 +17,11 @@ import {
 import { getCurrentUser, logout } from "@/services/AuthService";
 import { Menu, X, LogIn, User } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getDashboardUrl } from "@/lib/dashboardUtils";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -73,9 +74,17 @@ const Navbar = () => {
   const [user, setUser] = useState<UserToken | null>(null);
   const [openDropdown, setOpenDropdown] = useState(null);
   const router = useRouter();
+  const pathname = usePathname();
   
   const toggleDropdown = (index: any) => {
     setOpenDropdown(openDropdown === index ? null : index);
+  };
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
   };
   
   useEffect(() => {
@@ -256,7 +265,12 @@ const Navbar = () => {
                       <Link
                         key={link.name}
                         href={link.href}
-                        className="text-lg font-medium text-gray-700 hover:text-[#3A5A78] transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-gray-50"
+                        className={cn(
+                          "text-lg font-medium transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-gray-50",
+                          isActive(link.href)
+                            ? "text-brand-secondary font-semibold bg-brand-primary/5"
+                            : "text-gray-700 hover:text-brand-secondary"
+                        )}
                         onClick={() => setOpen(false)}
                       >
                         {link.name}

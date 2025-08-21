@@ -321,7 +321,7 @@ const CreateMemberForm: React.FC = () => {
           <div className="pt-4">
             <Button
               type="submit"
-              className="w-full flex items-center justify-center py-3 text-lg font-semibold"
+              className="w-full flex items-center justify-center py-3 text-lg font-semibold cursor-pointer"
               disabled={loading}
             >
               {loading ? (

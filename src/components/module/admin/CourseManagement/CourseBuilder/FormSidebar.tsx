@@ -118,37 +118,11 @@ export function FormSidebar({
         </CardContent>
       </Card>
 
-      {/* Validation Errors */}
-      {/* {errors.length > 0 && hasAttemptedSubmit && (
-        <Card className="border-red-200 bg-red-50">
-          <CardHeader>
-            <CardTitle className="text-red-700 text-sm">
-              Validation Errors ({errors.length} issue{errors.length !== 1 ? 's' : ''})
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              {errors.map((error, index) => (
-                <div key={index} className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-sm text-red-700">{error.message}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 pt-3 border-t border-red-200">
-              <p className="text-xs text-red-600">
-                Please fix these issues to enable course submission
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      )} */}
-
       {/* Submit Button */}
       <Button
         onClick={onSubmit}
         disabled={isSubmitting || (hasAttemptedSubmit && !isFormValid())}
-        className="w-full h-12 text-lg"
+        className="w-full h-12 text-lg cursor-pointer bg-brand-primary hover:bg-brand-primary/80"
       >
         {isSubmitting 
           ? (isEditMode ? "Updating Course..." : "Creating Course...") 

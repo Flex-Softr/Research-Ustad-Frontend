@@ -73,14 +73,14 @@ const ForgetPasswordForm = () => {
         <div className="space-y-3">
           <Button
             onClick={() => setIsSuccess(false)}
-            className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="w-full bg-brand-primary hover:bg-brand-primary/80 text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-300"
           >
             Send Another Email
           </Button>
           <Link href="/login">
             <Button
               variant="outline"
-              className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+              className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 py-3 px-6 rounded-lg font-semibold transition-colors duration-300"
             >
               Back to Login
             </Button>
@@ -101,11 +101,11 @@ const ForgetPasswordForm = () => {
               <FormItem>
                 <FormControl>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 z-10" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <Input
                       type="email"
                       placeholder="Enter your email address"
-                      className="pl-12 py-6 border-gray-300 rounded-xl focus:border-teal-500 focus:ring-teal-500 text-base"
+                      className="pl-10 py-3 border-gray-200 rounded-lg focus:border-brand-primary focus:ring-brand-primary text-base"
                       {...field}
                       value={field.value || ""}
                     />
@@ -119,11 +119,11 @@ const ForgetPasswordForm = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-brand-primary hover:bg-brand-primary/80 text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                 Sending...
               </div>
             ) : (
@@ -143,9 +143,9 @@ const ForgetPasswordForm = () => {
         </Link>
       </div>
 
-      <div className="mt-8 p-4 bg-blue-50 rounded-xl border border-blue-200">
+      <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
         <div className="flex items-start space-x-3">
-          <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
             <svg
               className="w-3 h-3 text-blue-600"
               fill="currentColor"

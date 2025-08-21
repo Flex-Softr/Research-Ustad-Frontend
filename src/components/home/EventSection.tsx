@@ -283,7 +283,9 @@ const EventsSection = () => {
         {/* View All Events Button */}
         <div className="text-center">
           <Link href="/event">
-            <Button variant="primary">View All Events</Button>
+            <Button variant="primary" className="cursor-pointer">
+              View All Events
+            </Button>
           </Link>
         </div>
       </Container>

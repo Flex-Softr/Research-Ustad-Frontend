@@ -255,7 +255,7 @@ const CoursesSection = () => {
         {/* View All Courses Button */}
         <div className="text-center">
           <Link href="/course">
-            <Button variant="primary">View All Courses</Button>
+            <Button variant="primary" className="cursor-pointer">View All Courses</Button>
           </Link>
         </div>
       </Container>

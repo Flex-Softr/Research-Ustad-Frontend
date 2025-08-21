@@ -60,7 +60,7 @@ const CourseForm = ({
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{isEditing ? "Edit Course" : "Add New Course"}</CardTitle>
-        <Button variant="ghost" size="sm" onClick={onCancel}>
+        <Button variant="ghost" className="cursor-pointer" size="sm" onClick={onCancel}>
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
@@ -153,10 +153,10 @@ const CourseForm = ({
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+            <Button type="submit" className="bg-brand-primary hover:bg-brand-primary/80 cursor-pointer">
               {isEditing ? "Update Course" : "Create Course"}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel}>
+            <Button type="button" variant="outline" onClick={onCancel} className="cursor-pointer">
               Cancel
             </Button>
           </div>

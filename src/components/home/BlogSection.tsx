@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { fetchBlogs } from "@/services/blogs/blogsSlice";
 import { Button } from "@/components/ui/core";
-import { ArrowRight, Calendar, Star, User } from "lucide-react";
+import { ArrowRight, Calendar, Star, User, AlertCircle } from "lucide-react";
 import { Container, SectionHeader } from "@/components/ui/core";
 import FallbackImage from "../shared/FallbackImage";
 import { Blog } from "@/type";
@@ -54,6 +54,69 @@ const BlogCard = ({ post }: { post: Blog }) => (
   </Link>
 );
 
+// Error state component
+const ErrorState = ({
+  error,
+  onRetry,
+}: {
+  error: string;
+  onRetry: () => void;
+}) => (
+  <section className="py-20 bg-white">
+    <Container>
+      <div className="text-center">
+        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">
+          Failed to load blogs
+        </h3>
+        <p className="text-gray-600 mb-4">{error}</p>
+        <Button variant="primary" onClick={onRetry}>
+          Try Again
+        </Button>
+      </div>
+    </Container>
+  </section>
+);
+
+// Loading state component
+const LoadingState = () => (
+  <section className="py-20 bg-white">
+    <Container>
+      <SectionHeader
+        title="Latest Insights"
+        description="Stay informed with the latest trends, best practices, and insights from our data experts."
+      />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse">
+            <div className="h-48 bg-gray-200"></div>
+            <div className="p-4">
+              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+              <div className="h-3 bg-gray-200 rounded mb-3"></div>
+              <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+);
+
+// Empty state component
+const EmptyState = () => (
+  <section className="py-20 bg-white">
+    <Container>
+      <div className="text-center">
+        <Star className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">
+          No blog posts available
+        </h3>
+        <p className="text-gray-600">Check back later for new insights and articles!</p>
+      </div>
+    </Container>
+  </section>
+);
+
 const BlogSection = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { blogs, isLoading, error } = useSelector(
@@ -65,89 +128,26 @@ const BlogSection = () => {
     dispatch(fetchBlogs());
   }, [dispatch]);
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <section className="py-16 bg-white">
-        <Container>
-          <SectionHeader
-            title="Latest Insights"
-            description="Stay informed with the latest trends, best practices, and insights from our data experts."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse">
-                <div className="h-48 bg-gray-200"></div>
-                <div className="p-4">
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-3 bg-gray-200 rounded mb-3"></div>
-                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
-    );
-  }
-
-  // Show error state
+  // Error state
   if (error) {
-    return (
-      <section className="py-16 bg-white">
-        <Container>
-          <SectionHeader
-            title="Latest Insights"
-            description="Stay informed with the latest trends, best practices, and insights from our data experts."
-          />
-          <div className="text-center py-16">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <div className="w-8 h-8 bg-red-500 rounded"></div>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Failed to load blogs
-            </h3>
-            <p className="text-gray-600 mb-4">{error}</p>
-            <Button
-              variant="primary"
-              onClick={() => dispatch(fetchBlogs())}
-            >
-              Try Again
-            </Button>
-          </div>
-        </Container>
-      </section>
-    );
+    return <ErrorState error={error} onRetry={() => dispatch(fetchBlogs())} />;
   }
 
-  // Show empty state
+  // Loading state
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  // No blogs state
   if (!blogs || blogs.length === 0) {
-    return (
-      <section className="py-16 bg-white">
-        <Container>
-          <SectionHeader
-            title="Latest Insights"
-            description="Stay informed with the latest trends, best practices, and insights from our data experts."
-          />
-          <div className="text-center py-16">
-            <Star className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              No blog posts available
-            </h3>
-            <p className="text-gray-600">
-              Check back later for new insights and articles.
-            </p>
-          </div>
-        </Container>
-      </section>
-    );
+    return <EmptyState />;
   }
 
   // Get only 3 blogs
   const displayBlogs = blogs.slice(0, 3);
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-20 bg-white">
       <Container>
         <SectionHeader
           title="Latest Insights"

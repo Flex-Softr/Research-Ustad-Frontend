@@ -113,7 +113,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="cursor-pointer">
               <MoreHorizontal className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -136,14 +136,14 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onClick={() => onApprove?.(blog)}
-                  className="text-green-600"
+                  className="text-green-600 cursor-pointer"
                 >
                   <CheckCircle className="w-4 h-4 mr-2" />
                   Approve
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => onReject?.(blog)}
-                  className="text-red-600"
+                  className="text-red-600 cursor-pointer"
                 >
                   <XCircle className="w-4 h-4 mr-2" />
                   Reject
@@ -156,7 +156,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
               onClick={() => {
                 setTimeout(() => onDelete(blog), 0);
               }}
-              className="text-red-600"
+              className="text-red-600 cursor-pointer"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Delete

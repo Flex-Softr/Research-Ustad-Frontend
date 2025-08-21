@@ -319,7 +319,7 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
           <Button
             type="submit"
             disabled={isLoading}
-            className="flex-1"
+            className="flex-1 cursor-pointer"
           >
             {isLoading ? (
               <LoadingSpinner size="sm" variant="border" />
@@ -332,6 +332,7 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
             variant="outline"
             onClick={handleBack}
             disabled={isLoading}
+            className="cursor-pointer"
           >
             Cancel
           </Button>

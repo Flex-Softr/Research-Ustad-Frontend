@@ -7,6 +7,7 @@ import Image from "next/image";
 import { GetAllResearchAssociate } from "@/services/reserarchers";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import Link from "next/link";
+import { Star, AlertCircle } from "lucide-react";
 
 interface TeamMember {
   id: string;
@@ -16,6 +17,64 @@ interface TeamMember {
   image: string;
   category: string;
 }
+
+// Error state component
+const ErrorState = ({
+  error,
+  onRetry,
+}: {
+  error: string;
+  onRetry: () => void;
+}) => (
+  <section className="py-20 bg-gray-100">
+    <Container>
+      <div className="text-center">
+        <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">
+          Failed to load team members
+        </h3>
+        <p className="text-gray-600 mb-4">{error}</p>
+        <Button variant="primary" onClick={onRetry}>
+          Try Again
+        </Button>
+      </div>
+    </Container>
+  </section>
+);
+
+// Loading state component
+const LoadingState = () => (
+  <section className="py-20 bg-gray-100">
+    <Container>
+      <SectionHeader
+        title="Our Academic Team"
+        description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
+      />
+      <div className="flex items-center justify-center h-64">
+        <LoadingSpinner
+          size="md"
+          variant="border"
+          text="Loading team members..."
+        />
+      </div>
+    </Container>
+  </section>
+);
+
+// Empty state component
+const EmptyState = () => (
+  <section className="py-20 bg-gray-100">
+    <Container>
+      <div className="text-center">
+        <Star className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-brand-primary mb-2">
+          No team members available
+        </h3>
+        <p className="text-gray-600">Check back later for our academic team!</p>
+      </div>
+    </Container>
+  </section>
+);
 
 const TeamSection = () => {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -110,83 +169,25 @@ const TeamSection = () => {
       ? members.slice(0, 3) // Show first 3 items by default without filtering
       : members.filter((member) => member.category === activeCategory);
 
-  // Show loading state
-  if (loading) {
-    return (
-      <section className="py-14 bg-gray-100 container mb-10 md:px-40 mx-auto">
-        <Container>
-          <SectionHeader
-            title="Our Academic Team"
-            description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
-          />
-          <div className="flex items-center justify-center h-64">
-            <LoadingSpinner
-              size="md"
-              variant="border"
-              text="Loading team members..."
-            />
-          </div>
-        </Container>
-      </section>
-    );
-  }
-
-  // Show error state
+  // Error state
   if (error) {
     return (
-      <section className="py-14 bg-gray-100 container mb-10 md:px-40 mx-auto">
-        <Container>
-          <SectionHeader
-            title="Our Academic Team"
-            description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
-          />
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <p className="text-red-600 mb-4">
-                Error loading team members: {error}
-              </p>
-              <Button
-                onClick={() => window.location.reload()}
-                variant="primary"
-                className="px-6 py-3"
-              >
-                Retry
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ErrorState error={error} onRetry={() => window.location.reload()} />
     );
   }
 
-  // Show no data state
+  // Loading state
+  if (loading) {
+    return <LoadingState />;
+  }
+
+  // No team members state
   if (!members || members.length === 0) {
-    return (
-      <section className="py-14 bg-gray-100 container mb-10 md:px-40 mx-auto">
-        <Container>
-          <SectionHeader
-            title="Our Academic Team"
-            description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
-          />
-          <div className="flex items-center justify-center h-64">
-            <div className="text-center">
-              <p className="text-gray-600 mb-4">No team members found</p>
-              <Button
-                onClick={() => window.location.reload()}
-                variant="primary"
-                className="px-6 py-3"
-              >
-                Refresh
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </section>
-    );
+    return <EmptyState />;
   }
 
   return (
-    <section className="py-14 bg-gray-100 container mb-10 md:px-40 mx-auto">
+    <section className="py-20 bg-gray-100">
       <Container>
         {/* Section Header */}
         <SectionHeader
@@ -266,7 +267,11 @@ const TeamSection = () => {
         {/* Call to Action Button */}
         <div className="text-center">
           <Link href="/team-members">
-            <Button variant="primary" size="md" className="px-8 py-4">
+            <Button
+              variant="primary"
+              size="md"
+              className="px-8 py-4 cursor-pointer"
+            >
               VIEW FULL FACULTY
             </Button>
           </Link>

@@ -128,6 +128,7 @@ export const TableActions: React.FC<TableActionsProps> = ({
         <Button
           variant="outline"
           size="sm"
+          className="cursor-pointer"
           onClick={() => handleRoleChange(item?._id, item?.role)}
         >
           <ShieldCheck className="w-4 h-4" />{" "}
@@ -154,7 +155,7 @@ export const TableActions: React.FC<TableActionsProps> = ({
                   setItemToDelete(item);
                   setDeleteDialogOpen(true);
                 }}
-                className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                className="text-red-500 hover:text-red-700 hover:bg-red-50 cursor-pointer"
                 title="Delete"
               >
                 <Trash2 className="w-4 h-4" />
@@ -178,7 +179,7 @@ export const TableActions: React.FC<TableActionsProps> = ({
                     }
                     setDeleteDialogOpen(false);
                   }}
-                  className="bg-red-500 hover:bg-red-600"
+                  className="bg-red-500 hover:bg-red-600 cursor-pointer"
                 >
                   Delete
                 </AlertDialogAction>

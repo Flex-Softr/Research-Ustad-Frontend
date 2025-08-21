@@ -289,18 +289,19 @@ const AllCoursesTable = ({
                       <TableCell>
                         <DropdownMenu key={course._id}>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" className="cursor-pointer">
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem
+                            <DropdownMenuItem className="cursor-pointer"
                               onClick={() => onViewCourse(course)}
                             >
                               <Eye className="h-4 w-4 mr-2" />
                               View
                             </DropdownMenuItem>
                             <DropdownMenuItem
+                              className="cursor-pointer"
                               onClick={() => onEditCourse(course)}
                             >
                               <Edit className="h-4 w-4 mr-2" />
@@ -308,7 +309,7 @@ const AllCoursesTable = ({
                             </DropdownMenuItem>
 
                             <DropdownMenuItem
-                              className="text-red-600 focus:bg-red-50"
+                              className="text-red-600 focus:bg-red-50 cursor-pointer"
                               onClick={() => {
                                 setTimeout(() => handleDeleteCourse(course), 0);
                               }}

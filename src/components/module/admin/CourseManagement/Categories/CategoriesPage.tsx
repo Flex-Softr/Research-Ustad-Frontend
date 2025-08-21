@@ -68,7 +68,7 @@ const CategoriesPage = () => {
             Manage course categories and classifications
           </p>
         </div>
-        <Button onClick={handleCreateCategory}>
+        <Button onClick={handleCreateCategory} className="cursor-pointer bg-brand-primary hover:bg-brand-primary/80">
           <Plus className="w-4 h-4 mr-2" />
           Add Category
         </Button>

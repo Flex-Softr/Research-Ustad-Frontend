@@ -43,7 +43,7 @@ const AllCoursesPage = () => {
           <p className="text-gray-600">Manage all courses in the system</p>
         </div>
         <div className="flex items-center justify-center gap-2">
-          <Button onClick={handleCreateCourse}>
+          <Button onClick={handleCreateCourse} className="cursor-pointer bg-brand-primary hover:bg-brand-primary/80">
             <Plus className="w-4 h-4 mr-2" />
             Add Course
           </Button>

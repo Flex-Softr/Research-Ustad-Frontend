@@ -107,7 +107,7 @@ const EventManagement = () => {
               </p>
               <Button
                 onClick={handleAddEvent}
-                className="flex items-center justify-center w-fit gap-2 bg-brand-primary"
+                className="flex cursor-pointer items-center justify-center w-fit gap-2 bg-brand-primary"
               >
                 <Plus className="w-4 h-4" />
                 Create First Event
@@ -129,7 +129,7 @@ const EventManagement = () => {
         </div>
         <Button
           onClick={handleAddEvent}
-          className="bg-brand-primary w-full sm:w-auto"
+          className="bg-brand-primary hover:bg-brand-primary/80 cursor-pointer w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Create Event
@@ -192,7 +192,7 @@ const EventManagement = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1"
+                    className="flex-1 cursor-pointer"
                     onClick={() => handleEditEvent(event)}
                   >
                     <Edit className="h-4 w-4 mr-2" />
@@ -201,7 +201,7 @@ const EventManagement = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:text-red-700 cursor-pointer"
                     onClick={() => handleDeleteEvent(event)}
                   >
                     <Trash2 className="h-4 w-4" />

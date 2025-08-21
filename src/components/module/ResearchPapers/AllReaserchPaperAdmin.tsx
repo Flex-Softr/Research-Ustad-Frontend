@@ -165,7 +165,7 @@ const AllreserchPaperAdmin = () => {
                   item.isApproved
                     ? "bg-green-600 text-white hover:bg-green-700"
                     : "bg-blue-600 text-white hover:bg-blue-700"
-                } transition-colors duration-200`}
+                } transition-colors duration-200 cursor-pointer`}
                 disabled={item.isApproved}
               >
                 {item.isApproved ? "✓ Approved" : "Approve"}
@@ -175,7 +175,7 @@ const AllreserchPaperAdmin = () => {
                   onClick={() => handleReject(item._id)}
                   size="sm"
                   variant="destructive"
-                  className="transition-colors duration-200"
+                  className="transition-colors duration-200 cursor-pointer"
                 >
                   Reject
                 </Button>
@@ -187,7 +187,7 @@ const AllreserchPaperAdmin = () => {
               variant="outline"
               size="sm"
               onClick={() => openDeleteDialog(item)}
-              className="text-red-500 hover:text-red-700 hover:bg-red-50 border-red-200"
+              className="text-red-500 hover:text-red-700 hover:bg-red-50 border-red-200 cursor-pointer"
               title="Delete"
             >
               <Trash2 className="w-4 h-4" />

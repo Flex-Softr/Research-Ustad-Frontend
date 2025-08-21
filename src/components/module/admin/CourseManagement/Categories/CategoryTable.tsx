@@ -383,13 +383,15 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" className="cursor-pointer">
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            onClick={() => onEditCategory(category)}
+                          <DropdownMenuItem className="cursor-pointer"
+                            onClick={() => {
+                              setTimeout(() => onEditCategory(category), 0);
+                            }}
                           >
                             <Edit className="w-4 h-4 mr-2" />
                             Edit
@@ -398,7 +400,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                             onClick={() => {
                               setTimeout(() => handleDeleteCategory(category), 0);
                             }}
-                            className="text-red-600"
+                            className="text-red-600 cursor-pointer"
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete

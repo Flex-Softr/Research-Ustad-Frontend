@@ -42,7 +42,6 @@ const CoursePage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-
   // Helper function to get category name by ID
   const getCategoryName = (categoryId: string) => {
     const category = categories.find((cat) => cat._id === categoryId);
@@ -330,11 +329,11 @@ const CoursePage = () => {
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                               <div className="absolute top-4 left-4 flex flex-col gap-2">
-                                <span className="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                                <span className="bg-brand-primary text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                                   {getCategoryName(course.category)}
                                 </span>
                                 {course.isFree && (
-                                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                                  <span className="bg-green-500 w-fit text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                                     Free
                                   </span>
                                 )}

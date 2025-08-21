@@ -58,14 +58,14 @@ const NoDataMessage: React.FC<NoDataMessageProps> = ({
             <Button
               onClick={() => onCategoryChange("all")}
               variant="outline"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer"
             >
               <FileText className="w-4 h-4" />
               View All Categories
             </Button>
             <Button
               onClick={handleCreateClick}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer bg-brand-primary text-white hover:bg-brand-primary/80"
             >
               <Plus className="w-4 h-4" />
               Create First Blog

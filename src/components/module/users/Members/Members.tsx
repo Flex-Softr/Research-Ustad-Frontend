@@ -179,14 +179,14 @@ const Members = ({ data: initialData }: MembersProps) => {
   const customActions = (item: TResearchAssociate) => {
     return (
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" onClick={() => handleEdit(item)}>
+        <Button variant="outline" size="sm" onClick={() => handleEdit(item)} className="cursor-pointer">
           <Edit className="w-4 h-4" />
         </Button>
         <Button
           variant="outline"
           size="sm"
           onClick={() => handleDelete(item._id)}
-          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+          className="text-red-500 hover:text-red-700 hover:bg-red-50 cursor-pointer"
           title="Delete Member"
         >
           <Trash2 className="w-4 h-4" />

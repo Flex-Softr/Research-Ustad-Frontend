@@ -276,7 +276,7 @@ const SuperAdminManagement = () => {
             <Button
               onClick={handleReplaceSuperAdmin}
               disabled={!selectedUserId || replacing}
-              className="w-full bg-orange-500 hover:bg-orange-600"
+              className="w-full bg-orange-500 hover:bg-orange-600 cursor-pointer"
             >
               {replacing ? (
                 <>

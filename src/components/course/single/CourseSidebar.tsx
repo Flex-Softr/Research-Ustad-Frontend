@@ -47,9 +47,7 @@ const CourseSidebar = ({ course }) => {
         <CardContent className="p-6">
           <div className="flex items-baseline gap-3 mb-4">
             {course.isFree ? (
-              <span className="text-3xl font-bold text-green-600">
-                Free
-              </span>
+              <span className="text-3xl font-bold text-green-600">Free</span>
             ) : (
               <span className="text-3xl font-bold text-gray-900">
                 {course.fee} BDT
@@ -68,7 +66,7 @@ const CourseSidebar = ({ course }) => {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
-                className="bg-gradient-to-r from-brand-primary to-brand-secondary h-2 rounded-full transition-all duration-300"
+                className="bg-brand-primary h-2 rounded-full transition-all duration-300"
                 style={{ width: `${enrollmentPercentage}%` }}
               ></div>
             </div>
@@ -78,8 +76,8 @@ const CourseSidebar = ({ course }) => {
           </div>
 
           {course.status === "upcoming" ? (
-            <Button 
-              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300 mb-4"
+            <Button
+              className="w-full bg-brand-primary hover:shadow-lg transition-all duration-300 mb-4"
               asChild
             >
               <a
@@ -91,8 +89,8 @@ const CourseSidebar = ({ course }) => {
               </a>
             </Button>
           ) : (
-            <Button 
-              className="w-full bg-gradient-to-r from-brand-primary to-brand-secondary hover:shadow-lg transition-all duration-300 mb-4"
+            <Button
+              className="w-full bg-brand-primary hover:shadow-lg transition-all duration-300 mb-4"
               disabled
             >
               Enrollment Closed

@@ -49,12 +49,12 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleCancel}>
+          <AlertDialogCancel onClick={handleCancel} className="cursor-pointer">
             {cancelText}
           </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleConfirm}
-            className="bg-red-600 hover:bg-red-700"
+            className="bg-red-600 hover:bg-red-700 cursor-pointer"
           >
             {confirmText}
           </AlertDialogAction>
