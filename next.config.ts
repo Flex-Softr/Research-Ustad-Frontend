@@ -37,13 +37,26 @@ const nextConfig = {
         hostname: "localhost",
         port: "5000",
       },
-      {
-        protocol: "https",
-        hostname: "api.researchustad.org",
-      },
+
       {
         protocol: "https",
         hostname: "via.placeholder.com", // <-- Add this
+      },
+      {
+        protocol: "https",
+        hostname: "https://researchustad.org/", // <-- Add this
+      },
+      {
+        protocol: "https",
+        hostname: "https://www.researchustad.org/", // <-- Add this
+      },
+      {
+        protocol: "https",
+        hostname: "http://www.researchustad.org/", // <-- Add this
+      },
+      {
+        protocol: "https",
+        hostname: "http://www.researchustad.org/", // <-- Add this
       },
     ],
   },
