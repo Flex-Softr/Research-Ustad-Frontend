@@ -14,15 +14,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "i.ibb.co.com",
-      },
-      {
-        protocol: "https",
         hostname: "res.cloudinary.com",
-      },
-      {
-        protocol: "https",
-        hostname: "example.com",
       },
       {
         protocol: "https",
@@ -37,26 +29,21 @@ const nextConfig = {
         hostname: "localhost",
         port: "5000",
       },
-
       {
         protocol: "https",
-        hostname: "via.placeholder.com", // <-- Add this
+        hostname: "api.researchustad.org",
       },
       {
         protocol: "https",
-        hostname: "https://researchustad.org/", // <-- Add this
+        hostname: "researchustad.org",
       },
       {
         protocol: "https",
-        hostname: "https://www.researchustad.org/", // <-- Add this
+        hostname: "www.researchustad.org",
       },
       {
         protocol: "https",
-        hostname: "http://www.researchustad.org/", // <-- Add this
-      },
-      {
-        protocol: "https",
-        hostname: "http://www.researchustad.org/", // <-- Add this
+        hostname: "via.placeholder.com",
       },
     ],
   },

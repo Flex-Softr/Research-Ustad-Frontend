@@ -38,20 +38,22 @@ const missingEnvVars = Object.entries(requiredEnvVars)
 
 if (missingEnvVars.length > 0) {
   console.warn(
-    `Missing environment variables (using defaults): ${missingEnvVars.join(", ")}`
+    `Missing environment variables (using defaults): ${missingEnvVars.join(
+      ", "
+    )}`
   );
 }
 
 export const config: Config = {
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:5000",
+    baseUrl: process.env.NEXT_PUBLIC_BASE_API,
     timeout: parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || "30000"),
   },
   app: {
     name: process.env.NEXT_PUBLIC_APP_NAME || "ResearchUstad",
     version: process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0",
     environment: process.env.NODE_ENV || "development",
-    url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    url: process.env.NEXT_PUBLIC_APP_URL,
   },
   auth: {
     tokenKey: "accessToken",
