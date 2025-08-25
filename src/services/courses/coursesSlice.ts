@@ -43,7 +43,7 @@ export const fetchSingleCourse = createAsyncThunk(
   "courses/fetchOne",
   async (id: string, thunkAPI) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/course/${id}`);
+      const res = await fetch(`${api.baseUrl}/course/${id}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to fetch course");
       return data.data;
@@ -61,7 +61,7 @@ export const addCourse = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/course`, {
+      const res = await fetch(`${api.baseUrl}/course`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -86,7 +86,7 @@ export const updateCourse = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/course/${id}`, {
+      const res = await fetch(`${api.baseUrl}/course/${id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -111,13 +111,14 @@ export const deleteCourse = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/course/${id}`, {
+      const res = await fetch(`${api.baseUrl}/course/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!res.ok) throw new Error("Failed to delete course");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to delete course");
       return id;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

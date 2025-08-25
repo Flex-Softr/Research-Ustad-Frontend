@@ -25,7 +25,7 @@ export const fetchEvents = createAsyncThunk(
   "events/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/event`);
+      const res = await fetch(`${api.baseUrl}/event`);
       const events = await res.json();
       if (!res.ok) throw new Error(events.message || "Failed to fetch events");
       return events.data;
@@ -58,7 +58,7 @@ export const addEvent = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/event`, {
+      const res = await fetch(`${api.baseUrl}/event`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ export const updateEvent = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/event/${_id}`, {
+      const res = await fetch(`${api.baseUrl}/event/${_id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,13 +110,16 @@ export const deleteEvent = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/event/${_id}`, {
+      const res = await fetch(`${api.baseUrl}/event/${_id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!res.ok) throw new Error("Failed to delete event");
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to delete event");
+
       return _id;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
