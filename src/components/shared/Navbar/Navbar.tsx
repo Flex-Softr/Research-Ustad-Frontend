@@ -15,7 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { getCurrentUser, logout } from "@/services/AuthService";
-import { Menu, X, LogIn, User } from "lucide-react";
+import { Menu, X, LogIn, User, ChevronDown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -32,17 +32,15 @@ const navLinks = [
   { name: "Contact Us", href: "/contact" },
 ];
 
-interface NavItem {
-  label: string;
-  href?: string;
-  subDropdown?: NavItem[];
-}
-
-const links: NavItem[] = [
-  { label: "Home", href: "/" },
-  { label: "Team Members", href: "/team-members" },
-  { label: "News & Blogs", href: "/blog" },
-  { label: "Contact Us", href: "/contact" },
+// Research Wing submenu items for mobile
+const researchWingItems = [
+  { name: "Publication", href: "/allpapers" },
+  { name: "Ongoing Projects", href: "/ongoing-projects" },
+  {
+    name: "Attending International Conference as a Team",
+    href: "/international-conferences",
+  },
+  { name: "Achievements", href: "/achievements" },
 ];
 
 type UserToken = {
@@ -72,13 +70,9 @@ const Navbar = () => {
   const [scrolling, setScrolling] = useState(false);
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<UserToken | null>(null);
-  const [openDropdown, setOpenDropdown] = useState(null);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const router = useRouter();
   const pathname = usePathname();
-  
-  const toggleDropdown = (index: any) => {
-    setOpenDropdown(openDropdown === index ? null : index);
-  };
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -86,7 +80,19 @@ const Navbar = () => {
     }
     return pathname.startsWith(href);
   };
-  
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((cat) => cat !== category)
+        : [...prev, category]
+    );
+  };
+
+  const isCategoryExpanded = (category: string) => {
+    return expandedCategories.includes(category);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const jwtPayload = await getCurrentUser();
@@ -96,7 +102,7 @@ const Navbar = () => {
 
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -111,7 +117,7 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
+
   const handleLogOut = () => {
     logout();
     setUser(null);
@@ -128,7 +134,13 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto hidden lg:flex justify-between items-center px-6">
         <Link href="/" className="group flex items-center gap-2">
-        <Image src="/logo.png" alt="logo" width={1000} height={100} className="w-20 h-20" />
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width={1000}
+            height={100}
+            className="w-20 h-20"
+          />
           <h2 className="font-bold text-[22px] flex items-center transition-colors text-brand-primary group-hover:text-brand-secondary duration-300">
             Research{" "}
             <span className="group-hover:text-brand-primary text-brand-secondary transition-colors duration-300">
@@ -138,6 +150,7 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center space-x-8">
+          {/* Desktop Navigation Menu */}
           <div>
             <DroopDown />
           </div>
@@ -189,7 +202,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-      
+
       {/* Mobile Navigation */}
       <div className="lg:hidden block">
         <div className=" bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100">
@@ -249,35 +262,98 @@ const Navbar = () => {
                   </Button>
                 </Link>
               )}
-              
+
               {/* Mobile Menu */}
               <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger className="focus:outline-none cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
                   {open ? <X size={20} /> : <Menu size={20} />}
                 </SheetTrigger>
-                <SheetContent
-                  side="left"
-                  className="w-64 p-4 bg-white/95 backdrop-blur-md"
-                >
-                  <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                <SheetContent side="left" className="w-80 p-0 bg-white">
+                  <div className="flex flex-col h-full">
+                    {/* Header */}
+                    <div className="p-4 border-b border-gray-200">
+                      <h2 className="text-lg font-semibold text-gray-800">
+                        Menu
+                      </h2>
+                    </div>
 
-                  <nav className="flex flex-col space-y-4 mt-8">
-                    {navLinks.map((link) => (
-                      <Link
-                        key={link.name}
-                        href={link.href}
-                        className={cn(
-                          "text-lg font-medium transition-colors duration-300 py-2 px-3 rounded-lg hover:bg-gray-50",
-                          isActive(link.href)
-                            ? "text-brand-secondary font-semibold bg-brand-primary/5"
-                            : "text-gray-700 hover:text-brand-secondary"
-                        )}
-                        onClick={() => setOpen(false)}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </nav>
+                    {/* Navigation Menu */}
+                    <div className="flex-1 overflow-y-auto">
+                      <nav className="py-2">
+                        {/* Main Menu Items */}
+                        {navLinks.map((link) => (
+                          <div
+                            key={link.name}
+                            className="border-b border-gray-100"
+                          >
+                            <Link
+                              href={link.href}
+                              className={cn(
+                                "flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors duration-200",
+                                isActive(link.href)
+                                  ? "text-brand-secondary bg-brand-primary/5"
+                                  : "text-gray-700 hover:text-brand-secondary hover:bg-gray-50"
+                              )}
+                              onClick={() => setOpen(false)}
+                            >
+                              <span>{link.name}</span>
+                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                            </Link>
+                          </div>
+                        ))}
+
+                        {/* Research Wing Collapsible Section */}
+                        <div className="border-b border-gray-100">
+                          <button
+                            onClick={() => toggleCategory("researchWing")}
+                            className={cn(
+                              "flex items-center justify-between w-full px-4 py-3 text-sm font-medium transition-colors duration-200",
+                              isActive("/allpapers") ||
+                                isActive("/ongoing-projects") ||
+                                isActive("/international-conferences") ||
+                                isActive("/achievements")
+                                ? "text-brand-secondary bg-brand-primary/5"
+                                : "text-gray-700 hover:text-brand-secondary hover:bg-gray-50"
+                            )}
+                          >
+                            <span>Research Wing</span>
+                            {isCategoryExpanded("researchWing") ? (
+                              <ChevronDown className="w-4 h-4 text-gray-400" />
+                            ) : (
+                              <ChevronRight className="w-4 h-4 text-gray-400" />
+                            )}
+                          </button>
+
+                          {isCategoryExpanded("researchWing") && (
+                            <div className="bg-gray-50">
+                              {researchWingItems.map((item) => (
+                                <Link
+                                  key={item.name}
+                                  href={item.href}
+                                  className={cn(
+                                    "block px-8 py-2 text-sm transition-colors duration-200 border-b border-gray-100 last:border-b-0",
+                                    isActive(item.href)
+                                      ? "text-brand-secondary font-medium"
+                                      : "text-gray-600 hover:text-brand-secondary"
+                                  )}
+                                  onClick={() => setOpen(false)}
+                                >
+                                  {item.name}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </nav>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-4 border-t border-gray-200">
+                      <div className="text-xs text-gray-500 text-center">
+                        © 2024 Research Ustad. All rights reserved.
+                      </div>
+                    </div>
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import * as React from "react";
 import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -11,9 +12,22 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { GetAllResearchPaperPublic } from "@/services/allreserchPaper";
+
+// Research Wing submenu items
+const researchWingItems = [
+  { name: "Publication", href: "/allpapers" },
+  { name: "Ongoing Projects", href: "/ongoing-projects" },
+  {
+    name: "International Conference",
+    href: "/international-conferences",
+  },
+  { name: "Achievements", href: "/achievements" },
+];
 
 export function DroopDown() {
   const [papers, setPapers] = React.useState([]);
@@ -52,34 +66,31 @@ export function DroopDown() {
           </Link>
         </NavigationMenuItem>
 
-        {/* <NavigationMenuItem>
-          <NavigationMenuTrigger>Our Wings</NavigationMenuTrigger>
+        {/* Research Wing Dropdown */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={cn(
+              "hover:text-brand-secondary focus:text-brand-secondary",
+              (isActive("/allpapers") ||
+                isActive("/ongoing-projects") ||
+                isActive("/international-conferences") ||
+                isActive("/achievements")) &&
+                "text-brand-secondary font-semibold"
+            )}
+          >
+            Research Wing
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-              {components.map((component) => (
+            <ul className="grid w-[200px] gap-1 p-4 md:w-[300px] lg:w-[300px]">
+              {researchWingItems.map((item) => (
                 <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
+                  key={item.name}
+                  title={item.name}
+                  href={item.href}
+                ></ListItem>
               ))}
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem> */}
-        <NavigationMenuItem>
-          <Link href="/allpapers" legacyBehavior passHref>
-            <NavigationMenuLink
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/allpapers") && "text-brand-secondary font-semibold"
-              )}
-            >
-              Research Papers
-            </NavigationMenuLink>
-          </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
@@ -92,11 +103,10 @@ export function DroopDown() {
                   "text-brand-secondary font-semibold"
               )}
             >
-              Our Researchers
+              Team Member
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-
         <NavigationMenuItem>
           <Link href="/blog" legacyBehavior passHref>
             <NavigationMenuLink

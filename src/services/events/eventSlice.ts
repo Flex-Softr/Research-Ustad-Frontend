@@ -116,7 +116,10 @@ export const deleteEvent = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!res.ok) throw new Error("Failed to delete event");
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to delete event");
+
       return _id;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);

@@ -117,7 +117,8 @@ export const deleteCourse = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!res.ok) throw new Error("Failed to delete course");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to delete course");
       return id;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
