@@ -23,7 +23,10 @@ const BlogCard = ({ post }: { post: Blog }) => (
         />
         <div className="absolute top-3 left-3">
           <span className="bg-brand-primary text-white px-2 py-1 rounded text-xs">
-            {post.category || "General"}
+            {typeof post.category === 'string' 
+              ? post.category 
+              : post.category?.name || "General"
+            }
           </span>
         </div>
       </div>

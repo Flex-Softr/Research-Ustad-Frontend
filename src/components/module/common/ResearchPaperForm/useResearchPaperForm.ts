@@ -36,7 +36,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
   } = useForm<ResearchPaperFormData>({
     mode: "onChange",
     defaultValues: {
-      paperType: "",
+      paperType: "journal",
       status: "ongoing",
     },
   });
@@ -53,7 +53,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
         impactFactor: 0,
         journalRank: "",
         visitLink: "",
-        paperType: "",
+        paperType: "journal",
         status: "ongoing",
         abstract: "",
         citations: 0,

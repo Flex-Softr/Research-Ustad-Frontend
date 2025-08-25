@@ -158,7 +158,7 @@ export function BasicInformationSection({
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="duration">Duration</Label>
+            <Label htmlFor="duration">Duration *</Label>
             <Input
               id="duration"
               placeholder="e.g., 10 weeks, 20 hours"

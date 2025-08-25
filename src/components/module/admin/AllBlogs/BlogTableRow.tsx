@@ -26,9 +26,9 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
   onSelect,
   onView,
   onEdit,
+  onPreview,
   onDelete,
   onApprove,
-  onReject,
   formatDate,
   isAdmin = false,
 }) => {
@@ -89,7 +89,9 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
       </TableCell>
       <TableCell>
         <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-          {blog.category || "Uncategorized"}
+          {typeof blog.category === "string"
+            ? blog.category
+            : blog.category?.name || "Uncategorized"}
         </span>
       </TableCell>
       <TableCell>
@@ -118,6 +120,16 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            {/* Preview button only for pending blogs */}
+            {blog.status === "pending" && (
+              <DropdownMenuItem
+                onClick={() => setTimeout(() => onPreview?.(blog), 0)}
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Preview
+              </DropdownMenuItem>
+            )}
+
             {/* Only show View button for approved blogs */}
             {blog.status === "approved" && (
               <DropdownMenuItem onClick={() => onView(blog)}>
@@ -140,13 +152,6 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
                 >
                   <CheckCircle className="w-4 h-4 mr-2" />
                   Approve
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => onReject?.(blog)}
-                  className="text-red-600 cursor-pointer"
-                >
-                  <XCircle className="w-4 h-4 mr-2" />
-                  Reject
                 </DropdownMenuItem>
               </>
             )}

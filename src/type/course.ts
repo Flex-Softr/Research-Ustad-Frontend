@@ -9,7 +9,7 @@ export interface Course {
   offlineLocation?: string;
   duration: string;
   level: string;
-  category: string;
+  category: string | { _id: string; name: string; description?: string };
   fee?: number;
   isFree: boolean;
   enrolled: number;
@@ -61,9 +61,6 @@ export interface Course {
   }>;
 }
 
-
-
-
 export interface AllCoursesTableProps {
   onEditCourse: (course: Course) => void;
   onViewCourse: (course: Course) => void;
@@ -92,7 +89,7 @@ export interface CourseFormData {
   offlineLocation?: string;
   duration: string;
   level: string;
-  category: string;
+  category: string | { _id: string; name: string; description?: string };
   fee?: number;
   isFree: boolean;
   capacity: number;
@@ -135,8 +132,7 @@ export interface CourseFormData {
 export interface ValidationError {
   field: string;
   message: string;
-} 
-
+}
 
 export interface BasicInformationSectionProps {
   formData: {
@@ -210,7 +206,7 @@ export interface FormSidebarProps {
     lifetimeAccess: boolean;
     enrollLink: string;
     thumbnail: File | null;
-    tags: string[];
+    tags?: string[];
     whatYouWillLearn: string[];
     requirements: string[];
     instructors: any[];
@@ -252,7 +248,6 @@ export interface InstructorsSectionProps {
   isEditMode?: boolean;
   hasAttemptedSubmit?: boolean;
 }
-
 
 export interface LearningObjectivesSectionProps {
   objectives: string[];

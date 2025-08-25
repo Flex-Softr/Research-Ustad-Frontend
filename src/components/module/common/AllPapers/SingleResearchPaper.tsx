@@ -413,7 +413,9 @@ const SingleResearchPaper = ({
                   </div>
                 )}
                 <div>
-                  <span className="text-sm text-gray-600">Published</span>
+                  <span className="text-sm text-gray-600">
+                    {paper?.status === "published" ? "Published" : "Started"}
+                  </span>
                   <p className="text-sm font-medium text-gray-900">
                     {paper?.year || "Not specified"}
                   </p>

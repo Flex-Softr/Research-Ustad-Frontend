@@ -1,28 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "universal-cookie";
 import { api } from "@/config";
+
 // Types
-export interface Category {
+export interface BlogCategory {
   _id: string;
   name: string;
   description?: string;
-  courseCount?: number;
-  totalEnrollments?: number;
-  averageRating?: number;
-  totalRevenue?: number;
+  blogCount: number;
   status: "active" | "inactive";
   createdAt: string;
   updatedAt: string;
 }
 
-interface CategoryState {
-  categories: Category[];
-  category: Category | null;
+interface BlogCategoryState {
+  categories: BlogCategory[];
+  category: BlogCategory | null;
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: CategoryState = {
+const initialState: BlogCategoryState = {
   categories: [],
   category: null,
   isLoading: false,
@@ -33,15 +31,15 @@ const initialState: CategoryState = {
 // Async Thunks
 // ----------------------
 
-// Get all categories with statistics
-export const fetchCategories = createAsyncThunk(
-  "categories/fetchAll",
+// Get all blog categories
+export const fetchBlogCategories = createAsyncThunk(
+  "blogCategories/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const res = await fetch(`${api.baseUrl}/category/stats`);
+      const res = await fetch(`${api.baseUrl}/blog-category`);
       const data = await res.json();
       if (!res.ok)
-        throw new Error(data.message || "Failed to fetch categories");
+        throw new Error(data.message || "Failed to fetch blog categories");
       return data.data || [];
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -49,14 +47,14 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-// Get single category
-export const fetchSingleCategory = createAsyncThunk(
-  "categories/fetchOne",
+// Get single blog category
+export const fetchSingleBlogCategory = createAsyncThunk(
+  "blogCategories/fetchOne",
   async (id: string, thunkAPI) => {
     try {
-      const res = await fetch(`${api.baseUrl}/category/${id}`);
+      const res = await fetch(`${api.baseUrl}/blog-category/${id}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to fetch category");
+      if (!res.ok) throw new Error(data.message || "Failed to fetch blog category");
       return data.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -64,9 +62,9 @@ export const fetchSingleCategory = createAsyncThunk(
   }
 );
 
-// Add category
-export const addCategory = createAsyncThunk(
-  "categories/add",
+// Add blog category
+export const addBlogCategory = createAsyncThunk(
+  "blogCategories/add",
   async (
     categoryData: {
       name: string;
@@ -79,7 +77,7 @@ export const addCategory = createAsyncThunk(
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${api.baseUrl}/category`, {
+      const res = await fetch(`${api.baseUrl}/blog-category`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +86,7 @@ export const addCategory = createAsyncThunk(
         body: JSON.stringify(categoryData),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to add category");
+      if (!res.ok) throw new Error(data.message || "Failed to add blog category");
       return data.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -96,18 +94,18 @@ export const addCategory = createAsyncThunk(
   }
 );
 
-// Update category
-export const updateCategory = createAsyncThunk(
-  "categories/update",
+// Update blog category
+export const updateBlogCategory = createAsyncThunk(
+  "blogCategories/update",
   async (
-    { id, categoryData }: { id: string; categoryData: Partial<Category> },
+    { id, categoryData }: { id: string; categoryData: Partial<BlogCategory> },
     thunkAPI
   ) => {
     const cookies = new Cookies();
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${api.baseUrl}/category/${id}`, {
+      const res = await fetch(`${api.baseUrl}/blog-category/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +114,7 @@ export const updateCategory = createAsyncThunk(
         body: JSON.stringify(categoryData),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to update category");
+      if (!res.ok) throw new Error(data.message || "Failed to update blog category");
       return data.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -124,21 +122,21 @@ export const updateCategory = createAsyncThunk(
   }
 );
 
-// Delete category
-export const deleteCategory = createAsyncThunk(
-  "categories/delete",
+// Delete blog category
+export const deleteBlogCategory = createAsyncThunk(
+  "blogCategories/delete",
   async (id: string, thunkAPI) => {
     const cookies = new Cookies();
     const token = cookies.get("accessToken");
 
     try {
-      const res = await fetch(`${api.baseUrl}/category/${id}`, {
+      const res = await fetch(`${api.baseUrl}/blog-category/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!res.ok) throw new Error("Failed to delete category");
+      if (!res.ok) throw new Error("Failed to delete blog category");
       return id;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -150,62 +148,62 @@ export const deleteCategory = createAsyncThunk(
 // Slice
 // ----------------------
 
-const categoriesSlice = createSlice({
-  name: "categories",
+const blogCategoriesSlice = createSlice({
+  name: "blogCategories",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       // Fetch all
-      .addCase(fetchCategories.pending, (state) => {
+      .addCase(fetchBlogCategories.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchCategories.fulfilled, (state, action) => {
+      .addCase(fetchBlogCategories.fulfilled, (state, action) => {
         state.isLoading = false;
         state.categories = action.payload;
       })
-      .addCase(fetchCategories.rejected, (state, action) => {
+      .addCase(fetchBlogCategories.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
 
       // Fetch single
-      .addCase(fetchSingleCategory.pending, (state) => {
+      .addCase(fetchSingleBlogCategory.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchSingleCategory.fulfilled, (state, action) => {
+      .addCase(fetchSingleBlogCategory.fulfilled, (state, action) => {
         state.category = action.payload;
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(fetchSingleCategory.rejected, (state, action) => {
+      .addCase(fetchSingleBlogCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
 
       // Add
-      .addCase(addCategory.pending, (state) => {
+      .addCase(addBlogCategory.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(addCategory.fulfilled, (state, action) => {
+      .addCase(addBlogCategory.fulfilled, (state, action) => {
         state.categories.push(action.payload);
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(addCategory.rejected, (state, action) => {
+      .addCase(addBlogCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
 
       // Update
-      .addCase(updateCategory.pending, (state) => {
+      .addCase(updateBlogCategory.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(updateCategory.fulfilled, (state, action) => {
+      .addCase(updateBlogCategory.fulfilled, (state, action) => {
         const index = state.categories.findIndex(
           (c) => c._id === action.payload._id
         );
@@ -215,28 +213,28 @@ const categoriesSlice = createSlice({
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(updateCategory.rejected, (state, action) => {
+      .addCase(updateBlogCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
 
       // Delete
-      .addCase(deleteCategory.pending, (state) => {
+      .addCase(deleteBlogCategory.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(deleteCategory.fulfilled, (state, action) => {
+      .addCase(deleteBlogCategory.fulfilled, (state, action) => {
         state.categories = state.categories.filter(
           (c) => c._id !== action.payload
         );
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(deleteCategory.rejected, (state, action) => {
+      .addCase(deleteBlogCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });
   },
 });
 
-export default categoriesSlice.reducer;
+export default blogCategoriesSlice.reducer;

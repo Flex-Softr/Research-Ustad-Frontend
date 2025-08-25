@@ -42,7 +42,10 @@ const BlogCard = ({ post }: { post: Blog }) => {
         {/* Category Badge */}
         <div className="absolute top-4 left-4">
           <span className="bg-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-            {post.category || "Blog"}
+            {typeof post.category === 'string' 
+              ? post.category 
+              : post.category?.name || "Blog"
+            }
           </span>
         </div>
 

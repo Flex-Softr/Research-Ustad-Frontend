@@ -56,6 +56,11 @@ const AllBlogs = () => {
     router.push(`/blog/${blog._id}`);
   };
 
+  const handlePreviewBlog = (blog: Blog) => {
+    setSelectedBlog(blog);
+    setIsViewModalOpen(true);
+  };
+
   const handleCreateBlog = () => {
     setSelectedBlog(null);
     setIsEditModalOpen(true);
@@ -73,7 +78,9 @@ const AllBlogs = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">All Blogs</h1>
-          <p className="text-gray-600">Manage all blogs in the system (including pending approvals)</p>
+          <p className="text-gray-600">
+            Manage all blogs in the system (including pending approvals)
+          </p>
         </div>
         <div className="flex gap-2">
           <Button variant="primary" onClick={handleCreateBlog}>
@@ -101,6 +108,7 @@ const AllBlogs = () => {
       <AllBlogsTable
         onEditBlog={handleEditBlog}
         onViewBlog={handleViewBlog}
+        onPreviewBlog={handlePreviewBlog}
         isAdmin={true}
         searchTerm={searchTerm}
       />

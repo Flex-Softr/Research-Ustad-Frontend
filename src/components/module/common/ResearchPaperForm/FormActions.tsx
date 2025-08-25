@@ -12,7 +12,7 @@ const FormActions: React.FC<FormActionsProps> = ({ isEditMode, loading }) => {
     <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
       <Button
         type="submit"
-        className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
+        className="w-full h-12 text-lg font-semibold bg-brand-primary hover:bg-brand-secondary cursor-pointer text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-[1.02]"
         disabled={loading}
       >
         {loading ? (

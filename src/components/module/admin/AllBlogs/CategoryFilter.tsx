@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText } from "lucide-react";
-import { blogCategories } from "@/components/shared/BlogCategories";
+// import { blogCategories } from "@/components/shared/BlogCategories";
 
 interface CategoryFilterProps {
   selectedCategory: string;

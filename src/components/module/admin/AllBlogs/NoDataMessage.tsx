@@ -3,7 +3,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Plus } from "lucide-react";
-import { blogCategories } from "@/components/shared/BlogCategories";
 import { useRouter } from "next/navigation";
 
 interface NoDataMessageProps {
@@ -12,6 +11,7 @@ interface NoDataMessageProps {
   onCreateClick?: () => void;
   title?: string;
   description?: string;
+  categoryName?: string; // Add prop for dynamic category name
 }
 
 const NoDataMessage: React.FC<NoDataMessageProps> = ({
@@ -20,6 +20,7 @@ const NoDataMessage: React.FC<NoDataMessageProps> = ({
   onCreateClick,
   title = "No Blogs Found",
   description,
+  categoryName,
 }) => {
   const router = useRouter();
 
@@ -28,9 +29,7 @@ const NoDataMessage: React.FC<NoDataMessageProps> = ({
     
     return selectedCategory === "all"
       ? "There are no blogs in the system yet. Create your first blog to get started!"
-      : `No blogs found in the "${
-          blogCategories.find((cat) => cat.value === selectedCategory)?.label
-        }" category.`;
+      : `No blogs found in the "${categoryName || selectedCategory}" category.`;
   };
 
   const handleCreateClick = () => {

@@ -35,10 +35,6 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
               placeholder="Enter the title of the paper"
               {...register("title", {
                 required: "Title is required",
-                minLength: {
-                  value: 5,
-                  message: "Title must be at least 5 characters",
-                },
               })}
               className={`${errors.title ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />
@@ -63,8 +59,8 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
               {...register("year", {
                 required: "Year is required",
                 min: {
-                  value: 1900,
-                  message: "Year must be at least 1900",
+                  value: 1,
+                  message: "Year cannot be 0 or negative",
                 },
                 max: {
                   value: currentYear,
@@ -94,10 +90,6 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({ register, errors }) =
               placeholder="Enter the journal name"
               {...register("journal", {
                 required: "Journal is required",
-                minLength: {
-                  value: 3,
-                  message: "Journal name must be at least 3 characters",
-                },
               })}
               className={`${errors.journal ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}
             />

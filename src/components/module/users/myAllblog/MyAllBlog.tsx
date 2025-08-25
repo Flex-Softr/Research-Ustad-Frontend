@@ -20,7 +20,7 @@ import { Blog } from "@/type";
 import { toast } from "sonner";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -233,7 +233,7 @@ const MyAllBlog = () => {
                       </TableCell>
                       <TableCell>
                         <Badge variant="outline" className="text-xs">
-                          {blog.category || "Uncategorized"}
+                          {blog.category?.name || "Uncategorized"}
                         </Badge>
                       </TableCell>
                       <TableCell>

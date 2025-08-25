@@ -22,7 +22,7 @@ const contactInfo = [
   {
     icon: FaWhatsapp,
     title: "WhatsApp",
-    details: ["+880 1724-653054"],
+    details: ["+880 1910-649179"],
   },
 ];
 

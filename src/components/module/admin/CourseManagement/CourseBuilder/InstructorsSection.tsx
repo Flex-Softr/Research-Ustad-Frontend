@@ -99,6 +99,11 @@ export function InstructorsSection({
                     onUpdateInstructor(i, "experience", e.target.value)
                   }
                 />
+                {getFieldError(`instructor_${i}_experience`) && hasAttemptedSubmit && (
+                  <p className="text-sm text-red-600">
+                    {getFieldError(`instructor_${i}_experience`)}
+                  </p>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">

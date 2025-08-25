@@ -71,9 +71,9 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Link href={getDashboardLink()}>
+              <Link href="/contact">
                 <Button variant="primary" size="lg">
-                  {getPrimaryButtonText()}
+                START YOUR RESEARCH
                 </Button>
               </Link>
 

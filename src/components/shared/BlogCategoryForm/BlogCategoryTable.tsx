@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { deleteCategory, fetchCategories } from "@/services/categories/categoriesSlice";
+import { deleteBlogCategory, fetchBlogCategories } from "@/services/blogCategories/blogCategoriesSlice";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,64 +22,42 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { Edit, Trash2, MoreHorizontal, BookOpen, Users } from "lucide-react";
+import { Edit, Trash2, MoreHorizontal, FileText, Eye } from "lucide-react";
 import Pagination from "@/components/shared/Pagination";
-import { Category } from "@/services/categories/categoriesSlice";
+import { BlogCategory } from "./BlogCategoryForm";
 
-interface CategoryTableProps {
-  onEditCategory: (category: Category) => void;
+interface BlogCategoryTableProps {
+  onEditCategory: (category: BlogCategory) => void;
 }
 
-// Category interface already includes stats from backend aggregation
-interface CategoryWithStats extends Category {
-  courseCount: number;
-  totalEnrollments: number;
-  averageRating: number;
-  totalRevenue: number;
-}
-
-const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
+const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(
+  const [categoryToDelete, setCategoryToDelete] = useState<BlogCategory | null>(
     null
   );
   const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const { categories, isLoading, error } = useSelector(
-    (state: RootState) => state.categories
+    (state: RootState) => state.blogCategories
   );
 
-  // Load categories with statistics from backend
+  // Load categories data on mount
   useEffect(() => {
-    dispatch(fetchCategories());
+    dispatch(fetchBlogCategories());
   }, [dispatch]);
-
-  // Use backend aggregated statistics
-  const getCategoryStats = (category: Category): CategoryWithStats => {
-    return {
-      ...category,
-      courseCount: category.courseCount || 0,
-      totalEnrollments: category.totalEnrollments || 0,
-      averageRating: category.averageRating || 0,
-      totalRevenue: category.totalRevenue || 0
-    };
-  };
-
-  // Get categories with calculated stats
-  const categoriesWithStats = categories.map(getCategoryStats);
 
   // Get paginated categories
   const getPaginatedCategories = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return categoriesWithStats.slice(startIndex, endIndex);
+    return categories.slice(startIndex, endIndex);
   };
 
-  const totalPages = Math.ceil(categoriesWithStats.length / itemsPerPage);
+  const totalPages = Math.ceil(categories.length / itemsPerPage);
 
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
@@ -108,14 +86,14 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     try {
       // Delete all selected categories
       const deletePromises = selectedCategories.map(categoryId => 
-        dispatch(deleteCategory(categoryId)).unwrap()
+        dispatch(deleteBlogCategory(categoryId)).unwrap()
       );
       
       await Promise.all(deletePromises);
-      toast.success(`Successfully deleted ${selectedCategories.length} categories`);
+      toast.success(`Successfully deleted ${selectedCategories.length} blog categories`);
     } catch (error) {
-      console.error("Error deleting categories:", error);
-      toast.error("Failed to delete categories");
+      console.error("Error deleting blog categories:", error);
+      toast.error("Failed to delete blog categories");
     }
     // Clear selection and close dialog regardless of success or error
     setSelectedCategories([]);
@@ -123,7 +101,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   };
 
   // Handle individual delete
-  const handleDeleteCategory = (category: Category) => {
+  const handleDeleteCategory = (category: BlogCategory) => {
     setCategoryToDelete(category);
     setDeleteDialogOpen(true);
   };
@@ -131,11 +109,11 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   const confirmDelete = async () => {
     if (categoryToDelete) {
       try {
-        await dispatch(deleteCategory(categoryToDelete._id)).unwrap();
-        toast.success("Category deleted successfully!");
+        await dispatch(deleteBlogCategory(categoryToDelete._id)).unwrap();
+        toast.success("Blog category deleted successfully!");
       } catch (error) {
-        console.error("Error deleting category:", error);
-        toast.error("Failed to delete category");
+        console.error("Error deleting blog category:", error);
+        toast.error("Failed to delete blog category");
       }
       setCategoryToDelete(null);
     }
@@ -149,7 +127,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
         <LoadingSpinner
           size="md"
           variant="border"
-          text="Loading categories..."
+          text="Loading blog categories..."
         />
       </div>
     );
@@ -158,7 +136,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">Error loading categories: {error}</p>
+        <p className="text-red-600">Error loading blog categories: {error}</p>
       </div>
     );
   }
@@ -169,21 +147,20 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     selectedCategories.length === paginatedCategories.length;
 
   // Calculate overall statistics
-  const totalCourses = categoriesWithStats.reduce((sum, cat) => sum + cat.courseCount, 0);
-  const totalEnrollments = categoriesWithStats.reduce((sum, cat) => sum + cat.totalEnrollments, 0);
-  const totalRevenue = categoriesWithStats.reduce((sum, cat) => sum + cat.totalRevenue, 0);
+  const totalBlogs = categories.reduce((sum, cat) => sum + cat.blogCount, 0);
+  const activeCategories = categories.filter(cat => cat.status === 'active').length;
 
   return (
     <div className="space-y-6">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <BookOpen className="w-8 h-8 text-blue-600" />
+              <FileText className="w-8 h-8 text-blue-600" />
               <div>
-                <p className="text-sm font-medium text-blue-600">Total Courses</p>
-                <p className="text-2xl font-bold text-blue-900">{totalCourses}</p>
+                <p className="text-sm font-medium text-blue-600">Total Blogs</p>
+                <p className="text-2xl font-bold text-blue-900">{totalBlogs}</p>
               </div>
             </div>
           </CardContent>
@@ -191,23 +168,10 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
         <Card className="bg-green-50 border-green-200">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <Users className="w-8 h-8 text-green-600" />
+              <Eye className="w-8 h-8 text-green-600" />
               <div>
-                <p className="text-sm font-medium text-green-600">Total Enrollments</p>
-                <p className="text-2xl font-bold text-green-900">{totalEnrollments.toLocaleString()}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-purple-50 border-purple-200">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">$</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()}</p>
+                <p className="text-sm font-medium text-green-600">Active Categories</p>
+                <p className="text-2xl font-bold text-green-900">{activeCategories}</p>
               </div>
             </div>
           </CardContent>
@@ -235,7 +199,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={handleBulkDelete}
+                  onClick={() => setBulkDeleteDialogOpen(true)}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete Selected
@@ -250,10 +214,10 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Course Categories ({categoriesWithStats.length})</span>
+            <span>Blog Categories ({categories.length})</span>
             <div className="flex items-center gap-2 text-sm text-gray-600">
-              <BookOpen className="w-4 h-4" />
-              <span>{totalCourses} total courses</span>
+              <FileText className="w-4 h-4" />
+              <span>{totalBlogs} total blogs</span>
             </div>
           </CardTitle>
         </CardHeader>
@@ -270,10 +234,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                   </TableHead>
                   <TableHead>Category Name</TableHead>
                   <TableHead>Description</TableHead>
-                  <TableHead>Courses</TableHead>
-                  <TableHead>Enrollments</TableHead>
-                  <TableHead>Avg Rating</TableHead>
-                  <TableHead>Revenue</TableHead>
+                  <TableHead>Blogs</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead className="w-12">Actions</TableHead>
@@ -297,37 +258,15 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                     </TableCell>
                     <TableCell>
                       <div className="text-sm text-gray-600">
-                        {category.description  ?.replace(/<[^>]*>/g, "")
-                                .substring(0, 10) || "No description"}...
+                        {category.description || "No description"}
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-brand-secondary" />
+                        <FileText className="w-4 h-4 text-brand-secondary" />
                         <span className="font-medium">
-                          {category.courseCount}
+                          {category.blogCount}
                         </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-brand-secondary" />
-                        <span className="font-medium">
-                          {category.totalEnrollments.toLocaleString()}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <span className="text-yellow-500">★</span>
-                        <span className="font-medium">
-                          {category.averageRating}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="font-medium text-green-600">
-                        ${category.totalRevenue.toLocaleString()}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -379,12 +318,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
           </div>
 
           {/* Pagination */}
-          {categoriesWithStats.length > 10 && (
+          {categories.length > 10 && (
             <div className="mt-6">
               <Pagination
                 itemsPerPage={10}
                 currentPage={currentPage}
-                totalItems={categoriesWithStats.length}
+                totalItems={categories.length}
                 onPageChange={setCurrentPage}
                 totalPages={totalPages}
               />
@@ -398,9 +337,9 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
         isOpen={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
         onConfirm={confirmDelete}
-        title="Delete Category"
+        title="Delete Blog Category"
         itemName={categoryToDelete?.name || ""}
-        itemType="category"
+        itemType="blog category"
       />
 
       {/* Bulk Delete Confirmation Dialog */}
@@ -408,12 +347,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
         isOpen={bulkDeleteDialogOpen}
         onOpenChange={setBulkDeleteDialogOpen}
         onConfirm={handleBulkDelete}
-        title="Delete Selected Categories"
-        itemName={`${selectedCategories.length} categories`}
-        itemType="categories"
+        title="Delete Selected Blog Categories"
+        itemName={`${selectedCategories.length} blog categories`}
+        itemType="blog categories"
       />
     </div>
   );
 };
 
-export default CategoryTable;
+export default BlogCategoryTable;

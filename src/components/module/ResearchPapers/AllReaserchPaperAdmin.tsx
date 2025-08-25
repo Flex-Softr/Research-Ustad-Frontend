@@ -4,7 +4,6 @@ import {
   DeletePaper,
   GetAllResearchPaper,
   ApprovePaper,
-  RejectPaper,
 } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
 import { useEffect, useState } from "react";
@@ -77,20 +76,7 @@ const AllreserchPaperAdmin = () => {
     }
   };
 
-  const handleReject = async (id: string) => {
-    try {
-      // Call the rejection service
-      const res = await RejectPaper(id);
-      if (res) {
-        toast.success("Paper rejected successfully!");
-        // Refresh data after successful rejection
-        await fetchData();
-      }
-    } catch (error) {
-      console.error("Error rejecting paper:", error);
-      toast.error("Failed to reject paper");
-    }
-  };
+
 
   const columns = [
     { label: "Year", value: "year" },
@@ -112,7 +98,6 @@ const AllreserchPaperAdmin = () => {
         loading={loading}
         onDelete={handleDelete}
         onApprove={handleApprove}
-        onReject={handleReject}
         customRenderCell={(column, item) => {
           // Custom rendering for status column
           if (column.value === "status") {
@@ -156,31 +141,19 @@ const AllreserchPaperAdmin = () => {
         }}
         customActions={(item) => (
           <div className="flex gap-2">
-            {/* Approve/Reject Buttons */}
-            <div className="flex gap-2">
-              <Button
-                onClick={() => handleApprove(item._id)}
-                size="sm"
-                className={`${
-                  item.isApproved
-                    ? "bg-green-600 text-white hover:bg-green-700"
-                    : "bg-blue-600 text-white hover:bg-blue-700"
-                } transition-colors duration-200 cursor-pointer`}
-                disabled={item.isApproved}
-              >
-                {item.isApproved ? "✓ Approved" : "Approve"}
-              </Button>
-              {!item.isApproved && (
-                <Button
-                  onClick={() => handleReject(item._id)}
-                  size="sm"
-                  variant="destructive"
-                  className="transition-colors duration-200 cursor-pointer"
-                >
-                  Reject
-                </Button>
-              )}
-            </div>
+            {/* Approve Button */}
+            <Button
+              onClick={() => handleApprove(item._id)}
+              size="sm"
+              className={`${
+                item.isApproved
+                  ? "bg-green-600 text-white hover:bg-green-700"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
+              } transition-colors duration-200 cursor-pointer`}
+              disabled={item.isApproved}
+            >
+              {item.isApproved ? "✓ Approved" : "Approve"}
+            </Button>
 
             {/* Delete Button */}
             <Button

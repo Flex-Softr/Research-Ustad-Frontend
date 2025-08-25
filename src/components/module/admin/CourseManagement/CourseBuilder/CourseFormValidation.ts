@@ -38,7 +38,7 @@ export interface CourseFormData {
     rating: number;
     students: number;
   }>;
-  tags: string[];
+  tags?: string[];
   whatYouWillLearn: string[];
   requirements: string[];
 }
@@ -54,11 +54,6 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
   // Required fields
   if (!data.title.trim()) {
     errors.push({ field: "title", message: "Course title is required" });
-  } else if (data.title.length < 5) {
-    errors.push({
-      field: "title",
-      message: "Course title must be at least 5 characters",
-    });
   }
 
   if (!data.description.trim()) {
@@ -66,10 +61,10 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
       field: "description",
       message: "Course description is required",
     });
-  } else if (data.description.length < 20) {
+  } else if (data.description.length < 10) {
     errors.push({
       field: "description",
-      message: "Course description must be at least 20 characters",
+      message: "Course description must be at least 10 characters",
     });
   }
 
@@ -79,11 +74,11 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
       field: "curriculum",
       message: "Course curriculum is required",
     });
-  } else if (data.curriculum.length < 50) {
-    errors.push({
-      field: "curriculum",
-      message: "Course curriculum must be at least 50 characters",
-    });
+  // } else if (data.curriculum.length < 50) {
+  //   errors.push({
+  //     field: "curriculum",
+  //     message: "Course curriculum must be at least 50 characters",
+  //   });
   }
 
   if (!data.category.trim()) {
@@ -139,10 +134,10 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
   }
 
   // Duration validation
-  if (data.duration.trim() && data.duration.length < 3) {
+  if (!data.duration.trim()) {
     errors.push({
       field: "duration",
-      message: "Duration must be at least 3 characters",
+      message: "Duration is required",
     });
   }
 
@@ -191,10 +186,10 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
     }
   }
 
-  // Tags validation
-  if (data.tags.length === 0) {
-    errors.push({ field: "tags", message: "At least one tag is required" });
-  }
+  // Tags validation - now optional
+  // if (data.tags.length === 0) {
+  //   errors.push({ field: "tags", message: "At least one tag is required" });
+  // }
 
   // Learning objectives validation
   if (data.whatYouWillLearn.length === 0) {
@@ -268,6 +263,12 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
         errors.push({
           field: `instructor_${index}_specialization`,
           message: "Instructor specialization is required",
+        });
+      }
+      if (!instructor.experience.trim()) {
+        errors.push({
+          field: `instructor_${index}_experience`,
+          message: "Instructor experience is required",
         });
       }
       if (instructor.rating < 0 || instructor.rating > 5) {

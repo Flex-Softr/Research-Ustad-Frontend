@@ -3,7 +3,13 @@ export interface Blog {
   _id?: string;
   title: string;
   content: string;
-  category: string;
+  category: string | {
+    _id: string;
+    name: string;
+    description?: string;
+    blogCount?: number;
+    status?: string;
+  };
   imageUrl: string;
   author: {
     fullName: string;
@@ -22,10 +28,11 @@ export interface Blog {
 export interface BlogTableRowProps {
   blog: Blog;
   isSelected?: boolean;
-  onSelect?: (checked: boolean) => void;
-  onView: (blog: Blog) => void;
-  onEdit: (blog: Blog) => void;
-  onDelete: (blog: Blog) => void;
+  onSelect?: (blog: Blog) => void;
+  onView?: (blog: Blog) => void;
+  onEdit?: (blog: Blog) => void;
+  onPreview?: (blog: Blog) => void;
+  onDelete?: (blog: Blog) => void;
   onApprove?: (blog: Blog) => void;
   onReject?: (blog: Blog) => void;
   formatDate: (dateString: string) => string;
@@ -37,7 +44,6 @@ export interface BlogPostForm {
   imageUrl?: string;
   category: string;
   content: string;
-  status?: "pending" | "approved" | "rejected";
 }
 
 export interface BlogSubmissionData {
@@ -59,7 +65,7 @@ export interface IPost {
   title: string;
   author?: Authors;
   category?: string;
-  status?: "pending" | "approved" | "rejected";
+  content: string;
 }
 
 export interface TPost {
@@ -73,7 +79,6 @@ export interface TPost {
   createdAt: string;
   updatedAt: string;
   status: "pending" | "approved" | "rejected";
-  __v: number;
 }
 
 interface Author {
@@ -88,15 +93,11 @@ interface Author {
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
-  __v: number;
 }
 
 interface Authors {
   _id: string;
   name: string;
+  email: string;
   designation: string;
-  image: string;
-  email?: string;
-  fullName?: string;
-  role: string;
 } 

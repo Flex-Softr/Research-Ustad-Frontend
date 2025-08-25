@@ -421,7 +421,7 @@ const UpdateInfo = () => {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full mt-6 cursor-pointer"
+            className="w-full mt-6 cursor-pointer bg-brand-primary hover:bg-brand-secondary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
           >
             {loading ? (
               <>

@@ -55,12 +55,12 @@ const EventForm = ({
 
   // Add validation for agenda field
   const agenda = watch("agenda");
-// Show error only if field is touched or form is submitted
-const agendaError =
-  (touchedFields.agenda || isSubmitted) &&
-  (!agenda || agenda.trim().length < 50)
-    ? "Event agenda must be at least 50 characters"
-    : undefined;
+  // Show error only if field is touched or form is submitted
+  const agendaError =
+    (touchedFields.agenda || isSubmitted) &&
+    (!agenda || agenda.trim().length < 50)
+      ? "Event agenda must be at least 50 characters"
+      : undefined;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "speakers",
@@ -72,9 +72,17 @@ const agendaError =
     [key: number]: File | null;
   }>({});
 
+  // State for image validation errors
+  const [imageErrors, setImageErrors] = useState<{
+    eventImage?: string;
+    speakerImages?: { [key: number]: string };
+  }>({});
+
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedFile(e.target.files[0]);
+      // Clear error when file is selected
+      setImageErrors(prev => ({ ...prev, eventImage: undefined }));
     }
   };
 
@@ -87,12 +95,23 @@ const agendaError =
         ...prev,
         [index]: e.target.files![0],
       }));
+      // Clear error when file is selected
+      setImageErrors(prev => ({
+        ...prev,
+        speakerImages: {
+          ...prev.speakerImages,
+          [index]: undefined
+        }
+      }));
     }
   };
 
   // create event
   const onSubmit = async (data: CustomEvent) => {
     try {
+      // Clear previous image errors
+      setImageErrors({});
+
       // Validate agenda
       if (!data.agenda || data.agenda.trim().length < 50) {
         toast.error("Event agenda must be at least 50 characters");
@@ -107,9 +126,9 @@ const agendaError =
 
       // Validate that all speakers have required fields
       const invalidSpeakers = data.speakers.filter(
-        speaker => !speaker.name.trim() || !speaker.bio.trim()
+        (speaker) => !speaker.name.trim() || !speaker.bio.trim()
       );
-      
+
       if (invalidSpeakers.length > 0) {
         toast.error("All speakers must have a name and bio");
         return;
@@ -117,7 +136,36 @@ const agendaError =
 
       // Validate maxAttendees vs registered
       if (data.maxAttendees < data.registered) {
-        toast.error("Max attendees cannot be less than currently registered attendees");
+        toast.error(
+          "Max attendees cannot be less than currently registered attendees"
+        );
+        return;
+      }
+
+      // Validate event image
+      if (!selectedFile && (!isEditing || !event?.imageUrl)) {
+        setImageErrors(prev => ({ ...prev, eventImage: "Event image is required" }));
+        toast.error("Event image is required");
+        return;
+      }
+
+      // Validate speaker images
+      const speakerImageErrors: { [key: number]: string } = {};
+      let hasSpeakerImageError = false;
+
+      data.speakers.forEach((speaker, index) => {
+        const hasFile = speakerFiles[index];
+        const hasExistingImage = isEditing && event?.speakers?.[index]?.imageUrl;
+        
+        if (!hasFile && !hasExistingImage) {
+          speakerImageErrors[index] = "Speaker image is required";
+          hasSpeakerImageError = true;
+        }
+      });
+
+      if (hasSpeakerImageError) {
+        setImageErrors(prev => ({ ...prev, speakerImages: speakerImageErrors }));
+        toast.error("All speakers must have an image");
         return;
       }
 
@@ -139,7 +187,7 @@ const agendaError =
       const speakersData = data.speakers.map((speaker) => ({
         name: speaker.name.trim(),
         bio: speaker.bio.trim(),
-        imageUrl: speaker.imageUrl || '', // Include imageUrl field
+        imageUrl: speaker.imageUrl || "", // Include imageUrl field
       }));
 
       const eventData = {
@@ -168,6 +216,7 @@ const agendaError =
       onSave(result);
       setSelectedFile(null);
       setSpeakerFiles({});
+      setImageErrors({}); // Clear errors on successful submission
     } catch (error: any) {
       toast.error(error || "Failed to save event");
     }
@@ -177,7 +226,12 @@ const agendaError =
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{isEditing ? "Edit Event" : "Create New Event"}</CardTitle>
-        <Button variant="ghost" size="sm" onClick={onCancel} className="cursor-pointer">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onCancel}
+          className="cursor-pointer"
+        >
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>
@@ -186,12 +240,15 @@ const agendaError =
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             <div className="space-y-2">
               <Label htmlFor="title">Event Title</Label>
-              <Input 
-                id="title" 
-                {...register("title", { 
+              <Input
+                id="title"
+                {...register("title", {
                   required: "Title is required",
-                  minLength: { value: 3, message: "Title must be at least 3 characters" }
-                })} 
+                  minLength: {
+                    value: 3,
+                    message: "Title must be at least 3 characters",
+                  },
+                })}
               />
               {errors.title && (
                 <p className="text-sm text-red-500">{errors.title.message}</p>
@@ -202,13 +259,18 @@ const agendaError =
               <Label htmlFor="category">Category</Label>
               <Input
                 id="category"
-                {...register("category", { 
+                {...register("category", {
                   required: "Category is required",
-                  minLength: { value: 2, message: "Category must be at least 2 characters" }
+                  minLength: {
+                    value: 2,
+                    message: "Category must be at least 2 characters",
+                  },
                 })}
               />
               {errors.category && (
-                <p className="text-sm text-red-500">{errors.category.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.category.message}
+                </p>
               )}
             </div>
 
@@ -243,10 +305,16 @@ const agendaError =
                 id="eventDuration"
                 min="1"
                 max="1440"
-                {...register("eventDuration", { 
+                {...register("eventDuration", {
                   required: "Event duration is required",
-                  min: { value: 1, message: "Duration must be at least 1 minute" },
-                  max: { value: 1440, message: "Duration cannot exceed 24 hours" }
+                  min: {
+                    value: 1,
+                    message: "Duration must be at least 1 minute",
+                  },
+                  max: {
+                    value: 1440,
+                    message: "Duration cannot exceed 24 hours",
+                  },
                 })}
               />
               {errors.eventDuration && (
@@ -263,19 +331,26 @@ const agendaError =
                 id="maxAttendees"
                 min="1"
                 max="10000"
-                {...register("maxAttendees", { 
+                {...register("maxAttendees", {
                   required: "Max attendees is required",
                   min: { value: 1, message: "Must have at least 1 attendee" },
-                  max: { value: 10000, message: "Cannot exceed 10,000 attendees" },
+                  max: {
+                    value: 10000,
+                    message: "Cannot exceed 10,000 attendees",
+                  },
                   validate: (value) => {
                     const registeredValue = watch("registered");
-                    return Number(value) >= Number(registeredValue) || 
-                           "Max attendees cannot be less than currently registered attendees";
-                  }
+                    return (
+                      Number(value) >= Number(registeredValue) ||
+                      "Max attendees cannot be less than currently registered attendees"
+                    );
+                  },
                 })}
               />
               {errors.maxAttendees && (
-                <p className="text-sm text-red-500">{errors.maxAttendees.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.maxAttendees.message}
+                </p>
               )}
             </div>
 
@@ -285,18 +360,25 @@ const agendaError =
                 type="number"
                 id="registered"
                 min="0"
-                {...register("registered", { 
+                {...register("registered", {
                   required: "Registered count is required",
-                  min: { value: 0, message: "Registered count cannot be negative" },
+                  min: {
+                    value: 0,
+                    message: "Registered count cannot be negative",
+                  },
                   validate: (value) => {
                     const maxAttendeesValue = watch("maxAttendees");
-                    return Number(value) <= Number(maxAttendeesValue) || 
-                           "Registered attendees cannot exceed max attendees";
-                  }
+                    return (
+                      Number(value) <= Number(maxAttendeesValue) ||
+                      "Registered attendees cannot exceed max attendees"
+                    );
+                  },
                 })}
               />
               {errors.registered && (
-                <p className="text-sm text-red-500">{errors.registered.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.registered.message}
+                </p>
               )}
             </div>
 
@@ -308,13 +390,18 @@ const agendaError =
                 min="0"
                 step="0.01"
                 placeholder="0 for free events"
-                {...register("registrationFee", { 
+                {...register("registrationFee", {
                   required: "Registration fee is required",
-                  min: { value: 0, message: "Registration fee cannot be negative" }
+                  min: {
+                    value: 0,
+                    message: "Registration fee cannot be negative",
+                  },
                 })}
               />
               {errors.registrationFee && (
-                <p className="text-sm text-red-500">{errors.registrationFee.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.registrationFee.message}
+                </p>
               )}
             </div>
 
@@ -323,8 +410,8 @@ const agendaError =
               <select
                 id="status"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                {...register("status", { 
-                  required: "Status is required"
+                {...register("status", {
+                  required: "Status is required",
                 })}
               >
                 <option value="upcoming">Upcoming</option>
@@ -340,9 +427,12 @@ const agendaError =
             <Label htmlFor="location">Location</Label>
             <Input
               id="location"
-              {...register("location", { 
+              {...register("location", {
                 required: "Location is required",
-                minLength: { value: 3, message: "Location must be at least 3 characters" }
+                minLength: {
+                  value: 3,
+                  message: "Location must be at least 3 characters",
+                },
               })}
             />
             {errors.location && (
@@ -354,14 +444,19 @@ const agendaError =
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
-              {...register("description", { 
+              {...register("description", {
                 required: "Description is required",
-                minLength: { value: 10, message: "Description must be at least 10 characters" }
+                minLength: {
+                  value: 10,
+                  message: "Description must be at least 10 characters",
+                },
               })}
               rows={3}
             />
             {errors.description && (
-              <p className="text-sm text-red-500">{errors.description.message}</p>
+              <p className="text-sm text-red-500">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -376,13 +471,16 @@ const agendaError =
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Event Image Upload */}
               <div className="space-y-2">
-                <Label htmlFor="file">Upload Event Image</Label>
+                <Label htmlFor="file">Upload Event Image *</Label>
                 <Input
                   type="file"
                   id="file"
                   onChange={onFileChange}
                   accept="image/*"
                 />
+                {imageErrors.eventImage && (
+                  <p className="text-sm text-red-500">{imageErrors.eventImage}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="registrationLink">Registration Link</Label>
@@ -390,12 +488,13 @@ const agendaError =
                   id="registrationLink"
                   type="url"
                   placeholder="https://example.com/register"
-                  {...register("registrationLink", { 
+                  {...register("registrationLink", {
                     required: "Registration link is required",
                     pattern: {
                       value: /^https?:\/\/.+/,
-                      message: "Please enter a valid URL starting with http:// or https://"
-                    }
+                      message:
+                        "Please enter a valid URL starting with http:// or https://",
+                    },
                   })}
                 />
                 {errors.registrationLink && (
@@ -464,6 +563,13 @@ const agendaError =
                         delete newFiles[index];
                         return newFiles;
                       });
+                      setImageErrors(prev => ({
+                        ...prev,
+                        speakerImages: {
+                          ...prev.speakerImages,
+                          [index]: undefined
+                        }
+                      }));
                     }}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -472,11 +578,15 @@ const agendaError =
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                   <div className="space-y-1">
+                    <Label htmlFor="name">Full Name</Label>
                     <Input
-                      placeholder="Speaker name"
+                      placeholder="Speaker Full Name"
                       {...register(`speakers.${index}.name`, {
                         required: "Speaker name is required",
-                        minLength: { value: 2, message: "Name must be at least 2 characters" }
+                        minLength: {
+                          value: 2,
+                          message: "Name must be at least 2 characters",
+                        },
                       })}
                     />
                     {errors.speakers?.[index]?.name && (
@@ -486,11 +596,15 @@ const agendaError =
                     )}
                   </div>
                   <div className="space-y-1">
+                    <Label htmlFor="bio">Speakers Bio</Label>
                     <Input
-                      placeholder="Speaker bio"
-                      {...register(`speakers.${index}.bio`, { 
+                      placeholder="Speaker Bio"
+                      {...register(`speakers.${index}.bio`, {
                         required: "Speaker bio is required",
-                        minLength: { value: 10, message: "Bio must be at least 10 characters" }
+                        minLength: {
+                          value: 10,
+                          message: "Bio must be at least 10 characters",
+                        },
                       })}
                     />
                     {errors.speakers?.[index]?.bio && (
@@ -503,7 +617,7 @@ const agendaError =
 
                 {/* Speaker Image Upload */}
                 <div className="space-y-2">
-                  <Label htmlFor={`speaker-file-${index}`}>Speaker Image</Label>
+                  <Label htmlFor={`speaker-file-${index}`}>Upload Speaker Image *</Label>
                   <Input
                     type="file"
                     id={`speaker-file-${index}`}
@@ -516,15 +630,14 @@ const agendaError =
                     <div className="mt-2">
                       <img
                         src={URL.createObjectURL(speakerFiles[index]!)}
-                        alt={`Speaker ${index + 1} Preview`}
+                        alt={`Speaker ${index + 1} Image`}
                         className="w-full h-24 object-cover rounded"
                       />
                       <div className="text-sm text-gray-500">
-                        <p>Selected: {speakerFiles[index]!.name}</p>
+                        <p>Selected: {speakerFiles[index]!.name} Image</p>
                         <p>
                           Size:{" "}
-                          {(speakerFiles[index]!.size / 1024 / 1024).toFixed(2)}{" "}
-                          MB
+                          {(speakerFiles[index]!.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
                     </div>
@@ -537,16 +650,29 @@ const agendaError =
                       />
                     </div>
                   ) : null}
+                  {imageErrors.speakerImages?.[index] && (
+                    <p className="text-sm text-red-500">
+                      {imageErrors.speakerImages[index]}
+                    </p>
+                  )}
                 </div>
               </Card>
             ))}
           </div>
 
           <div className="flex gap-2 pt-4">
-            <Button type="submit" className="bg-purple-600 hover:bg-purple-700 cursor-pointer">
+            <Button
+              type="submit"
+              className="bg-purple-600 hover:bg-purple-700 cursor-pointer"
+            >
               {isEditing ? "Update Event" : "Create Event"}
             </Button>
-            <Button type="button" variant="outline" onClick={onCancel} className="cursor-pointer">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              className="cursor-pointer"
+            >
               Cancel
             </Button>
           </div>

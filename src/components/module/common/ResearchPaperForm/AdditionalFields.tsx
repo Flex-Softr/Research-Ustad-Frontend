@@ -72,10 +72,16 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               <span className="text-red-500">*</span>
               Paper Type
             </Label>
+            <input
+              type="hidden"
+              {...register("paperType", {
+                required: "Paper type is required",
+              })}
+            />
             <Select
               value={watch("paperType") || ""}
               onValueChange={(value) => {
-                setValue("paperType", value, { shouldValidate: true });
+                setValue("paperType", value as "journal" | "conference", { shouldValidate: true });
                 trigger("paperType");
               }}
             >

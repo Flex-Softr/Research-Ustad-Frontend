@@ -23,7 +23,7 @@ export const calculateTotalPages = (totalItems: number, itemsPerPage: number): n
 };
 
 // Filter blogs by category
-export const filterBlogsByCategory = <T extends { category?: string }>(
+export const filterBlogsByCategory = <T extends { category?: string | { _id: string; name: string; description?: string; blogCount?: number; status?: string } }>(
   blogs: T[],
   selectedCategory: string
 ): T[] => {
@@ -31,5 +31,12 @@ export const filterBlogsByCategory = <T extends { category?: string }>(
   if (selectedCategory === "all") {
     return blogs;
   }
-  return blogs.filter((blog) => blog.category === selectedCategory);
+  return blogs.filter((blog) => {
+    if (typeof blog.category === 'string') {
+      return blog.category === selectedCategory;
+    } else if (blog.category && typeof blog.category === 'object' && '_id' in blog.category) {
+      return blog.category._id === selectedCategory;
+    }
+    return false;
+  });
 }; 

@@ -41,6 +41,9 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
     );
   }
 
+
+  console.log(blogs);
+
   return (
     <Card className="rounded-none border-0">
       <CardContent className="">
@@ -76,13 +79,6 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
                               }
                             )
                           : "Date not available"}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-1">
-                      <Tag className="h-4 w-4" />
-                      <span className="capitalize">
-                        {blog.category || "Uncategorized"}
                       </span>
                     </div>
                   </div>

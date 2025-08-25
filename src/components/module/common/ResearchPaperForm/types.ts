@@ -21,7 +21,7 @@ export interface ResearchPaperFormData {
   impactFactor?: number;
   journalRank?: string;
   visitLink: string;
-  paperType: string;
+  paperType: "journal" | "conference";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;
   keywords?: string[];

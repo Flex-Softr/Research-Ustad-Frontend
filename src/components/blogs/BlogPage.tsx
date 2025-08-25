@@ -21,9 +21,11 @@ interface BlogApiResponse {
 }
 
 interface Category {
-  id: string;
+  _id: string;
   name: string;
-  count: number;
+  description?: string;
+  blogCount?: number;
+  status?: string;
 }
 
 const BlogPage = () => {
@@ -47,12 +49,10 @@ const BlogPage = () => {
     dispatch(fetchBlogs());
   }, [dispatch]);
 
-
   // Dynamic categories based on actual blog data
   const [categories, setCategories] = useState<Category[]>([
-    { id: "all", name: "All Posts", count: 0 },
+    { _id: "all", name: "All Posts", blogCount: 0 },
   ]);
-
 
   const fetchPaginatedData = async (page: number, category: string = "all") => {
     setLoading(true);
@@ -67,7 +67,8 @@ const BlogPage = () => {
         category === "all"
           ? allData
           : allData.filter(
-              (post) => post.category?.toLowerCase() === category.toLowerCase()
+              (post) =>
+                post.category?.name?.toLowerCase() === category.toLowerCase()
             );
 
       // Pagination
@@ -86,16 +87,16 @@ const BlogPage = () => {
       // Update category counts
       const categoryCounts: { [key: string]: number } = {};
       allData.forEach((post) => {
-        const category = post.category?.toLowerCase() || "uncategorized";
+        const category = post.category?.name?.toLowerCase() || "uncategorized";
         categoryCounts[category] = (categoryCounts[category] || 0) + 1;
       });
 
       const dynamicCategories: Category[] = [
-        { id: "all", name: "All Posts", count: allData.length },
+        { _id: "all", name: "All Posts", blogCount: allData.length },
         ...Object.entries(categoryCounts).map(([id, count]) => ({
-          id,
+          _id: id,
           name: id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " "),
-          count,
+          blogCount: count,
         })),
       ];
 
@@ -118,7 +119,6 @@ const BlogPage = () => {
       fetchPaginatedData(currentPage, selectedCategory);
     }
   }, [blogs, currentPage, selectedCategory]);
-  
 
   // Handle category change
   const handleCategoryChange = (categoryId: string) => {
@@ -191,10 +191,10 @@ const BlogPage = () => {
                 <div className="space-y-2">
                   {categories.map((category) => (
                     <button
-                      key={category.id}
-                      onClick={() => handleCategoryChange(category.id)}
+                      key={category._id}
+                      onClick={() => handleCategoryChange(category._id)}
                       className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
-                        selectedCategory === category.id
+                        selectedCategory === category._id
                           ? "bg-brand-primary text-white shadow-lg"
                           : "bg-gray-50 hover:bg-gray-100 text-gray-700"
                       }`}
@@ -202,12 +202,12 @@ const BlogPage = () => {
                       <span className="font-medium">{category.name}</span>
                       <span
                         className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                          selectedCategory === category.id
+                          selectedCategory === category._id
                             ? "bg-white/20 text-white"
                             : "bg-brand-secondary/10 text-brand-secondary"
                         }`}
                       >
-                        {category.count}
+                        {category.blogCount}
                       </span>
                     </button>
                   ))}
@@ -249,7 +249,8 @@ const BlogPage = () => {
                   <h2 className="text-xl font-bold text-gray-900">
                     {selectedCategory === "all"
                       ? "All Posts"
-                      : categories.find((c) => c.id === selectedCategory)?.name}
+                      : categories.find((c) => c._id === selectedCategory)
+                          ?.name}
                   </h2>
                   <span className="px-3 py-1 bg-brand-secondary/10 text-brand-secondary rounded-full text-sm font-semibold">
                     {totalItems} posts

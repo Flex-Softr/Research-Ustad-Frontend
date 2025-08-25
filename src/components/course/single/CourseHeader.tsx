@@ -19,10 +19,18 @@ const CourseHeader = ({ course }) => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  // Helper function to get category name by ID
-  const getCategoryName = (categoryId: string) => {
-    const category = categories.find(cat => cat._id === categoryId);
-    return category ? category.name : categoryId; // Fallback to ID if category not found
+  // Helper function to get category name by ID or object
+  const getCategoryName = (category: any) => {
+    // Handle populated category object from backend
+    if (typeof category === 'object' && category !== null) {
+      return category.name || 'Unknown Category';
+    }
+    // Handle string category ID (fallback)
+    if (typeof category === 'string') {
+      const categoryObj = categories.find(cat => cat._id === category);
+      return categoryObj ? categoryObj.name : category;
+    }
+    return 'Unknown Category';
   };
 
   return (

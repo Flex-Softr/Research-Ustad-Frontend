@@ -113,6 +113,11 @@ const adminRoute = {
           url: "/admin/dashboard/createblog",
           icon: PenSquare,
         },
+        {
+          title: "Blog Categories",
+          url: "/admin/dashboard/blogCategory",
+          icon: FolderOpen,
+        },
       ],
     },
     {
@@ -246,6 +251,12 @@ const userRoute = {
           url: "/user/dashboard/createblog",
           icon: PenSquare,
         },
+        // have to disscuss about this route...
+        // {
+        //   title: "Blog Categories",
+        //   url: "/user/dashboard/blogCategory",
+        //   icon: FolderOpen,
+        // },
       ],
     },
     {

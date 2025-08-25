@@ -19,8 +19,11 @@ const ImageUploadSection: React.FC<ImageUploadSectionProps> = ({
   return (
     <div className="border p-4 rounded-lg w-full">
       <Label className="text-lg font-semibold mb-2 block">
-        Blog Cover Image
+        Blog Cover Image *
       </Label>
+      <p className="text-sm text-gray-500 mb-3">
+        A cover image is required for your blog post. Please upload an image to continue.
+      </p>
       <div className="w-full">
         <div className="space-y-2">
           <label className="flex items-center gap-2 cursor-pointer p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 transition-colors">

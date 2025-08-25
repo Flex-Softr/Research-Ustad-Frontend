@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { addCourse, fetchSingleCourse, updateCourse } from "@/services/courses/coursesSlice";
+import {
+  addCourse,
+  fetchSingleCourse,
+  updateCourse,
+} from "@/services/courses/coursesSlice";
 import { fetchCategories } from "@/services/categories/categoriesSlice";
 import {
   validateCourseForm,
@@ -25,18 +29,16 @@ import { toast } from "sonner";
 export default function AddCoursePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const courseId = searchParams.get('edit');
+  const courseId = searchParams.get("edit");
   const isEditMode = !!courseId;
-  
+
   const dispatch = useDispatch<AppDispatch>();
-  
-  const { categories } = useSelector(
-    (state: RootState) => state.categories
-  );
+
+  const { categories } = useSelector((state: RootState) => state.categories);
   const { course, isLoading, error } = useSelector(
     (state: RootState) => state.courses
   );
-  
+
   const [formData, setFormData] = useState<CourseFormData>({
     title: "",
     description: "",
@@ -76,7 +78,7 @@ export default function AddCoursePage() {
     }
   }, [dispatch, isEditMode, courseId]);
 
-// Update form data when course is loaded (for edit mode)
+  // Update form data when course is loaded (for edit mode)
   useEffect(() => {
     if (isEditMode && course) {
       setFormData({
@@ -87,10 +89,18 @@ export default function AddCoursePage() {
         offlineLocation: course.offlineLocation || "",
         duration: course.duration || "",
         level: course.level || "Beginner",
-        category: course.category || "",
+        category: (() => {
+          if (!course.category) return "";
+          if (typeof course.category === "object" && course.category !== null) {
+            return (course.category as any)._id || "";
+          }
+          return String(course.category || "");
+        })(),
         fee: course.fee?.toString() || "",
         isFree: course.isFree ?? false,
-        startDate: course.startDate ? new Date(course.startDate).toISOString().split('T')[0] : "",
+        startDate: course.startDate
+          ? new Date(course.startDate).toISOString().split("T")[0]
+          : "",
         enrolled: course.enrolled?.toString() || "",
         capacity: course.capacity?.toString() || "",
         rating: course.rating?.toString() || "",
@@ -100,15 +110,16 @@ export default function AddCoursePage() {
         lifetimeAccess: course.lifetimeAccess ?? true,
         enrollLink: (course as any).enrollLink || "",
         thumbnail: null, // We'll handle image separately
-        instructors: course.instructors?.map(instructor => ({
-          name: instructor.name || "",
-          imageFile: null, // We'll handle instructor images separately
-          imageUrl: instructor.imageUrl || "", // Add existing image URL
-          specialization: instructor.specialization || "",
-          experience: instructor.experience || "",
-          rating: instructor.rating || 0,
-          students: instructor.students || 0,
-        })) || [],
+        instructors:
+          course.instructors?.map((instructor) => ({
+            name: instructor.name || "",
+            imageFile: null, // We'll handle instructor images separately
+            imageUrl: instructor.imageUrl || "", // Add existing image URL
+            specialization: instructor.specialization || "",
+            experience: instructor.experience || "",
+            rating: instructor.rating || 0,
+            students: instructor.students || 0,
+          })) || [],
         tags: course.tags || [],
         whatYouWillLearn: course.whatYouWillLearn || [],
         requirements: course.requirements || [],
@@ -207,7 +218,7 @@ export default function AddCoursePage() {
     try {
       // Create FormData for file upload
       const formDataToSend = new FormData();
-      
+
       // Convert form data to backend format
       const courseData = {
         title: formData.title,
@@ -228,7 +239,7 @@ export default function AddCoursePage() {
         certificate: formData.certificate,
         lifetimeAccess: formData.lifetimeAccess,
         enrollLink: formData.enrollLink,
-        instructors: formData.instructors.map(instructor => ({
+        instructors: formData.instructors.map((instructor) => ({
           name: instructor.name,
           imageUrl: instructor.imageUrl || "", // Keep existing image URL if no new file
           specialization: instructor.specialization,
@@ -239,37 +250,44 @@ export default function AddCoursePage() {
         tags: formData.tags,
         whatYouWillLearn: formData.whatYouWillLearn,
         requirements: formData.requirements,
-        startDate: formData.startDate ? new Date(formData.startDate).toISOString() : new Date().toISOString(),
-        endDate: isEditMode ? (course?.endDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        startDate: formData.startDate
+          ? new Date(formData.startDate).toISOString()
+          : new Date().toISOString(),
+        endDate: isEditMode
+          ? course?.endDate ||
+            new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+          : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
         // Remove manual status setting - let backend calculate based on dates
         // status: isEditMode ? (course?.status || "upcoming" as const) : "upcoming" as const,
       };
-      
+
       // Add the course data as JSON string
-      formDataToSend.append('data', JSON.stringify(courseData));
-      
+      formDataToSend.append("data", JSON.stringify(courseData));
+
       // Add the main course image file if selected
       if (formData.thumbnail) {
-        formDataToSend.append('file', formData.thumbnail);
+        formDataToSend.append("file", formData.thumbnail);
       }
-      
+
       // Add instructor image files if selected
       formData.instructors.forEach((instructor, index) => {
         if (instructor.imageFile) {
-          formDataToSend.append('instructorFiles', instructor.imageFile);
+          formDataToSend.append("instructorFiles", instructor.imageFile);
         }
       });
-      
+
       // console.log(`${isEditMode ? 'Updating' : 'Submitting'} course data:`, courseData);
       // console.log("FormData contents:");
       for (let [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
-      
+
       let result;
       if (isEditMode && courseId) {
         // Update existing course
-        result = await dispatch(updateCourse({ id: courseId, formData: formDataToSend })).unwrap();
+        result = await dispatch(
+          updateCourse({ id: courseId, formData: formDataToSend })
+        ).unwrap();
         // console.log("Course Updated Successfully:", result);
         toast.success("Course updated successfully!");
         // Redirect instantly after successful update
@@ -283,20 +301,24 @@ export default function AddCoursePage() {
         // Redirect instantly after successful creation
         router.push("/admin/dashboard/managecourse");
       }
-      
     } catch (error: any) {
-      console.error(`Error ${isEditMode ? 'updating' : 'creating'} course:`, error);
-      
+      console.error(
+        `Error ${isEditMode ? "updating" : "creating"} course:`,
+        error
+      );
+
       // More specific error messages
       let errorMessage = "Please try again.";
-      
+
       if (error.message) {
         errorMessage = error.message;
-      } else if (typeof error === 'string') {
+      } else if (typeof error === "string") {
         if (error.includes("401")) {
           errorMessage = "Authentication failed. Please log in again.";
         } else if (error.includes("403")) {
-          errorMessage = `You don't have permission to ${isEditMode ? 'update' : 'create'} courses.`;
+          errorMessage = `You don't have permission to ${
+            isEditMode ? "update" : "create"
+          } courses.`;
         } else if (error.includes("404")) {
           errorMessage = "Course not found.";
         } else if (error.includes("409")) {
@@ -307,7 +329,7 @@ export default function AddCoursePage() {
           errorMessage = error;
         }
       }
-      
+
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -334,8 +356,18 @@ export default function AddCoursePage() {
       <div className="max-w-7xl mx-auto p-6">
         <div className="text-center py-16">
           <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="h-12 w-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            <svg
+              className="h-12 w-12 text-red-400"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
             </svg>
           </div>
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -377,10 +409,9 @@ export default function AddCoursePage() {
               {isEditMode ? "Edit Course" : "Create New Course"}
             </h1>
             <p className="text-gray-600">
-              {isEditMode 
-                ? "Update the course details below" 
-                : "Fill in the details below to create your course"
-              }
+              {isEditMode
+                ? "Update the course details below"
+                : "Fill in the details below to create your course"}
             </p>
           </div>
           <div className="">
@@ -388,8 +419,18 @@ export default function AddCoursePage() {
               onClick={() => router.push("/admin/dashboard/managecourse")}
               className="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors duration-200 flex items-center cursor-pointer gap-2"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
               Close
             </button>

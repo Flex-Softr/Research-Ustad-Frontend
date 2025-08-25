@@ -6,8 +6,6 @@ import { BlogPostForm, BlogSubmissionData } from "@/type";
 export const prepareBlogData = (
   data: BlogPostForm,
   selectedCategory: string,
-  showCustomInput: boolean,
-  customCategory: string,
   editorContent: string,
   isEditMode: boolean,
   selectedFile: File | null,
@@ -16,17 +14,28 @@ export const prepareBlogData = (
 ): BlogSubmissionData => {
   // Determine the final category to use
   let finalCategory = selectedCategory;
-  if (showCustomInput && customCategory.trim()) {
-    finalCategory = customCategory.trim().toLowerCase().replace(/\s+/g, "-");
-  } else if (data.category && !selectedCategory) {
+  if (data.category && !selectedCategory) {
     finalCategory = data.category;
   }
 
+  // Determine the final imageUrl
+  let finalImageUrl = "";
+  if (selectedFile) {
+    // If a new file is selected, we'll upload it and get the URL
+    finalImageUrl = "pending-upload"; // Placeholder, will be replaced after upload
+  } else if (previewImage) {
+    // If no new file but we have a preview image (existing image)
+    finalImageUrl = previewImage;
+  } else {
+    // No image provided
+    throw new Error("Blog image is required");
+  }
+
   return {
-    title: data.title,
-    category: finalCategory,
-    content: editorContent,
-    imageUrl: isEditMode && !selectedFile ? previewImage || "" : "",
+    title: data.title.trim(),
+    category: finalCategory.trim(),
+    content: editorContent.trim(),
+    imageUrl: finalImageUrl,
     status: isAdmin ? "approved" : "pending", // Admin blogs are approved by default
   };
 };

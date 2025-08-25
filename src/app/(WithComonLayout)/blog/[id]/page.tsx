@@ -176,7 +176,9 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex items-center gap-4 mb-6">
                 <span className="inline-flex items-center gap-2 bg-brand-secondary/10 border border-brand-secondary/20 text-brand-secondary px-4 py-2 rounded-full text-sm font-medium">
                   <Tag className="w-4 h-4" />
-                  {post.category}
+                  {typeof post.category === 'string' 
+                    ? post.category 
+                    : post.category?.name || "General"}
                 </span>
                 <div className="flex items-center gap-2 text-gray-500 text-sm">
                   <Calendar className="w-4 h-4" />
@@ -290,7 +292,9 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="text-xs bg-brand-secondary/10 text-brand-secondary px-2 py-1 rounded-full">
-                                {latestPost.category}
+                                {typeof latestPost.category === 'string' 
+                                  ? latestPost.category 
+                                  : latestPost.category?.name || "General"}
                               </span>
                               <span className="text-xs text-gray-500">
                                 {formatDate(

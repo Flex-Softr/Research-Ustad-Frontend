@@ -25,12 +25,16 @@ import CategorySelection from "../../module/admin/CreateBlog/components/Category
 
 // Import utilities
 import { validateAndShowError } from "../../module/admin/CreateBlog/utils/formValidation";
-import { prepareBlogData, submitBlogForm } from "../../module/admin/CreateBlog/utils/formSubmission";
+import {
+  prepareBlogData,
+  submitBlogForm,
+} from "../../module/admin/CreateBlog/utils/formSubmission";
 
 import RichTextEditor from "@/components/blogs/blog/RichTextEditor";
 import { toast } from "sonner";
 
 interface CreateBlogFormProps {
+  _id?: string;
   isAdmin?: boolean;
   onSuccess?: () => void;
   backPath?: string;
@@ -56,13 +60,10 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
   const {
     selectedCategory,
     setSelectedCategory,
-    customCategory,
-    setCustomCategory,
-    showCustomInput,
-    setShowCustomInput,
     allCategories,
-    addCategory,
     resetCategoryState,
+    refreshCategories,
+    isLoading: categoriesLoading,
   } = useCategoryManagement();
   const {
     previewImage,
@@ -86,19 +87,26 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
   const blogId = searchParams.get("id");
 
   // Default values
-  const defaultTitle = isAdmin 
-    ? (isEditMode ? "Edit Blog Post" : "Create Blog Post")
-    : (isEditMode ? "Edit Blog" : "Create New Blog");
+  const defaultTitle = isAdmin
+    ? isEditMode
+      ? "Edit Blog Post"
+      : "Create Blog Post"
+    : isEditMode
+    ? "Edit Blog"
+    : "Create New Blog";
 
   const defaultDescription = isAdmin
     ? ""
-    : (isEditMode 
-        ? "Update your blog post. Changes will be reviewed by admin." 
-        : "Share your thoughts and ideas. Your blog will be reviewed by admin before publishing."
-      );
+    : isEditMode
+    ? "Update your blog post. Changes will be reviewed by admin."
+    : "Share your thoughts and ideas. Your blog will be reviewed by admin before publishing.";
 
-  const defaultBackPath = isAdmin ? "/admin/dashboard/allblogs" : "/user/dashboard/myallblog";
-  const defaultSuccessPath = isAdmin ? "/admin/dashboard/allblogs" : "/user/dashboard/myallblog";
+  const defaultBackPath = isAdmin
+    ? "/admin/dashboard/allblogs"
+    : "/user/dashboard/myallblog";
+  const defaultSuccessPath = isAdmin
+    ? "/admin/dashboard/allblogs"
+    : "/user/dashboard/myallblog";
 
   // Reset form when switching between create and edit modes
   useEffect(() => {
@@ -122,24 +130,42 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
     if (isEditMode && blog && blog._id === blogId) {
       // Set form values with the blog data
       setValue("title", blog.title || "");
-      setValue("category", blog.category || "");
-      setSelectedCategory(blog.category || "");
+
+      // Handle category - check if it's an ObjectId or string
+      let categoryValue = "";
+      let categoryName = "";
+
+      if (typeof blog.category === "string") {
+        categoryValue = blog.category;
+        categoryName = blog.category;
+      } else if (
+        blog.category &&
+        typeof blog.category === "object" &&
+        "_id" in blog.category
+      ) {
+        categoryValue = blog.category._id;
+        categoryName = blog.category.name;
+      }
+
+      setValue("category", categoryValue);
+      setSelectedCategory(categoryValue);
+
       setEditorContent(blog.content || "");
       setPreviewImage(blog.imageUrl || "");
 
       // Add the blog's category to allCategories if it doesn't exist
-      if (blog.category) {
+      if (categoryValue) {
         const categoryExists = allCategories.find(
-          (cat) => cat.value === blog.category
+          (cat) => cat.value === categoryValue
         );
         if (!categoryExists) {
           const newCategory = {
-            value: blog.category,
-            label:
-              blog.category.charAt(0).toUpperCase() +
-              blog.category.slice(1).replace(/-/g, " "),
+            value: categoryValue,
+            name:
+              categoryName.charAt(0).toUpperCase() +
+              categoryName.slice(1).replace(/-/g, " "),
           };
-          addCategory(newCategory);
+          // Note: Custom categories are no longer supported
         }
       }
     }
@@ -149,7 +175,6 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
     isEditMode,
     setValue,
     allCategories,
-    addCategory,
     setSelectedCategory,
     setEditorContent,
     setPreviewImage,
@@ -157,15 +182,7 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
 
   const onSubmit: SubmitHandler<BlogPostForm> = async (data) => {
     // Validation
-    if (
-      !validateAndShowError(
-        data,
-        selectedCategory,
-        showCustomInput,
-        customCategory,
-        editorContent
-      )
-    ) {
+    if (!validateAndShowError(data, selectedCategory, editorContent, previewImage, selectedFile)) {
       return;
     }
 
@@ -173,8 +190,6 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
     const blogData = prepareBlogData(
       data,
       selectedCategory,
-      showCustomInput,
-      customCategory,
       editorContent,
       isEditMode,
       selectedFile,
@@ -197,11 +212,15 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
       if (result) {
         // Show success message
         if (isAdmin) {
-          toast.success(isEditMode ? "Blog updated successfully!" : "Blog post created successfully!");
+          toast.success(
+            isEditMode
+              ? "Blog updated successfully!"
+              : "Blog post created successfully!"
+          );
         } else {
           toast.success(
-            isEditMode 
-              ? "Blog updated successfully! It will be reviewed by admin." 
+            isEditMode
+              ? "Blog updated successfully! It will be reviewed by admin."
               : "Blog created successfully! It will be reviewed by admin."
           );
         }
@@ -250,29 +269,23 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
     <div className="max-w-full mx-auto p-4">
       {/* Header */}
       <div className="mb-6">
-        <Button
-          variant="ghost"
-          onClick={handleBack}
-          className="mb-4"
-        >
+        <Button variant="ghost" onClick={handleBack} className="mb-4">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Button>
         <h1 className="text-2xl font-bold text-gray-900">
           {title || defaultTitle}
         </h1>
-        {description && (
-          <p className="text-gray-600 mt-2">
-            {description}
-          </p>
-        )}
+        {description && <p className="text-gray-600 mt-2">{description}</p>}
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Title */}
         <div>
-          <Label htmlFor="title" className="text-xl font-bold">Blog Title *</Label>
+          <Label htmlFor="title" className="text-xl font-bold">
+            Blog Title *
+          </Label>
           <Input
             id="title"
             placeholder="Enter blog title"
@@ -285,13 +298,10 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
         <CategorySelection
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
-          customCategory={customCategory}
-          setCustomCategory={setCustomCategory}
-          showCustomInput={showCustomInput}
-          setShowCustomInput={setShowCustomInput}
           allCategories={allCategories}
-          addCategory={addCategory}
           setValue={setValue}
+          isLoading={categoriesLoading}
+          refreshCategories={refreshCategories}
         />
 
         {/* Image Upload */}
@@ -304,7 +314,9 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
 
         {/* Content Editor */}
         <div>
-          <Label htmlFor="content" className="text-xl font-bold">Blog Content *</Label>
+          <Label htmlFor="content" className="text-xl font-bold">
+            Blog Content *
+          </Label>
           <div className="mt-1">
             <RichTextEditor
               value={editorContent}
@@ -318,8 +330,8 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
         <div className="flex gap-4 pt-6">
           <Button
             type="submit"
-            disabled={isLoading}
-            className="flex-1 cursor-pointer"
+            disabled={isLoading || categoriesLoading}
+            className="flex-1 cursor-pointer bg-brand-primary hover:bg-brand-secondary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
           >
             {isLoading ? (
               <LoadingSpinner size="sm" variant="border" />
@@ -331,7 +343,7 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
             type="button"
             variant="outline"
             onClick={handleBack}
-            disabled={isLoading}
+            disabled={isLoading || categoriesLoading}
             className="cursor-pointer"
           >
             Cancel

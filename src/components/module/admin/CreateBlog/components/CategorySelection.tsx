@@ -1,109 +1,185 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Plus, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Loader2, Plus, ExternalLink } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { GetMe } from "@/services/singleUser";
 
 interface CategorySelectionProps {
   selectedCategory: string;
   setSelectedCategory: (value: string) => void;
-  customCategory: string;
-  setCustomCategory: (value: string) => void;
-  showCustomInput: boolean;
-  setShowCustomInput: (value: boolean) => void;
-  allCategories: Array<{ value: string; label: string }>;
-  addCategory: (category: { value: string; label: string }) => void;
+  allCategories: Array<{
+    value: string;
+    name: string;
+    description?: string;
+    blogCount?: number;
+  }>;
   setValue: (name: string, value: string) => void;
+  isLoading?: boolean;
+  refreshCategories?: () => void;
 }
 
 const CategorySelection: React.FC<CategorySelectionProps> = ({
   selectedCategory,
   setSelectedCategory,
-  customCategory,
-  setCustomCategory,
-  showCustomInput,
-  setShowCustomInput,
   allCategories,
-  addCategory,
   setValue,
+  isLoading = false,
+  refreshCategories,
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [user, setUser] = useState<any>(null);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+
+  // Check if user is admin or super admin
+  const isAdmin = user?.role === "admin" || user?.role === "superAdmin";
+
   const handleCategoryChange = (value: string) => {
-    if (value === "custom") {
-      setShowCustomInput(true);
-      setSelectedCategory("");
-      setValue("category", "");
-    } else {
-      setShowCustomInput(false);
-      setSelectedCategory(value);
-      setValue("category", value);
-      setCustomCategory("");
+    setSelectedCategory(value);
+    setValue("category", value);
+  };
+
+  // Fetch user data to determine role
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const result = await GetMe();
+        setUser(result?.data || null);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setIsUserLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleCreateCategory = () => {
+    // Navigate to blog category management page with return parameter
+    router.push("/admin/dashboard/blogCategory");
+  };
+
+  // Handle newly created category selection
+  useEffect(() => {
+    const newCategoryId = searchParams.get("newCategoryId");
+    const newCategoryName = searchParams.get("newCategoryName");
+
+    if (newCategoryId && newCategoryName && refreshCategories) {
+      // Refresh categories to include the new one
+      refreshCategories();
+
+      // Select the newly created category
+      setTimeout(() => {
+        setSelectedCategory(newCategoryId);
+        setValue("category", newCategoryId);
+        toast.success(
+          `Category "${newCategoryName}" created and selected successfully!`
+        );
+      }, 500);
+
+      // Clean up URL params
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete("newCategoryId");
+      newUrl.searchParams.delete("newCategoryName");
+      router.replace(newUrl.pathname + newUrl.search);
     }
-  };
+  }, [searchParams, setSelectedCategory, setValue, refreshCategories, router]);
 
-  const handleAddCustomCategory = () => {
-    if (customCategory.trim()) {
-      const newCategory = {
-        value: customCategory.trim().toLowerCase().replace(/\s+/g, "-"),
-        label: customCategory.trim(),
-      };
-
-      addCategory(newCategory);
-      setSelectedCategory(newCategory.value);
-      setValue("category", newCategory.value);
-      setShowCustomInput(false);
-      setCustomCategory("");
-      toast.success("Custom category added successfully!");
-    } else {
-      toast.error("Please enter a category name");
-    }
-  };
-
-  const handleCancelCustomCategory = () => {
-    setShowCustomInput(false);
-    setCustomCategory("");
-    setSelectedCategory("");
-    setValue("category", "");
-  };
+  const selectedCategoryData = allCategories.find(
+    (cat) => cat.value === selectedCategory
+  );
 
   return (
     <div>
       <Label htmlFor="category" className="text-lg font-semibold mb-2 block">
-        Blog Category
+        Blog Category *
       </Label>
 
-      {!showCustomInput ? (
-        <div className="space-y-3">
-          <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-            <SelectTrigger className="w-full text-lg" placeholder="Select a category">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {allCategories.map((category, index) => (
-                <SelectItem key={index} value={category.value}>
-                  {category.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="space-y-3">
+        {/* Basic HTML Select - This solves the ID display problem */}
+        <select
+          id="category"
+          value={selectedCategory}
+          onChange={(e) => handleCategoryChange(e.target.value)}
+          className="w-full h-12 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+          disabled={isLoading}
+        >
+          <option value="">Select a category</option>
+          {allCategories.map((category, index) => (
+            <option key={index} value={category.value}>
+              {category.name}
+            </option>
+          ))}
 
-          {selectedCategory && (
-            <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
-              <span className="text-sm text-green-700">
-                Selected:{" "}
-                <strong>
-                  {allCategories.find((cat) => cat.value === selectedCategory)?.label}
-                </strong>
-              </span>
+                  </select>
+
+        {/* Message for non-admin users when categories exist */}
+        {!isLoading &&
+          allCategories.length > 0 &&
+          !isAdmin &&
+          !isUserLoading && (
+            <div className="flex items-center justify-center p-2 bg-gray-50 border border-gray-200 rounded-md">
+              <p className="text-sm text-gray-600 text-center">
+                Please contact an administrator to create categories if you don't find your category.
+              </p>
             </div>
           )}
-          
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex items-center justify-center p-4">
+            <Loader2 className="w-4 h-4 animate-spin mr-2" />
+            <span>Loading categories...</span>
+          </div>
+        )}
+
+        {/* No Categories State */}
+        {!isLoading && allCategories.length === 0 && (
+          <div className="flex items-center justify-center p-4">
+            <div className="text-center">
+              <p className="text-sm text-gray-500 mb-2">
+                No categories available
+              </p>
+              {isAdmin && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCreateCategory}
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                >
+                  <Plus className="w-4 h-4" />
+                  Create First Category
+                  <ExternalLink className="w-3 h-3" />
+                </Button>
+              )}
+              {!isAdmin && !isUserLoading && (
+                <p className="text-sm text-gray-500">
+                  Please contact an administrator to create categories.
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Selected Category Display */}
+        {selectedCategory && selectedCategoryData && (
+          <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <span className="text-sm text-green-700">
+              Selected: <strong>{selectedCategoryData.name}</strong>
+              {selectedCategoryData.description && (
+                <span className="text-gray-600 ml-2">
+                  - {selectedCategoryData.description}
+                </span>
+              )}
+            </span>
+          </div>
+        )}
+
+        {/* Create Category Link - Only show if categories exist and user is admin */}
+        {!isLoading && allCategories.length > 0 && isAdmin && (
           <div className="flex items-center justify-between mt-3">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span>Can't find your category?</span>
@@ -112,62 +188,18 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => {
-                setShowCustomInput(true);
-                setSelectedCategory("");
-                setValue("category", "");
-              }}
+              onClick={handleCreateCategory}
               className="flex items-center gap-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
             >
               <Plus className="w-4 h-4" />
-              Add Custom Category
+              Create New Category
+              <ExternalLink className="w-3 h-3" />
             </Button>
           </div>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="flex-1">
-              <Input
-                placeholder="Enter new category name"
-                value={customCategory}
-                onChange={(e) => setCustomCategory(e.target.value)}
-                className="w-full"
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddCustomCategory();
-                  }
-                }}
-              />
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleCancelCustomCategory}
-              className="text-gray-600 hover:text-gray-700"
-            >
-              <X className="w-4 h-4" />
-            </Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
-              Press Enter or click Add to create the category
-            </p>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleCancelCustomCategory}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              Cancel
-            </Button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
 
-export default CategorySelection; 
+export default CategorySelection;

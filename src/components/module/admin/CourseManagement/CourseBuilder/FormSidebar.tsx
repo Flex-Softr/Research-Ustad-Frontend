@@ -29,10 +29,18 @@ export function FormSidebar({
     return error ? error.message : null;
   };
 
-  // Helper function to get category name from ID
-  const getCategoryName = (categoryId: string) => {
-    const category = categories.find(cat => cat._id === categoryId);
-    return category ? category.name : categoryId; // Fallback to ID if category not found
+  // Helper function to get category name by ID or object
+  const getCategoryName = (category: any) => {
+    // Handle populated category object from backend
+    if (typeof category === 'object' && category !== null) {
+      return category.name || 'Unknown Category';
+    }
+    // Handle string category ID (fallback)
+    if (typeof category === 'string') {
+      const categoryObj = categories.find(cat => cat._id === category);
+      return categoryObj ? categoryObj.name : category;
+    }
+    return 'Unknown Category';
   };
 
   return (
@@ -59,6 +67,11 @@ export function FormSidebar({
             existingImageUrl={existingImageUrl}
             isEditMode={isEditMode}
           />
+          {getFieldError("thumbnail") && hasAttemptedSubmit && (
+            <p className="text-sm text-red-600 mt-2">
+              {getFieldError("thumbnail")}
+            </p>
+          )}
           {isEditMode && (
             <p className="text-xs text-gray-500 mt-2">
               Leave empty to keep the current thumbnail

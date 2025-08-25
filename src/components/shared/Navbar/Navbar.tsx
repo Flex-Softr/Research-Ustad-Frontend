@@ -192,15 +192,16 @@ const Navbar = () => {
       
       {/* Mobile Navigation */}
       <div className="lg:hidden block">
-        <div className="p-4 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100">
+        <div className=" bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100">
           <div className="flex justify-between items-center">
             <Link href="/" className="group">
-              <h2 className="font-bold text-brand-secondary text-[20px] flex items-center transition-colors duration-300">
+            <Image src="/logo.png" alt="logo" width={1000} height={100} className="w-20 h-20" />
+              {/* <h2 className="font-bold text-brand-secondary text-[20px] flex items-center transition-colors duration-300">
                 Research
                 <span className="text-brand-primary group-hover:text-brand-secondary transition-colors duration-300">
                   Ustad
                 </span>
-              </h2>
+              </h2> */}
             </Link>
             <div className="flex items-center gap-3">
               {/* Mobile Login Button */}

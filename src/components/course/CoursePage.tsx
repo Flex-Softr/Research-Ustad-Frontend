@@ -42,18 +42,44 @@ const CoursePage = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  // Helper function to get category name by ID
-  const getCategoryName = (categoryId: string) => {
-    const category = categories.find((cat) => cat._id === categoryId);
-    return category ? category.name : categoryId; // Fallback to ID if category not found
+  // Helper function to get category name by ID or object
+  const getCategoryName = (category: any) => {
+    // Handle null or undefined category
+    if (!category) {
+      return "No Category";
+    }
+    // Handle populated category object from backend
+    if (typeof category === "object" && category !== null) {
+      return category.name || "Unknown Category";
+    }
+    // Handle string category ID (fallback)
+    if (typeof category === "string") {
+      const categoryObj = categories.find((cat) => cat._id === category);
+      return categoryObj ? categoryObj.name : category;
+    }
+    return "Unknown Category";
   };
 
   // Filter courses based on selected filters
   const filteredCourses = courses.filter((course) => {
     const statusMatch =
       selectedStatus === "all" || course.status === selectedStatus;
-    const categoryMatch =
-      selectedCategory === "all" || course.category === selectedCategory;
+
+    // Handle category filtering for both string and object categories
+    let categoryMatch = selectedCategory === "all";
+    if (selectedCategory !== "all") {
+      if (!course.category) {
+        categoryMatch = false; // No category courses don't match any specific category
+      } else if (
+        typeof course.category === "object" &&
+        course.category !== null
+      ) {
+        categoryMatch = course.category._id === selectedCategory;
+      } else {
+        categoryMatch = course.category === selectedCategory;
+      }
+    }
+
     return statusMatch && categoryMatch;
   });
 
@@ -227,12 +253,27 @@ const CoursePage = () => {
                     {[
                       { id: "all", name: "All Categories", count: totalItems },
                       ...Array.from(
-                        new Set(courses.map((c) => c.category))
+                        new Set(
+                          courses
+                            .map((c) => {
+                              if (!c.category) return null;
+                              return typeof c.category === "object"
+                                ? c.category._id
+                                : c.category;
+                            })
+                            .filter(Boolean)
+                        )
                       ).map((categoryId) => ({
                         id: categoryId,
                         name: getCategoryName(categoryId),
-                        count: courses.filter((c) => c.category === categoryId)
-                          .length,
+                        count: courses.filter((c) => {
+                          if (!c.category) return false;
+                          const courseCategoryId =
+                            typeof c.category === "object"
+                              ? c.category._id
+                              : c.category;
+                          return courseCategoryId === categoryId;
+                        }).length,
                       })),
                     ]
                       .slice(0, showAllCategories ? undefined : 6)
