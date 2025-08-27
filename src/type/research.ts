@@ -11,17 +11,33 @@ export type ResearchPaper = {
   visitLink: string;
 };
 
+// Author interface to match API response
+export interface Author {
+  user?: {
+    _id: string;
+    email: string;
+    fullName: string;
+    image?: string;
+    designation?: string;
+    id: string;
+  };
+  name: string;
+  role: string;
+  isRegisteredUser: boolean;
+  _id: string;
+}
+
 export type TPapers = {
   _id: string;
   year: number;
   title: string;
-  authors: string[];
+  authors: Author[]; // Updated to match API response
   journal: string;
   volume: string;
-  impactFactor: number;
-  journalRank: string;
+  impactFactor?: number;
+  journalRank?: string;
   visitLink: string;
-  paperType: "journal" | "conference";
+  paperType: "journal" | "conference" | "book";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   isApproved: boolean;
   abstract?: string;
@@ -29,6 +45,12 @@ export type TPapers = {
   citations?: number;
   researchArea?: string;
   funding?: string;
+  user?: {
+    _id: string;
+    email: string;
+    fullName: string;
+    id: string;
+  };
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -37,13 +59,13 @@ export type TPapers = {
 export interface ResearchPaperForm {
   year: number;
   title: string;
-  authors: string[];
+  authors: Author[]; // Updated to match API response
   journal: string;
   volume?: string;
   impactFactor?: number;
   journalRank?: string;
   visitLink: string;
-  paperType: "journal" | "conference";
+  paperType: "journal" | "conference" | "book";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;
   keywords?: string[];
@@ -74,6 +96,7 @@ export interface PapersTableProps {
 
 export interface ResearchPapersPageProps {
   papers?: TPapers[];
+  initialStatus?: string;
 }
 
 export interface SingleResearchPaperProps {

@@ -12,9 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react";
 import Breadcrumb from "@/components/shared/Breadcrumb";
-// import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import { fetchEvents } from "@/services/events/eventSlice";
 import { getEventStatus } from "@/lib/getEventStatus";
 import {
@@ -56,7 +54,6 @@ const EventPage = () => {
     currentPage * itemsPerPage
   );
 
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/30">
       <Breadcrumb items={[{ label: "Events" }]} />
@@ -89,9 +86,6 @@ const EventPage = () => {
                   </SelectItem>
                   <SelectItem value="ongoing" className="capitalize">
                     Ongoing
-                  </SelectItem>
-                  <SelectItem value="finished" className="capitalize">
-                    Finished
                   </SelectItem>
                 </SelectContent>
               </Select>
@@ -158,15 +152,14 @@ const EventPage = () => {
                             : `${event.registrationFee} BDT`}
                         </span>
                         <Link href={`/event/${event._id}`}>
-                         
                           <Button
-                           size="sm"
+                            size="sm"
                             variant="primary"
                             // className="bg-brand-primary"
                           >
-                             {statusInfo.status === "upcoming"
-                            ? "Register"
-                            : "Details"}
+                            {statusInfo.status === "upcoming"
+                              ? "Register"
+                              : "Details"}
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </Button>
                         </Link>

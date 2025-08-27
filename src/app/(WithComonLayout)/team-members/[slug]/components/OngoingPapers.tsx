@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, FileText, Clock, Users } from "lucide-react";
+import { Calendar, FileText, Clock, Users, Quote } from "lucide-react";
 import { TeamMember } from "../../components";
 import Link from "next/link";
 
@@ -95,120 +95,56 @@ const OngoingPapers = ({ member, paginatedData }: OngoingPapersProps) => {
     }
   };
 
-  const getProgressPercentage = (status?: string) => {
-    if (!status) {
-      return 50;
-    }
-
-    switch (status.toLowerCase()) {
-      case "in_preparation":
-      case "in preparation":
-        return 25;
-      case "ongoing":
-        return 50;
-      case "under_review":
-      case "under review":
-        return 75;
-      case "revision":
-        return 85;
-      case "published":
-        return 100;
-      default:
-        return 50;
-    }
-  };
-
   return (
     <Card className="rounded-none border-0">
       <CardContent>
-        <div className="space-y-6">
-          {ongoingPapers.map((paper, index) => (
+      <div className="space-y-6">
+          {ongoingPapers.map((publication, index) => (
             <div
-              key={paper._id || index}
+              key={publication._id || index}
               className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white/50"
             >
-              <div className="space-y-4">
-                {/* Header */}
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                  <div className="flex-1">
-                    <Link href={`/allpapers/${paper._id}`}>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 hover:text-brand-secondary hover:underline transition-colors cursor-pointer">
-                        {paper.title}
-                      </h3>
-                    </Link>
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                <div className="flex-1">
+                  <Link href={`/allpapers/${publication._id}`}>
+                    <h3 className="text-lg hover:underline font-semibold text-gray-900 mb-3 hover:text-brand-secondary transition-colors cursor-pointer">
+                      {publication.title}
+                    </h3>
+                  </Link>
 
-                    {/* Abstract */}
-                    {paper.abstract && (
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                        {paper.abstract}
-                      </p>
-                    )}
-                  </div>
+                  {/* Abstract */}
+                  {publication.abstract && (
+                    <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+                      {publication.abstract}
+                    </p>
+                  )}
 
-                  <div className="flex flex-col items-end gap-2">
-                    <Badge
-                      variant="outline"
-                      className={getStatusColor(paper.status)}
-                    >
-                      {getStatusDisplayName(paper.status)}
-                    </Badge>
+                  {/* Metadata */}
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-3">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-4 w-4" />
+                      <span>{publication.year}</span>
+                    </div>
 
-                    {/* <div className="flex items-center gap-1 text-sm text-gray-600">
-                      {getTypeIcon(paper.paperType)}
-                      <span className="capitalize">{paper.paperType || 'Research Paper'}</span>
-                    </div> */}
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>Progress</span>
-                    <span>{getProgressPercentage(paper.status)}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-brand-secondary h-2 rounded-full transition-all duration-300"
-                      style={{
-                        width: `${getProgressPercentage(paper.status)}%`,
-                      }}
-                    ></div>
-                  </div>
-                </div>
-
-                {/* Metadata */}
-                <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4" />
-                    <span>{paper.year}</span>
-                  </div>
-
-                  {paper.journal && (
                     <div className="flex items-center gap-1">
                       <FileText className="h-4 w-4" />
-                      <span className="font-medium">{paper.journal}</span>
+                      <span className="font-medium">{publication.journal}</span>
                     </div>
-                  )}
-                </div>
 
-                {/* Authors */}
-                {paper.authors && paper.authors.length > 0 && (
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Users className="h-4 w-4" />
-                    <span className="font-medium">Authors:</span>
-                    <span>
-                      {paper.authors.map((author: any, idx: number) => {
-                        const name =
-                          author?.user?.fullName ||
-                          author?.name ||
-                          "Unknown Author";
-                        return idx === paper.authors.length - 1
-                          ? name
-                          : `${name}, `;
-                      })}
-                    </span>
+                    <Badge
+                      variant="secondary"
+                      className="bg-green-100 text-green-800 border-green-200"
+                    >
+                      <Quote className="h-4 w-4" />
+                      <span>{publication.paperType}</span>
+                    </Badge>
                   </div>
-                )}
+                </div>
+                <div>
+                  <Badge variant="destructive" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                    {publication.status}
+                  </Badge>
+                </div>
               </div>
             </div>
           ))}

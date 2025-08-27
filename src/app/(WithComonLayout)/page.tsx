@@ -8,6 +8,8 @@ import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServiceSection";
 import AboutSection from "@/components/home/AboutSection";
 import TeamSection from "@/components/home/TeamSection";
+import AchievementCarouselSection from "@/components/home/AchievementCarouselSection";
+import InternationalConferenceCarouselSection from "@/components/home/InternationalConferenceCarouselSection";
 
 const HomePage = () => {
   return (
@@ -24,6 +26,12 @@ const HomePage = () => {
       </div>
       <div id="events">
         <EventsSection />
+      </div>
+      <div id="achievements">
+        <AchievementCarouselSection />
+      </div>
+      <div id="conferences">
+        <InternationalConferenceCarouselSection />
       </div>
       <div id="team">
         <TeamSection />

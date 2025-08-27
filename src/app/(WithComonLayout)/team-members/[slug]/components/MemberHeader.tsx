@@ -17,13 +17,13 @@ import {
 import Link from "next/link";
 import { TeamMember } from "../../components";
 import UserAvatar from "@/components/shared/UserAvatar";
+import { FaOrcid } from "react-icons/fa";
 
 interface MemberHeaderProps {
   member: TeamMember;
 }
 
 const MemberHeader = ({ member }: MemberHeaderProps) => {
-  // console.log("member", member);
   return (
     <Card className="bg-white/80 backdrop-blur-sm border border-gray-100 overflow-hidden">
       <CardContent className="p-8">
@@ -55,74 +55,19 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                 <Badge className="bg-brand-primary text-white px-4 py-1">
                   {member?.designation}
                 </Badge>
-
-                {member?.socialLinks?.linkedin && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <a
-                      href={member?.socialLinks?.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <LinkedinIcon />
-                      linkedin
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </Button>
-                )}
-                {member?.socialLinks?.google_scholar && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <a
-                      href={member?.socialLinks?.google_scholar}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <GraduationCap />
-                      Google Scholar
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </Button>
-                )}
-                {member?.socialLinks?.researchgate && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <a
-                      href={member?.socialLinks?.researchgate}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Microscope />
-                      research Gate
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </Button>
-                )}
               </div>
 
-              {member?.shortBio && (
+              {/* {member?.shortBio && (
                 <p className="text-gray-600 text-lg leading-relaxed mb-6">
                   {member?.shortBio}
                 </p>
-              )}
+              )} */}
             </div>
 
             {/* Contact & Location Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="flex mb-6 gap-4">
               {member?.current?.institution && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-brand-secondary" />
                   <span className="text-gray-700">
                     {member?.current?.institution}
@@ -131,7 +76,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
               )}
 
               {member?.education?.field && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <Award className="h-5 w-5 text-brand-secondary" />
                   <span className="text-gray-700">
                     {member?.education?.field}
@@ -140,7 +85,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
               )}
 
               {member?.email && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-brand-secondary" />
                   <a
                     href={`mailto:${member?.email}`}
@@ -149,6 +94,93 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     {member?.email}
                   </a>
                 </div>
+              )}
+
+              {member?.citations && member?.citations > 0 ? (
+                <div className="flex items-center gap-2">
+                  <BookMarked className="h-5 w-5 text-brand-secondary" />
+                  <span className="text-gray-700">
+                    {member.citations} Citations
+                  </span>
+                </div>
+              ) : (
+                <div >
+                 
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-2 mb-4">
+              {member?.socialLinks?.orcid && (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <a
+                    href={member?.socialLinks?.orcid}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaOrcid />
+                    ORCID
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </Button>
+              )}
+              {member?.socialLinks?.google_scholar && (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <a
+                    href={member?.socialLinks?.google_scholar}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <GraduationCap />
+                    Google Scholar
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </Button>
+              )}
+              {member?.socialLinks?.researchgate && (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <a
+                    href={member?.socialLinks?.researchgate}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Microscope />
+                    research Gate
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </Button>
+              )}
+              {member?.socialLinks?.linkedin && (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <a
+                    href={member?.socialLinks?.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <LinkedinIcon />
+                    linkedin
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </Button>
               )}
             </div>
 

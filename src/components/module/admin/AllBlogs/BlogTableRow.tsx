@@ -89,9 +89,7 @@ const BlogTableRow: React.FC<BlogTableRowProps> = ({
       </TableCell>
       <TableCell>
         <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-          {typeof blog.category === "string"
-            ? blog.category
-            : blog.category?.name || "Uncategorized"}
+          {blog.category?.name || "Uncategorized"}
         </span>
       </TableCell>
       <TableCell>

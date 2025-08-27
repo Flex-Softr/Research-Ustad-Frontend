@@ -44,65 +44,36 @@ const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
 
   const handleRoleChange = async (id: string, currentRole: string) => {
     try {
-      if (currentRole === "superAdmin") {
-        toast.error("SuperAdmin role cannot be changed");
-        return;
-      }
-
       const res = await PromoteRole(id);
       if (res?.success) {
         const newRole = currentRole === "admin" ? "user" : "admin";
 
-        // Update local state immediately for instant feedback
-        setData((prevData) =>
-          prevData.map((user) =>
-            user._id === id ? { ...user, role: newRole } : user
-          )
-        );
-
-        // Check if the response indicates token invalidation
-        if (res?.data?.requiresReauth) {
-          // Check if the current user is the one being changed
-          try {
-            const currentUser = await GetMe();
-            if (currentUser?.data?._id === id) {
-              // Current user's role was changed, log them out
-              const roleChangeType =
-                newRole === "admin" ? "promoted to admin" : "demoted to user";
-              toast.info(
-                `You have been ${roleChangeType}. You will be logged out and redirected to the home page.`
-              );
-
-              // Wait a moment for the toast to be visible
-              // setTimeout(async () => {
-              await logout();
-              router.push("/");
-              // }, 2000);
-            } else {
-              // Another user's role was changed - show single success message with logout info
-              const roleChangeMessage =
-                newRole === "admin"
-                  ? "User promoted to admin successfully"
-                  : "Admin demoted to user successfully";
-              toast.success(`${roleChangeMessage} for ${res?.data?.fullName}. `);
-            }
-          } catch (error) {
-            console.error("Error checking current user:", error);
-            // Show single success message with logout info
-            const roleChangeMessage =
-              newRole === "admin"
-                ? "User promoted to admin successfully"
-                : "Admin demoted to user successfully";
-            toast.success(`${roleChangeMessage} for ${res?.data?.fullName}. `);
+        // Check if the current user is being demoted
+        try {
+          const currentUser = await GetMe();
+          if (currentUser?.data?._id === id && newRole === "user") {
+            // Current user is being demoted, show logout message
+            toast.success(
+              `${res?.data?.fullName} has been demoted to user. You will be logged out.`,
+              { duration: 5000 }
+            );
+            // Logout after a short delay
+            setTimeout(() => {
+              logout();
+              router.push("/login");
+            }, 3000);
+            return;
           }
-        } else {
-          // No token invalidation needed, show simple success message
-          const roleChangeMessage =
-            newRole === "admin"
-              ? "User promoted to admin successfully"
-              : "Admin demoted to user successfully";
-          toast.success(`${roleChangeMessage} for ${res?.data?.fullName}`);
+        } catch (error) {
+          console.error("Error checking current user:", error);
         }
+
+        // Show success message
+        const roleChangeMessage =
+          newRole === "admin"
+            ? "User promoted to admin successfully"
+            : "Admin demoted to user successfully";
+        toast.success(`${roleChangeMessage} for ${res?.data?.fullName}`);
 
         // Also refresh from server to ensure consistency
         fetchData();

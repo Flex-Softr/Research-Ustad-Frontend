@@ -7,6 +7,7 @@ import UserAvatar from "@/components/shared/UserAvatar";
 
 // Extended interface for the JSON data structure
 export interface TeamMember extends UserProfile {
+  citations?: number;
   researchStats?: {
     totalPapers: number;
     publishedPapers: number;
@@ -97,16 +98,6 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
           <p className="text-sm text-brand-secondary font-medium mb-2">
             {member.designation}
           </p>
-          {member.current?.institution && (
-            <p className="text-xs text-gray-600 mb-1">
-              {member.current.institution}
-            </p>
-          )}
-          {member.education?.field && (
-            <p className="text-xs text-gray-600 mb-1">
-              {member.education.field}
-            </p>
-          )}
 
           {/* Research Stats */}
           {member.researchStats && (
@@ -132,31 +123,6 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
             </div>
           )}
         </div>
-
-        {/* Expertise Tags
-        {member.expertise && member.expertise.length > 0 && (
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-1 justify-center">
-              {member.expertise.slice(0, 2).map((skill, index) => (
-                <Badge
-                  key={index}
-                  variant="outline"
-                  className="text-xs bg-brand-secondary/5 text-brand-secondary border-brand-secondary/20"
-                >
-                  {skill}
-                </Badge>
-              ))}
-              {member.expertise.length > 2 && (
-                <Badge
-                  variant="outline"
-                  className="text-xs bg-gray-100 text-gray-600"
-                >
-                  +{member.expertise.length - 2} more
-                </Badge>
-              )}
-            </div>
-          </div>
-        )} */}
 
         {/* View Profile Button */}
         <Button

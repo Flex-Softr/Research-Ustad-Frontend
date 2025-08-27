@@ -9,7 +9,7 @@ const AboutSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content - Text */}
-          <div className="space-y-6">
+          <div className="space-y-6 text-justify">
             <p className="text-lg text-gray-700 leading-relaxed">
               Research Ustad is a premier academic platform dedicated to
               transforming how students approach research. We combine expert

@@ -84,17 +84,17 @@ const AllBlogsTable = ({
   }, [blogs, itemsPerPage]);
 
   // Filter blogs by search term
-  const filterBlogsBySearch = (blogs: Blog[], search: string) => {
-    if (!search.trim()) return blogs;
-    const searchLower = search.toLowerCase();
+  const filterBlogsBySearch = (blogs: Blog[], searchTerm: string) => {
+    if (!searchTerm.trim()) return blogs;
+
+    const searchLower = searchTerm.toLowerCase();
+
     return blogs.filter(
       (blog) =>
         blog.title?.toLowerCase().includes(searchLower) ||
         blog.author?.fullName?.toLowerCase().includes(searchLower) ||
         blog.author?.email?.toLowerCase().includes(searchLower) ||
-        (typeof blog.category === "string"
-          ? blog.category.toLowerCase().includes(searchLower)
-          : blog.category?.name?.toLowerCase().includes(searchLower)) ||
+        blog.category?.name?.toLowerCase().includes(searchLower) ||
         blog.content?.toLowerCase().includes(searchLower)
     );
   };
@@ -182,15 +182,11 @@ const AllBlogsTable = ({
       selectedCategory !== "all"
         ? (() => {
             const foundBlog = blogs.find((blog) =>
-              typeof blog.category === "string"
-                ? blog.category === selectedCategory
-                : blog.category?._id === selectedCategory
+              blog.category?._id === selectedCategory
             );
 
             if (foundBlog) {
-              return typeof foundBlog.category === "string"
-                ? foundBlog.category
-                : foundBlog.category?.name;
+              return foundBlog.category?.name;
             }
             return selectedCategory;
           })()

@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import {
   Crown,
@@ -20,6 +19,7 @@ import {
   Loader2,
   Users,
   ArrowRight,
+  AlertCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -27,8 +27,16 @@ import {
   ReplaceSuperAdmin,
 } from "@/services/Users/superAdmin";
 import { GetAllUsers } from "@/services/Users";
-import { AlertDialogDescription } from "@radix-ui/react-alert-dialog";
-import { AlertDialog } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import Image from "next/image";
 import UserAvatar from "@/components/shared/UserAvatar";
 
@@ -58,6 +66,7 @@ const SuperAdminManagement = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [replacing, setReplacing] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [showConfirmDialog, setShowConfirmDialog] = useState<boolean>(false);
 
   useEffect(() => {
     fetchData();
@@ -90,7 +99,6 @@ const SuperAdminManagement = () => {
     }
   };
 
-
   const handleReplaceSuperAdmin = async () => {
     if (!selectedUserId) {
       toast.error("Please select a user to replace SuperAdmin");
@@ -103,17 +111,16 @@ const SuperAdminManagement = () => {
       return;
     }
 
-    // Confirmation dialog
-    const confirmed = window.confirm(
-      `Are you sure you want to replace yourself as SuperAdmin with ${selectedUser.fullName}?\n\n` +
-        `This action will:\n` +
-        `• Demote you to Admin role\n` +
-        `• Promote ${selectedUser.fullName} to SuperAdmin role\n` +
-        `• Give them full system access\n\n` +
-        `This action cannot be undone!`
-    );
+    // Show custom confirmation dialog
+    setShowConfirmDialog(true);
+  };
 
-    if (!confirmed) return;
+  const handleConfirmReplace = async () => {
+    const selectedUser = users.find((user) => user._id === selectedUserId);
+    if (!selectedUser) {
+      toast.error("Selected user not found");
+      return;
+    }
 
     try {
       setReplacing(true);
@@ -123,6 +130,7 @@ const SuperAdminManagement = () => {
         toast.success("SuperAdmin replaced successfully!");
         setCurrentSuperAdmin(response.data.newSuperAdmin);
         setSelectedUserId("");
+        setShowConfirmDialog(false);
 
         // Refresh the users list
         await fetchData();
@@ -217,14 +225,21 @@ const SuperAdminManagement = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <AlertDialog>
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDialogDescription>
-              <strong>Warning:</strong> This action will demote you to Admin
-              role and promote the selected user to SuperAdmin. Only perform
-              this action if you are certain about the transfer of ownership.
-            </AlertDialogDescription>
-          </AlertDialog>
+          <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5 flex-shrink-0" />
+              <div>
+                <h4 className="font-medium text-orange-800 mb-1">
+                  ⚠️ Important Warning
+                </h4>
+                <p className="text-sm text-orange-700">
+                  This action will demote you to Admin role and promote the selected user to SuperAdmin. 
+                  Only perform this action if you are certain about the transfer of ownership. 
+                  This action cannot be undone.
+                </p>
+              </div>
+            </div>
+          </div>
 
           <div className="space-y-4">
             <div>
@@ -256,20 +271,32 @@ const SuperAdminManagement = () => {
             </div>
 
             {selectedUserId && (
-              <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="flex items-center gap-2 mb-2">
-                  <AlertTriangle className="h-4 w-4 text-orange-500" />
-                  <span className="font-medium text-orange-800">
-                    Confirmation Required
+                  <CheckCircle className="h-4 w-4 text-blue-500" />
+                  <span className="font-medium text-blue-800">
+                    Selected Candidate
                   </span>
                 </div>
-                <p className="text-sm text-orange-700">
-                  You are about to replace yourself as SuperAdmin with{" "}
-                  <strong>
-                    {users.find((u) => u._id === selectedUserId)?.fullName}
-                  </strong>
-                  . This action cannot be undone.
-                </p>
+                <div className="flex items-center gap-3">
+                  <UserAvatar
+                    src={users.find((u) => u._id === selectedUserId)?.image}
+                    alt={users.find((u) => u._id === selectedUserId)?.fullName || ""}
+                    name={users.find((u) => u._id === selectedUserId)?.fullName || ""}
+                    size="md"
+                  />
+                  <div>
+                    <p className="text-sm text-blue-700">
+                      <strong>
+                        {users.find((u) => u._id === selectedUserId)?.fullName}
+                      </strong>{" "}
+                      will be promoted to SuperAdmin role.
+                    </p>
+                    <p className="text-xs text-blue-600">
+                      {users.find((u) => u._id === selectedUserId)?.email}
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -334,6 +361,74 @@ const SuperAdminManagement = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Custom Confirmation Dialog */}
+      <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+        <AlertDialogContent className="max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2 text-red-600">
+              <AlertTriangle className="h-5 w-5" />
+              Confirm SuperAdmin Replacement
+            </AlertDialogTitle>
+            <AlertDialogDescription className="space-y-4">
+              <span className="block bg-red-50 p-4 rounded-lg border border-red-200">
+                <span className="block text-sm text-red-800 font-medium mb-2">
+                  Are you absolutely sure you want to replace yourself as SuperAdmin?
+                </span>
+                <span className="block text-xs text-red-700">
+                  This action cannot be undone and will permanently change your role.
+                </span>
+              </span>
+              
+              <span className="block space-y-3">
+                <span className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
+                  <span className="p-2 bg-orange-100 rounded-full">
+                    <Crown className="h-4 w-4 text-orange-600" />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-medium text-orange-800">You will become:</span>
+                    <span className="block text-xs text-orange-700">Admin Role</span>
+                  </span>
+                </span>
+                
+                <span className="flex items-center gap-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                  <span className="p-2 bg-green-100 rounded-full">
+                    <User className="h-4 w-4 text-green-600" />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-medium text-green-800">
+                      {users.find((u) => u._id === selectedUserId)?.fullName} will become:
+                    </span>
+                    <span className="block text-xs text-green-700">SuperAdmin Role</span>
+                  </span>
+                </span>
+              </span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel 
+              className="border-gray-300 text-gray-700 hover:bg-gray-50"
+              disabled={replacing}
+            >
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmReplace}
+              className="bg-red-500 hover:bg-red-600 text-white"
+              disabled={replacing}
+            >
+              {replacing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Replacing...
+                </>
+              ) : (
+                "Confirm Replacement"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

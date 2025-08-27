@@ -34,6 +34,7 @@ export interface TUser {
     google_scholar?: string;
     researchgate?: string;
     linkedin?: string;
+    orcid?: string;
   };
   expertise?: string[];
   awards?: string[];
@@ -53,6 +54,7 @@ export interface UserProfile {
   role: string;
   profileImg?: string;
   shortBio?: string;
+  citations?: number;
   research: string[];
   isDeleted: boolean;
   current: {
@@ -77,6 +79,7 @@ export interface SocialLinks {
   google_scholar?: string;
   researchgate?: string;
   linkedin?: string;
+  orcid?: string;
 }
 
 // Updated TResearchAssociate to match consolidated user model
@@ -90,6 +93,7 @@ export interface TResearchAssociate {
   image: string;
   contactNo?: string;
   shortBio?: string;
+  citations?: number;
   current?: {
     institution?: string;
     department?: string;
@@ -108,6 +112,7 @@ export interface TResearchAssociate {
     google_scholar?: string;
     researchgate?: string;
     linkedin?: string;
+    orcid?: string;
   };
   expertise?: string[];
   awards?: string[];

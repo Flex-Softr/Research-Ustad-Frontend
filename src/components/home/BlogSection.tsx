@@ -17,16 +17,18 @@ const BlogCard = ({ post }: { post: Blog }) => (
       {/* Image */}
       <div className="relative h-48">
         <FallbackImage
-          src={post.imageUrl || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"}
+          src={
+            post.imageUrl ||
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          }
           alt={post.title}
           className="w-full h-full object-cover"
         />
         <div className="absolute top-3 left-3">
           <span className="bg-brand-primary text-white px-2 py-1 rounded text-xs">
-            {typeof post.category === 'string' 
-              ? post.category 
-              : post.category?.name || "General"
-            }
+            {typeof post.category === "string"
+              ? post.category
+              : post.category?.name || "General"}
           </span>
         </div>
       </div>
@@ -36,17 +38,19 @@ const BlogCard = ({ post }: { post: Blog }) => (
         <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
           {post.title}
         </h3>
-        
+
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
           <User className="h-3 w-3" />
           <span>{post.author?.fullName || "Anonymous"}</span>
           <span>•</span>
           <Calendar className="h-3 w-3" />
-          <span>{new Date(post.createdAt).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-          })}</span>
+          <span>
+            {new Date(post.createdAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </span>
         </div>
 
         <div className="text-brand-primary font-medium text-sm">
@@ -91,7 +95,10 @@ const LoadingState = () => (
       />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         {Array.from({ length: 3 }).map((_, index) => (
-          <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse">
+          <div
+            key={index}
+            className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse"
+          >
             <div className="h-48 bg-gray-200"></div>
             <div className="p-4">
               <div className="h-4 bg-gray-200 rounded mb-2"></div>
@@ -114,7 +121,9 @@ const EmptyState = () => (
         <h3 className="text-xl font-semibold text-brand-primary mb-2">
           No blog posts available
         </h3>
-        <p className="text-gray-600">Check back later for new insights and articles!</p>
+        <p className="text-gray-600">
+          Check back later for new insights and articles!
+        </p>
       </div>
     </Container>
   </section>

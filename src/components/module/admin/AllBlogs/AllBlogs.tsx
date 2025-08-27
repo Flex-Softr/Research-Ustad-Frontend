@@ -11,24 +11,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { fetchAllBlogsForAdmin } from "@/services/blogs/blogsSlice";
 import { Button } from "@/components/ui/core";
-
-interface Blog {
-  _id: string;
-  title: string;
-  content: string;
-  category: string;
-  imageUrl: string;
-  author: {
-    fullName: string;
-    email: string;
-  };
-  publishedDate: string;
-  createdAt: string;
-  updatedAt: string;
-  status: "pending" | "approved" | "rejected";
-  views?: number;
-  likes?: number;
-}
+import { Blog } from "@/type";
 
 const AllBlogs = () => {
   const router = useRouter();

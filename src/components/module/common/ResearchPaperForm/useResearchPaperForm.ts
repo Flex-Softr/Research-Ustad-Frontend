@@ -235,8 +235,8 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
     }
 
     // Validate paper type enum values
-    if (!["journal", "conference"].includes(data.paperType)) {
-      toast.error("Paper type must be either 'journal' or 'conference'");
+    if (!["journal", "conference", "book"].includes(data.paperType)) {
+      toast.error("Paper type must be either 'journal' or 'conference' or 'book'");
       setLoading(false);
       return;
     }
@@ -318,7 +318,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
         }
 
         reset();
-        setValue("paperType", ""); // Explicitly reset paperType
+        setValue("paperType", "journal"); // Reset paperType to default value
         setauthorReaseachpaper([{ name: "", role: "Author", isRegisteredUser: false }]);
         setKeywords([""]);
       } else {

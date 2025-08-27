@@ -26,6 +26,7 @@ import {
   FolderOpen,
   Clock,
   Crown,
+  Trophy,
 } from "lucide-react";
 
 import {
@@ -163,6 +164,16 @@ const adminRoute = {
           icon: Users,
         },
       ],
+    },
+    {
+      title: "Manage Achievements",
+      url: "/admin/dashboard/achievements",
+      icon: Trophy,
+    },
+    {
+      title: "Manage International Conferences",
+      url: "/admin/dashboard/international-conferences",
+      icon: Globe,
     },
     {
       title: "Personal Working",

@@ -17,7 +17,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
               <Star className="h-6 w-6 text-brand-secondary" />
-              Areas of Expertise
+              Areas of Interest
             </CardTitle>
           </CardHeader>
           <CardContent>

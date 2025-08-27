@@ -66,10 +66,11 @@ const BlogPage = () => {
       const filteredData =
         category === "all"
           ? allData
-          : allData.filter(
-              (post) =>
-                post.category?.name?.toLowerCase() === category.toLowerCase()
-            );
+          : allData.filter((post) => {
+              // Handle category as object with name property
+              const categoryName = post.category?.name;
+              return categoryName?.toLowerCase() === category.toLowerCase();
+            });
 
       // Pagination
       const total = filteredData.length;
@@ -87,7 +88,9 @@ const BlogPage = () => {
       // Update category counts
       const categoryCounts: { [key: string]: number } = {};
       allData.forEach((post) => {
-        const category = post.category?.name?.toLowerCase() || "uncategorized";
+        // Handle category as object with name property
+        const categoryName = post.category?.name;
+        const category = categoryName?.toLowerCase() || "uncategorized";
         categoryCounts[category] = (categoryCounts[category] || 0) + 1;
       });
 

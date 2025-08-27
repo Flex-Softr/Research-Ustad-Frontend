@@ -43,6 +43,7 @@ export type TResearchAssociate = {
     google_scholar: string;
     researchgate: string;
     linkedin: string;
+    orcid?: string;
   };
   _id: string;
   role: string;
@@ -52,6 +53,7 @@ export type TResearchAssociate = {
   contactNo: string;
   fullName: string;
   designation: string;
+  citations?: number;
   research: any[]; // Adjust if research has a specific structure
   shortBio: string;
   isDeleted: boolean;
@@ -82,6 +84,7 @@ export interface SocialLinks {
   researchgate?: string;
   google_scholar?: string;
   linkedin?: string;
+  orcid?: string;
 }
 
 export interface UserProfile {
@@ -93,6 +96,7 @@ export interface UserProfile {
   role: string;
   profileImg?: string;
   shortBio?: string;
+  citations?: number;
   research: string[];
   isDeleted: boolean;
   current: {
@@ -178,7 +182,7 @@ export type TPapers = {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  paperType: "journal" | "conference";
+  paperType: "journal" | "conference" | "book";
   status: "published" | "ongoing";
   isApproved: boolean;
   abstract?: string;

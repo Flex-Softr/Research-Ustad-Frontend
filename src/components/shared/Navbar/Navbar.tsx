@@ -34,10 +34,10 @@ const navLinks = [
 
 // Research Wing submenu items for mobile
 const researchWingItems = [
-  { name: "Publication", href: "/allpapers" },
+  { name: "Publication", href: "/published" },
   { name: "Ongoing Projects", href: "/ongoing-projects" },
   {
-    name: "Attending International Conference as a Team",
+    name: "International Conference",
     href: "/international-conferences",
   },
   { name: "Achievements", href: "/achievements" },
@@ -297,10 +297,11 @@ const Navbar = () => {
                               onClick={() => setOpen(false)}
                             >
                               <span>{link.name}</span>
-                              <ChevronRight className="w-4 h-4 text-gray-400" />
                             </Link>
                           </div>
                         ))}
+
+
 
                         {/* Research Wing Collapsible Section */}
                         <div className="border-b border-gray-100">
@@ -308,7 +309,7 @@ const Navbar = () => {
                             onClick={() => toggleCategory("researchWing")}
                             className={cn(
                               "flex items-center justify-between w-full px-4 py-3 text-sm font-medium transition-colors duration-200",
-                              isActive("/allpapers") ||
+                              isActive("/published") ||
                                 isActive("/ongoing-projects") ||
                                 isActive("/international-conferences") ||
                                 isActive("/achievements")
@@ -325,13 +326,13 @@ const Navbar = () => {
                           </button>
 
                           {isCategoryExpanded("researchWing") && (
-                            <div className="bg-gray-50">
+                            <div className="bg-gray-50 px-5">
                               {researchWingItems.map((item) => (
                                 <Link
                                   key={item.name}
                                   href={item.href}
                                   className={cn(
-                                    "block px-8 py-2 text-sm transition-colors duration-200 border-b border-gray-100 last:border-b-0",
+                                    "block px-5 py-2 text-sm transition-colors duration-200 border-b border-gray-300 last:border-b-0",
                                     isActive(item.href)
                                       ? "text-brand-secondary font-medium"
                                       : "text-gray-600 hover:text-brand-secondary"

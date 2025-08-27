@@ -33,6 +33,10 @@ export interface UpdateInfoFormData {
   linkedin?: string;
   researchgate?: string;
   googleScholar?: string;
+  orcid?: string;
+
+  // Citations
+  citations?: number;
 
   // Expertise (array of strings)
   expertise?: string[];
@@ -74,7 +78,9 @@ export interface MemberData {
     linkedin?: string;
     researchgate?: string;
     google_scholar?: string;
+    orcid?: string;
   };
+  citations?: number;
   expertise?: string[];
   awards?: string[];
   conferences?: Conference[];
@@ -116,7 +122,11 @@ export interface UpdateMemberPayload {
       linkedin: string;
       researchgate: string;
       google_scholar: string;
+      orcid: string;
     };
+
+    // Citations
+    citations: number;
 
     // Expertise (filtered array)
     expertise: string[];
@@ -149,6 +159,11 @@ export interface UpdateInfoEducationSectionProps {
 }
 
 export interface UpdateInfoSocialLinksSectionProps {
+  register: UseFormRegister<UpdateInfoFormData>;
+  errors: FieldErrors<UpdateInfoFormData>;
+}
+
+export interface UpdateInfoCitationsSectionProps {
   register: UseFormRegister<UpdateInfoFormData>;
   errors: FieldErrors<UpdateInfoFormData>;
 }

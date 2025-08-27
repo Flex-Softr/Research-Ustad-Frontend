@@ -16,12 +16,6 @@ const getStatusDisplayName = (status?: string) => {
       return "Published";
     case "ongoing":
       return "Ongoing";
-    case "under_review":
-      return "Under Review";
-    case "in_preparation":
-      return "In Preparation";
-    case "revision":
-      return "Revision";
     default:
       return "Unknown";
   }
@@ -34,12 +28,6 @@ const getStatusBadgeStyle = (status?: string) => {
       return "bg-green-100 text-green-800";
     case "ongoing":
       return "bg-yellow-100 text-yellow-800";
-    case "under_review":
-      return "bg-blue-100 text-blue-800";
-    case "in_preparation":
-      return "bg-gray-100 text-gray-800";
-    case "revision":
-      return "bg-orange-100 text-orange-800";
     default:
       return "bg-gray-100 text-gray-800";
   }

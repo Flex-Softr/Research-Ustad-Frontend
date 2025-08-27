@@ -13,6 +13,7 @@ import {
   CurrentInstitutionSection,
   EducationSection,
   SocialLinksSection,
+  CitationsSection,
   ExpertiseSection,
   AwardsSection,
   ConferencesSection,
@@ -58,6 +59,8 @@ const UpdateInfo = () => {
       linkedin: "",
       researchgate: "",
       googleScholar: "",
+      orcid: "",
+      citations: 0,
       expertise: [],
       awards: [],
       conferences: [],
@@ -172,6 +175,10 @@ const UpdateInfo = () => {
         setValue("linkedin", data?.socialLinks?.linkedin || "");
         setValue("researchgate", data?.socialLinks?.researchgate || "");
         setValue("googleScholar", data?.socialLinks?.google_scholar || "");
+        setValue("orcid", data?.socialLinks?.orcid || "");
+
+        // Citations - only set if data exists
+        setValue("citations", data?.citations || 0);
 
         // Expertise - only set if data exists
         const expertise = data?.expertise || [];
@@ -307,13 +314,20 @@ const UpdateInfo = () => {
     const linkedin = cleanString(formData.linkedin);
     const researchgate = cleanString(formData.researchgate);
     const googleScholar = cleanString(formData.googleScholar);
+    const orcid = cleanString(formData.orcid);
 
-    if (linkedin || researchgate || googleScholar) {
+    if (linkedin || researchgate || googleScholar || orcid) {
       payload.socialLinks = {
         linkedin: linkedin,
         researchgate: researchgate,
         google_scholar: googleScholar,
+        orcid: orcid,
       };
+    }
+
+    // Citations - only include if it has a value
+    if (formData.citations !== undefined && formData.citations !== null) {
+      payload.citations = formData.citations;
     }
 
     // Expertise - only include if array has content
@@ -384,10 +398,13 @@ const UpdateInfo = () => {
           {/* Social Links Section */}
           <SocialLinksSection register={register} errors={errors} />
 
-          {/* Expertise & Awards Section */}
+          {/* Citations Section */}
+          <CitationsSection register={register} errors={errors} />
+
+          {/* Interest & Awards Section */}
           <div className="space-y-4">
             <h3 className="text-lg font-medium border-b pb-2">
-              Expertise & Awards
+              Interest & Awards
             </h3>
 
             {/* Expertise Areas */}

@@ -131,18 +131,11 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
       // Set form values with the blog data
       setValue("title", blog.title || "");
 
-      // Handle category - check if it's an ObjectId or string
+      // Handle category - now always an object
       let categoryValue = "";
       let categoryName = "";
 
-      if (typeof blog.category === "string") {
-        categoryValue = blog.category;
-        categoryName = blog.category;
-      } else if (
-        blog.category &&
-        typeof blog.category === "object" &&
-        "_id" in blog.category
-      ) {
+      if (blog.category && typeof blog.category === "object" && "_id" in blog.category) {
         categoryValue = blog.category._id;
         categoryName = blog.category.name;
       }

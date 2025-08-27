@@ -133,10 +133,7 @@ const CreateMemberForm: React.FC = () => {
                   value: 2,
                   message: "Full name must be at least 2 characters",
                 },
-                pattern: {
-                  value: /^[a-zA-Z\s]+$/,
-                  message: "Full name can only contain letters and spaces",
-                },
+               
               })}
               className={`transition-all duration-200 ${
                 errors.fullName

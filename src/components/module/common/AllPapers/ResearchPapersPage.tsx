@@ -10,15 +10,17 @@ import PapersTable from "./PapersTable";
 
 const ResearchPapersPage = ({
   papers: propPapers,
+  initialStatus,
 }: ResearchPapersPageProps) => {
   const [papers, setPapers] = useState<TPapers[]>([]);
+  console.log("papers", papers);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [filters, setFilters] = useState<FilterState>({
     category: "all",
-    status: "all",
+    status: initialStatus || "all",
     year: "all",
     paperType: "all",
   });
@@ -30,7 +32,9 @@ const ResearchPapersPage = ({
         // If papers are provided as props, use them
         if (propPapers && propPapers.length > 0) {
           // console.log("Using papers from props:", propPapers.length);
-          setPapers(propPapers);
+          // Sort papers by year in descending order (latest to oldest)
+          const sortedPapers = [...propPapers].sort((a, b) => b.year - a.year);
+          setPapers(sortedPapers);
           setLoading(false);
           return;
         }
@@ -78,9 +82,10 @@ const ResearchPapersPage = ({
       const categoryMatch =
         filters.category === "all" || paper.researchArea === filters.category;
 
-      // Status filter (all status options)
-      const statusMatch =
-        filters.status === "all" || paper.status === filters.status;
+      // Status filter - if initialStatus is provided, always filter by it
+      const statusMatch = initialStatus 
+        ? paper.status === initialStatus
+        : filters.status === "all" || paper.status === filters.status;
 
       // Year filter
       const yearMatch =
@@ -98,7 +103,7 @@ const ResearchPapersPage = ({
         paperTypeMatch
       );
     });
-  }, [papersData, searchQuery, filters]);
+  }, [papersData, searchQuery, filters, initialStatus]);
 
   // Paginate filtered papers
   const paginatedPapers = useMemo(() => {
@@ -155,7 +160,7 @@ const ResearchPapersPage = ({
       <Breadcrumb
         items={[
           {
-            label: "Research Papers",
+            label: initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus.slice(1)} Research Papers` : "Research Papers",
           },
         ]}
       />
@@ -171,6 +176,7 @@ const ResearchPapersPage = ({
             onFilterChange={handleFilterChange}
             onSearch={handleSearch}
             onClearFilters={clearFilters}
+            hideStatusFilter={!!initialStatus}
           />
 
           {/* Main Content */}
@@ -179,7 +185,7 @@ const ResearchPapersPage = ({
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl font-bold text-gray-900">
-                  Research Papers
+                  {initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus.slice(1)} Research Papers` : "Research Papers"}
                 </h2>
                 <span className="px-3 py-1 bg-brand-secondary/10 text-brand-secondary rounded-full text-sm font-semibold">
                   {filteredPapers.length} papers

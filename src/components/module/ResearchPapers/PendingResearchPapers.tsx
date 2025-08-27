@@ -26,16 +26,16 @@ const PendingResearchPapers = () => {
   const [previewModalOpen, setPreviewModalOpen] = useState(false);
   const [selectedPaper, setSelectedPaper] = useState<TPapers | null>(null);
 
-  const fetchData = async () => {
-    try {
-      const response = await GetPendingResearchPapers();
-      setData(response?.data || []);
-    } catch (error) {
-      console.error("Error fetching pending research papers:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const response = await GetPendingResearchPapers();
+        setData(response?.data || []);
+      } catch (error) {
+        console.error("Error fetching pending research papers:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   useEffect(() => {
     fetchData();

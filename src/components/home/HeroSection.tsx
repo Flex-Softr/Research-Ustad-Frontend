@@ -1,43 +1,9 @@
 import { Button } from "@/components/ui/core";
 import { Container } from "@/components/ui/core";
-import { useEffect, useState } from "react";
-import { getCurrentUser } from "@/services/AuthService";
-import { getDashboardUrl } from "@/lib/dashboardUtils";
 import Link from "next/link";
 import Image from "next/image";
 
 const HeroSection = () => {
-  const [user, setUser] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await getCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  const getDashboardLink = () => {
-    if (user?.role) {
-      return getDashboardUrl(user.role);
-    }
-    return "/login";
-  };
-
-  const getPrimaryButtonText = () => {
-    if (isLoading) return "Loading...";
-    if (user) return "Go to Dashboard";
-    return "START YOUR RESEARCH";
-  };
-
   return (
     <section className="relative w-full min-h-[70vh] bg-white overflow-hidden">
       {/* Background Image with Blue Overlay */}
@@ -63,7 +29,7 @@ const HeroSection = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xl md:text-2xl text-white leading-relaxed max-w-3xl mx-auto">
+            <p className="text-xl md:text-xl text-white leading-relaxed max-w-3xl mx-auto">
               Research Ustad provides comprehensive guidance and resources to
               help students produce exceptional research papers with confidence
               and academic rigor.
@@ -73,7 +39,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <Link href="/contact">
                 <Button variant="primary" size="lg">
-                START YOUR RESEARCH
+                  START YOUR RESEARCH
                 </Button>
               </Link>
 

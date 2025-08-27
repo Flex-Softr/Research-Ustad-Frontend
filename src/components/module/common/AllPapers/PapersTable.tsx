@@ -116,14 +116,7 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                       </p> */}
                     </div>
                   </td>
-                  {/* <td className="px-6 py-4">
-                    <Badge 
-                      variant="outline" 
-                      className="text-xs bg-blue-50 text-blue-700 border-blue-200"
-                    >
-                      {paper.researchArea || 'General'}
-                    </Badge>
-                  </td> */}
+            
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4 text-gray-400" />
@@ -132,14 +125,7 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                       </span>
                     </div>
                   </td>
-                  {/* <td className="px-6 py-4">
-                    <div className="flex items-center gap-1">
-                      <TrendingUp className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm font-medium text-gray-900">
-                        {paper.impactFactor}
-                      </span>
-                    </div>
-                  </td> */}
+            
                   <td className="px-6 py-4">
                     <Badge
                       variant="secondary"
@@ -153,7 +139,7 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                       size="sm"
                       variant="outline"
                       onClick={() => window.open(paper.visitLink, "_blank")}
-                      className="h-8 px-3 text-xs"
+                      className="h-8 px-3 text-xs cursor-pointer"
                     >
                       <ExternalLink className="h-3 w-3 mr-1" />
                       View

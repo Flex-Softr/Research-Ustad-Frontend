@@ -86,7 +86,7 @@ export const DeleteMember = async (id: string) => {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;
     
-    const response = await fetch(ENDPOINTS.delete(id), {
+    const response = await fetch(`${api.baseUrl}/users/research-members/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

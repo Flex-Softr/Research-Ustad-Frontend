@@ -20,21 +20,21 @@ interface FilterOption {
 }
 
 interface FilterConfig {
-  key: keyof FilterSidebarProps['filters'];
+  key: keyof FilterSidebarProps["filters"];
   title: string;
   options: FilterOption[];
   showMore?: boolean;
 }
 
 // Reusable Filter Button Component
-const FilterButton = ({ 
-  option, 
-  isSelected, 
-  onClick 
-}: { 
-  option: FilterOption; 
-  isSelected: boolean; 
-  onClick: () => void; 
+const FilterButton = ({
+  option,
+  isSelected,
+  onClick,
+}: {
+  option: FilterOption;
+  isSelected: boolean;
+  onClick: () => void;
 }) => (
   <button
     onClick={onClick}
@@ -58,14 +58,14 @@ const FilterButton = ({
 );
 
 // Reusable Show More/Less Button Component
-const ShowMoreButton = ({ 
-  isExpanded, 
-  totalCount, 
-  onClick 
-}: { 
-  isExpanded: boolean; 
-  totalCount: number; 
-  onClick: () => void; 
+const ShowMoreButton = ({
+  isExpanded,
+  totalCount,
+  onClick,
+}: {
+  isExpanded: boolean;
+  totalCount: number;
+  onClick: () => void;
 }) => (
   <button
     onClick={onClick}
@@ -86,19 +86,32 @@ const ShowMoreButton = ({
 );
 
 // Reusable Filter Section Component
-const FilterSection = ({ 
-  config, 
-  filters, 
-  onFilterChange 
-}: { 
-  config: FilterConfig; 
-  filters: FilterSidebarProps['filters']; 
-  onFilterChange: (key: string, value: string) => void; 
+const FilterSection = ({
+  config,
+  filters,
+  onFilterChange,
+}: {
+  config: FilterConfig;
+  filters: FilterSidebarProps["filters"];
+  onFilterChange: (key: string, value: string) => void;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
-  const filteredOptions = config.options.filter(option => option.count > 0 || option.id === "all");
-  const displayedOptions = isExpanded ? filteredOptions : filteredOptions.slice(0, 3);
+
+  // For paperType, show all options regardless of count since they are predefined categories
+  const filteredOptions =
+    config.key === "paperType"
+      ? config.options
+      : config.options.filter(
+          (option) => option.count > 0 || option.id === "all"
+        );
+
+  // For paperType, always show all options since they are predefined categories
+  const displayedOptions =
+    config.key === "paperType"
+      ? filteredOptions
+      : isExpanded
+      ? filteredOptions
+      : filteredOptions.slice(0, 3);
   const showMoreButton = config.showMore && filteredOptions.length > 3;
 
   if (filteredOptions.length === 0) return null;
@@ -115,7 +128,7 @@ const FilterSection = ({
             onClick={() => onFilterChange(config.key, option.id)}
           />
         ))}
-        
+
         {showMoreButton && (
           <ShowMoreButton
             isExpanded={isExpanded}
@@ -135,11 +148,12 @@ const FilterSidebar = ({
   onFilterChange,
   onSearch,
   onClearFilters,
-}: FilterSidebarProps) => {
+  hideStatusFilter = false,
+}: FilterSidebarProps & { hideStatusFilter?: boolean }) => {
   // Helper function to get count for a specific filter
   const getFilterCount = (filterType: string, value: string) => {
     if (value === "all") return papers.length;
-    
+
     switch (filterType) {
       case "status":
         return papers.filter((p) => p.status === value).length;
@@ -156,58 +170,78 @@ const FilterSidebar = ({
 
   // Generate filter configurations
   const filterConfigs: FilterConfig[] = [
-    {
-      key: "status",
+    // Only include status filter if not hidden
+    ...(hideStatusFilter ? [] : [{
+      key: "status" as keyof FilterSidebarProps["filters"],
       title: "Status",
       showMore: true,
       options: [
         { id: "all", name: "All Papers", count: papers.length },
-        { id: "published", name: "Published", count: getFilterCount("status", "published") },
-        { id: "ongoing", name: "Ongoing", count: getFilterCount("status", "ongoing") },
-        { id: "under_review", name: "Under Review", count: getFilterCount("status", "under_review") },
-        { id: "in_preparation", name: "In Preparation", count: getFilterCount("status", "in_preparation") },
-        { id: "revision", name: "Revision", count: getFilterCount("status", "revision") },
-      ]
-    },
+        {
+          id: "published",
+          name: "Published",
+          count: getFilterCount("status", "published"),
+        },
+        {
+          id: "ongoing",
+          name: "Ongoing",
+          count: getFilterCount("status", "ongoing"),
+        },
+      ],
+    }]),
     {
-      key: "category",
+      key: "category" as keyof FilterSidebarProps["filters"],
       title: "Research Area",
       showMore: true,
       options: [
         { id: "all", name: "All", count: papers.length },
-        ...Array.from(new Set(papers.map((paper) => paper.researchArea).filter(Boolean)))
-          .map(area => ({
-            id: area,
-            name: area,
-            count: getFilterCount("category", area)
-          }))
-      ]
+        ...Array.from(
+          new Set(papers.map((paper) => paper.researchArea).filter(Boolean))
+        ).map((area) => ({
+          id: area,
+          name: area,
+          count: getFilterCount("category", area),
+        })),
+      ],
     },
     {
-      key: "year",
+      key: "year" as keyof FilterSidebarProps["filters"],
       title: "Year",
       showMore: true,
       options: [
         { id: "all", name: "All Years", count: papers.length },
         ...Array.from(new Set(papers.map((paper) => paper.year.toString())))
           .sort((a, b) => parseInt(b) - parseInt(a))
-          .map(year => ({
+          .map((year) => ({
             id: year,
             name: year,
-            count: getFilterCount("year", year)
-          }))
-      ]
+            count: getFilterCount("year", year),
+          })),
+      ],
     },
     {
-      key: "paperType",
+      key: "paperType" as keyof FilterSidebarProps["filters"],
       title: "Paper Type",
       showMore: false,
       options: [
         { id: "all", name: "All Types", count: papers.length },
-        { id: "journal", name: "Journal", count: getFilterCount("paperType", "journal") },
-        { id: "conference", name: "Conference", count: getFilterCount("paperType", "conference") },
-      ]
-    }
+        {
+          id: "journal",
+          name: "Journal",
+          count: getFilterCount("paperType", "journal"),
+        },
+        {
+          id: "conference",
+          name: "Conference",
+          count: getFilterCount("paperType", "conference"),
+        },
+        {
+          id: "book",
+          name: "Book",
+          count: getFilterCount("paperType", "book"),
+        },
+      ],
+    },
   ];
 
   return (

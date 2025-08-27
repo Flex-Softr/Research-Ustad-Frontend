@@ -175,7 +175,7 @@ export interface FormProgressIndicatorProps {
     fee: string;
     isFree: boolean;
     thumbnail: File | null;
-    tags: string[];
+    tags?: string[];
     whatYouWillLearn: string[];
     requirements: string[];
     instructors: any[];

@@ -352,9 +352,6 @@ const CoursePage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {getPaginatedCourses().map((course, index) => {
                         const statusInfo = getCourseStatus(course);
-                        const enrollmentPercentage = Math.round(
-                          (course.enrolled / course.capacity) * 100
-                        );
 
                         return (
                           <div
@@ -430,22 +427,6 @@ const CoursePage = () => {
                                       ? course.offlineLocation
                                       : course.location}
                                   </span>
-                                </div>
-                              </div>
-
-                              {/* Enrollment Progress */}
-                              <div className="mb-4">
-                                <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
-                                  <span>Enrollment</span>
-                                  <span>{enrollmentPercentage}%</span>
-                                </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
-                                  <div
-                                    className="bg-brand-primary h-2 rounded-full transition-all duration-300"
-                                    style={{
-                                      width: `${enrollmentPercentage}%`,
-                                    }}
-                                  ></div>
                                 </div>
                               </div>
 

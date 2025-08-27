@@ -81,7 +81,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
             <Select
               value={watch("paperType") || ""}
               onValueChange={(value) => {
-                setValue("paperType", value as "journal" | "conference", { shouldValidate: true });
+                setValue("paperType", value as "journal" | "conference" | "book", { shouldValidate: true });
                 trigger("paperType");
               }}
             >
@@ -94,6 +94,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               <SelectContent>
                 <SelectItem value="journal">Journal</SelectItem>
                 <SelectItem value="conference">Conference</SelectItem>
+                <SelectItem value="book">Book</SelectItem>
               </SelectContent>
             </Select>
             {errors.paperType && (
@@ -119,7 +120,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
             <Select
               value={watch("status") || ""}
               onValueChange={(value) => {
-                setValue("status", value as "published" | "ongoing" | "under_review" | "in_preparation" | "revision", {
+                setValue("status", value as "published" | "ongoing", {
                   shouldValidate: true,
                 });
                 trigger("status");
@@ -134,9 +135,6 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               <SelectContent>
                 <SelectItem value="published">Published</SelectItem>
                 <SelectItem value="ongoing">Ongoing</SelectItem>
-                <SelectItem value="under_review">Under Review</SelectItem>
-                <SelectItem value="in_preparation">In Preparation</SelectItem>
-                <SelectItem value="revision">Revision</SelectItem>
               </SelectContent>
             </Select>
             {errors.status && (

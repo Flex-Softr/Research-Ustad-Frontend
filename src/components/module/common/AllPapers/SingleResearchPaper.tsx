@@ -387,42 +387,6 @@ const SingleResearchPaper = ({
               </Card>
             )}
 
-            {/* Publication Timeline */}
-            <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
-              <CardHeader>
-                <CardTitle className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-brand-secondary" />
-                  Timeline
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {paper?.createdAt && (
-                  <div>
-                    <span className="text-sm text-gray-600">Submitted</span>
-                    <p className="text-sm font-medium text-gray-900">
-                      {formatDate(paper.createdAt)}
-                    </p>
-                  </div>
-                )}
-                {paper?.updatedAt && (
-                  <div>
-                    <span className="text-sm text-gray-600">Last Updated</span>
-                    <p className="text-sm font-medium text-gray-900">
-                      {formatDate(paper.updatedAt)}
-                    </p>
-                  </div>
-                )}
-                <div>
-                  <span className="text-sm text-gray-600">
-                    {paper?.status === "published" ? "Published" : "Started"}
-                  </span>
-                  <p className="text-sm font-medium text-gray-900">
-                    {paper?.year || "Not specified"}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Related Papers */}
             <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
               <CardHeader>

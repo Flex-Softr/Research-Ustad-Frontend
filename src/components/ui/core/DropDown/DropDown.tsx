@@ -20,7 +20,7 @@ import { GetAllResearchPaperPublic } from "@/services/allreserchPaper";
 
 // Research Wing submenu items
 const researchWingItems = [
-  { name: "Publication", href: "/allpapers" },
+  { name: "Publication", href: "/published" },
   { name: "Ongoing Projects", href: "/ongoing-projects" },
   {
     name: "International Conference",
@@ -71,7 +71,7 @@ export function DroopDown() {
           <NavigationMenuTrigger
             className={cn(
               "hover:text-brand-secondary focus:text-brand-secondary",
-              (isActive("/allpapers") ||
+              (isActive("/published") ||
                 isActive("/ongoing-projects") ||
                 isActive("/international-conferences") ||
                 isActive("/achievements")) &&
@@ -81,13 +81,14 @@ export function DroopDown() {
             Research Wing
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-1 p-4 md:w-[300px] lg:w-[300px]">
-              {researchWingItems.map((item) => (
+            <ul className="w-[200px] bg-white ">
+              {researchWingItems.map((item, index) => (
                 <ListItem
                   key={item.name}
                   title={item.name}
                   href={item.href}
-                ></ListItem>
+                  isLast={index === researchWingItems.length - 1}
+                />
               ))}
             </ul>
           </NavigationMenuContent>
@@ -166,23 +167,23 @@ export function DroopDown() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & {
+    isLast?: boolean;
+  }
+>(({ className, title, children, isLast, ...props }, ref) => {
   return (
     <li>
-      <NavigationMenuLink asChild>
+      <NavigationMenuLink className="rounded-none" asChild>
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none p-3 leading-none no-underline  outline-none transition-colors hover:bg-gray-50 rounded-none",
+            !isLast && "border-b border-gray-300 ",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <div className="text-sm  text-black">{title}</div>
         </a>
       </NavigationMenuLink>
     </li>

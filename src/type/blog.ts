@@ -1,9 +1,9 @@
 // Blog Types
 export interface Blog {
-  _id?: string;
+  _id: string;
   title: string;
   content: string;
-  category: string | {
+  category: {
     _id: string;
     name: string;
     description?: string;
@@ -18,8 +18,8 @@ export interface Blog {
     designation?: string;
   };
   publishedDate?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
   status: "pending" | "approved" | "rejected";
   views?: number;
   likes?: number;

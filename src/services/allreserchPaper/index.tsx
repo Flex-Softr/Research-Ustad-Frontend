@@ -165,6 +165,8 @@ export const MyResearchPaper = async () => {
 
 export const GetAllResearchPaperPublic = async () => {
   try {
+    console.log("Making API call to:", `${api.baseUrl}/paper/public`);
+    
     const response = await fetch(`${api.baseUrl}/paper/public`, {
       method: "GET",
       headers: {
@@ -172,13 +174,49 @@ export const GetAllResearchPaperPublic = async () => {
       },
     });
 
+    console.log("API Response status:", response.status);
+    console.log("API Response ok:", response.ok);
+
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    console.log("API Response data:", data);
+    return data;
   } catch (error) {
-    console.error("Error fetching research associates:", error);
+    console.error("Error fetching research papers:", error);
+    return null;
+  }
+};
+
+export const GetAllResearchPaperPublicByStatus = async (status?: string) => {
+  try {
+    const url = status 
+      ? `${api.baseUrl}/paper/public/query?status=${status}`
+      : `${api.baseUrl}/paper/public`;
+    
+    console.log("Making API call to:", url);
+    
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("API Response status:", response.status);
+    console.log("API Response ok:", response.ok);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("API Response data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching research papers by status:", error);
     return null;
   }
 };

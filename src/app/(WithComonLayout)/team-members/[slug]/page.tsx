@@ -47,6 +47,7 @@ const SingleMemberPage = () => {
             designation: response?.data?.designation,
             profileImg: response?.data?.image,
             shortBio: response?.data?.shortBio,
+            citations: response?.data?.citations,
             research: response?.data?.research || [],
             isDeleted: response?.data?.isDeleted,
             current: response?.data?.current,
@@ -72,6 +73,7 @@ const SingleMemberPage = () => {
             designation: response?.data?.designation,
             profileImg: response?.data?.image,
             shortBio: response?.data?.shortBio,
+            citations: response?.data?.citations,
             research: response?.data?.research || [],
             isDeleted: response?.data?.isDeleted,
             current: response?.data?.current,
@@ -183,7 +185,7 @@ const SingleMemberPage = () => {
     },
     {
       id: "ongoing",
-      label: "Ongoing Papers",
+      label: "Ongoing Projects",
       count:
         member.publications?.filter(
           (pub) => pub.status !== "published" && pub.status !== "Published"
