@@ -8,6 +8,7 @@ import { GetAllResearchAssociate } from "@/services/reserarchers";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import Link from "next/link";
 import { Star, AlertCircle } from "lucide-react";
+import { DESIGNATION_OPTIONS } from "@/constants/designations";
 
 interface TeamMember {
   id: string;
@@ -85,6 +86,22 @@ const TeamSection = () => {
     [{ id: "all", label: "All" }]
   );
 
+  // Helper function to get display name for designation
+  const getDesignationDisplayName = (designation: string) => {
+    switch (designation) {
+      case DESIGNATION_OPTIONS[0]: // "Advisor"
+        return "Advisor Panel";
+      case DESIGNATION_OPTIONS[1]: // "Mentor"
+        return "Mentor Panel";
+      case DESIGNATION_OPTIONS[2]: // "Team Lead"
+        return "Team Lead";
+      case DESIGNATION_OPTIONS[3]: // "Executive Board"
+        return "Executive Board";
+      default:
+        return designation;
+    }
+  };
+
   // Load team members data from API
   useEffect(() => {
     const fetchMembers = async () => {
@@ -99,14 +116,25 @@ const TeamSection = () => {
           Array.isArray(response.data)
         ) {
           // Transform API data to match TeamMember interface
-          const transformedMembers = response.data.map((member: any) => ({
-            id: member._id,
-            name: member.fullName || "Unknown Member",
-            title: member.designation || member.role || "",
-            institution: member.current?.institution || "",
-            image: member.image || "/default-avatar.jpg",
-            category: member.designation || member.role || "Other",
-          }));
+          const transformedMembers = response.data.map((member: any) => {
+            // Normalize designation to capitalized format
+            let normalizedDesignation = member.designation || member.role || "";
+            
+            // Convert old uppercase designations to new format
+            if (normalizedDesignation === "ADVISOR") normalizedDesignation = DESIGNATION_OPTIONS[0];
+            if (normalizedDesignation === "MENTOR") normalizedDesignation = DESIGNATION_OPTIONS[1];
+            if (normalizedDesignation === "TEAM LEAD") normalizedDesignation = DESIGNATION_OPTIONS[2];
+            if (normalizedDesignation === "EXECUTIVE BOARD") normalizedDesignation = DESIGNATION_OPTIONS[3];
+            
+            return {
+              id: member._id,
+              name: member.fullName || "Unknown Member",
+              title: normalizedDesignation,
+              institution: member.current?.institution || "",
+              image: member.image || "/default-avatar.jpg",
+              category: normalizedDesignation || "Other",
+            };
+          });
 
           // Generate categories dynamically from the data using designation
           const uniqueCategories = [
@@ -116,7 +144,7 @@ const TeamSection = () => {
             { id: "all", label: "All" },
             ...uniqueCategories.map((cat) => ({
               id: String(cat),
-              label: String(cat),
+              label: getDesignationDisplayName(String(cat)),
             })),
           ];
 
@@ -124,14 +152,25 @@ const TeamSection = () => {
           setMembers(transformedMembers);
         } else if (response?.data && Array.isArray(response.data)) {
           // If no success flag but data exists
-          const transformedMembers = response.data.map((member: any) => ({
-            id: member._id,
-            name: member.fullName || "Unknown Member",
-            title: member.designation || member.role || "",
-            institution: member.current?.institution || "",
-            image: member.image || "/default-avatar.jpg",
-            category: member.designation || member.role || "Other",
-          }));
+          const transformedMembers = response.data.map((member: any) => {
+            // Normalize designation to capitalized format
+            let normalizedDesignation = member.designation || member.role || "";
+            
+            // Convert old uppercase designations to new format
+            if (normalizedDesignation === "ADVISOR") normalizedDesignation = DESIGNATION_OPTIONS[0];
+            if (normalizedDesignation === "MENTOR") normalizedDesignation = DESIGNATION_OPTIONS[1];
+            if (normalizedDesignation === "TEAM LEAD") normalizedDesignation = DESIGNATION_OPTIONS[2];
+            if (normalizedDesignation === "EXECUTIVE BOARD") normalizedDesignation = DESIGNATION_OPTIONS[3];
+            
+            return {
+              id: member._id,
+              name: member.fullName || "Unknown Member",
+              title: normalizedDesignation,
+              institution: member.current?.institution || "",
+              image: member.image || "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg",
+              category: normalizedDesignation || "Other",
+            };
+          });
 
           // Generate categories dynamically from the data using designation
           const uniqueCategories = [
@@ -141,7 +180,7 @@ const TeamSection = () => {
             { id: "all", label: "All" },
             ...uniqueCategories.map((cat) => ({
               id: String(cat),
-              label: String(cat),
+              label: getDesignationDisplayName(String(cat)),
             })),
           ];
 
@@ -198,14 +237,14 @@ const TeamSection = () => {
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories?.map((category) => {
-            const categoryCount = members.filter(
-              (member) => member.category === category.id
-            ).length;
+            // const categoryCount = members.filter(
+            //   (member) => member.category === category.id
+            // ).length;
             return (
               <Button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+                className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300  ${
                   activeCategory === category.id
                     ? "bg-brand-primary text-white shadow-md"
                     : "bg-white text-brand-primary border-2 border-brand-primary hover:bg-brand-primary/5"

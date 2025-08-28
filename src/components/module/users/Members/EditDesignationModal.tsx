@@ -96,13 +96,13 @@ export default function EditDesignationModal({
                   {designation || "Select a designation"}
                 </SelectValue>
               </SelectTrigger>
-                             <SelectContent>
-                 {DESIGNATION_OPTIONS.map((option) => (
-                   <SelectItem key={option} value={option}>
-                     {option}
-                   </SelectItem>
-                 ))}
-               </SelectContent>
+              <SelectContent>
+                {DESIGNATION_OPTIONS.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
         </div>

@@ -67,7 +67,7 @@ export function DroopDown() {
         </NavigationMenuItem>
 
         {/* Research Wing Dropdown */}
-        <NavigationMenuItem>
+        <NavigationMenuItem className="cursor-pointer hover:text-brand-secondary">
           <NavigationMenuTrigger
             className={cn(
               "hover:text-brand-secondary focus:text-brand-secondary",

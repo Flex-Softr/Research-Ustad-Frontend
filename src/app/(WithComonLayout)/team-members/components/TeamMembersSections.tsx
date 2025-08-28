@@ -60,13 +60,13 @@ const TeamMembersSections = ({
   // Get section display name
   const getSectionDisplayName = (designation: string) => {
     switch (designation) {
-      case "ADVISOR":
+      case "Advisor":
         return "Advisor Panel";
-      case "MENTOR":
+      case "Mentor":
         return "Mentor Panel";
-      case "TEAM LEAD":
+      case "Team Lead":
         return "Team Lead";
-      case "EXECUTIVE BOARD":
+      case "Executive Board":
         return "Executive Board";
       default:
         return designation;

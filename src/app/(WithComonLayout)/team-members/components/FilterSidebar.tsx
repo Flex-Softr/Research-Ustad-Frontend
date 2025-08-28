@@ -50,13 +50,13 @@ const FilterSidebar = ({
   // Helper function to format designation label
   const formatDesignationLabel = (designation: string) => {
     switch (designation) {
-      case "ADVISOR":
+      case "Advisor":
         return "Advisor Panel";
-      case "MENTOR":
+      case "Mentor":
         return "Mentor Panel";
-      case "TEAM LEAD":
+      case "Team Lead":
         return "Team Lead";
-      case "EXECUTIVE BOARD":
+      case "Executive Board":
         return "Executive Board";
       default:
         return designation;
@@ -91,7 +91,7 @@ const FilterSidebar = ({
             <button
               key={option.id}
               onClick={() => onFilterChange(option.id)}
-              className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-all duration-300 ${
+              className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-all duration-300 cursor-pointer ${
                 selectedFilter === option.id
                   ? "bg-brand-primary text-white shadow-lg"
                   : "bg-gray-50 hover:bg-gray-100 text-gray-700"

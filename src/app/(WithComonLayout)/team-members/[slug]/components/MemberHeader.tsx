@@ -82,7 +82,9 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
               {member?.designation && (
                 <div className="flex items-center gap-2 md:justify-start justify-center">
                   <div className="flex items-center gap-2">
-                    <h2 className="text-gray-700  font-semibold uppercase">Role:</h2>
+                    <h2 className="text-gray-700  font-semibold capitalize">
+                      Role:
+                    </h2>
                     <p className="text-gray-700">{member?.designation}</p>
                   </div>
                 </div>
@@ -114,7 +116,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                 <div></div>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-2 mb-4">
+            <div className="flex flex-wrap capitalize items-center gap-2 mb-4">
               {member?.socialLinks?.orcid && (
                 <Button
                   asChild
@@ -193,7 +195,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
             <Button
               asChild
               variant="outline"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 hover:bg-brand-secondary hover:text-white"
             >
               <Link href="/team-members">← Back to Team Members</Link>
             </Button>
