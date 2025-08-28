@@ -171,24 +171,28 @@ const FilterSidebar = ({
   // Generate filter configurations
   const filterConfigs: FilterConfig[] = [
     // Only include status filter if not hidden
-    ...(hideStatusFilter ? [] : [{
-      key: "status" as keyof FilterSidebarProps["filters"],
-      title: "Status",
-      showMore: true,
-      options: [
-        { id: "all", name: "All Papers", count: papers.length },
-        {
-          id: "published",
-          name: "Published",
-          count: getFilterCount("status", "published"),
-        },
-        {
-          id: "ongoing",
-          name: "Ongoing",
-          count: getFilterCount("status", "ongoing"),
-        },
-      ],
-    }]),
+    ...(hideStatusFilter
+      ? []
+      : [
+          {
+            key: "status" as keyof FilterSidebarProps["filters"],
+            title: "Status",
+            showMore: true,
+            options: [
+              { id: "all", name: "All Papers", count: papers.length },
+              {
+                id: "published",
+                name: "Published",
+                count: getFilterCount("status", "published"),
+              },
+              {
+                id: "ongoing",
+                name: "Ongoing",
+                count: getFilterCount("status", "ongoing"),
+              },
+            ],
+          },
+        ]),
     {
       key: "category" as keyof FilterSidebarProps["filters"],
       title: "Research Area",
@@ -236,9 +240,9 @@ const FilterSidebar = ({
           count: getFilterCount("paperType", "conference"),
         },
         {
-          id: "book",
-          name: "Book",
-          count: getFilterCount("paperType", "book"),
+          id: "book chapter",
+          name: "Book Chapter",
+          count: getFilterCount("paperType", "book chapter"),
         },
       ],
     },

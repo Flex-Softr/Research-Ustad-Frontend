@@ -82,7 +82,7 @@ const EventForm = ({
     if (e.target.files && e.target.files.length > 0) {
       setSelectedFile(e.target.files[0]);
       // Clear error when file is selected
-      setImageErrors(prev => ({ ...prev, eventImage: undefined }));
+      setImageErrors((prev) => ({ ...prev, eventImage: undefined }));
     }
   };
 
@@ -96,12 +96,12 @@ const EventForm = ({
         [index]: e.target.files![0],
       }));
       // Clear error when file is selected
-      setImageErrors(prev => ({
+      setImageErrors((prev) => ({
         ...prev,
         speakerImages: {
           ...prev.speakerImages,
-          [index]: undefined
-        }
+          [index]: undefined,
+        },
       }));
     }
   };
@@ -144,7 +144,10 @@ const EventForm = ({
 
       // Validate event image
       if (!selectedFile && (!isEditing || !event?.imageUrl)) {
-        setImageErrors(prev => ({ ...prev, eventImage: "Event image is required" }));
+        setImageErrors((prev) => ({
+          ...prev,
+          eventImage: "Event image is required",
+        }));
         toast.error("Event image is required");
         return;
       }
@@ -155,8 +158,9 @@ const EventForm = ({
 
       data.speakers.forEach((speaker, index) => {
         const hasFile = speakerFiles[index];
-        const hasExistingImage = isEditing && event?.speakers?.[index]?.imageUrl;
-        
+        const hasExistingImage =
+          isEditing && event?.speakers?.[index]?.imageUrl;
+
         if (!hasFile && !hasExistingImage) {
           speakerImageErrors[index] = "Speaker image is required";
           hasSpeakerImageError = true;
@@ -164,7 +168,10 @@ const EventForm = ({
       });
 
       if (hasSpeakerImageError) {
-        setImageErrors(prev => ({ ...prev, speakerImages: speakerImageErrors }));
+        setImageErrors((prev) => ({
+          ...prev,
+          speakerImages: speakerImageErrors,
+        }));
         toast.error("All speakers must have an image");
         return;
       }
@@ -479,7 +486,9 @@ const EventForm = ({
                   accept="image/*"
                 />
                 {imageErrors.eventImage && (
-                  <p className="text-sm text-red-500">{imageErrors.eventImage}</p>
+                  <p className="text-sm text-red-500">
+                    {imageErrors.eventImage}
+                  </p>
                 )}
               </div>
               <div className="space-y-2">
@@ -563,12 +572,12 @@ const EventForm = ({
                         delete newFiles[index];
                         return newFiles;
                       });
-                      setImageErrors(prev => ({
+                      setImageErrors((prev) => ({
                         ...prev,
                         speakerImages: {
                           ...prev.speakerImages,
-                          [index]: undefined
-                        }
+                          [index]: undefined,
+                        },
                       }));
                     }}
                   >
@@ -617,7 +626,9 @@ const EventForm = ({
 
                 {/* Speaker Image Upload */}
                 <div className="space-y-2">
-                  <Label htmlFor={`speaker-file-${index}`}>Upload Speaker Image *</Label>
+                  <Label htmlFor={`speaker-file-${index}`}>
+                    Upload Speaker Image *
+                  </Label>
                   <Input
                     type="file"
                     id={`speaker-file-${index}`}
@@ -637,7 +648,8 @@ const EventForm = ({
                         <p>Selected: {speakerFiles[index]!.name} Image</p>
                         <p>
                           Size:{" "}
-                          {(speakerFiles[index]!.size / 1024 / 1024).toFixed(2)} MB
+                          {(speakerFiles[index]!.size / 1024 / 1024).toFixed(2)}{" "}
+                          MB
                         </p>
                       </div>
                     </div>
@@ -663,7 +675,7 @@ const EventForm = ({
           <div className="flex gap-2 pt-4">
             <Button
               type="submit"
-              className="bg-purple-600 hover:bg-purple-700 cursor-pointer"
+              className="bg-brand-primary hover:bg-brand-primary/80 cursor-pointer"
             >
               {isEditing ? "Update Event" : "Create Event"}
             </Button>

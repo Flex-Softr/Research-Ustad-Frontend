@@ -44,7 +44,6 @@ const UpdateInfo = () => {
     defaultValues: {
       fullName: "",
       contactNo: "",
-      designation: "",
       profileImg: "",
       shortBio: "",
       currentInstitution: "",
@@ -144,7 +143,6 @@ const UpdateInfo = () => {
         // Basic Information - only set if data exists
         setValue("fullName", data?.fullName || "");
         setValue("contactNo", data?.contactNo || "");
-        setValue("designation", data?.designation || "");
         setValue("profileImg", data?.image || "");
         setValue("shortBio", data?.shortBio || "");
 
@@ -217,6 +215,13 @@ const UpdateInfo = () => {
   const onSubmit = async (formData: UpdateInfoFormData) => {
     setLoading(true);
 
+    // Validate required fields
+    if (!formData.fullName || formData.fullName.trim() === "") {
+      toast.error("Full name is required");
+      setLoading(false);
+      return;
+    }
+
     // Helper function to clean empty strings
     const cleanString = (value: string | undefined) => {
       return value && value.trim() !== "" ? value.trim() : "";
@@ -245,43 +250,33 @@ const UpdateInfo = () => {
       isDeleted: formData.isDeleted ?? false,
     };
 
-    // Only include basic information fields if they have content
+    // Always include basic information fields (allow clearing)
     const fullName = cleanString(formData.fullName);
-    if (fullName) payload.fullName = fullName;
+    payload.fullName = fullName;
 
     const contactNo = cleanString(formData.contactNo);
-    if (contactNo) payload.contactNo = contactNo;
-
-    const designation = cleanString(formData.designation);
-    if (designation) payload.designation = designation;
+    payload.contactNo = contactNo;
 
     const image = cleanString(formData.profileImg);
-    if (image) payload.image = image;
+    payload.image = image;
 
     const shortBio = cleanString(formData.shortBio);
-    if (shortBio) payload.shortBio = shortBio;
+    payload.shortBio = shortBio;
 
-    // Current Institution - only include if any field has content
+    // Current Institution - always include (allow clearing)
     const currentInstitution = cleanString(formData.currentInstitution);
     const currentDepartment = cleanString(formData.currentDepartment);
     const currentDegree = cleanString(formData.currentDegree);
     const currentInstDesignation = cleanString(formData.currentInstDesignation);
 
-    if (
-      currentInstitution ||
-      currentDepartment ||
-      currentDegree ||
-      currentInstDesignation
-    ) {
-      payload.current = {
-        inst_designation: currentInstDesignation,
-        institution: currentInstitution,
-        department: currentDepartment,
-        degree: currentDegree,
-      };
-    }
+    payload.current = {
+      inst_designation: currentInstDesignation,
+      institution: currentInstitution,
+      department: currentDepartment,
+      degree: currentDegree,
+    };
 
-    // Education - only include if any field has content
+    // Education - always include (allow clearing)
     const educationDegree = cleanString(formData.educationDegree);
     const educationField = cleanString(formData.educationField);
     const educationInstitution = cleanString(formData.educationInstitution);
@@ -291,62 +286,47 @@ const UpdateInfo = () => {
     const educationStatus =
       formData.educationStatus === "" ? "" : formData.educationStatus;
 
-    if (
-      educationDegree ||
-      educationField ||
-      educationInstitution ||
-      educationStatus ||
-      scholarship
-    ) {
-      payload.education = {
-        degree: educationDegree,
-        field: educationField,
-        institution: educationInstitution,
-        status: educationStatus,
-        scholarship: scholarship,
-      };
-    }
+    payload.education = {
+      degree: educationDegree,
+      field: educationField,
+      institution: educationInstitution,
+      status: educationStatus,
+      scholarship: scholarship,
+    };
 
     // Keep existing research data
     payload.research = data?.research || [];
 
-    // Social Links - only include if any field has content
+    // Social Links - always include (allow clearing)
     const linkedin = cleanString(formData.linkedin);
     const researchgate = cleanString(formData.researchgate);
     const googleScholar = cleanString(formData.googleScholar);
     const orcid = cleanString(formData.orcid);
 
-    if (linkedin || researchgate || googleScholar || orcid) {
-      payload.socialLinks = {
-        linkedin: linkedin,
-        researchgate: researchgate,
-        google_scholar: googleScholar,
-        orcid: orcid,
-      };
-    }
+    payload.socialLinks = {
+      linkedin: linkedin,
+      researchgate: researchgate,
+      google_scholar: googleScholar,
+      orcid: orcid,
+    };
 
-    // Citations - only include if it has a value
-    if (formData.citations !== undefined && formData.citations !== null) {
-      payload.citations = formData.citations;
-    }
+    // Citations - always include (allow clearing)
+    payload.citations =
+      formData.citations !== undefined && formData.citations !== null
+        ? formData.citations
+        : 0;
 
-    // Expertise - only include if array has content
+    // Expertise - always include (allow clearing)
     const expertise = cleanArray(formData.expertise);
-    if (expertise.length > 0) {
-      payload.expertise = expertise;
-    }
+    payload.expertise = expertise;
 
-    // Awards - only include if array has content
+    // Awards - always include (allow clearing)
     const awards = cleanArray(formData.awards);
-    if (awards.length > 0) {
-      payload.awards = awards;
-    }
+    payload.awards = awards;
 
-    // Conferences - only include if array has content
+    // Conferences - always include (allow clearing)
     const conferences = cleanConferences(formData.conferences);
-    if (conferences.length > 0) {
-      payload.conferences = conferences;
-    }
+    payload.conferences = conferences;
 
     try {
       console.log("Sending payload:", payload);
@@ -371,87 +351,154 @@ const UpdateInfo = () => {
   };
 
   return (
-    <Card className="w-full container mx-auto shadow-lg">
-      <CardHeader>
-        <CardTitle>Update Member Information</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Hidden Fields */}
-          <input type="hidden" {...register("isDeleted")} />
+    <div className="container mx-auto">
+      <Card className=" border-0 shadow-none">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">
+            Update Profile Information
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {/* Hidden Fields */}
+            <input type="hidden" {...register("isDeleted")} />
 
-          {/* Basic Information Section */}
-          <BasicInformationSection
-            register={register}
-            errors={errors}
-            selectedFile={selectedFile}
-            onFileChange={setSelectedFile}
-            currentProfileImg={data?.image}
-          />
+            {/* Basic Information Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Basic Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <BasicInformationSection
+                  register={register}
+                  errors={errors}
+                  selectedFile={selectedFile}
+                  onFileChange={setSelectedFile}
+                  currentProfileImg={data?.image}
+                />
+              </CardContent>
+            </Card>
 
-          {/* Current Institution Section */}
-          <CurrentInstitutionSection register={register} errors={errors} />
+            {/* Current Institution Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Current Institution
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CurrentInstitutionSection
+                  register={register}
+                  errors={errors}
+                />
+              </CardContent>
+            </Card>
 
-          {/* Education Section */}
-          <EducationSection register={register} errors={errors} />
+            {/* Education Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Education
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <EducationSection register={register} errors={errors} />
+              </CardContent>
+            </Card>
 
-          {/* Social Links Section */}
-          <SocialLinksSection register={register} errors={errors} />
+            {/* Social Links Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Social Links
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SocialLinksSection register={register} errors={errors} />
+              </CardContent>
+            </Card>
 
-          {/* Citations Section */}
-          <CitationsSection register={register} errors={errors} />
+            {/* Citations Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Citations
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CitationsSection register={register} errors={errors} />
+              </CardContent>
+            </Card>
 
-          {/* Interest & Awards Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium border-b pb-2">
-              Interest & Awards
-            </h3>
+            {/* Interest & Awards Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Interest & Awards
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6 space-y-6">
+                {/* Expertise Areas */}
+                <ExpertiseSection
+                  expertiseList={expertiseList}
+                  onAddExpertise={addExpertise}
+                  onRemoveExpertise={removeExpertise}
+                  onUpdateExpertise={updateExpertise}
+                  errors={errors}
+                />
 
-            {/* Expertise Areas */}
-            <ExpertiseSection
-              expertiseList={expertiseList}
-              onAddExpertise={addExpertise}
-              onRemoveExpertise={removeExpertise}
-              onUpdateExpertise={updateExpertise}
-              errors={errors}
-            />
+                {/* Awards & Achievements */}
+                <AwardsSection
+                  awardsList={awardsList}
+                  onAddAward={addAward}
+                  onRemoveAward={removeAward}
+                  onUpdateAward={updateAward}
+                  errors={errors}
+                />
+              </CardContent>
+            </Card>
 
-            {/* Awards & Achievements */}
-            <AwardsSection
-              awardsList={awardsList}
-              onAddAward={addAward}
-              onRemoveAward={removeAward}
-              onUpdateAward={updateAward}
-              errors={errors}
-            />
-          </div>
+            {/* Conferences Section */}
+            <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Conferences & Speaking Engagements
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ConferencesSection
+                  conferencesList={conferencesList}
+                  onAddConference={addConference}
+                  onRemoveConference={removeConference}
+                  onUpdateConference={updateConference}
+                  errors={errors}
+                />
+              </CardContent>
+            </Card>
 
-          {/* Conferences Section */}
-          <ConferencesSection
-            conferencesList={conferencesList}
-            onAddConference={addConference}
-            onRemoveConference={removeConference}
-            onUpdateConference={updateConference}
-            errors={errors}
-          />
-
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-6 cursor-pointer bg-brand-primary hover:bg-brand-secondary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
-          >
-            {loading ? (
-              <>
-                <LoadingSpinner size="sm" variant="icon" className="mr-2" />
-                Updating...
-              </>
-            ) : (
-              "Update Member Information"
-            )}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+            {/* Submit Button */}
+            <div className="flex w-full justify-center">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="bg-brand-primary hover:bg-brand-secondary text-white font-semibold w-full py-3 px-8 rounded-lg transition-all duration-200 cursor-pointer"
+              >
+                {loading ? (
+                  <>
+                    <LoadingSpinner size="sm" variant="icon" className="mr-2" />
+                    Updating...
+                  </>
+                ) : (
+                  "Update Profile"
+                )}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 export default UpdateInfo;

@@ -6,9 +6,9 @@ import { UpdateInfoCurrentInstitutionSectionProps } from "@/type";
 export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurrentInstitutionSectionProps) {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium border-b pb-2">
+      {/* <h3 className="text-lg font-medium border-b pb-2">
         Current Institution
-      </h3>
+      </h3> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="space-y-1">
           <span className="text-sm font-medium">Institution</span>

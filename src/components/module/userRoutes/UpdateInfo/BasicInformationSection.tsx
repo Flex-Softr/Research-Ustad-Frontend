@@ -5,12 +5,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { UpdateInfoBasicSectionProps } from "@/type";
 import { useState } from "react";
 
-export function BasicInformationSection({ 
-  register, 
-  errors, 
-  selectedFile, 
+export function BasicInformationSection({
+  register,
+  errors,
+  selectedFile,
   onFileChange,
-  currentProfileImg 
+  currentProfileImg,
 }: UpdateInfoBasicSectionProps) {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -19,23 +19,40 @@ export function BasicInformationSection({
     }
   };
 
+  const handleRequiredFieldChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string
+  ) => {
+    const value = e.target.value;
+    if (value.trim() === "" && fieldName === "fullName") {
+      // Show warning for required fields
+      console.warn(`${fieldName} is a required field and cannot be empty`);
+    }
+  };
+
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium border-b pb-2">
+      {/* <h3 className="text-lg font-medium border-b pb-2">
         Basic Information
-      </h3>
+      </h3> */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="space-y-1">
-          <span className="text-sm font-medium">Full Name</span>
+          <span className="text-sm font-medium">Full Name *</span>
           <Input
             type="text"
-            {...register("fullName")}
-            placeholder="Enter full name"
+            {...register("fullName", {
+              required: "Full name is required",
+              minLength: {
+                value: 2,
+                message: "Full name must be at least 2 characters",
+              },
+            })}
+            placeholder="Enter full name (required)"
+            className={errors.fullName ? "border-red-500" : ""}
+            onChange={(e) => handleRequiredFieldChange(e, "fullName")}
           />
           {errors.fullName && (
-            <p className="text-red-500 text-sm">
-              {errors.fullName.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.fullName.message}</p>
           )}
         </label>
 
@@ -47,23 +64,7 @@ export function BasicInformationSection({
             placeholder="Enter contact number"
           />
           {errors.contactNo && (
-            <p className="text-red-500 text-sm">
-              {errors.contactNo.message}
-            </p>
-          )}
-        </label>
-
-        <label className="space-y-1">
-          <span className="text-sm font-medium">Designation</span>
-          <Input
-            type="text"
-            {...register("designation")}
-            placeholder="Enter designation"
-          />
-          {errors.designation && (
-            <p className="text-red-500 text-sm">
-              {errors.designation.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.contactNo.message}</p>
           )}
         </label>
 
@@ -77,7 +78,7 @@ export function BasicInformationSection({
               onChange={handleFileChange}
               id="profileImage"
             />
-            
+
             {/* Image Preview - Only show when user selects a file */}
             {selectedFile && (
               <div className="w-full mt-4">
@@ -92,17 +93,12 @@ export function BasicInformationSection({
                 </div>
               </div>
             )}
-            
+
             {/* Hidden input for form data */}
-            <input
-              type="hidden"
-              {...register("profileImg")}
-            />
+            <input type="hidden" {...register("profileImg")} />
           </div>
           {errors.profileImg && (
-            <p className="text-red-500 text-sm">
-              {errors.profileImg.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.profileImg.message}</p>
           )}
         </label>
       </div>
@@ -111,13 +107,11 @@ export function BasicInformationSection({
         <span className="text-sm font-medium">Short Bio</span>
         <Textarea
           {...register("shortBio")}
-          placeholder="Enter a short bio"
+          placeholder="Enter a short bio (you can clear this field to remove it)"
           className="min-h-[100px]"
         />
         {errors.shortBio && (
-          <p className="text-red-500 text-sm">
-            {errors.shortBio.message}
-          </p>
+          <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
         )}
       </label>
     </div>

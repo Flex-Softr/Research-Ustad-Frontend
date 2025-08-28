@@ -100,6 +100,7 @@ export interface UserProfile {
   research: string[];
   isDeleted: boolean;
   current: {
+    inst_designation: string;
     institution: string;
     department: string;
     degree: string;
@@ -182,7 +183,7 @@ export type TPapers = {
   impactFactor: number;
   journalRank: string;
   visitLink: string;
-  paperType: "journal" | "conference" | "book";
+  paperType: "journal" | "conference" | "book chapter";
   status: "published" | "ongoing";
   isApproved: boolean;
   abstract?: string;

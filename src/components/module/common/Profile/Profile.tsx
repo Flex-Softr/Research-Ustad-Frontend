@@ -397,26 +397,38 @@ const Profile = () => {
               (user.socialLinks.researchgate &&
                 user.socialLinks.researchgate.trim() !== "") ||
               (user.socialLinks.google_scholar &&
-                user.socialLinks.google_scholar.trim() !== "")) && (
-              <Card className="shadow-lg rounded-lg lg:col-span-2">
+                user.socialLinks.google_scholar.trim() !== "") ||
+              (user.socialLinks.orcid &&
+                user.socialLinks.orcid.trim() !== "")) && (
+              <Card className="shadow-lg rounded-lg lg:col-span-2 border-0 bg-white">
                 <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <ExternalLink className="w-5 h-5 text-green-600" />
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      Professional Links
-                    </h3>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-800">
+                        Professional Links
+                      </h3>
+                    </div>
                   </div>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                     {user.socialLinks.linkedin &&
                       user.socialLinks.linkedin.trim() !== "" && (
                         <a
                           href={user.socialLinks.linkedin}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          className="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                         >
-                          <Linkedin className="w-4 h-4" />
-                          LinkedIn
+                          <div className="p-2 bg-blue-600 rounded-lg group-hover:bg-blue-700 transition-colors">
+                            <Linkedin className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                              LinkedIn
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Professional Network
+                            </p>
+                          </div>
                         </a>
                       )}
                     {user.socialLinks.researchgate &&
@@ -425,10 +437,19 @@ const Profile = () => {
                           href={user.socialLinks.researchgate}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                          className="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                         >
-                          <ExternalLink className="w-4 h-4" />
-                          ResearchGate
+                          <div className="p-2 bg-green-600 rounded-lg group-hover:bg-green-700 transition-colors">
+                            <ExternalLink className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-800 group-hover:text-green-600 transition-colors">
+                              ResearchGate
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Research Network
+                            </p>
+                          </div>
                         </a>
                       )}
                     {user.socialLinks.google_scholar &&
@@ -437,10 +458,40 @@ const Profile = () => {
                           href={user.socialLinks.google_scholar}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition-colors"
+                          className="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                         >
-                          <ExternalLink className="w-4 h-4" />
-                          Google Scholar
+                          <div className="p-2 bg-blue-800 rounded-lg group-hover:bg-blue-900 transition-colors">
+                            <ExternalLink className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-800 group-hover:text-blue-800 transition-colors">
+                              Google Scholar
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Academic Profile
+                            </p>
+                          </div>
+                        </a>
+                      )}
+                    {user.socialLinks.orcid &&
+                      user.socialLinks.orcid.trim() !== "" && (
+                        <a
+                          href={user.socialLinks.orcid}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 hover:border-green-300 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                        >
+                          <div className="p-2 bg-green-700 rounded-lg group-hover:bg-green-800 transition-colors">
+                            <ExternalLink className="w-4 h-4 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-semibold text-gray-800 group-hover:text-green-700 transition-colors">
+                              ORCID ID
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              Research Identifier
+                            </p>
+                          </div>
                         </a>
                       )}
                   </div>

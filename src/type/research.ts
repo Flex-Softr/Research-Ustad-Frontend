@@ -37,7 +37,7 @@ export type TPapers = {
   impactFactor?: number;
   journalRank?: string;
   visitLink: string;
-  paperType: "journal" | "conference" | "book";
+  paperType: "journal" | "conference" | "book chapter";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   isApproved: boolean;
   abstract?: string;
@@ -65,7 +65,7 @@ export interface ResearchPaperForm {
   impactFactor?: number;
   journalRank?: string;
   visitLink: string;
-  paperType: "journal" | "conference" | "book";
+  paperType: "journal" | "conference" | "book chapter";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;
   keywords?: string[];

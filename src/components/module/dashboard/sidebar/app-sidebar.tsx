@@ -16,12 +16,6 @@ import {
   User,
   UserPlus,
   Users,
-  Home,
-  Settings,
-  LogOut,
-  ChevronRight,
-  X,
-  Menu,
   BookOpen,
   FolderOpen,
   Clock,
@@ -35,8 +29,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
 
@@ -51,6 +43,7 @@ import Link from "next/link";
 import React from "react";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
+import { usePendingPapers } from "@/contexts/PendingPapersContext";
 
 interface User {
   _id: string;
@@ -312,6 +305,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [isLoading, setIsLoading] = React.useState(true);
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
+  
+  // Get pending papers count
+  const { pendingCount } = usePendingPapers();
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -348,15 +344,49 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   if (!user) return null;
 
-  // Create admin route with conditional SuperAdmin management
+  // Create admin route with conditional SuperAdmin management and pending count
   const adminRouteWithSuperAdmin = {
     ...adminRoute,
     navMain:
       user.role === "superAdmin"
-        ? [...adminRoute.navMain]
-        : adminRoute.navMain.filter(
-            (item) => item.title !== "SuperAdmin Management"
-          ),
+        ? adminRoute.navMain.map(item => {
+            // Add pending count to "Pending Research Paper" item
+            if (item.title === "Manage Research Paper" && item.items) {
+              return {
+                ...item,
+                items: item.items.map(subItem => {
+                  if (subItem.title === "Pending Research Paper") {
+                    return {
+                      ...subItem,
+                      badge: pendingCount > 0 ? pendingCount : undefined
+                    };
+                  }
+                  return subItem;
+                })
+              };
+            }
+            return item;
+          })
+        : adminRoute.navMain
+            .filter((item) => item.title !== "SuperAdmin Management")
+            .map(item => {
+              // Add pending count to "Pending Research Paper" item
+              if (item.title === "Manage Research Paper" && item.items) {
+                return {
+                  ...item,
+                  items: item.items.map(subItem => {
+                    if (subItem.title === "Pending Research Paper") {
+                      return {
+                        ...subItem,
+                        badge: pendingCount > 0 ? pendingCount : undefined
+                      };
+                    }
+                    return subItem;
+                  })
+                };
+              }
+              return item;
+            }),
   };
 
   const data =

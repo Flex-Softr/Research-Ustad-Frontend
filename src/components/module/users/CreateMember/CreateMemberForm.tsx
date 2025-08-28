@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { ArrowLeft, UserPlus, Eye, EyeOff } from "lucide-react";
 import { FormData } from "@/type";
 import { useRouter } from "next/navigation";
+import { DESIGNATION_OPTIONS } from "@/constants/designations";
 
 // Role options array - must match backend enum values
 const roleOptions = ["user", "admin"];
@@ -23,6 +24,7 @@ const roleOptions = ["user", "admin"];
 const CreateMemberForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState<string>("");
+  const [selectedDesignation, setSelectedDesignation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
   const {
@@ -69,6 +71,7 @@ const CreateMemberForm: React.FC = () => {
         router.push("/admin/dashboard/allusers");
         reset();
         setSelectedRole("");
+        setSelectedDesignation("");
         setShowPassword(false);
         toast.success("Member created successfully");
       } else {
@@ -85,7 +88,7 @@ const CreateMemberForm: React.FC = () => {
       }
     } catch (error: any) {
       console.log("Error from backend:", error);
-      
+
       // Handle network errors or other exceptions
       if (error?.message) {
         toast.error(error.message);
@@ -133,7 +136,6 @@ const CreateMemberForm: React.FC = () => {
                   value: 2,
                   message: "Full name must be at least 2 characters",
                 },
-               
               })}
               className={`transition-all duration-200 ${
                 errors.fullName
@@ -229,7 +231,8 @@ const CreateMemberForm: React.FC = () => {
               </p>
             )}
             <div className="text-xs text-gray-500 mt-1">
-              Password must be at least 5 characters long (maximum 20 characters)
+              Password must be at least 5 characters long (maximum 20
+              characters)
             </div>
           </div>
 
@@ -245,9 +248,13 @@ const CreateMemberForm: React.FC = () => {
                 setValue("role", value);
               }}
             >
-              <SelectTrigger className={`w-full ${
-                errors.role ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "focus:border-blue-500 focus:ring-blue-500/20"
-              }`}>
+              <SelectTrigger
+                className={`w-full ${
+                  errors.role
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                    : "focus:border-blue-500 focus:ring-blue-500/20"
+                }`}
+              >
                 <SelectValue>{selectedRole || "Select a role"}</SelectValue>
               </SelectTrigger>
               <SelectContent>
@@ -263,7 +270,8 @@ const CreateMemberForm: React.FC = () => {
               type="hidden"
               {...register("role", {
                 required: "Role is required",
-                validate: (value) => value && value.trim() !== "" || "Please select a role"
+                validate: (value) =>
+                  (value && value.trim() !== "") || "Please select a role",
               })}
             />
             {errors.role && (
@@ -274,34 +282,49 @@ const CreateMemberForm: React.FC = () => {
             )}
           </div>
 
-          {/* Designation Field - Now an Input */}
+          {/* Designation Field - Now a Dropdown */}
           <div className="space-y-2">
             <Label
               htmlFor="designation"
               className="text-lg font-semibold mb-2 block"
             >
-              Designation *
+              Designation of ResearchUstad *
             </Label>
-            <Input
-              id="designation"
-              type="text"
-              placeholder="Enter designation (e.g., Research Associate, Lead, Advisor)"
+            <Select
+              value={selectedDesignation}
+              onValueChange={(value) => {
+                setSelectedDesignation(value);
+                setValue("designation", value);
+              }}
+            >
+              <SelectTrigger
+                className={`w-full ${
+                  errors.designation
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                    : "focus:border-blue-500 focus:ring-blue-500/20"
+                }`}
+              >
+                <SelectValue>
+                  {selectedDesignation || "Select a designation"}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {DESIGNATION_OPTIONS.map((designation) => (
+                  <SelectItem key={designation} value={designation}>
+                    {designation}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {/* Hidden input for form validation */}
+            <input
+              type="hidden"
               {...register("designation", {
                 required: "Designation is required",
-                minLength: {
-                  value: 2,
-                  message: "Designation must be at least 2 characters",
-                },
-                maxLength: {
-                  value: 50,
-                  message: "Designation cannot exceed 50 characters",
-                },
+                validate: (value) =>
+                  (value && value.trim() !== "") ||
+                  "Please select a designation",
               })}
-              className={`transition-all duration-200 ${
-                errors.designation
-                  ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                  : "focus:border-blue-500 focus:ring-blue-500/20"
-              }`}
             />
             {errors.designation && (
               <p className="text-red-500 text-sm flex items-center gap-1">
@@ -310,7 +333,7 @@ const CreateMemberForm: React.FC = () => {
               </p>
             )}
             <div className="text-xs text-gray-500 mt-1">
-              Enter the member's designation or role in the research team
+              Select the member's designation or role in the research team
             </div>
           </div>
 
@@ -318,7 +341,7 @@ const CreateMemberForm: React.FC = () => {
           <div className="pt-4">
             <Button
               type="submit"
-              className="w-full flex items-center justify-center py-3 text-lg font-semibold cursor-pointer"
+              className="w-full flex bg-primary hover:bg-primary/80 items-center justify-center py-3 text-lg font-semibold cursor-pointer"
               disabled={loading}
             >
               {loading ? (

@@ -12,7 +12,6 @@ export interface UpdateInfoFormData {
   // Basic Information
   fullName?: string;
   contactNo?: string;
-  designation?: string;
   profileImg?: string;
   shortBio?: string;
 

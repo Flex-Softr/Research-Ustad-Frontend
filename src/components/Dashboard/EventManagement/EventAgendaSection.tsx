@@ -33,16 +33,6 @@ export const EventAgendaSection: React.FC<EventAgendaSectionProps> = ({
         )}
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="font-semibold text-blue-900 mb-2">Agenda Tips:</h4>
-        <ul className="text-sm text-blue-800 space-y-1">
-          <li>• Use headings to organize different time slots or sessions</li>
-          <li>• Include specific times for each activity</li>
-          <li>• List speakers and their topics</li>
-          <li>• Mention breaks and networking sessions</li>
-          <li>• Include venue details for different sessions</li>
-        </ul>
-      </div>
     </div>
   );
 };

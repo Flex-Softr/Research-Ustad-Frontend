@@ -14,7 +14,7 @@ export function ExpertiseSection({
 }: UpdateInfoExpertiseSectionProps) {
   return (
     <div className="space-y-4">
-      <h4 className="text-md font-medium">Interest Areas of Research</h4>
+      <h4 className="text-sm font-semibold">Interest Areas of Research</h4>
       <div className="space-y-3">
         {expertiseList.map((expertise, i) => (
           <div key={i} className="flex gap-2 items-start">

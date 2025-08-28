@@ -66,7 +66,17 @@ const EventPage = () => {
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
         ) : events.length === 0 ? (
-          <p>No events found.</p>
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Calendar className="h-12 w-12 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No events available
+            </h3>
+            <p className="text-gray-600">
+              No events are available at the moment.
+            </p>
+          </div>
         ) : (
           <div>
             <div className="mb-6 w-52">

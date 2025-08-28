@@ -6,7 +6,6 @@ import { UpdateInfoSocialLinksSectionProps } from "@/type";
 export function SocialLinksSection({ register, errors }: UpdateInfoSocialLinksSectionProps) {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium border-b pb-2">Social Links</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="space-y-1">
           <span className="text-sm font-medium">LinkedIn</span>

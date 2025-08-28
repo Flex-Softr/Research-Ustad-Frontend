@@ -10,6 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 export function NavMain({
   items,
@@ -19,10 +20,12 @@ export function NavMain({
     url: string;
     icon: LucideIcon;
     isActive?: boolean;
+    badge?: number;
     items?: {
       title: string;
       url: string;
       icon?: LucideIcon;
+      badge?: number;
     }[];
   }[];
 }) {
@@ -84,6 +87,14 @@ export function NavMain({
             >
               {item.title}
             </span>
+            {item.badge && item.badge > 0 && (
+              <Badge
+                variant="destructive"
+                className="ml-auto h-4 w-4 rounded-full p-0 text-[10px] font-medium flex items-center justify-center"
+              >
+                {item.badge}
+              </Badge>
+            )}
             {hasSubItems && !isSubItem && (
               <ChevronRight
                 className={`h-3 w-3 text-gray-400 transition-transform duration-200 ${

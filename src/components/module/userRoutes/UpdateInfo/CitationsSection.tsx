@@ -5,8 +5,7 @@ import { UpdateInfoCitationsSectionProps } from "@/type";
 
 export function CitationsSection({ register, errors }: UpdateInfoCitationsSectionProps) {
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium border-b pb-2">Citations</h3>
+    <div>
       <div className="grid grid-cols-1 gap-4">
         <label className="space-y-1">
           <span className="text-sm font-medium">Total Citations</span>

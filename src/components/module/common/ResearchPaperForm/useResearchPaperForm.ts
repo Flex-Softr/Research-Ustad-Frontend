@@ -235,8 +235,8 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
     }
 
     // Validate paper type enum values
-    if (!["journal", "conference", "book"].includes(data.paperType)) {
-      toast.error("Paper type must be either 'journal' or 'conference' or 'book'");
+    if (!["journal", "conference", "book chapter"].includes(data.paperType)) {
+      toast.error("Paper type must be either 'journal' or 'conference' or 'book chapter'");
       setLoading(false);
       return;
     }

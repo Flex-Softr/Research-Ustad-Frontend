@@ -256,9 +256,7 @@ const TeamSection = () => {
                 {member?.title && (
                   <p className="text-base text-gray-600">{member.title}</p>
                 )}
-                {member?.institution && (
-                  <p className="text-sm text-gray-500">{member.institution}</p>
-                )}
+               
               </div>
             </div>
           ))}

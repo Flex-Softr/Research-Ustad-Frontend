@@ -14,7 +14,7 @@ export function AwardsSection({
 }: UpdateInfoAwardsSectionProps) {
   return (
     <div className="space-y-4">
-      <h4 className="text-md font-medium">Awards & Achievements</h4>
+      <h4 className="text-sm font-semibold">Awards & Achievements</h4>
       <div className="space-y-3">
         {awardsList.map((award, i) => (
           <div key={i} className="flex gap-2 items-start">

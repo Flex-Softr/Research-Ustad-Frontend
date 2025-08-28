@@ -81,7 +81,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
             <Select
               value={watch("paperType") || ""}
               onValueChange={(value) => {
-                setValue("paperType", value as "journal" | "conference" | "book", { shouldValidate: true });
+                setValue("paperType", value as "journal" | "conference" | "book chapter", { shouldValidate: true });
                 trigger("paperType");
               }}
             >
@@ -94,7 +94,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               <SelectContent>
                 <SelectItem value="journal">Journal</SelectItem>
                 <SelectItem value="conference">Conference</SelectItem>
-                <SelectItem value="book">Book</SelectItem>
+                <SelectItem value="book chapter">Book Chapter</SelectItem>
               </SelectContent>
             </Select>
             {errors.paperType && (

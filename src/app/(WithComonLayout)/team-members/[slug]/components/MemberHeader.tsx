@@ -27,19 +27,19 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
   return (
     <Card className="bg-white/80 backdrop-blur-sm border border-gray-100 overflow-hidden">
       <CardContent className="p-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col md:items-start items-center lg:flex-row gap-8">
           {/* Profile Image Section */}
           <div className="flex-shrink-0">
-            <div className="relative w-48 h-48">
+            <div className="relative w-48 h-48 border-2 border-gray-200 rounded-full">
               <UserAvatar
                 src={member?.profileImg}
                 alt={member?.fullName}
                 name={member?.fullName}
                 size="lg"
-                className="  object-cover ring-gray-200 shadow-lg w-full h-full"
+                className="object-cover ring-gray-200 shadow-lg w-full h-full"
                 fallbackClassName="text-5xl font-bold"
               />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-brand-secondary rounded-full flex items-center justify-center">
+              <div className="absolute bottom-1 right-3 w-8 h-8 bg-brand-secondary rounded-full flex items-center justify-center">
                 <div className="w-4 h-4 bg-white rounded-full"></div>
               </div>
             </div>
@@ -47,46 +47,53 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
 
           {/* Member social links Section */}
           <div className="flex-1">
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="mb-3 space-y-3">
+              <h1 className="text-3xl text-center lg:text-left font-bold text-gray-900 leading-tight">
                 {member?.fullName}
               </h1>
-              <div className="flex items-center gap-3 mb-4">
-                <Badge className="bg-brand-primary text-white px-4 py-1">
-                  {member?.designation}
-                </Badge>
-              </div>
 
-              {/* {member?.shortBio && (
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  {member?.shortBio}
-                </p>
-              )} */}
+              {(member?.current?.inst_designation ||
+                member?.current?.department ||
+                member?.current?.institution) && (
+                <div className="flex items-center gap-2 text-gray-600 text-center lg:text-left">
+                  <p className=" leading-relaxed capitalize">
+                    {member?.current?.inst_designation && (
+                      <span className="font-medium">
+                        {member.current.inst_designation}
+                      </span>
+                    )}
+                    {member?.current?.department &&
+                      member?.current?.inst_designation && <span>, </span>}
+                    {member?.current?.department && (
+                      <span>{member.current.department}</span>
+                    )}
+                    {member?.current?.institution &&
+                      (member?.current?.inst_designation ||
+                        member?.current?.department) && <span>, </span>}
+                    {member?.current?.institution && (
+                      <span className="font-medium text-gray-700">
+                        {member.current.institution}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
+
+              {member?.designation && (
+                <div className="flex items-center gap-2 md:justify-start justify-center">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-gray-700  font-semibold uppercase">Role:</h2>
+                    <p className="text-gray-700">{member?.designation}</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Contact & Location Info */}
             <div className="flex mb-6 gap-4">
-              {member?.current?.institution && (
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-brand-secondary" />
-                  <span className="text-gray-700">
-                    {member?.current?.institution}
-                  </span>
-                </div>
-              )}
-
-              {member?.education?.field && (
-                <div className="flex items-center gap-2">
-                  <Award className="h-5 w-5 text-brand-secondary" />
-                  <span className="text-gray-700">
-                    {member?.education?.field}
-                  </span>
-                </div>
-              )}
-
               {member?.email && (
-                <div className="flex items-center gap-2">
-                  <Mail className="h-5 w-5 text-brand-secondary" />
+                <div className="flex items-center gap-1">
+                  <Mail className="h-5 w-5 md:block hidden text-brand-secondary" />
                   <a
                     href={`mailto:${member?.email}`}
                     className="text-gray-700 hover:text-brand-secondary transition-colors"
@@ -97,19 +104,17 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
               )}
 
               {member?.citations && member?.citations > 0 ? (
-                <div className="flex items-center gap-2">
-                  <BookMarked className="h-5 w-5 text-brand-secondary" />
+                <div className="flex items-center gap-1">
+                  <BookMarked className="h-5 w-5 md:block hidden text-brand-secondary" />
                   <span className="text-gray-700">
                     {member.citations} Citations
                   </span>
                 </div>
               ) : (
-                <div >
-                 
-                </div>
+                <div></div>
               )}
             </div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               {member?.socialLinks?.orcid && (
                 <Button
                   asChild

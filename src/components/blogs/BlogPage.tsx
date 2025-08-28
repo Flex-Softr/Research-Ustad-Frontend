@@ -3,22 +3,12 @@ import { useEffect, useState } from "react";
 import BlogCard from "./blog/BlogCard";
 import BlogCardSkeleton from "./blog/BlogCardSkeleton";
 import { Blog } from "@/type";
-import { Filter, TrendingUp, AlertCircle } from "lucide-react";
-import Link from "next/link";
+import { Filter, AlertCircle } from "lucide-react";
 import Pagination from "@/components/shared/Pagination";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { fetchBlogs } from "@/services/blogs/blogsSlice";
-
-// Define the API response structure
-interface BlogApiResponse {
-  success: boolean;
-  message: string;
-  data: {
-    blogs: Blog[];
-  };
-}
 
 interface Category {
   _id: string;
@@ -120,6 +110,13 @@ const BlogPage = () => {
   useEffect(() => {
     if (blogs.length > 0) {
       fetchPaginatedData(currentPage, selectedCategory);
+    } else {
+      // Handle case when no blogs exist
+      setData([]);
+      setTotalPages(1);
+      setTotalItems(0);
+      setLoading(false);
+      setCategories([{ _id: "all", name: "All Posts", blogCount: 0 }]);
     }
   }, [blogs, currentPage, selectedCategory]);
 
@@ -137,30 +134,6 @@ const BlogPage = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-
-  // Generate page numbers for pagination
-  const generatePageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-
-    if (totalPages <= maxVisiblePages) {
-      // Show all pages if total is less than max visible
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Show pages around current page
-      const start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-      const end = Math.min(totalPages, start + maxVisiblePages - 1);
-
-      for (let i = start; i <= end; i++) {
-        pages.push(i);
-      }
-    }
-
-    return pages;
-  };
-
   // Handle retry
   const handleRetry = () => {
     fetchPaginatedData(currentPage, selectedCategory);
@@ -324,7 +297,7 @@ const BlogPage = () => {
                         <Filter className="h-12 w-12 text-gray-400" />
                       </div>
                       <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        No posts found
+                        No blogs available
                       </h3>
                       <p className="text-gray-600">
                         {selectedCategory === "all"

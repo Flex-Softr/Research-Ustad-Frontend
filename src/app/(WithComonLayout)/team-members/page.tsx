@@ -3,10 +3,12 @@
 import { useState, useEffect } from "react";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+import { Button } from "@/components/ui/button";
 import {
   FilterSidebar,
   SearchBar,
   TeamMembersGrid,
+  TeamMembersSections,
   TeamMember,
 } from "./components";
 import { GetAllResearchAssociate } from "@/services/reserarchers";
@@ -18,6 +20,7 @@ const TeamMembersPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9); // 3 members per row * 3 rows
+  const [viewMode, setViewMode] = useState<"sections" | "filtered">("sections");
 
   // Load team members data from API
   useEffect(() => {
@@ -132,6 +135,13 @@ const TeamMembersPage = () => {
   const handleFilterChange = (filter: string) => {
     setSelectedFilter(filter);
     setCurrentPage(1); // Reset to first page when filter changes
+    
+    // If a specific filter is selected, switch to filtered view
+    if (filter !== "all") {
+      setViewMode("filtered");
+    } else {
+      setViewMode("sections");
+    }
   };
 
   if (loading) {
@@ -165,14 +175,48 @@ const TeamMembersPage = () => {
             />
           </div>
 
-          {/* Team Members Grid */}
-          <TeamMembersGrid
-            members={filteredMembers}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            onPageChange={handlePageChange}
-            selectedFilter={selectedFilter}
-          />
+          {/* Team Members Content */}
+          <div className="lg:col-span-3">
+            {viewMode === "sections" ? (
+              <TeamMembersSections
+                members={members}
+                searchQuery={searchQuery}
+                onFilterChange={handleFilterChange}
+              />
+            ) : (
+              <div className="space-y-6">
+                {/* Back to Sections Button */}
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {selectedFilter === "all" ? "All Members" : selectedFilter}
+                    </h2>
+                    <p className="text-gray-600">
+                      {filteredMembers.length} member{filteredMembers.length !== 1 ? "s" : ""}
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedFilter("all");
+                      setViewMode("sections");
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    ← Back to Sections
+                  </Button>
+                </div>
+                
+                <TeamMembersGrid
+                  members={filteredMembers}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                  selectedFilter={selectedFilter}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

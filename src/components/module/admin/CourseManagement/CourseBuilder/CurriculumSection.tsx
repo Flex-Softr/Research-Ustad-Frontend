@@ -31,23 +31,12 @@ export const CurriculumSection: React.FC<CurriculumSectionProps> = ({
         <RichTextEditor
           value={curriculum}
           onChange={(content) => onChange("curriculum", content)}
-          placeholder="Write your course curriculum here... Include modules, lessons, topics, and learning objectives. You can use headings, lists, and formatting to organize your content."
+          placeholder="Write your course curriculum here..."
           minHeight="400px"
         />
         {hasAttemptedSubmit && error && (
           <p className="text-sm text-red-600 mt-1">{error}</p>
         )}
-      </div>
-
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="font-semibold text-blue-900 mb-2">Curriculum Tips:</h4>
-        <ul className="text-sm text-blue-800 space-y-1">
-          <li>• Use headings to organize modules and sections</li>
-          <li>• Include learning objectives for each module</li>
-          <li>• List specific topics and subtopics covered</li>
-          <li>• Mention practical exercises and assessments</li>
-          <li>• Include estimated time for each section</li>
-        </ul>
       </div>
     </div>
   );

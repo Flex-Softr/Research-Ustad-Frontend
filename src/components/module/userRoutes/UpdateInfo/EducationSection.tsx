@@ -5,8 +5,7 @@ import { UpdateInfoEducationSectionProps } from "@/type";
 
 export function EducationSection({ register, errors }: UpdateInfoEducationSectionProps) {
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium border-b pb-2">Education</h3>
+    <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <label className="space-y-1">
           <span className="text-sm font-medium">Degree</span>

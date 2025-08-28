@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Award, Filter, GraduationCap, UserCheck, Users } from "lucide-react";
 import { TeamMember } from "./TeamMemberCard";
+import { DESIGNATION_OPTIONS } from "@/constants/designations";
 
 interface FilterSidebarProps {
   members: TeamMember[];
@@ -14,24 +15,14 @@ const FilterSidebar = ({
   selectedFilter,
   onFilterChange,
 }: FilterSidebarProps) => {
-  // Get unique designations from members data
-  const getUniqueDesignations = () => {
-    const designations = new Set<string>();
-    members.forEach((member) => {
-      if (member.designation && member.designation.trim()) {
-        designations.add(member.designation);
-      }
+  // Get available designations that have members
+  const getAvailableDesignations = () => {
+    return DESIGNATION_OPTIONS.filter((designation) => {
+      return members.some((member) => member.designation === designation);
     });
-    return Array.from(designations).filter(
-      (designation) =>
-        designation &&
-        designation !== "user" &&
-        designation !== "admin" &&
-        designation !== "superAdmin"
-    );
   };
 
-  const uniqueDesignations = getUniqueDesignations();
+  const availableDesignations = getAvailableDesignations();
 
   // Helper function to get appropriate icon based on designation
   const getIconForDesignation = (designation: string) => {
@@ -58,11 +49,18 @@ const FilterSidebar = ({
 
   // Helper function to format designation label
   const formatDesignationLabel = (designation: string) => {
-    return designation
-      .replace(/_/g, " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase())
-      .replace(/\s+/g, " ")
-      .trim();
+    switch (designation) {
+      case "ADVISOR":
+        return "Advisor Panel";
+      case "MENTOR":
+        return "Mentor Panel";
+      case "TEAM LEAD":
+        return "Team Lead";
+      case "EXECUTIVE BOARD":
+        return "Executive Board";
+      default:
+        return designation;
+    }
   };
 
   // Filter options
@@ -73,7 +71,7 @@ const FilterSidebar = ({
       icon: Users,
       count: members.length,
     },
-    ...uniqueDesignations.map((designation) => ({
+    ...availableDesignations.map((designation) => ({
       id: designation,
       label: formatDesignationLabel(designation),
       icon: getIconForDesignation(designation),

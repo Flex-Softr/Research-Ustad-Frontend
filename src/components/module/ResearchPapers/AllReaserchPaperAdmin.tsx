@@ -3,16 +3,17 @@ import ManageTable from "@/components/shared/ManageTable/ManageTable";
 import {
   DeletePaper,
   GetAllResearchPaper,
-  ApprovePaper,
 } from "@/services/allreserchPaper";
 import { TPapers } from "@/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 
 const AllreserchPaperAdmin = () => {
+  const router = useRouter();
   const [data, setData] = useState<TPapers[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -61,20 +62,11 @@ const AllreserchPaperAdmin = () => {
     setDeleteDialogOpen(true);
   };
 
-  const handleApprove = async (id: string) => {
-    try {
-      // Call the approval service
-      const res = await ApprovePaper(id);
-      if (res) {
-        toast.success("Paper approved successfully!");
-        // Refresh data after successful approval
-        await fetchData();
-      }
-    } catch (error) {
-      console.error("Error approving paper:", error);
-      toast.error("Failed to approve paper");
-    }
+  const handleViewPaper = (paperId: string) => {
+    router.push(`/allpapers/${paperId}`);
   };
+
+
 
 
 
@@ -82,9 +74,8 @@ const AllreserchPaperAdmin = () => {
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
     { label: "Authors", value: "authors" },
-    // { label: "Paper Type", value: "paperType" },
+    { label: "Paper Type", value: "paperType" },
     { label: "Status", value: "status" },
-    { label: "Approval", value: "isApproved" },
     { label: "Submitted By", value: "user.fullName" },
     { label: "Visit Link", value: "visitLink" },
   ];
@@ -97,7 +88,6 @@ const AllreserchPaperAdmin = () => {
         columns={columns}
         loading={loading}
         onDelete={handleDelete}
-        onApprove={handleApprove}
         customRenderCell={(column, item) => {
           // Custom rendering for status column
           if (column.value === "status") {
@@ -141,18 +131,15 @@ const AllreserchPaperAdmin = () => {
         }}
         customActions={(item) => (
           <div className="flex gap-2">
-            {/* Approve Button */}
+            {/* View Button */}
             <Button
-              onClick={() => handleApprove(item._id)}
+              variant="outline"
               size="sm"
-              className={`${
-                item.isApproved
-                  ? "bg-green-600 text-white hover:bg-green-700"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              } transition-colors duration-200 cursor-pointer`}
-              disabled={item.isApproved}
+              onClick={() => handleViewPaper(item._id)}
+              className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200 cursor-pointer"
+              title="View Paper"
             >
-              {item.isApproved ? "✓ Approved" : "Approve"}
+              View
             </Button>
 
             {/* Delete Button */}

@@ -10,10 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { UpdateMember } from "@/services/reserarchers";
 import { toast } from "sonner";
 import { TResearchAssociate } from "@/type";
+import { DESIGNATION_OPTIONS } from "@/constants/designations";
 
 interface EditDesignationModalProps {
   member: TResearchAssociate | null;
@@ -28,21 +35,19 @@ export default function EditDesignationModal({
   onClose,
   onSuccess,
 }: EditDesignationModalProps) {
-  const [designation, setDesignation] = useState(
-    member?.designation || ""
-  );
+  const [designation, setDesignation] = useState(member?.designation || "");
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
-    if (!member || !designation.trim()) {
-      toast.error("Please enter a designation");
+    if (!member || !designation) {
+      toast.error("Please select a designation");
       return;
     }
 
     setLoading(true);
     try {
       const response = await UpdateMember(member._id, {
-        designation: designation.trim(),
+        designation: designation,
       });
 
       if (response?.success) {
@@ -69,9 +74,9 @@ export default function EditDesignationModal({
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Edit Member Designation</DialogTitle>
+          <DialogTitle>Edit Member Role</DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="member-name">Member Name</Label>
@@ -79,27 +84,36 @@ export default function EditDesignationModal({
               {member?.fullName}
             </div>
           </div>
-          
+
           <div className="space-y-2">
-            <Label htmlFor="designation">Designation</Label>
-            <Input
-              id="designation"
-              type="text"
+            <Label htmlFor="designation">Role of ResearchUstad</Label>
+            <Select
               value={designation}
-              onChange={(e) => setDesignation(e.target.value)}
-              placeholder="Enter designation..."
-              className="w-full"
-            />
+              onValueChange={(value) => setDesignation(value)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue>
+                  {designation || "Select a designation"}
+                </SelectValue>
+              </SelectTrigger>
+                             <SelectContent>
+                 {DESIGNATION_OPTIONS.map((option) => (
+                   <SelectItem key={option} value={option}>
+                     {option}
+                   </SelectItem>
+                 ))}
+               </SelectContent>
+            </Select>
           </div>
         </div>
-        
+
         <DialogFooter className="flex gap-2">
           <Button variant="outline" onClick={handleClose} disabled={loading}>
             Cancel
           </Button>
-          <Button 
-            onClick={handleSave} 
-            disabled={loading || !designation.trim()}
+          <Button
+            onClick={handleSave}
+            disabled={loading || !designation}
             className="bg-brand-primary hover:shadow-lg"
           >
             {loading ? "Saving..." : "Save Changes"}

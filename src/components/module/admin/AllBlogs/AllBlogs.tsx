@@ -65,7 +65,7 @@ const AllBlogs = () => {
             Manage all blogs in the system (including pending approvals)
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 capitalize">
           <Button variant="primary" onClick={handleCreateBlog}>
             <Plus className="w-4 h-4 mr-2" />
             Add Blog

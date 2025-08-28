@@ -205,7 +205,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
                       variant="secondary"
                       size="sm"
                       onClick={() => handleEdit(achievement)}
-                      className="bg-white/90 hover:bg-white text-gray-800 shadow-lg"
+                      className="bg-white/90 hover:bg-white text-gray-800 shadow-lg cursor-pointer"
                     >
                       <Edit className="w-4 h-4" />
                     </Button>
@@ -213,7 +213,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
                       variant="destructive"
                       size="sm"
                       onClick={() => handleDelete(achievement)}
-                      className="bg-red-500/90 hover:bg-red-600 text-white shadow-lg"
+                      className="bg-red-500/90 hover:bg-red-600 cursor-pointer text-white shadow-lg"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -255,7 +255,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleEdit(achievement)}
-                        className="h-8 w-8 p-0 text-gray-500 hover:text-blue-600 hover:bg-blue-50"
+                        className="h-8 w-8 p-0 text-gray-500 hover:text-blue-600 hover:bg-blue-50 cursor-pointer"
                       >
                         <Edit className="w-3 h-3" />
                       </Button>
@@ -263,7 +263,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleDelete(achievement)}
-                        className="h-8 w-8 p-0 text-gray-500 hover:text-red-600 hover:bg-red-50"
+                        className="h-8 w-8 p-0 text-gray-500 hover:text-red-600 hover:bg-red-50 cursor-pointer"
                       >
                         <Trash2 className="w-3 h-3" />
                       </Button>
