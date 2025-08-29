@@ -20,7 +20,6 @@ export const registerUser = async (data: any) => {
 
 // login user
 export async function loginUser(data: FieldValues) {
-  console.log(data);
 
   try {
     const response = await fetch(`${api.baseUrl}/auth/login`, {
@@ -31,7 +30,6 @@ export async function loginUser(data: FieldValues) {
     });
 
     const res = await response.json();
-    console.log(res);
 
     if (res.success) {
       (await cookies()).set("accessToken", res.data.accessToken);
@@ -57,7 +55,7 @@ export const getCurrentUser = async () => {
 
     // Decode the JWT token
     const decodedData = await jwtDecode(accessToken);
-    console.log("decodedata", decodedData);
+    // console.log("decodedata", decodedData);
 
     // Check if token has required fields
     if (!decodedData || typeof decodedData !== "object") {

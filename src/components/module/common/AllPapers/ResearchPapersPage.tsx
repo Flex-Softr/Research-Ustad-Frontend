@@ -13,7 +13,7 @@ const ResearchPapersPage = ({
   initialStatus,
 }: ResearchPapersPageProps) => {
   const [papers, setPapers] = useState<TPapers[]>([]);
-  console.log("papers", papers);
+  // console.log("papers", papers);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

@@ -66,7 +66,7 @@ const CreateMemberForm: React.FC = () => {
 
     try {
       const res = await registerUser(payload);
-      console.log(res);
+      // console.log(res);
       if (res.success) {
         router.push("/admin/dashboard/allusers");
         reset();
@@ -341,7 +341,7 @@ const CreateMemberForm: React.FC = () => {
           <div className="pt-4">
             <Button
               type="submit"
-              className="w-full flex bg-primary hover:bg-primary/80 items-center justify-center py-3 text-lg font-semibold cursor-pointer"
+              className="w-full flex bg-brand-primary hover:bg-brand-primary/80 items-center justify-center py-3 text-lg font-semibold cursor-pointer"
               disabled={loading}
             >
               {loading ? (

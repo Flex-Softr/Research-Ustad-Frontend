@@ -39,7 +39,7 @@ const LoginForm = () => {
     // console.log(newdata);
     try {
       const res = await loginUser(newdata);
-      console.log(res);
+      // console.log(res);
       if (res?.success) {
         // Get the redirect path from URL parameters
         const redirectPath = searchParams.get("redirectPath");

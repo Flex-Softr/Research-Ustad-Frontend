@@ -31,7 +31,6 @@ const AllPapersClient = () => {
           fetchedPapers = [];
         }
 
-        console.log("Fetched all papers count:", fetchedPapers.length);
 
         // Sort papers by year in descending order (latest to oldest) as a fallback
         fetchedPapers.sort((a, b) => b.year - a.year);

@@ -33,7 +33,6 @@ const SingleMemberPage = () => {
       try {
         setLoading(true);
         const response = await GetSingleMember(params.slug as string);
-        console.log("Single Member API Response:", response);
 
         if (response?.success && response?.data) {
           // Transform API data to match TeamMember interface
@@ -112,7 +111,6 @@ const SingleMemberPage = () => {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
   }
 
-  console.log("membersssssssssttt", member);
 
   if (error || !member) {
     return (

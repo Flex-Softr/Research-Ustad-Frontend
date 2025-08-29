@@ -31,7 +31,7 @@ const OngoingProjectsClient = () => {
           fetchedPapers = [];
         }
 
-        console.log("Fetched ongoing papers count:", fetchedPapers.length);
+        // console.log("Fetched ongoing papers count:", fetchedPapers.length);
 
         // Sort papers by year in descending order (latest to oldest) as a fallback
         fetchedPapers.sort((a, b) => b.year - a.year);

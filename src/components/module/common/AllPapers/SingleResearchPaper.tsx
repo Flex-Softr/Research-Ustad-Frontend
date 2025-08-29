@@ -318,7 +318,9 @@ const SingleResearchPaper = ({
                       </p>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2">Year</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2 capitalize">
+                        {paper?.status === "published" ? "Published Year" : "Started Year"}
+                      </h4>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-gray-400" />
                         <span className="text-gray-700">
@@ -447,7 +449,7 @@ const SingleResearchPaper = ({
                             variant="outline"
                             className="text-xs border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
                           >
-                            <Link href={`/allpapers/${relatedPaper._id}`}>
+                            <Link href={`/paper/${relatedPaper._id}`}>
                               View Paper
                               <ExternalLinkIcon className="h-3 w-3 ml-1" />
                             </Link>

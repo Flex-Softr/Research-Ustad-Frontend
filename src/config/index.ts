@@ -46,7 +46,7 @@ if (missingEnvVars.length > 0) {
 
 export const config: Config = {
   api: {
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API,
+    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:5000/api/v1",
     timeout: parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || "30000"),
   },
   app: {

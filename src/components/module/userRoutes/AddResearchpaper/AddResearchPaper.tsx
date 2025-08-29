@@ -5,7 +5,7 @@ import React from 'react';
 const AddResearchPaper: React.FC = () => {
   const handleSuccess = (result: any) => {
     // Additional success handling for user dashboard if needed
-    console.log('Research paper submitted successfully:', result);
+    // console.log('Research paper submitted successfully:', result);
   };
 
   const handleError = (error: any) => {

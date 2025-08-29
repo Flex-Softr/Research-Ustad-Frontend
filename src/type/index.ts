@@ -22,6 +22,9 @@ export * from './common';
 // UpdateInfo Form Types
 export * from './updateInfo';
 
+// Contact Types
+export * from './contact';
+
 // Legacy exports for backward compatibility
 // These are kept to maintain existing imports
 

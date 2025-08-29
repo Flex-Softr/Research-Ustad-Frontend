@@ -22,14 +22,14 @@ export const useTableActions = ({
         await onApprove(id);
       } else {
         // Default approval logic (ManageTable handles approval)
-        console.log("Approving paper with ID:", id);
+        // console.log("Approving paper with ID:", id);
         const res = await ApprovePaper(id);
         if (res?.success) {
           toast.success("Paper approved successfully!");
         } else {
           toast.error("Failed to approve paper");
         }
-        console.log(res);
+        // console.log(res);
       }
     } catch (error) {
       console.error("Error approving paper:", error);
@@ -44,14 +44,14 @@ export const useTableActions = ({
         await onReject(id);
       } else {
         // Default rejection logic (ManageTable handles rejection)
-        console.log("Rejecting paper with ID:", id);
+        // console.log("Rejecting paper with ID:", id);
         const res = await RejectPaper(id);
         if (res?.success) {
           toast.success("Paper rejected successfully!");
         } else {
           toast.error("Failed to reject paper");
         }
-        console.log(res);
+        // console.log(res);
       }
     } catch (error) {
       console.error("Error rejecting paper:", error);

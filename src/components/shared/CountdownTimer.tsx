@@ -64,24 +64,24 @@ const CountdownTimer = ({
       const end = endDate ? dayjs(endDate) : null;
 
       // Debug logging
-      console.log("CountdownTimer Debug:", {
-        startDate,
-        parsedStart: start.format("YYYY-MM-DD HH:mm:ss"),
-        now: now.format("YYYY-MM-DD HH:mm:ss"),
-        diffToStart: start.diff(now, "second"),
-        diffToStartDays: start.diff(now, "day"),
-        diffToStartHours: start.diff(now, "hour"),
-        timeUnits: {
-          days: dayjs.duration(start.diff(now, "second"), "seconds").days(),
-          hours: dayjs.duration(start.diff(now, "second"), "seconds").hours(),
-          minutes: dayjs
-            .duration(start.diff(now, "second"), "seconds")
-            .minutes(),
-          seconds: dayjs
-            .duration(start.diff(now, "second"), "seconds")
-            .seconds(),
-        },
-      });
+      // console.log("CountdownTimer Debug:", {
+      //   startDate,
+      //   parsedStart: start.format("YYYY-MM-DD HH:mm:ss"),
+      //   now: now.format("YYYY-MM-DD HH:mm:ss"),
+      //   diffToStart: start.diff(now, "second"),
+      //   diffToStartDays: start.diff(now, "day"),
+      //   diffToStartHours: start.diff(now, "hour"),
+      //   timeUnits: {
+      //     days: dayjs.duration(start.diff(now, "second"), "seconds").days(),
+      //     hours: dayjs.duration(start.diff(now, "second"), "seconds").hours(),
+      //     minutes: dayjs
+      //       .duration(start.diff(now, "second"), "seconds")
+      //       .minutes(),
+      //     seconds: dayjs
+      //       .duration(start.diff(now, "second"), "seconds")
+      //       .seconds(),
+      //   },
+      // });
 
       // Calculate time until start
       const diffToStart = start.diff(now, "second");

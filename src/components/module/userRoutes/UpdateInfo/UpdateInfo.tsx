@@ -67,7 +67,6 @@ const UpdateInfo = () => {
     },
   });
 
-  console.log("user infoooo", data);
 
   // Helper functions for array management
   const addExpertise = () => {
@@ -329,9 +328,7 @@ const UpdateInfo = () => {
     payload.conferences = conferences;
 
     try {
-      console.log("Sending payload:", payload);
       const res = await UpdatePersonalMember(payload, selectedFile);
-      console.log("res", res);
       if (res.success === true) {
         toast.success("Member updated successfully!");
         setLoading(false);

@@ -42,8 +42,6 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
   }
 
 
-  console.log(blogs);
-
   return (
     <Card className="rounded-none border-0">
       <CardContent className="">

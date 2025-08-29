@@ -46,7 +46,7 @@ const Publications = ({ member, paginatedData }: PublicationsProps) => {
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
-                  <Link href={`/allpapers/${publication._id}`}>
+                  <Link href={`/paper/${publication._id}`}>
                     <h3 className="text-lg hover:underline font-semibold text-gray-900 mb-3 hover:text-brand-secondary transition-colors cursor-pointer">
                       {publication.title}
                     </h3>

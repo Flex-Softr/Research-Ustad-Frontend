@@ -114,7 +114,6 @@ const PendingResearchPapers = () => {
     // { label: "Visit Link", value: "visitLink" },
   ];
 
-  console.log("data", data);
 
   return (
     <div className="">

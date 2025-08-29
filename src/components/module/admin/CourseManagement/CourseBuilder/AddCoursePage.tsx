@@ -279,7 +279,7 @@ export default function AddCoursePage() {
       // console.log(`${isEditMode ? 'Updating' : 'Submitting'} course data:`, courseData);
       // console.log("FormData contents:");
       for (let [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
+        // console.log(key, value);
       }
 
       let result;
@@ -295,7 +295,7 @@ export default function AddCoursePage() {
       } else {
         // Create new course
         result = await dispatch(addCourse(formDataToSend)).unwrap();
-        console.log("Course Created Successfully:", result);
+        // console.log("Course Created Successfully:", result);
         toast.success("Course created successfully!");
         resetForm();
         // Redirect instantly after successful creation

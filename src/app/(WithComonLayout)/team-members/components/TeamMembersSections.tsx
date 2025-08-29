@@ -102,7 +102,7 @@ const TeamMembersSections = ({
                 <Button
                   variant="outline"
                   onClick={() => handleSeeAll(designation)}
-                  className="flex items-center gap-2 hover:bg-brand-primary hover:text-white transition-colors"
+                  className="flex items-center gap-2 hover:bg-brand-primary hover:text-white transition-colors cursor-pointer"
                 >
                   See all {getSectionDisplayName(designation).toLowerCase()}
                   <ChevronRight className="w-4 h-4" />
@@ -123,7 +123,7 @@ const TeamMembersSections = ({
                 <Button
                   variant="outline"
                   onClick={() => toggleSection(designation)}
-                  className="flex items-center gap-2"
+                  className="flex items-center bg-brand-primary hover:bg-brand-primary/80 text-white hover:text-white cursor-pointer gap-2"
                 >
                   {isExpanded ? (
                     <>

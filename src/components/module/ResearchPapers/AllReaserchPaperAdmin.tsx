@@ -63,7 +63,7 @@ const AllreserchPaperAdmin = () => {
   };
 
   const handleViewPaper = (paperId: string) => {
-    router.push(`/allpapers/${paperId}`);
+    router.push(`/paper/${paperId}`);
   };
 
 
@@ -77,7 +77,7 @@ const AllreserchPaperAdmin = () => {
     { label: "Paper Type", value: "paperType" },
     { label: "Status", value: "status" },
     { label: "Submitted By", value: "user.fullName" },
-    { label: "Visit Link", value: "visitLink" },
+    // { label: "Visit Link", value: "visitLink" },
   ];
 
   return (

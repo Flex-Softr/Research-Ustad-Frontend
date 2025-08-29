@@ -33,11 +33,11 @@ const roleBasedPrivateRoutes = {
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
-  console.log("Middleware executing for pathname:", pathname);
+  // console.log("Middleware executing for pathname:", pathname);
 
   // Check if the route is public
   if (publicRoutes.includes(pathname)) {
-    console.log("Public route, allowing access");
+    // console.log("Public route, allowing access");
     return NextResponse.next();
   }
 
@@ -47,15 +47,15 @@ export const middleware = async (request: NextRequest) => {
   );
 
   if (!isProtectedRoute) {
-    console.log("Not a protected route, allowing access");
+    // console.log("Not a protected route, allowing access");
     return NextResponse.next();
   }
 
-  console.log("Protected route detected, checking authentication");
+  // console.log("Protected route detected, checking authentication");
 
   try {
     const userInfo = await getCurrentUser();
-    console.log("User info:", userInfo);
+    // console.log("User info:", userInfo);
 
     // If user is not authenticated
     if (!userInfo) {
@@ -70,8 +70,8 @@ export const middleware = async (request: NextRequest) => {
 
     // If user is authenticated, check role-based access
     const userRole = (userInfo as JWTPayload).role;
-    console.log("User role:", userRole);
-    console.log("Available roles:", Object.keys(roleBasedPrivateRoutes));
+    // console.log("User role:", userRole);
+    // console.log("Available roles:", Object.keys(roleBasedPrivateRoutes));
 
     if (
       userRole &&
@@ -82,7 +82,7 @@ export const middleware = async (request: NextRequest) => {
       const hasAccess = allowedRoutes.some((route) => route.test(pathname));
 
       if (hasAccess) {
-        console.log("User has access to this route");
+        // console.log("User has access to this route");
         return NextResponse.next();
       } else {
         console.log("User role doesn't have access to this specific route");

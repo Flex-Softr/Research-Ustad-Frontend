@@ -165,7 +165,7 @@ export const MyResearchPaper = async () => {
 
 export const GetAllResearchPaperPublic = async () => {
   try {
-    console.log("Making API call to:", `${api.baseUrl}/paper/public`);
+    // console.log("Making API call to:", `${api.baseUrl}/paper/public`);
     
     const response = await fetch(`${api.baseUrl}/paper/public`, {
       method: "GET",
@@ -174,15 +174,15 @@ export const GetAllResearchPaperPublic = async () => {
       },
     });
 
-    console.log("API Response status:", response.status);
-    console.log("API Response ok:", response.ok);
+    // console.log("API Response status:", response.status);
+    // console.log("API Response ok:", response.ok);
 
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("API Response data:", data);
+    // console.log("API Response data:", data);
     return data;
   } catch (error) {
     console.error("Error fetching research papers:", error);
@@ -196,7 +196,7 @@ export const GetAllResearchPaperPublicByStatus = async (status?: string) => {
       ? `${api.baseUrl}/paper/public/query?status=${status}`
       : `${api.baseUrl}/paper/public`;
     
-    console.log("Making API call to:", url);
+    // console.log("Making API call to:", url);
     
     const response = await fetch(url, {
       method: "GET",
@@ -205,15 +205,15 @@ export const GetAllResearchPaperPublicByStatus = async (status?: string) => {
       },
     });
 
-    console.log("API Response status:", response.status);
-    console.log("API Response ok:", response.ok);
+    // console.log("API Response status:", response.status);
+    // console.log("API Response ok:", response.ok);
 
     if (!response.ok) {
       throw new Error(`Request failed with status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("API Response data:", data);
+    // console.log("API Response data:", data);
     return data;
   } catch (error) {
     console.error("Error fetching research papers by status:", error);
@@ -286,7 +286,7 @@ export const RejectPaper = async (id: string) => {
 };
 
 export const DeletePaper = async (id: string) => {
-  console.log(id);
+  // console.log(id);
   try {
     const cookieStore = await cookies();
     let token = cookieStore.get("accessToken")!.value;

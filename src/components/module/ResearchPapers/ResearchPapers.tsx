@@ -5,9 +5,9 @@ import { TPapers } from "@/type";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2, RefreshCw } from "lucide-react";
+import { Edit, Trash2, RefreshCw, Eye } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 
 const ResearchPapers = () => {
@@ -16,6 +16,7 @@ const ResearchPapers = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<TPapers | null>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   // Determine if we're in admin or user dashboard
   const isAdminDashboard = pathname.includes("/admin/dashboard");
@@ -66,6 +67,10 @@ const ResearchPapers = () => {
     setDeleteDialogOpen(true);
   };
 
+  const handleViewPaper = (paperId: string) => {
+    router.push(`/paper/${paperId}`);
+  };
+
   const columns = [
     { label: "Year", value: "year" },
     { label: "Title", value: "title" },
@@ -73,7 +78,7 @@ const ResearchPapers = () => {
     { label: "Paper Type", value: "paperType" },
     { label: "Status", value: "status" },
     { label: "Approval", value: "isApproved" },
-    { label: "Visit Link", value: "visitLink" },
+    // { label: "Visit Link", value: "visitLink" },
   ];
 
   return (
@@ -141,7 +146,8 @@ const ResearchPapers = () => {
           return null;
         }}
         customActions={(item) => (
-          <div className="flex gap-2">
+          <div className="flex gap-2 ">
+           
             {/* Edit Button */}
             <Link href={`${editRoute}/${item._id}`}>
               <Button
@@ -162,6 +168,21 @@ const ResearchPapers = () => {
             >
               <Trash2 className="w-4 h-4" />
             </Button>
+             {/* View Button - Only show for approved papers */}
+             {item.isApproved ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleViewPaper(item._id)}
+                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                title="View Paper"
+              >
+                View
+              </Button>
+            ) : (
+              <div className="w-8 h-8"></div> // Placeholder to maintain alignment
+            )}
+
           </div>
         )}
       />

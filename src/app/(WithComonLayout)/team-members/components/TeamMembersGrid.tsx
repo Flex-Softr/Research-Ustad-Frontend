@@ -37,23 +37,6 @@ const TeamMembersGrid = ({
   // console.log("TeamMembersGrid - Paginated members:", paginatedMembers);
   return (
     <div className="lg:col-span-3">
-      {/* Results Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
-          <h3 className="text-xl font-bold text-gray-900">
-            {selectedFilter === "all"
-              ? "All Members"
-              : filterOptions.find((f) => f.id === selectedFilter)?.label}
-          </h3>
-          <Badge
-            variant="outline"
-            className="bg-brand-secondary/10 text-brand-secondary"
-          >
-            {members.length} members
-          </Badge>
-        </div>
-      </div>
-
       {/* Members Grid */}
       {paginatedMembers.length > 0 ? (
         <>

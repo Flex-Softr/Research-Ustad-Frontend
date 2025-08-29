@@ -3,10 +3,10 @@ import { useState } from "react";
 import { Button, Container, SectionHeader } from "@/components/ui/core";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone, Clock } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import emailjs from '@emailjs/browser';
 import { toast } from "sonner";
+import { CreateContact } from "@/services/contact";
 
 const contactInfo = [
   {
@@ -28,26 +28,33 @@ const contactInfo = [
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.subject ||
+      !formData.message
+    ) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -62,40 +69,16 @@ const ContactSection = () => {
     setIsSubmitting(true);
 
     try {
-      // EmailJS configuration
-      // You'll need to replace these with your actual EmailJS credentials
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        to_name: 'ResearchUstad Team'
-      };
-
-      const result = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        publicKey
-      );
-
-      if (result.status === 200) {
-        toast.success("Message sent successfully! We'll get back to you soon.");
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        });
+      await CreateContact(formData);
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error: any) {
+      console.error("Contact Form Error:", error);
+      if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error("Failed to send message. Please try again later.");
       }
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      toast.error("Failed to send message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -174,10 +157,10 @@ const ContactSection = () => {
                   />
                 </div>
 
-                <Button 
-                  type="submit" 
-                  variant="primary" 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
                   className="w-full"
                   disabled={isSubmitting}
                 >

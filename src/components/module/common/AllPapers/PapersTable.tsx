@@ -98,7 +98,7 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                 >
                   <td className="px-6 py-4">
                     <div>
-                      <Link href={`/allpapers/${paper._id}`} className="flex gap-2">
+                      <Link href={`/paper/${paper._id}`} className="flex gap-2">
                         {/* <FileText className="h-10 w-10" /> */}
                         <h4 className="hover:underline text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
                           {paper.title}

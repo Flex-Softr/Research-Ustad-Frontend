@@ -43,7 +43,6 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
     }
   }, [blogs, dispatch]);
 
-  // console.log("bloghjhjgh", blog);
 
   // Update post state when blog from Redux changes
   useEffect(() => {
