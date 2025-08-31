@@ -111,7 +111,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
               <div className="flex justify-between text-xs text-gray-600">
                 <span>Citations:</span>
                 <span className="font-medium">
-                  {member.researchStats.totalCitations.toLocaleString()}
+                  {member.researchStats.totalCitations?.toLocaleString()}
                 </span>
               </div>
               {/* <div className="flex justify-between text-xs text-gray-600">

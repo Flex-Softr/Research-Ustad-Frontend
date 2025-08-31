@@ -113,7 +113,7 @@ const CourseManagementDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-green-600">Total Enrollments</p>
-                <p className="text-2xl font-bold text-green-900">{totalEnrollments.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-green-900">{totalEnrollments?.toLocaleString()}</p>
               </div>
               <Users className="h-8 w-8 text-green-600" />
             </div>
@@ -137,7 +137,7 @@ const CourseManagementDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()} BDT</p>
+                <p className="text-2xl font-bold text-purple-900">${totalRevenue?.toLocaleString()} BDT</p>
               </div>
             </div>
           </CardContent>

@@ -108,7 +108,7 @@ const ChangePasswordSection = ({ user }: ChangePasswordSectionProps) => {
               <p>Password Up to Date</p>
               <p>
                 Password changed at:{" "}
-                {new Date(user?.passwordChangedAt as string).toLocaleString()}
+                {new Date(user?.passwordChangedAt as string)?.toLocaleString()}
               </p>
             </div>
           )}

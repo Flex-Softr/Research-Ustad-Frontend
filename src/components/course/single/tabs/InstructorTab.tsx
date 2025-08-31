@@ -60,7 +60,7 @@ const InstructorTab = ({ course }) => {
                 </div>
                 <div className="flex items-center">
                   <Users className="w-4 h-4 text-brand-secondary mr-1" />
-                  <span>{instructor.students.toLocaleString()} Students</span>
+                  <span>{instructor.students?.toLocaleString()} Students</span>
                 </div>
               </div>
               {instructor.bio && (

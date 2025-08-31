@@ -56,7 +56,7 @@ const CourseHeader = ({ course }) => {
       <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600">
         <div className="flex items-center">
           <Users className="w-4 h-4 text-brand-secondary mr-1" />
-          <span>{course.enrolled.toLocaleString()} enrolled</span>
+          <span>{course.enrolled?.toLocaleString()} enrolled</span>
         </div>
         <div className="flex items-center">
           <Clock className="w-4 h-4 text-brand-secondary mr-1" />

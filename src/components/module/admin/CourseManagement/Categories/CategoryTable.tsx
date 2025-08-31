@@ -194,7 +194,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
               <Users className="w-8 h-8 text-green-600" />
               <div>
                 <p className="text-sm font-medium text-green-600">Total Enrollments</p>
-                <p className="text-2xl font-bold text-green-900">{totalEnrollments.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-green-900">{totalEnrollments?.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -207,7 +207,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
               </div>
               <div>
                 <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-purple-900">${totalRevenue?.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -313,7 +313,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                       <div className="flex items-center gap-2">
                         <Users className="w-4 h-4 text-brand-secondary" />
                         <span className="font-medium">
-                          {category.totalEnrollments.toLocaleString()}
+                          {category.totalEnrollments?.toLocaleString()}
                         </span>
                       </div>
                     </TableCell>
@@ -327,7 +327,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                     </TableCell>
                     <TableCell>
                       <div className="font-medium text-green-600">
-                        ${category.totalRevenue.toLocaleString()}
+                        ${category.totalRevenue?.toLocaleString()}
                       </div>
                     </TableCell>
                     <TableCell>

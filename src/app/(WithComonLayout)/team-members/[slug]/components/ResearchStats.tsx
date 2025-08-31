@@ -44,7 +44,7 @@ const ResearchStats = ({ member }: ResearchStatsProps) => {
     },
     {
       label: "Total Citations",
-      value: member.researchStats.totalCitations.toLocaleString(),
+      value: member.researchStats.totalCitations?.toLocaleString(),
       icon: Quote,
       color: "text-purple-600",
       bgColor: "bg-purple-50",

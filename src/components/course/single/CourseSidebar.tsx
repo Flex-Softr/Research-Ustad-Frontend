@@ -60,8 +60,8 @@ const CourseSidebar = ({ course }) => {
               <span className="text-gray-600">Enrollment</span>
               {/* <span>{enrollmentPercentage}%</span> */}
               <span className="font-medium">
-                {course.enrolled.toLocaleString()}/
-                {course.capacity.toLocaleString()}
+                {course.enrolled?.toLocaleString()}/
+                {course.capacity?.toLocaleString()}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
