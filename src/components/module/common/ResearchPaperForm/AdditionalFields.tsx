@@ -162,7 +162,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
             placeholder="Enter a brief summary of your research paper..."
             {...register("abstract", {
               validate: (value) => {
-                if (value && value.trim().length > 0 && value.trim().length < 10) {
+                if (value && value.trim()?.length > 0 && value.trim()?.length < 10) {
                   return "Abstract must be at least 10 characters";
                 }
                 return true;
@@ -226,7 +226,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               placeholder="e.g., Artificial Intelligence"
               {...register("researchArea", {
                 validate: (value) => {
-                  if (value && value.trim().length > 0 && value.trim().length < 2) {
+                  if (value && value.trim()?.length > 0 && value.trim()?.length < 2) {
                     return "Research area must be at least 2 characters";
                   }
                   return true;
@@ -253,7 +253,7 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               placeholder="e.g., National Institutes of Health"
               {...register("funding", {
                 validate: (value) => {
-                  if (value && value.trim().length > 0 && value.trim().length < 2) {
+                  if (value && value.trim()?.length > 0 && value.trim()?.length < 2) {
                     return "Funding information must be at least 2 characters";
                   }
                   return true;

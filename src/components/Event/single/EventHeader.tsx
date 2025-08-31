@@ -53,7 +53,7 @@ const EventHeader = ({ event }: EventHeaderProps) => {
       </p>
 
       {/* Tags */}
-      {event.tags && event.tags.length > 0 && (
+      {event.tags && event.tags?.length > 0 && (
         <div className="flex flex-wrap gap-2 pt-2">
           {event.tags.map((tag, index) => (
             <Badge

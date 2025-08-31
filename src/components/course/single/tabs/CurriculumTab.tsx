@@ -1,7 +1,7 @@
 const CurriculumTab = ({ course }) => {
   const totalLessons =
     course.modules?.reduce(
-      (total, module) => total + module.lessons.length,
+      (total, module) => total + module.lessons?.length,
       0
     ) || 0;
 

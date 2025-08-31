@@ -117,7 +117,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
 
         {/* Message for non-admin users when categories exist */}
         {!isLoading &&
-          allCategories.length > 0 &&
+          allCategories?.length > 0 &&
           !isAdmin &&
           !isUserLoading && (
             <div className="flex items-center justify-center p-2 bg-gray-50 border border-gray-200 rounded-md">
@@ -136,7 +136,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
         )}
 
         {/* No Categories State */}
-        {!isLoading && allCategories.length === 0 && (
+        {!isLoading && allCategories?.length === 0 && (
           <div className="flex items-center justify-center p-4">
             <div className="text-center">
               <p className="text-sm text-gray-500 mb-2">
@@ -179,7 +179,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
         )}
 
         {/* Create Category Link - Only show if categories exist and user is admin */}
-        {!isLoading && allCategories.length > 0 && isAdmin && (
+        {!isLoading && allCategories?.length > 0 && isAdmin && (
           <div className="flex items-center justify-between mt-3">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span>Can't find your category?</span>

@@ -209,7 +209,7 @@ const Members = ({ data: initialData }: MembersProps) => {
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-gray-500" />
           <span className="text-sm text-gray-500">
-            {data.length} member{data.length !== 1 ? "s" : ""}
+            {data?.length} member{data?.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>

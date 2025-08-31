@@ -164,7 +164,7 @@ const AllBlogsTable = ({
   }
 
   // Show no blogs message when there are no blogs
-  if (!blogs || blogs.length === 0 || !Array.isArray(blogs)) {
+  if (!blogs || blogs?.length === 0 || !Array.isArray(blogs)) {
     return (
       <div className="space-y-6">
         <NoDataMessage
@@ -176,7 +176,7 @@ const AllBlogsTable = ({
   }
 
   // Show no data message when there are no blogs in the current page/category
-  if (!paginatedBlogs || paginatedBlogs.length === 0) {
+  if (!paginatedBlogs || paginatedBlogs?.length === 0) {
     // Get category name for display
     const categoryName =
       selectedCategory !== "all"
@@ -271,7 +271,7 @@ const AllBlogsTable = ({
             </Table>
           </div>
 
-          {filteredBlogs && filteredBlogs.length > 10 && (
+          {filteredBlogs && filteredBlogs?.length > 10 && (
             <div className="mt-6">
               <Pagination
                 itemsPerPage={10}

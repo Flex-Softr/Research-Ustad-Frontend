@@ -147,7 +147,7 @@ const CoursesSection = () => {
   }
 
   // No courses state
-  if (!courses || courses.length === 0) {
+  if (!courses || courses?.length === 0) {
     return (
       <section className="py-20 bg-gray-100">
         <Container>

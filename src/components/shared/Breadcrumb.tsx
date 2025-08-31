@@ -58,12 +58,12 @@ const Breadcrumb = ({
           </div>
 
           {/* Page Title - Only show if there's a current item */}
-          {items.length > 0 && items[items.length - 1]?.current && (
+          {items?.length > 0 && items[items?.length - 1]?.current && (
             <div className="text-right">
               <h1 className="text-3xl md:text-4xl font-bold text-white">
-                {items[items.length - 1].label}
+                {items[items?.length - 1].label}
               </h1>
-              {items.length > 1 && (
+              {items?.length > 1 && (
                 <p className="text-white/80 text-sm md:text-base mt-1">
                   {/* {items[items.length - 2]?.label} */}
                 </p>

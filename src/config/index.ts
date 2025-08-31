@@ -36,7 +36,7 @@ const missingEnvVars = Object.entries(requiredEnvVars)
   .filter(([_, value]) => !value)
   .map(([key]) => key);
 
-if (missingEnvVars.length > 0) {
+if (missingEnvVars?.length > 0) {
   console.warn(
     `Missing environment variables (using defaults): ${missingEnvVars.join(
       ", "

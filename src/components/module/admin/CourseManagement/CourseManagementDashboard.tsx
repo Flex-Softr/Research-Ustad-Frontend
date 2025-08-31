@@ -53,12 +53,12 @@ const CourseManagementDashboard = () => {
   };
 
   // Calculate dashboard stats
-  const totalCourses = courses.length;
-  const totalEnrollments = courses.reduce((sum, course) => sum + course.enrolled, 0);
-  const averageRating = courses.length > 0 
-    ? courses.reduce((sum, course) => sum + course.rating, 0) / courses.length 
+  const totalCourses = courses?.length;
+  const totalEnrollments = courses?.reduce((sum, course) => sum + course.enrolled, 0);
+  const averageRating = courses?.length > 0 
+    ? courses?.reduce((sum, course) => sum + course.rating, 0) / courses?.length 
     : 0;
-  const totalRevenue = courses.reduce((sum, course) => {
+  const totalRevenue = courses?.reduce((sum, course) => {
     if (course.isFree) {
       return sum; // Free courses don't contribute to revenue
     }
@@ -69,14 +69,14 @@ const CourseManagementDashboard = () => {
     const startDate = new Date(course.startDate);
     const now = new Date();
     return startDate > now;
-  }).length;
+  })?.length;
 
   const ongoingCourses = courses.filter(course => {
     const startDate = new Date(course.startDate);
     const endDate = new Date(course.endDate || "2100-01-01");
     const now = new Date();
     return startDate <= now && endDate > now;
-  }).length;
+  })?.length;
 
   return (
     <div className="space-y-6">

@@ -5,7 +5,7 @@ import UserAvatar from "@/components/shared/UserAvatar";
 const InstructorTab = ({ course }) => {
   const instructors = course.instructors || [];
 
-  if (instructors.length === 0) {
+  if (instructors?.length === 0) {
     return (
       <div className="space-y-6">
         <div className="text-center py-8">

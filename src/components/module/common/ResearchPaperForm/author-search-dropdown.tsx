@@ -51,9 +51,9 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
   // Debounced search
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (searchQuery.trim().length >= 2) {
+      if (searchQuery.trim()?.length >= 2) {
         searchUsers(searchQuery);
-      } else if (searchQuery.trim().length === 0 && isOpen) {
+      } else if (searchQuery.trim()?.length === 0 && isOpen) {
         // Show all users when search is empty and dropdown is open
         setUsers(allUsers);
       } else {
@@ -118,7 +118,7 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
       loadAllUsers();
     }
     // Show all users when input is focused and no search query
-    if (searchQuery.trim().length === 0) {
+    if (searchQuery.trim()?.length === 0) {
       setUsers(allUsers);
     }
   };
@@ -157,15 +157,15 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
       );
     }
 
-    if (searchQuery.trim().length >= 2) {
+    if (searchQuery.trim()?.length >= 2) {
       // Search results
-      if (users.length > 0) {
+      if (users?.length > 0) {
         return (
           <>
             <div className="px-3 py-2 text-sm text-gray-500 bg-gray-50 border-b border-gray-100 font-medium">
-              Search Results ({users.length})
+              Search Results ({users?.length})
             </div>
-            {users.map((user) => (
+            {users?.map((user) => (
               <button
                 key={user._id}
                 type="button"
@@ -229,13 +229,13 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
       }
     } else {
       // Show all users when no search query
-      if (allUsers.length > 0) {
+      if (allUsers?.length > 0) {
         return (
           <>
             <div className="px-3 py-2 text-sm text-gray-500 bg-gray-50 border-b border-gray-100 font-medium">
-              All Users ({allUsers.length})
+              All Users ({allUsers?.length})
             </div>
-            {allUsers.map((user) => (
+            {allUsers?.map((user) => (
               <button
                 key={user._id}
                 type="button"

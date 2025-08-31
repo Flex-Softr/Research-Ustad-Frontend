@@ -151,7 +151,7 @@ const BlogSection = () => {
   }
 
   // No blogs state
-  if (!blogs || blogs.length === 0) {
+  if (!blogs || blogs?.length === 0) {
     return <EmptyState />;
   }
 

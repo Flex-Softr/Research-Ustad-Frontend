@@ -79,7 +79,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     return categoriesWithStats.slice(startIndex, endIndex);
   };
 
-  const totalPages = Math.ceil(categoriesWithStats.length / itemsPerPage);
+  const totalPages = Math.ceil(categoriesWithStats?.length / itemsPerPage);
 
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
@@ -103,7 +103,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
 
   // Handle bulk delete
   const handleBulkDelete = async () => {
-    if (selectedCategories.length === 0) return;
+    if (selectedCategories?.length === 0) return;
 
     try {
       // Delete all selected categories
@@ -112,7 +112,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       );
       
       await Promise.all(deletePromises);
-      toast.success(`Successfully deleted ${selectedCategories.length} categories`);
+      toast.success(`Successfully deleted ${selectedCategories?.length} categories`);
     } catch (error) {
       console.error("Error deleting categories:", error);
       toast.error("Failed to delete categories");
@@ -165,8 +165,8 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
 
   const paginatedCategories = getPaginatedCategories();
   const isAllSelected =
-    paginatedCategories.length > 0 &&
-    selectedCategories.length === paginatedCategories.length;
+    paginatedCategories?.length > 0 &&
+    selectedCategories?.length === paginatedCategories?.length;
 
   // Calculate overall statistics
   const totalCourses = categoriesWithStats.reduce((sum, cat) => sum + cat.courseCount, 0);
@@ -215,13 +215,13 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       </div>
 
       {/* Bulk Actions */}
-      {selectedCategories.length > 0 && (
+      {selectedCategories?.length > 0 && (
         <Card className="bg-yellow-50 border-yellow-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-yellow-800">
-                  {selectedCategories.length} category(ies) selected
+                  {selectedCategories?.length} category(ies) selected
                 </span>
               </div>
               <div className="flex gap-2">
@@ -250,7 +250,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Course Categories ({categoriesWithStats.length})</span>
+            <span>Course Categories ({categoriesWithStats?.length})</span>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <BookOpen className="w-4 h-4" />
               <span>{totalCourses} total courses</span>
@@ -379,12 +379,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
           </div>
 
           {/* Pagination */}
-          {categoriesWithStats.length > 10 && (
+          {categoriesWithStats?.length > 10 && (
             <div className="mt-6">
               <Pagination
                 itemsPerPage={10}
                 currentPage={currentPage}
-                totalItems={categoriesWithStats.length}
+                totalItems={categoriesWithStats?.length}
                 onPageChange={setCurrentPage}
                 totalPages={totalPages}
               />
@@ -409,7 +409,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
         onOpenChange={setBulkDeleteDialogOpen}
         onConfirm={handleBulkDelete}
         title="Delete Selected Categories"
-        itemName={`${selectedCategories.length} categories`}
+        itemName={`${selectedCategories?.length} categories`}
         itemType="categories"
       />
     </div>

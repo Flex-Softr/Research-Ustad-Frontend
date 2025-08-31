@@ -25,7 +25,7 @@ export const InternationalConferenceGallery = ({
   const [itemsPerPage] = useState(9); // Show 9 conferences per page (3 rows of 3)
 
   // Calculate pagination
-  const totalItems = conferences.length;
+  const totalItems = conferences?.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -64,7 +64,7 @@ export const InternationalConferenceGallery = ({
     );
   }
 
-  if (conferences.length === 0) {
+  if (conferences?.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center py-16">

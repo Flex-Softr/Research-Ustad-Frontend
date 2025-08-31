@@ -29,10 +29,10 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
 
   // Fetch blog categories when component mounts
   useEffect(() => {
-    if (isvalue === "blog" && blogCategories.length === 0) {
+    if (isvalue === "blog" && blogCategories?.length === 0) {
       dispatch(fetchBlogCategories());
     }
-  }, [dispatch, isvalue, blogCategories.length]);
+  }, [dispatch, isvalue, blogCategories?.length]);
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
@@ -56,7 +56,7 @@ export const TableHeader: React.FC<TableHeaderProps> = ({
             <option value="">
               {isLoading ? "Loading categories..." : "All Categories"}
             </option>
-            {blogCategories.map((category) => (
+            {blogCategories?.map((category) => (
               <option key={category._id} value={category._id}>
                 {category.name}
               </option>

@@ -54,10 +54,10 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
   const getPaginatedCategories = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return categories.slice(startIndex, endIndex);
+    return categories?.slice(startIndex, endIndex);
   };
 
-  const totalPages = Math.ceil(categories.length / itemsPerPage);
+  const totalPages = Math.ceil(categories?.length / itemsPerPage);
 
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
@@ -143,12 +143,12 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
 
   const paginatedCategories = getPaginatedCategories();
   const isAllSelected =
-    paginatedCategories.length > 0 &&
-    selectedCategories.length === paginatedCategories.length;
+    paginatedCategories?.length > 0 &&
+    selectedCategories?.length === paginatedCategories?.length;
 
   // Calculate overall statistics
-  const totalBlogs = categories.reduce((sum, cat) => sum + cat.blogCount, 0);
-  const activeCategories = categories.filter(cat => cat.status === 'active').length;
+  const totalBlogs = categories?.reduce((sum, cat) => sum + cat.blogCount, 0);
+  const activeCategories = categories.filter(cat => cat.status === 'active')?.length;
 
   return (
     <div className="space-y-6">
@@ -179,13 +179,13 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
       </div>
 
       {/* Bulk Actions */}
-      {selectedCategories.length > 0 && (
+      {selectedCategories?.length > 0 && (
         <Card className="bg-yellow-50 border-yellow-200">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-yellow-800">
-                  {selectedCategories.length} category(ies) selected
+                  {selectedCategories?.length} category(ies) selected
                 </span>
               </div>
               <div className="flex gap-2">
@@ -214,7 +214,7 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>Blog Categories ({categories.length})</span>
+            <span>Blog Categories ({categories?.length})</span>
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <FileText className="w-4 h-4" />
               <span>{totalBlogs} total blogs</span>
@@ -318,12 +318,12 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
           </div>
 
           {/* Pagination */}
-          {categories.length > 10 && (
+          {categories?.length > 10 && (
             <div className="mt-6">
               <Pagination
                 itemsPerPage={10}
                 currentPage={currentPage}
-                totalItems={categories.length}
+                totalItems={categories?.length}
                 onPageChange={setCurrentPage}
                 totalPages={totalPages}
               />
@@ -348,7 +348,7 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
         onOpenChange={setBulkDeleteDialogOpen}
         onConfirm={handleBulkDelete}
         title="Delete Selected Blog Categories"
-        itemName={`${selectedCategories.length} blog categories`}
+        itemName={`${selectedCategories?.length} blog categories`}
         itemType="blog categories"
       />
     </div>

@@ -80,10 +80,10 @@ const TeamMembersSections = ({
       {DESIGNATION_OPTIONS.map((designation) => {
         const sectionMembers = groupedMembers[designation] || [];
         const isExpanded = expandedSections.has(designation);
-        const displayCount = isExpanded ? sectionMembers.length : Math.min(6, sectionMembers.length);
-        const hasMoreMembers = sectionMembers.length > 6;
+        const displayCount = isExpanded ? sectionMembers?.length : Math.min(6, sectionMembers?.length);
+        const hasMoreMembers = sectionMembers?.length > 6;
 
-        if (sectionMembers.length === 0) return null;
+        if (sectionMembers?.length === 0) return null;
 
         return (
           <section key={designation} className="space-y-3">
@@ -94,7 +94,7 @@ const TeamMembersSections = ({
                   {getSectionDisplayName(designation)}
                 </h2>
                 <p className="text-gray-600">
-                  {sectionMembers.length} member{sectionMembers.length !== 1 ? "s" : ""}
+                  {sectionMembers?.length} member{sectionMembers?.length !== 1 ? "s" : ""}
                 </p>
               </div>
               
@@ -132,7 +132,7 @@ const TeamMembersSections = ({
                     </>
                   ) : (
                     <>
-                      Show More ({sectionMembers.length - 6} more)
+                      Show More ({sectionMembers?.length - 6} more)
                       <ChevronRight className="w-4 h-4" />
                     </>
                   )}
@@ -144,7 +144,7 @@ const TeamMembersSections = ({
       })}
 
       {/* No Results */}
-      {filteredMembers.length === 0 && (
+      {filteredMembers?.length === 0 && (
         <div className="text-center py-16">
           <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Users className="h-12 w-12 text-gray-400" />

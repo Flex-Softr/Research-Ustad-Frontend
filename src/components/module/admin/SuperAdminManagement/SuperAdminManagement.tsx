@@ -326,12 +326,12 @@ const SuperAdminManagement = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5 text-green-500" />
-            Available Users ({users.length})
+            Available Users ({users?.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3">
-            {users.map((user) => (
+            {users?.map((user) => (
               <div
                 key={user._id}
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"

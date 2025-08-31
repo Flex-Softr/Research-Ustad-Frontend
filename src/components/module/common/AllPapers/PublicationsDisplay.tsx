@@ -60,7 +60,7 @@ export default function PublicationsDisplay() {
   }, []);
 
   const formatAuthors = (authors: UserWithPublications['publications'][0]['authors']) => {
-    if (!authors || authors.length === 0) return "No authors listed";
+    if (!authors || authors?.length === 0) return "No authors listed";
     return authors.map(author => {
       if (author.user) {
         return author.user.fullName;
@@ -70,7 +70,7 @@ export default function PublicationsDisplay() {
   };
 
   const formatAuthorsWithRoles = (authors: UserWithPublications['publications'][0]['authors']) => {
-    if (!authors || authors.length === 0) return "No authors listed";
+    if (!authors || authors?.length === 0) return "No authors listed";
     return authors.map(author => {
       const name = author.user ? author.user.fullName : (author.name || "Unknown Author");
       return `${name} (${author.role})`;
@@ -78,7 +78,7 @@ export default function PublicationsDisplay() {
   };
 
   // Get all unique publications from all users
-  const allPublications = users.flatMap(user => user.publications);
+  const allPublications = users?.flatMap(user => user.publications);
   const uniquePublications = allPublications.filter((paper, index, self) => 
     index === self.findIndex(p => p._id === paper._id)
   );
@@ -106,17 +106,17 @@ export default function PublicationsDisplay() {
           Research Publications
         </h2>
         <p className="text-gray-600">
-          Latest research papers from our team members ({uniquePublications.length} papers)
+          Latest research papers from our team members ({uniquePublications?.length} papers)
         </p>
       </div>
 
-      {uniquePublications.length === 0 ? (
+      {uniquePublications?.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-gray-500">No publications found</p>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {uniquePublications.map((paper) => (
+          {uniquePublications?.map((paper) => (
             <Card key={paper._id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-lg line-clamp-2">

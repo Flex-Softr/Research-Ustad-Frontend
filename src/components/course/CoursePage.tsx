@@ -90,8 +90,8 @@ const CoursePage = () => {
     return filteredCourses.slice(startIndex, endIndex);
   };
 
-  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
-  const totalItems = filteredCourses.length;
+  const totalPages = Math.ceil(filteredCourses?.length / itemsPerPage);
+  const totalItems = filteredCourses?.length;
 
   // Handle filter changes
   const handleFilterChange = (type: string, value: string) => {
@@ -201,13 +201,13 @@ const CoursePage = () => {
                         id: "upcoming",
                         name: "Upcoming",
                         count: courses.filter((c) => c.status === "upcoming")
-                          .length,
+                          ?.length,
                       },
                       {
                         id: "ongoing",
                         name: "Ongoing",
                         count: courses.filter((c) => c.status === "ongoing")
-                          .length,
+                          ?.length,
                       },
                     ].map((filter, index) => (
                       <button
@@ -273,7 +273,7 @@ const CoursePage = () => {
                               ? c.category._id
                               : c.category;
                           return courseCategoryId === categoryId;
-                        }).length,
+                        })?.length,
                       })),
                     ]
                       .slice(0, showAllCategories ? undefined : 6)
@@ -301,7 +301,7 @@ const CoursePage = () => {
                           </span>
                         </button>
                       ))}
-                    {courses.length > 6 && (
+                    {courses?.length > 6 && (
                       <button
                         onClick={() => setShowAllCategories(!showAllCategories)}
                         className="w-full text-sm text-brand-secondary hover:text-brand-primary transition-colors duration-300 mt-2"
@@ -335,7 +335,7 @@ const CoursePage = () => {
               </div>
             ) : (
               <>
-                {filteredCourses.length === 0 ? (
+                {filteredCourses?.length === 0 ? (
                   <div className="text-center py-16">
                     <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                       <BookOpen className="h-12 w-12 text-gray-400" />

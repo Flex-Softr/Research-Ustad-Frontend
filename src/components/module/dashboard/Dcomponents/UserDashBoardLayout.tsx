@@ -340,7 +340,7 @@ const UserDashBoardLayout = () => {
               </Link>
             </div>
             <div className="space-y-4">
-              {recentPapers.length > 0 ? (
+              {recentPapers?.length > 0 ? (
                 recentPapers.map((paper) => (
                   <div
                     key={paper._id}

@@ -309,7 +309,7 @@ const CourseViewModal = ({
           </div>
 
           {/* Tags */}
-          {course.tags && course.tags.length > 0 && (
+          {course.tags && course.tags?.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Tags</CardTitle>
@@ -327,7 +327,7 @@ const CourseViewModal = ({
           )}
 
           {/* What You Will Learn */}
-          {course.whatYouWillLearn && course.whatYouWillLearn.length > 0 && (
+          {course.whatYouWillLearn && course.whatYouWillLearn?.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">What You Will Learn</CardTitle>
@@ -346,7 +346,7 @@ const CourseViewModal = ({
           )}
 
           {/* Requirements */}
-          {course.requirements && course.requirements.length > 0 && (
+          {course.requirements && course.requirements?.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Requirements</CardTitle>

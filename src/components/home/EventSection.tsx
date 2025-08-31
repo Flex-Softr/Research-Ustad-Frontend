@@ -156,10 +156,10 @@ const EventCard = ({ event }: { event: any }) => {
                   fallbackClassName="bg-brand-primary text-white"
                 />
               ))}
-            {event.speakers && event.speakers.length > 3 && (
+            {event.speakers && event.speakers?.length > 3 && (
               <div className="w-8 h-8 rounded-full bg-brand-primary/20 border-2 border-white flex items-center justify-center">
                 <span className="text-xs text-brand-primary font-bold">
-                  +{event.speakers.length - 3}
+                  +{event.speakers?.length - 3}
                 </span>
               </div>
             )}
@@ -258,12 +258,12 @@ const EventsSection = () => {
   }
 
   // No events state
-  if (!events || events.length === 0) {
+  if (!events || events?.length === 0) {
     return <EmptyState />;
   }
 
   // Get featured events (first 3 events)
-  const featuredEvents = events.slice(0, 3);
+  const featuredEvents = events?.slice(0, 3);
 
   return (
     <section className="py-20 bg-white">

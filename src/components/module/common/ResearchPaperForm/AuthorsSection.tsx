@@ -87,7 +87,7 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
               </div>
 
               {/* Validation Messages */}
-              {getAuthorDisplayName(author).trim() !== "" && getAuthorDisplayName(author).trim().length < 2 && (
+              {getAuthorDisplayName(author).trim() !== "" && getAuthorDisplayName(author).trim()?.length < 2 && (
                 <p className="text-sm text-red-500 mt-1">
                   Author name must be at least 2 characters
                 </p>
@@ -105,7 +105,7 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
                 </p>
               )}
             </div>
-            {authors.length > 1 && (
+            {authors?.length > 1 && (
               <Button
                 type="button"
                 onClick={() => onRemoveAuthor(index)}

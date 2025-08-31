@@ -75,7 +75,7 @@ const BlogCategoryFormModal = ({
     }));
   };
 
-  const isFormValid = formData.name.trim().length > 0;
+  const isFormValid = formData.name.trim()?.length > 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setTimeout(onClose, 0)}>

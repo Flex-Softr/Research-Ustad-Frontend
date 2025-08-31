@@ -97,7 +97,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
             // Set authors and keywords - handle both old and new formats
             let authors: Author[];
-            if (paperData.authors && paperData.authors.length > 0) {
+            if (paperData.authors && paperData.authors?.length > 0) {
               authors = paperData.authors.map((author: any) => {
                 if (typeof author === 'string') {
                   // Old format: just a string
@@ -119,7 +119,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
             }
             
             const keywords =
-              paperData.keywords && paperData.keywords.length > 0
+              paperData.keywords && paperData.keywords?.length > 0
                 ? [...paperData.keywords]
                 : [""];
 
@@ -199,7 +199,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       (author) => author.name && author.name.trim() !== ""
     );
 
-    if (validAuthors.length === 0) {
+    if (validAuthors?.length === 0) {
       toast.error("At least one author is required");
       setLoading(false);
       return;
@@ -207,9 +207,9 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
     // Validate each author name and role
     const invalidAuthors = validAuthors.filter(
-      (author) => (author.name && author.name.trim().length < 2) || !author.role || author.role.trim() === ""
+      (author) => (author.name && author.name.trim()?.length < 2) || !author.role || author.role.trim() === ""
     );
-    if (invalidAuthors.length > 0) {
+    if (invalidAuthors?.length > 0) {
       toast.error("Each author must have a valid name (at least 2 characters) and role");
       setLoading(false);
       return;
@@ -220,9 +220,9 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
 
     // Validate each keyword (minimum 2 characters as per backend)
     const invalidKeywords = validKeywords.filter(
-      (keyword) => keyword.trim().length < 2
+      (keyword) => keyword.trim()?.length < 2
     );
-    if (invalidKeywords.length > 0) {
+    if (invalidKeywords?.length > 0) {
       toast.error("Each keyword must be at least 2 characters long");
       setLoading(false);
       return;
@@ -269,7 +269,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       formData.abstract = data.abstract;
     }
 
-    if (validKeywords.length > 0) {
+    if (validKeywords?.length > 0) {
       formData.keywords = validKeywords;
     }
 

@@ -19,7 +19,7 @@ const TeamMembersGrid = ({
   selectedFilter,
 }: TeamMembersGridProps) => {
   // Pagination
-  const totalPages = Math.ceil(members.length / itemsPerPage);
+  const totalPages = Math.ceil(members?.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedMembers = members.slice(startIndex, endIndex);
@@ -38,7 +38,7 @@ const TeamMembersGrid = ({
   return (
     <div className="lg:col-span-3">
       {/* Members Grid */}
-      {paginatedMembers.length > 0 ? (
+      {paginatedMembers?.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {paginatedMembers.map((member) => (
@@ -50,7 +50,7 @@ const TeamMembersGrid = ({
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            totalItems={members.length}
+            totalItems={members?.length}
             itemsPerPage={itemsPerPage}
             onPageChange={onPageChange}
             className="mt-12"

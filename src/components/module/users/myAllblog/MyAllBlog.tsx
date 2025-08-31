@@ -190,7 +190,7 @@ const MyAllBlog = () => {
       </div>
 
       {/* Blog Table */}
-      {blogs && blogs.length > 0 ? (
+      {blogs && blogs?.length > 0 ? (
         <Card>
           <CardContent className="px-5">
             <div className="overflow-x-auto">

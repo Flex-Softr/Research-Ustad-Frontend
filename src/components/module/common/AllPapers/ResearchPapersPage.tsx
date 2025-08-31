@@ -30,7 +30,7 @@ const ResearchPapersPage = ({
     const loadPapers = async () => {
       try {
         // If papers are provided as props, use them
-        if (propPapers && propPapers.length > 0) {
+        if (propPapers && propPapers?.length > 0) {
           // console.log("Using papers from props:", propPapers.length);
           // Sort papers by year in descending order (latest to oldest)
           const sortedPapers = [...propPapers].sort((a, b) => b.year - a.year);
@@ -112,7 +112,7 @@ const ResearchPapersPage = ({
     return filteredPapers.slice(startIndex, endIndex);
   }, [filteredPapers, currentPage, itemsPerPage]);
 
-  const totalPages = Math.ceil(filteredPapers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredPapers?.length / itemsPerPage);
 
   // Handle filter changes
   const handleFilterChange = (filterType: keyof FilterState, value: string) => {
@@ -188,7 +188,7 @@ const ResearchPapersPage = ({
                   {initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus.slice(1)} Research Papers` : "Research Papers"}
                 </h2>
                 <span className="px-3 py-1 bg-brand-secondary/10 text-brand-secondary rounded-full text-sm font-semibold">
-                  {filteredPapers.length} papers
+                  {filteredPapers?.length} papers
                 </span>
               </div>
             </div>
@@ -202,7 +202,7 @@ const ResearchPapersPage = ({
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  totalItems={filteredPapers.length}
+                  totalItems={filteredPapers?.length}
                   itemsPerPage={itemsPerPage}
                   onPageChange={handlePageChange}
                 />

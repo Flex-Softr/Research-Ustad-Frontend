@@ -283,7 +283,7 @@ const Profile = () => {
 
           {/* Expertise */}
           {user?.expertise &&
-            user.expertise.length > 0 &&
+            user.expertise?.length > 0 &&
             user.expertise.some((item) => item && item.trim() !== "") && (
               <Card className="shadow-lg rounded-lg">
                 <CardContent className="p-6">
@@ -313,7 +313,7 @@ const Profile = () => {
 
           {/* Awards */}
           {user?.awards &&
-            user.awards.length > 0 &&
+            user.awards?.length > 0 &&
             user.awards.some((item) => item && item.trim() !== "") && (
               <Card className="shadow-lg rounded-lg">
                 <CardContent className="p-6">
@@ -339,7 +339,7 @@ const Profile = () => {
 
           {/* Conferences */}
           {user?.conferences &&
-            user.conferences.length > 0 &&
+            user.conferences?.length > 0 &&
             user.conferences.some(
               (conf) =>
                 (conf.name && conf.name.trim() !== "") ||

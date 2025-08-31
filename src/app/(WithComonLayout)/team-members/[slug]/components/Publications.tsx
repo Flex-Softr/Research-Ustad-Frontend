@@ -16,7 +16,7 @@ const Publications = ({ member, paginatedData }: PublicationsProps) => {
     (pub) => (pub.status === "published" || pub.status === "Published")
   ) || [];
 
-  if (publishedPapers.length === 0) {
+  if (publishedPapers?.length === 0) {
     return (
       <Card className="rounded-none border-0">
         <CardContent className="py-12">

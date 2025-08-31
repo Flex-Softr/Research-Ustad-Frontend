@@ -70,7 +70,7 @@ const Achievement = () => {
   }, []);
 
   // Calculate pagination
-  const totalItems = achievements.length;
+  const totalItems = achievements?.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -79,7 +79,7 @@ const Achievement = () => {
   // Reset to first page when achievements change
   useEffect(() => {
     setCurrentPage(1);
-  }, [achievements.length]);
+  }, [achievements?.length]);
 
   if (loading) {
     return (
@@ -114,7 +114,7 @@ const Achievement = () => {
     );
   }
 
-  if (achievements.length === 0) {
+  if (achievements?.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center py-16">

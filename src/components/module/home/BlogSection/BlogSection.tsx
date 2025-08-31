@@ -24,7 +24,7 @@ const BlogSection = () => {
 
     // Update data when blogs are loaded
     useEffect(() => {
-      if (blogs && blogs.length > 0) {
+      if (blogs && blogs?.length > 0) {
         setData(blogs);
         setLoading(false);
       }

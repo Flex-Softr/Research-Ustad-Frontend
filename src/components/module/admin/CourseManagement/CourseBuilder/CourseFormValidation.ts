@@ -61,7 +61,7 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
       field: "description",
       message: "Course description is required",
     });
-  } else if (data.description.length < 10) {
+  } else if (data.description?.length < 10) {
     errors.push({
       field: "description",
       message: "Course description must be at least 10 characters",
@@ -192,7 +192,7 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
   // }
 
   // Learning objectives validation
-  if (data.whatYouWillLearn.length === 0) {
+  if (data.whatYouWillLearn?.length === 0) {
     errors.push({
       field: "whatYouWillLearn",
       message: "At least one learning objective is required",
@@ -209,7 +209,7 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
   }
 
   // Requirements validation
-  if (data.requirements.length === 0) {
+  if (data.requirements?.length === 0) {
     errors.push({
       field: "requirements",
       message: "At least one requirement is required",
@@ -239,7 +239,7 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
   }
 
   // Instructors validation
-  if (data.instructors.length === 0) {
+  if (data.instructors?.length === 0) {
     errors.push({
       field: "instructors",
       message: "At least one instructor is required",
@@ -298,5 +298,5 @@ export const getFieldError = (
 };
 
 export const isFormValid = (data: CourseFormData, isEditMode = false): boolean => {
-  return validateCourseForm(data, isEditMode).length === 0;
+  return validateCourseForm(data, isEditMode)?.length === 0;
 };

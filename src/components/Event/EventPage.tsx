@@ -48,7 +48,7 @@ const EventPage = () => {
     return filter === "all" || statusInfo.status === filter;
   });
 
-  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredEvents?.length / itemsPerPage);
   const paginatedEvents = filteredEvents.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -65,7 +65,7 @@ const EventPage = () => {
           <EventPageSkeleton />
         ) : error ? (
           <p className="text-red-500">Error: {error}</p>
-        ) : events.length === 0 ? (
+        ) : events?.length === 0 ? (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Calendar className="h-12 w-12 text-gray-400" />
@@ -145,7 +145,7 @@ const EventPage = () => {
 
                       <div className="flex items-center text-sm text-gray-600">
                         <Users className="h-4 w-4 mr-2" />
-                        {event.speakers.length} Speakers
+                        {event.speakers?.length} Speakers
                       </div>
 
                       <div className="flex items-center text-sm text-gray-600">
@@ -181,12 +181,12 @@ const EventPage = () => {
             </div>
           </div>
         )}
-        {filteredEvents.length > itemsPerPage && (
+        {filteredEvents?.length > itemsPerPage && (
           <div className="mt-6">
             <Pagination
               itemsPerPage={itemsPerPage}
               currentPage={currentPage}
-              totalItems={filteredEvents.length}
+              totalItems={filteredEvents?.length}
               onPageChange={setCurrentPage}
               totalPages={totalPages}
             />

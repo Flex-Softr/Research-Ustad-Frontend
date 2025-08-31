@@ -104,7 +104,7 @@ const SingleResearchPaper = ({
   };
 
   const truncateText = (text: string, maxLength: number) => {
-    if (text.length <= maxLength) return text;
+    if (text?.length <= maxLength) return text;
     return text.substring(0, maxLength) + "...";
   };
 
@@ -259,7 +259,7 @@ const SingleResearchPaper = ({
                 )}
 
                 {/* Keywords */}
-                {paper?.keywords && paper.keywords.length > 0 && (
+                {paper?.keywords && paper.keywords?.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
                       <Tag className="h-5 w-5 text-brand-secondary" />
@@ -405,12 +405,12 @@ const SingleResearchPaper = ({
                       Loading related papers...
                     </p>
                   </div>
-                ) : relatedPapers.length > 0 ? (
+                ) : relatedPapers?.length > 0 ? (
                   <div className="space-y-4">
                     <p className="text-sm text-gray-600 mb-4">
                       Papers in similar research areas
                     </p>
-                    {relatedPapers.map((relatedPaper) => (
+                    {relatedPapers?.map((relatedPaper) => (
                       <div
                         key={relatedPaper._id}
                         className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"

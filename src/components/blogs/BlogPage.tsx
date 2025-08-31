@@ -63,7 +63,7 @@ const BlogPage = () => {
             });
 
       // Pagination
-      const total = filteredData.length;
+      const total = filteredData?.length;
       const totalPages = Math.ceil(total / itemsPerPage);
       const startIndex = (page - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
@@ -85,7 +85,7 @@ const BlogPage = () => {
       });
 
       const dynamicCategories: Category[] = [
-        { _id: "all", name: "All Posts", blogCount: allData.length },
+        { _id: "all", name: "All Posts", blogCount: allData?.length },
         ...Object.entries(categoryCounts).map(([id, count]) => ({
           _id: id,
           name: id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " "),
@@ -108,7 +108,7 @@ const BlogPage = () => {
   };
 
   useEffect(() => {
-    if (blogs.length > 0) {
+    if (blogs?.length > 0) {
       fetchPaginatedData(currentPage, selectedCategory);
     } else {
       // Handle case when no blogs exist
@@ -201,7 +201,7 @@ const BlogPage = () => {
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-600">Categories</span>
                       <span className="font-semibold text-gray-900">
-                        {categories.length - 1}
+                        {categories?.length - 1}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">

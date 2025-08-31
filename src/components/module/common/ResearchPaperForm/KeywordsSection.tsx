@@ -37,18 +37,18 @@ const KeywordsSection: React.FC<KeywordsSectionProps> = ({
                 onChange={(e) => onKeywordChange(index, e.target.value)}
                 placeholder={`Enter keyword ${index + 1}`}
                 className={`${
-                  keyword.trim() !== "" && keyword.trim().length < 2
+                  keyword.trim() !== "" && keyword.trim()?.length < 2
                     ? "border-red-500 focus:border-red-500"
                     : "focus:border-blue-500"
                 } transition-colors`}
               />
-              {keyword.trim() !== "" && keyword.trim().length < 2 && (
+              {keyword.trim() !== "" && keyword.trim()?.length < 2 && (
                 <p className="text-sm text-red-500 mt-1">
                   Keyword must be at least 2 characters
                 </p>
               )}
             </div>
-            {keywords.length > 1 && (
+            {keywords?.length > 1 && (
               <Button
                 type="button"
                 onClick={() => onRemoveKeyword(index)}

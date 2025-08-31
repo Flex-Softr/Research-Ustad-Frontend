@@ -46,7 +46,7 @@ const getStatusBadgeStyle = (status?: string) => {
 
 
 const PapersTable = ({ papers }: PapersTableProps) => {
-  if (papers.length === 0) {
+  if (papers?.length === 0) {
     return (
       <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
         <CardContent className="p-0">
@@ -91,7 +91,7 @@ const PapersTable = ({ papers }: PapersTableProps) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {papers.map((paper) => (
+              {papers?.map((paper) => (
                 <tr
                   key={paper._id}
                   className="hover:bg-gray-50/50 transition-colors duration-200"

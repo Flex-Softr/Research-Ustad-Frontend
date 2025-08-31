@@ -82,7 +82,7 @@ const EventManagement = () => {
     );
   }
 
-  if (!events || events.length === 0) {
+  if (!events || events?.length === 0) {
     return (
       <div className="space-y-6">
         <Card>

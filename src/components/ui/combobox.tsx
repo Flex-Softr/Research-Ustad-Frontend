@@ -80,12 +80,12 @@ export function Combobox({
           </div>
           
           <div className="max-h-48 overflow-y-auto">
-            {filteredOptions.length === 0 ? (
+            {filteredOptions?.length === 0 ? (
               <div className="p-2 text-sm text-gray-500 text-center">
                 {emptyText}
               </div>
             ) : (
-              filteredOptions.map((option) => (
+              filteredOptions?.map((option) => (
                 <button
                   key={option.value}
                   className={cn(

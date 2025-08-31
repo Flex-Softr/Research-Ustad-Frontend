@@ -73,7 +73,7 @@ const InternationalConferenceCarouselSection = () => {
     );
   }
 
-  if (error || conferences.length === 0) {
+  if (error || conferences?.length === 0) {
     return null; // Don't show section if no conferences
   }
 

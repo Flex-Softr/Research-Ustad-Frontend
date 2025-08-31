@@ -136,7 +136,7 @@ const ManageInternationalConferences = ({
             </Card>
           ))}
         </div>
-      ) : filteredConferences.length === 0 ? (
+      ) : filteredConferences?.length === 0 ? (
         <div className="text-center py-16">
           <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Globe className="h-12 w-12 text-gray-400" />

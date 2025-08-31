@@ -18,7 +18,7 @@ export const validateBlogForm = (
     return { isValid: false, message: "Title is required" };
   }
 
-  if (data.title.trim().length === 0) {
+  if (data.title.trim()?.length === 0) {
     return { isValid: false, message: "Title cannot be empty" };
   }
 
@@ -28,7 +28,7 @@ export const validateBlogForm = (
     return { isValid: false, message: "Category is required" };
   }
 
-  if (finalCategory.trim().length === 0) {
+  if (finalCategory.trim()?.length === 0) {
     return { isValid: false, message: "Category cannot be empty" };
   }
 
@@ -42,7 +42,7 @@ export const validateBlogForm = (
     return { isValid: false, message: "Content is required" };
   }
 
-  if (editorContent.trim().length < 10) {
+  if (editorContent.trim()?.length < 10) {
     return { 
       isValid: false, 
       message: "Content must be at least 10 characters long" 
@@ -50,7 +50,7 @@ export const validateBlogForm = (
   }
 
   // Validate content is not just whitespace
-  if (editorContent.trim().length === 0) {
+  if (editorContent.trim()?.length === 0) {
     return { isValid: false, message: "Content cannot be empty" };
   }
 

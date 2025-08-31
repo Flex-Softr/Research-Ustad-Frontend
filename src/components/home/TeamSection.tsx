@@ -221,7 +221,7 @@ const TeamSection = () => {
   }
 
   // No team members state
-  if (!members || members.length === 0) {
+  if (!members || members?.length === 0) {
     return <EmptyState />;
   }
 

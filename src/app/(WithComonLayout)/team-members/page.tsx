@@ -187,7 +187,7 @@ const TeamMembersPage = () => {
                       {selectedFilter === "all" ? "All Members" : selectedFilter}
                     </h2>
                     <p className="text-gray-600">
-                      {filteredMembers.length} member{filteredMembers.length !== 1 ? "s" : ""}
+                      {filteredMembers?.length} member{filteredMembers?.length !== 1 ? "s" : ""}
                     </p>
                   </div>
                   <Button

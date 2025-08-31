@@ -22,7 +22,7 @@ const BlogCard = ({ post }: { post: Blog }) => {
   const getContentPreview = (content: string) => {
     if (!content) return "No content available";
     const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-    return cleanContent.length > 120 ? cleanContent.slice(0, 120) + "..." : cleanContent;
+    return cleanContent?.length > 120 ? cleanContent.slice(0, 120) + "..." : cleanContent;
   };
 
   return (

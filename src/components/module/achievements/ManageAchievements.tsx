@@ -51,7 +51,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
   };
 
   useEffect(() => {
-    if (initialData.length === 0) {
+    if (initialData?.length === 0) {
       fetchAchievements();
     }
   }, [initialData]);
@@ -146,7 +146,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
             </Card>
           ))}
         </div>
-      ) : filteredAchievements.length === 0 ? (
+      ) : filteredAchievements?.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-xl border border-gray-200">
           <div className="flex flex-col items-center gap-4">
             <div className="p-4 bg-gray-100 rounded-full">

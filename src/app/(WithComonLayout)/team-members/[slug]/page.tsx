@@ -161,11 +161,11 @@ const SingleMemberPage = () => {
   const hasPublishedPapers =
     (member.publications?.filter(
       (pub) => pub.status === "published" || pub.status === "Published"
-    ).length || 0) > 0;
+    )?.length || 0) > 0;
   const hasOngoingPapers =
     (member.publications?.filter(
       (pub) => pub.status !== "published" && pub.status !== "Published"
-    ).length || 0) > 0;
+    )?.length || 0) > 0;
   const hasBlogs = (member.blogs?.length || 0) > 0;
 
   // Only show tabs if there's content to display
@@ -178,7 +178,7 @@ const SingleMemberPage = () => {
       count:
         member.publications?.filter(
           (pub) => pub.status === "published" || pub.status === "Published"
-        ).length || 0,
+        )?.length || 0,
       show: hasPublishedPapers,
     },
     {
@@ -187,7 +187,7 @@ const SingleMemberPage = () => {
       count:
         member.publications?.filter(
           (pub) => pub.status !== "published" && pub.status !== "Published"
-        ).length || 0,
+        )?.length || 0,
       show: hasOngoingPapers,
     },
     {
@@ -211,8 +211,8 @@ const SingleMemberPage = () => {
           ) || [];
         return {
           data: publishedPapers,
-          totalItems: publishedPapers.length,
-          hasPagination: publishedPapers.length > itemsPerPage,
+          totalItems: publishedPapers?.length,
+          hasPagination: publishedPapers?.length > itemsPerPage,
         };
       case "ongoing":
         const ongoingPapers =
@@ -221,15 +221,15 @@ const SingleMemberPage = () => {
           ) || [];
         return {
           data: ongoingPapers,
-          totalItems: ongoingPapers.length,
-          hasPagination: ongoingPapers.length > itemsPerPage,
+          totalItems: ongoingPapers?.length,
+          hasPagination: ongoingPapers?.length > itemsPerPage,
         };
       case "blogs":
         const blogs = member.blogs || [];
         return {
           data: blogs,
-          totalItems: blogs.length,
-          hasPagination: blogs.length > itemsPerPage,
+          totalItems: blogs?.length,
+          hasPagination: blogs?.length > itemsPerPage,
         };
       default:
         return { data: [], totalItems: 0, hasPagination: false };

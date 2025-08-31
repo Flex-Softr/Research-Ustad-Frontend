@@ -203,7 +203,7 @@ export default function AddCoursePage() {
     const validationErrors = validateCourseForm(formData, isEditMode);
     setErrors(validationErrors);
 
-    if (validationErrors.length > 0) {
+    if (validationErrors?.length > 0) {
       toast.error("Please fill all the fields correctly before submitting.");
       return;
     }

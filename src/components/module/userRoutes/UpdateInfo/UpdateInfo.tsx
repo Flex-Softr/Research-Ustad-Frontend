@@ -179,18 +179,18 @@ const UpdateInfo = () => {
 
         // Expertise - only set if data exists
         const expertise = data?.expertise || [];
-        setExpertiseList(expertise.length > 0 ? expertise : [""]);
+        setExpertiseList(expertise?.length > 0 ? expertise : [""]);
         setValue("expertise", expertise);
 
         // Awards - only set if data exists
         const awards = data?.awards || [];
-        setAwardsList(awards.length > 0 ? awards : [""]);
+        setAwardsList(awards?.length > 0 ? awards : [""]);
         setValue("awards", awards);
 
         // Conferences - only set if data exists
         const conferences = data?.conferences || [];
         setConferencesList(
-          conferences.length > 0
+          conferences?.length > 0
             ? conferences
             : [{ name: "", role: "", topic: "" }]
         );
@@ -228,13 +228,13 @@ const UpdateInfo = () => {
 
     // Helper function to clean arrays
     const cleanArray = (arr: string[] | undefined) => {
-      if (!arr || arr.length === 0) return [];
+      if (!arr || arr?.length === 0) return [];
       return arr.filter((item) => item && item.trim() !== "");
     };
 
     // Helper function to clean conference objects
     const cleanConferences = (conferences: Conference[] | undefined) => {
-      if (!conferences || conferences.length === 0) return [];
+      if (!conferences || conferences?.length === 0) return [];
       return conferences.filter(
         (conf) =>
           (conf.name && conf.name.trim() !== "") ||

@@ -38,16 +38,16 @@ export function FormProgressIndicator({
   existingImageUrl,
 }: FormProgressIndicatorProps) {
   const calculateSectionProgress = (section: (typeof sections)[0]) => {
-    const totalFields = section.fields.length;
+    const totalFields = section.fields?.length;
     let completedFields = 0;
 
     section.fields.forEach((field) => {
       switch (field) {
         case "title":
-          if (formData.title.trim().length >= 5) completedFields++;
+          if (formData.title.trim()?.length >= 5) completedFields++;
           break;
         case "description":
-          if (formData.description.trim().length >= 20) completedFields++;
+          if (formData.description.trim()?.length >= 20) completedFields++;
           break;
         case "category":
           if (formData.category.trim()) completedFields++;
@@ -63,27 +63,27 @@ export function FormProgressIndicator({
           }
           break;
         case "tags":
-          if (formData.tags.length > 0) completedFields++;
+          if (formData.tags?.length > 0) completedFields++;
           break;
         case "whatYouWillLearn":
-          if (formData.whatYouWillLearn.length > 0) completedFields++;
+          if (formData.whatYouWillLearn?.length > 0) completedFields++;
           break;
         case "requirements":
-          if (formData.requirements.length > 0) completedFields++;
+          if (formData.requirements?.length > 0) completedFields++;
           break;
         case "curriculum":
-          if (formData.curriculum.trim().length >= 50) completedFields++;
+          if (formData.curriculum.trim()?.length >= 50) completedFields++;
           break;
         case "instructors":
-          if (formData.instructors.length > 0) {
+          if (formData.instructors?.length > 0) {
             // In edit mode, check if instructors have valid data
             const validInstructors = formData.instructors.filter((instructor: any) => {
-              const hasName = instructor.name && instructor.name.trim().length > 0;
-              const hasSpecialization = instructor.specialization && instructor.specialization.trim().length > 0;
+              const hasName = instructor.name && instructor.name.trim()?.length > 0;
+              const hasSpecialization = instructor.specialization && instructor.specialization.trim()?.length > 0;
               const hasImage = instructor.imageFile || (isEditMode && instructor.imageUrl);
               return hasName && hasSpecialization && hasImage;
             });
-            if (validInstructors.length > 0) completedFields++;
+            if (validInstructors?.length > 0) completedFields++;
           }
           break;
       }
@@ -100,7 +100,7 @@ export function FormProgressIndicator({
     sections.reduce((acc, section) => {
       const progress = calculateSectionProgress(section);
       return acc + progress.percentage;
-    }, 0) / sections.length;
+    }, 0) / sections?.length;
 
   const getSectionStatus = (section: (typeof sections)[0]) => {
     const progress = calculateSectionProgress(section);
@@ -138,7 +138,7 @@ export function FormProgressIndicator({
           <Progress value={overallProgress} className="h-2" />
 
           <div className="space-y-3">
-            {sections.map((section) => {
+            {sections?.map((section) => {
               const progress = calculateSectionProgress(section);
               const status = getSectionStatus(section);
               const Icon = status.icon;

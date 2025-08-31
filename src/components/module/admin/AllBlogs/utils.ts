@@ -11,7 +11,7 @@ export const getPaginatedItems = <T>(
   currentPage: number,
   itemsPerPage: number
 ): T[] => {
-  if (!items || items.length === 0) return [];
+  if (!items || items?.length === 0) return [];
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   return items.slice(startIndex, endIndex);

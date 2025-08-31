@@ -82,7 +82,7 @@ const AllCoursesTable = ({
     return courses.slice(startIndex, endIndex);
   };
 
-  const totalPages = Math.ceil(courses.length / itemsPerPage);
+  const totalPages = Math.ceil(courses?.length / itemsPerPage);
 
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
@@ -105,7 +105,7 @@ const AllCoursesTable = ({
   };
 
   const handleBulkDelete = () => {
-    if (selectedCourses.length > 0) {
+    if (selectedCourses?.length > 0) {
       setBulkDeleteDialogOpen(true);
     }
   };
@@ -119,7 +119,7 @@ const AllCoursesTable = ({
 
       await Promise.all(deletePromises);
 
-      toast.success(`Successfully deleted ${selectedCourses.length} courses`);
+      toast.success(`Successfully deleted ${selectedCourses?.length} courses`);
     } catch (error) {
       console.error("Error deleting courses:", error);
       toast.error("Failed to delete courses");
@@ -170,13 +170,13 @@ const AllCoursesTable = ({
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>Course Management</span>
-            {selectedCourses.length > 0 && (
+            {selectedCourses?.length > 0 && (
               <Button
                 variant="destructive"
                 size="sm"
                 onClick={handleBulkDelete}
               >
-                Delete Selected ({selectedCourses.length})
+                Delete Selected ({selectedCourses?.length})
               </Button>
             )}
           </CardTitle>
@@ -189,9 +189,9 @@ const AllCoursesTable = ({
                   <TableHead className="w-12">
                     <Checkbox
                       checked={
-                        selectedCourses.length ===
-                          getPaginatedCourses().length &&
-                        getPaginatedCourses().length > 0
+                        selectedCourses?.length ===
+                          getPaginatedCourses()?.length &&
+                        getPaginatedCourses()?.length > 0
                       }
                       onCheckedChange={handleSelectAll}
                     />
@@ -335,7 +335,7 @@ const AllCoursesTable = ({
             </Table>
           </div>
 
-          {courses.length === 0 && (
+          {courses?.length === 0 && (
             <div className="text-center py-12">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="h-8 w-8 text-gray-400" />
@@ -352,11 +352,11 @@ const AllCoursesTable = ({
       </Card>
 
       {/* Pagination */}
-      {courses.length > 0 && (
+      {courses?.length > 0 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          totalItems={courses.length}
+          totalItems={courses?.length}
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
           className="mt-6"
@@ -379,7 +379,7 @@ const AllCoursesTable = ({
         onOpenChange={setBulkDeleteDialogOpen}
         onConfirm={confirmBulkDelete}
         title="Delete Selected Courses"
-        itemName={`${selectedCourses.length} courses`}
+        itemName={`${selectedCourses?.length} courses`}
         itemType="courses"
       />
     </>

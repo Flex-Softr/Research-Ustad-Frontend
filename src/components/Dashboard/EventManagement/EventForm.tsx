@@ -58,7 +58,7 @@ const EventForm = ({
   // Show error only if field is touched or form is submitted
   const agendaError =
     (touchedFields.agenda || isSubmitted) &&
-    (!agenda || agenda.trim().length < 50)
+    (!agenda || agenda.trim()?.length < 50)
       ? "Event agenda must be at least 50 characters"
       : undefined;
   const { fields, append, remove } = useFieldArray({
@@ -79,7 +79,7 @@ const EventForm = ({
   }>({});
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
+    if (e.target.files && e.target.files?.length > 0) {
       setSelectedFile(e.target.files[0]);
       // Clear error when file is selected
       setImageErrors((prev) => ({ ...prev, eventImage: undefined }));
@@ -113,13 +113,13 @@ const EventForm = ({
       setImageErrors({});
 
       // Validate agenda
-      if (!data.agenda || data.agenda.trim().length < 50) {
+      if (!data.agenda || data.agenda.trim()?.length < 50) {
         toast.error("Event agenda must be at least 50 characters");
         return;
       }
 
       // Validate that at least one speaker is added
-      if (!data.speakers || data.speakers.length === 0) {
+      if (!data.speakers || data.speakers?.length === 0) {
         toast.error("At least one speaker is required");
         return;
       }
@@ -129,7 +129,7 @@ const EventForm = ({
         (speaker) => !speaker.name.trim() || !speaker.bio.trim()
       );
 
-      if (invalidSpeakers.length > 0) {
+      if (invalidSpeakers?.length > 0) {
         toast.error("All speakers must have a name and bio");
         return;
       }

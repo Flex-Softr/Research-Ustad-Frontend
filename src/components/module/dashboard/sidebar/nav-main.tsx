@@ -68,7 +68,7 @@ export function NavMain({
   const renderNavItem = (item: any, isSubItem = false) => {
     const isActive =
       pathname === item.url || pathname.startsWith(item.url + "/");
-    const hasSubItems = item.items && item.items.length > 0;
+    const hasSubItems = item.items && item.items?.length > 0;
     const expanded = isExpanded(item.title);
 
     const itemContent = (
@@ -134,7 +134,7 @@ export function NavMain({
   return (
     <div className="space-y-1">
       {items.map((item) => {
-        const hasSubItems = item.items && item.items.length > 0;
+        const hasSubItems = item.items && item.items?.length > 0;
         const expanded = isExpanded(item.title);
 
         const navItem = (

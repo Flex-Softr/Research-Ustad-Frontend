@@ -87,7 +87,7 @@ export function DroopDown() {
                   key={item.name}
                   title={item.name}
                   href={item.href}
-                  isLast={index === researchWingItems.length - 1}
+                  isLast={index === researchWingItems?.length - 1}
                 />
               ))}
             </ul>

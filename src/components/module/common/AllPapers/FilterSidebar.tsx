@@ -112,9 +112,9 @@ const FilterSection = ({
       : isExpanded
       ? filteredOptions
       : filteredOptions.slice(0, 3);
-  const showMoreButton = config.showMore && filteredOptions.length > 3;
+  const showMoreButton = config.showMore && filteredOptions?.length > 3;
 
-  if (filteredOptions.length === 0) return null;
+  if (filteredOptions?.length === 0) return null;
 
   return (
     <div className="mb-6">
@@ -132,7 +132,7 @@ const FilterSection = ({
         {showMoreButton && (
           <ShowMoreButton
             isExpanded={isExpanded}
-            totalCount={filteredOptions.length}
+            totalCount={filteredOptions?.length}
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
@@ -152,17 +152,17 @@ const FilterSidebar = ({
 }: FilterSidebarProps & { hideStatusFilter?: boolean }) => {
   // Helper function to get count for a specific filter
   const getFilterCount = (filterType: string, value: string) => {
-    if (value === "all") return papers.length;
+    if (value === "all") return papers?.length;
 
     switch (filterType) {
       case "status":
-        return papers.filter((p) => p.status === value).length;
+        return papers.filter((p) => p.status === value)?.length;
       case "category":
-        return papers.filter((p) => p.researchArea === value).length;
+        return papers.filter((p) => p.researchArea === value)?.length;
       case "year":
-        return papers.filter((p) => p.year.toString() === value).length;
+        return papers.filter((p) => p.year.toString() === value)?.length;
       case "paperType":
-        return papers.filter((p) => p.paperType === value).length;
+        return papers.filter((p) => p.paperType === value)?.length;
       default:
         return 0;
     }
@@ -179,7 +179,7 @@ const FilterSidebar = ({
             title: "Status",
             showMore: true,
             options: [
-              { id: "all", name: "All Papers", count: papers.length },
+              { id: "all", name: "All Papers", count: papers?.length },
               {
                 id: "published",
                 name: "Published",
@@ -198,7 +198,7 @@ const FilterSidebar = ({
       title: "Research Area",
       showMore: true,
       options: [
-        { id: "all", name: "All", count: papers.length },
+        { id: "all", name: "All", count: papers?.length },
         ...Array.from(
           new Set(papers.map((paper) => paper.researchArea).filter(Boolean))
         ).map((area) => ({
@@ -213,7 +213,7 @@ const FilterSidebar = ({
       title: "Year",
       showMore: true,
       options: [
-        { id: "all", name: "All Years", count: papers.length },
+        { id: "all", name: "All Years", count: papers?.length },
         ...Array.from(new Set(papers.map((paper) => paper.year.toString())))
           .sort((a, b) => parseInt(b) - parseInt(a))
           .map((year) => ({
@@ -228,7 +228,7 @@ const FilterSidebar = ({
       title: "Paper Type",
       showMore: false,
       options: [
-        { id: "all", name: "All Types", count: papers.length },
+        { id: "all", name: "All Types", count: papers?.length },
         {
           id: "journal",
           name: "Journal",

@@ -73,7 +73,7 @@ const AchievementCarouselSection = () => {
     );
   }
 
-  if (error || achievements.length === 0) {
+  if (error || achievements?.length === 0) {
     return null; // Don't show section if no achievements
   }
 

@@ -69,13 +69,13 @@ const FilterSidebar = ({
       id: "all",
       label: "All Members",
       icon: Users,
-      count: members.length,
+      count: members?.length,
     },
     ...availableDesignations.map((designation) => ({
       id: designation,
       label: formatDesignationLabel(designation),
       icon: getIconForDesignation(designation),
-      count: members.filter((m) => m.designation === designation).length,
+      count: members?.filter((m) => m.designation === designation)?.length,
     })),
   ];
 

@@ -95,7 +95,7 @@ export function BasicInformationSection({
             {isLoading && (
               <p className="text-sm text-gray-500">Loading categories...</p>
             )}
-            {!isLoading && activeCategories.length === 0 && (
+            {!isLoading && activeCategories?.length === 0 && (
               <p className="text-sm text-orange-600">No active categories available. Please create categories first.</p>
             )}
             {getFieldError("category") && hasAttemptedSubmit && (

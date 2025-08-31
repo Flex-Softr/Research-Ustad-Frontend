@@ -12,7 +12,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
   return (
     <div className="space-y-6">
       {/* Expertise */}
-      {member.expertise && member.expertise.length > 0 && (
+      {member.expertise && member.expertise?.length > 0 && (
         <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
@@ -37,7 +37,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
       )}
 
       {/* Awards */}
-      {member.awards && member.awards.length > 0 && (
+      {member.awards && member.awards?.length > 0 && (
         <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
@@ -62,7 +62,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
       )}
 
       {/* Conferences */}
-      {member.conferences && member.conferences.length > 0 && (
+      {member?.conferences && member?.conferences?.length > 0 && (
         <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
@@ -72,7 +72,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {member.conferences.map((conference, index) => (
+              {member?.conferences.map((conference, index) => (
                 <div
                   key={index}
                   className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"

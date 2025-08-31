@@ -38,7 +38,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
 
   // Fetch all blogs for latest posts sidebar
   useEffect(() => {
-    if (!blogs || blogs.length === 0) {
+    if (!blogs || blogs?.length === 0) {
       dispatch(fetchBlogs());
     }
   }, [blogs, dispatch]);
@@ -53,7 +53,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
 
   // Load latest posts for sidebar
   useEffect(() => {
-    if (blogs && blogs.length > 0) {
+    if (blogs && blogs?.length > 0) {
       const latest = blogs
         .filter((blog) => blog._id !== id)
         .sort(
@@ -272,7 +272,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
               </div>
 
               <div className="">
-                {latestPosts.length > 0 ? (
+                {latestPosts?.length > 0 ? (
                   latestPosts.map((latestPost) => (
                     <Link
                       key={latestPost._id}

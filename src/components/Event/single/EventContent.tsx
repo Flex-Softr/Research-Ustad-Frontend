@@ -44,7 +44,7 @@ const EventContent = ({ event }: EventContentProps) => {
       }
 
       // Add keynote sessions if speakers exist
-      if (event.speakers && event.speakers.length > 0) {
+      if (event.speakers && event.speakers?.length > 0) {
         event.speakers.forEach((speaker, index) => {
           sessions.push({
             title: `Keynote: ${speaker.name}`,

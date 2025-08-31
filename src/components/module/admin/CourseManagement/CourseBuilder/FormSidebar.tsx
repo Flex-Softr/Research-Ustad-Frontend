@@ -106,26 +106,26 @@ export function FormSidebar({
           </div>
           <div className="flex justify-between">
             <span className="text-sm text-gray-600">Tags:</span>
-            <span className={`text-sm font-medium ${getFieldError("tags") && hasAttemptedSubmit ? "text-red-600" : formData.tags.length > 0 ? "text-green-600" : "text-gray-400"}`}>
-              {formData.tags.length}
+            <span className={`text-sm font-medium ${getFieldError("tags") && hasAttemptedSubmit ? "text-red-600" : formData.tags?.length > 0 ? "text-green-600" : "text-gray-400"}`}>
+              {formData.tags?.length}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-sm text-gray-600">Learning Points:</span>
-            <span className={`text-sm font-medium ${getFieldError("whatYouWillLearn") && hasAttemptedSubmit ? "text-red-600" : formData.whatYouWillLearn.length > 0 ? "text-green-600" : "text-gray-400"}`}>
-              {formData.whatYouWillLearn.length}
+            <span className={`text-sm font-medium ${getFieldError("whatYouWillLearn") && hasAttemptedSubmit ? "text-red-600" : formData.whatYouWillLearn?.length > 0 ? "text-green-600" : "text-gray-400"}`}>
+              {formData.whatYouWillLearn?.length}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-sm text-gray-600">Requirements:</span>
-            <span className={`text-sm font-medium ${getFieldError("requirements") && hasAttemptedSubmit ? "text-red-600" : formData.requirements.length > 0 ? "text-green-600" : "text-gray-400"}`}>
-              {formData.requirements.length}
+            <span className={`text-sm font-medium ${getFieldError("requirements") && hasAttemptedSubmit ? "text-red-600" : formData.requirements?.length > 0 ? "text-green-600" : "text-gray-400"}`}>
+              {formData.requirements?.length}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-sm text-gray-600">Instructors:</span>
-            <span className={`text-sm font-medium ${getFieldError("instructors") && hasAttemptedSubmit ? "text-red-600" : formData.instructors.length > 0 ? "text-green-600" : "text-gray-400"}`}>
-              {formData.instructors.length}
+            <span className={`text-sm font-medium ${getFieldError("instructors") && hasAttemptedSubmit ? "text-red-600" : formData.instructors?.length > 0 ? "text-green-600" : "text-gray-400"}`}>
+              {formData.instructors?.length}
             </span>
           </div>
         </CardContent>

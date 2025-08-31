@@ -13,7 +13,7 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
   // Use paginated data if provided, otherwise use member.blogs
   const blogs = paginatedData || member.blogs || [];
 
-  if (blogs.length === 0) {
+  if (blogs?.length === 0) {
     return (
       <Card className="rounded-none border-0">
         <CardContent className="py-12">
