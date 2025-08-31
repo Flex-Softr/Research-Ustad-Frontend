@@ -134,10 +134,7 @@ const BlogPage = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-  // Handle retry
-  const handleRetry = () => {
-    fetchPaginatedData(currentPage, selectedCategory);
-  };
+
 
   return (
     <>
@@ -250,11 +247,11 @@ const BlogPage = () => {
                     <AlertCircle className="h-12 w-12 text-red-500" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    Something went wrong
+                    Failed to load blogs
                   </h3>
                   <p className="text-gray-600 mb-6">{error}</p>
                   <button
-                    onClick={handleRetry}
+                    onClick={() => dispatch(fetchBlogs())}
                     className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white px-6 py-3 rounded-xl transition-all duration-300"
                   >
                     Try Again

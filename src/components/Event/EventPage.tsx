@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, MapPin, Users, Clock, ExternalLink } from "lucide-react";
+import { Calendar, MapPin, Users, Clock, ExternalLink, AlertCircle } from "lucide-react";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import Link from "next/link";
 import { fetchEvents } from "@/services/events/eventSlice";
@@ -64,7 +64,21 @@ const EventPage = () => {
         {isLoading ? (
           <EventPageSkeleton />
         ) : error ? (
-          <p className="text-red-500">Error: {error}</p>
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <AlertCircle className="h-12 w-12 text-red-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Failed to load events
+            </h3>
+            <p className="text-gray-600 mb-6">{error}</p>
+            <button
+              onClick={() => dispatch(fetchEvents())}
+              className="inline-flex items-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white px-6 py-3 rounded-xl transition-all duration-300"
+            >
+              Try Again
+            </button>
+          </div>
         ) : events?.length === 0 ? (
           <div className="text-center py-16">
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
