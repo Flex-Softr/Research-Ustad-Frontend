@@ -240,7 +240,7 @@ const SingleMemberPage = () => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedData = currentData.slice(startIndex, endIndex);
+  const paginatedData = currentData?.slice(startIndex, endIndex);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -282,7 +282,7 @@ const SingleMemberPage = () => {
           </Button>
 
           <div className="flex items-center gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1)?.map((page) => (
               <Button
                 key={page}
                 variant={currentPage === page ? "default" : "outline"}
@@ -339,7 +339,7 @@ const SingleMemberPage = () => {
                 {/* Tab Navigation */}
                 <div className="border-b border-gray-200">
                   <nav className="flex space-x-8 px-6" aria-label="Tabs">
-                    {visibleTabs.map((tab) => (
+                    {visibleTabs?.map((tab) => (
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}

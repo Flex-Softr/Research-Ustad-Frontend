@@ -347,7 +347,7 @@ const PendingResearchPapers = () => {
 
                 <div className="space-y-4">
                   {Array.isArray(selectedPaper.authors) ? (
-                    selectedPaper.authors.map((author, index) => (
+                    selectedPaper.authors?.map((author, index) => (
                       <div
                         key={index}
                         className="bg-gray-50 p-4 rounded-md border border-gray-200"

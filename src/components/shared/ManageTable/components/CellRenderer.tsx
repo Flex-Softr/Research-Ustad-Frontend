@@ -34,7 +34,7 @@ const useTooltipPosition = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     const rect = e.currentTarget.getBoundingClientRect();
     const tooltipWidth = 320; // Increased tooltip width
     const tooltipHeight = 300; // Increased tooltip height for better scrolling
@@ -72,13 +72,13 @@ const useTooltipPosition = () => {
     setIsVisible(false);
   };
 
-  return { 
-    position, 
-    isVisible, 
-    handleMouseEnter, 
-    handleMouseLeave, 
-    handleTooltipMouseEnter, 
-    handleTooltipMouseLeave 
+  return {
+    position,
+    isVisible,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleTooltipMouseEnter,
+    handleTooltipMouseLeave,
   };
 };
 
@@ -99,13 +99,13 @@ export const CellRenderer: React.FC<CellRendererProps> = ({
         ? `${authorCount} author${authorCount > 1 ? "s" : ""}`
         : "No authors";
 
-    const { 
-      position, 
-      isVisible, 
-      handleMouseEnter, 
-      handleMouseLeave, 
-      handleTooltipMouseEnter, 
-      handleTooltipMouseLeave 
+    const {
+      position,
+      isVisible,
+      handleMouseEnter,
+      handleMouseLeave,
+      handleTooltipMouseEnter,
+      handleTooltipMouseLeave,
     } = useTooltipPosition();
 
     return (
@@ -117,16 +117,16 @@ export const CellRenderer: React.FC<CellRendererProps> = ({
         >
           {displayText}
         </span>
-                 {authors.length > 0 && isVisible && (
-           <div
-             className="fixed z-[9999] transition-opacity duration-200"
-             style={{
-               left: `${position.x}px`,
-               top: `${position.y}px`,
-             }}
-             onMouseEnter={handleTooltipMouseEnter}
-             onMouseLeave={handleTooltipMouseLeave}
-           >
+        {authors.length > 0 && isVisible && (
+          <div
+            className="fixed z-[9999] transition-opacity duration-200"
+            style={{
+              left: `${position.x}px`,
+              top: `${position.y}px`,
+            }}
+            onMouseEnter={handleTooltipMouseEnter}
+            onMouseLeave={handleTooltipMouseLeave}
+          >
             <div className="relative bg-gray-900 text-white text-xs rounded-lg shadow-xl border border-gray-700 min-w-[280px] max-w-[320px] p-4">
               <div className="font-semibold mb-3 text-white border-b border-gray-600 pb-2">
                 Authors:
@@ -139,7 +139,7 @@ export const CellRenderer: React.FC<CellRendererProps> = ({
                 }}
               >
                 <div className="space-y-2 pr-2">
-                  {authors.map((author: any, index: number) => {
+                  {authors?.map((author: any, index: number) => {
                     let displayName = "";
                     if (author?.user?.fullName) {
                       displayName = author.user.fullName;
@@ -152,7 +152,10 @@ export const CellRenderer: React.FC<CellRendererProps> = ({
                     const role = author?.role || "Author";
 
                     return (
-                      <div key={index} className="flex items-center justify-between bg-gray-800 rounded-md p-2 hover:bg-gray-700 transition-colors">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between bg-gray-800 rounded-md p-2 hover:bg-gray-700 transition-colors"
+                      >
                         <div className="text-gray-200 text-xs flex-1 truncate">
                           {displayName}
                         </div>

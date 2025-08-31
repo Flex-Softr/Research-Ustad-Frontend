@@ -35,8 +35,8 @@ export default function TableSkeleton() {
         </TableHeader>
         <TableBody>
           {Array(8)
-            .fill(0)
-            .map((_, index) => (
+            ?.fill(0)
+            ?.map((_, index) => (
               <TableRow key={index}>
                 <TableCell className="px-2 py-3">
                   <Skeleton className="h-4 w-12 md:w-16" />

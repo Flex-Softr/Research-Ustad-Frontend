@@ -87,7 +87,7 @@ const CoursePage = () => {
   const getPaginatedCourses = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredCourses.slice(startIndex, endIndex);
+    return filteredCourses?.slice(startIndex, endIndex);
   };
 
   const totalPages = Math.ceil(filteredCourses?.length / itemsPerPage);
@@ -209,7 +209,7 @@ const CoursePage = () => {
                         count: courses?.filter((c) => c.status === "ongoing")
                           ?.length,
                       },
-                    ].map((filter, index) => (
+                    ]?.map((filter, index) => (
                       <button
                         key={index}
                         onClick={() => handleFilterChange("status", filter.id)}
@@ -255,7 +255,7 @@ const CoursePage = () => {
                       ...Array.from(
                         new Set(
                           courses
-                            .map((c) => {
+                            ?.map((c) => {
                               if (!c.category) return null;
                               return typeof c.category === "object"
                                 ? c.category._id
@@ -263,7 +263,7 @@ const CoursePage = () => {
                             })
                             ?.filter(Boolean)
                         )
-                      ).map((categoryId) => ({
+                      )?.map((categoryId) => ({
                         id: categoryId,
                         name: getCategoryName(categoryId),
                         count: courses?.filter((c) => {
@@ -276,8 +276,8 @@ const CoursePage = () => {
                         })?.length,
                       })),
                     ]
-                      .slice(0, showAllCategories ? undefined : 6)
-                      .map((filter, index) => (
+                      ?.slice(0, showAllCategories ? undefined : 6)
+                      ?.map((filter, index) => (
                         <button
                           key={index}
                           onClick={() =>
@@ -319,7 +319,7 @@ const CoursePage = () => {
           <div className="flex-1">
             {isLoading ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, index) => (
+                {[...Array(6)]?.map((_, index) => (
                   <div
                     key={index}
                     className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 animate-pulse"
@@ -350,7 +350,7 @@ const CoursePage = () => {
                 ) : (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {getPaginatedCourses().map((course, index) => {
+                      {getPaginatedCourses()?.map((course, index) => {
                         const statusInfo = getCourseStatus(course);
 
                         return (

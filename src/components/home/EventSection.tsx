@@ -145,7 +145,7 @@ const EventCard = ({ event }: { event: any }) => {
           <div className="flex -space-x-2">
             {event.speakers
               ?.slice(0, 3)
-              .map((speaker: any, speakerIndex: number) => (
+              ?.map((speaker: any, speakerIndex: number) => (
                 <UserAvatar
                   key={speakerIndex}
                   src={speaker.imageUrl}
@@ -212,7 +212,7 @@ const LoadingState = () => (
       />
       {/* Skeleton grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 3 })?.map((_, index) => (
           <EventCardSkeleton key={index} />
         ))}
       </div>
@@ -275,7 +275,7 @@ const EventsSection = () => {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {featuredEvents.map((event) => (
+          {featuredEvents?.map((event) => (
             <EventCard key={event._id} event={event} />
           ))}
         </div>

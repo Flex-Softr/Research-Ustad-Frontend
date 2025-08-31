@@ -72,7 +72,7 @@ const ProfileDetails = ({
                 Interests
               </h3>
               <ul className="list-disc pl-5 text-gray-700 text-base lg:text-lg space-y-2">
-                {currentUser?.research.map((r, i) => (
+                {currentUser?.research?.map((r, i) => (
                   <li key={i}>{r}</li>
                 ))}
               </ul>

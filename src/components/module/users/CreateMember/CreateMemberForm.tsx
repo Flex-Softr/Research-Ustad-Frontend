@@ -258,9 +258,9 @@ const CreateMemberForm: React.FC = () => {
                 <SelectValue>{selectedRole || "Select a role"}</SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {roleOptions.map((role) => (
+                {roleOptions?.map((role) => (
                   <SelectItem key={role} value={role}>
-                    {role.charAt(0).toUpperCase() + role.slice(1)}
+                    {role.charAt(0).toUpperCase() + role?.slice(1)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -309,7 +309,7 @@ const CreateMemberForm: React.FC = () => {
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {DESIGNATION_OPTIONS.map((designation) => (
+                {DESIGNATION_OPTIONS?.map((designation) => (
                   <SelectItem key={designation} value={designation}>
                     {designation}
                   </SelectItem>

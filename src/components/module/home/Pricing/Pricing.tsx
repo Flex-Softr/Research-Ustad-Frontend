@@ -45,7 +45,7 @@ const Pricing: React.FC = () => {
       <div className="container w-[90%]  py-8 mx-auto">
       <SectionTitle title="Our Upcomming Courses" discription="Explore diverse courses to enhance your skills and knowledge across various fields."/>
         <div className="flex flex-col items-center justify-center space-y-8 lg:mt-11 lg:-mx-4 lg:flex-row lg:items-stretch lg:space-y-0">
-          {pricingPlans.map((plan) => (
+          {pricingPlans?.map((plan) => (
             <div
               key={plan.name}
               className="flex flex-col w-full max-w-sm p-8 space-y-8 text-center bg-white border-2 border-gray-200 rounded-lg lg:mx-4 dark:bg-gray-900 dark:border-gray-700"
@@ -66,7 +66,7 @@ const Pricing: React.FC = () => {
               </div>
 
               <ul className="flex-1 space-y-4">
-                {plan.features.map((feature) => (
+                {plan.features?.map((feature) => (
                   <li key={feature} className="text-gray-500 dark:text-gray-400">
                     {feature}
                   </li>

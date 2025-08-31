@@ -31,7 +31,7 @@ const TeamMembersPage = () => {
 
         if (response?.success && response?.data) {
           // Transform API data to match TeamMember interface
-          const transformedMembers = response.data.map((member: any) => ({
+          const transformedMembers = response.data?.map((member: any) => ({
             id: member._id,
             user: member._id,
             fullName: member.fullName,
@@ -57,7 +57,7 @@ const TeamMembersPage = () => {
           setMembers(transformedMembers);
         } else if (response?.data) {
           // If no success flag but data exists
-          const transformedMembers = response.data.map((member: any) => ({
+          const transformedMembers = response.data?.map((member: any) => ({
             id: member._id,
             user: member._id,
             fullName: member.fullName,

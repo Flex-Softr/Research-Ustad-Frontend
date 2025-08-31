@@ -49,7 +49,7 @@ export function TagsSection({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag, i) => (
+          {tags?.map((tag, i) => (
             <Badge
               key={i}
               variant="secondary"

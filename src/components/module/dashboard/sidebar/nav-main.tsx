@@ -133,7 +133,7 @@ export function NavMain({
 
   return (
     <div className="space-y-1">
-      {items.map((item) => {
+      {items?.map((item) => {
         const hasSubItems = item.items && item.items?.length > 0;
         const expanded = isExpanded(item.title);
 

@@ -191,7 +191,7 @@ const EventForm = ({
       });
 
       // Prepare speakers data with imageUrl field
-      const speakersData = data.speakers.map((speaker) => ({
+      const speakersData = data.speakers?.map((speaker) => ({
         name: speaker.name.trim(),
         bio: speaker.bio.trim(),
         imageUrl: speaker.imageUrl || "", // Include imageUrl field
@@ -556,7 +556,7 @@ const EventForm = ({
               </Button>
             </div>
 
-            {fields.map((field, index) => (
+            {fields?.map((field, index) => (
               <Card key={field.id} className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-medium">Speaker {index + 1}</h4>

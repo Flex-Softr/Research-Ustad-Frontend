@@ -33,7 +33,7 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium text-gray-700">Filter by status:</span>
-        {statusOptions.map((option) => {
+        {statusOptions?.map((option) => {
           const Icon = option.icon;
           return (
             <Button

@@ -77,7 +77,7 @@ const ServicesSection = () => {
           description="Explore our specialized programs designed to support your academic journey and professional development."
         />
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
-          {wings.map((wing, index) => (
+          {wings?.map((wing, index) => (
             <div
               key={index}
               className="group relative bg-white shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 rounded-2xl p-6 overflow-hidden"
@@ -135,7 +135,7 @@ const ServicesSection = () => {
 
                 {/* Features List */}
                 <ul className="space-y-3 mb-8">
-                  {wing.features.map((feature, featureIndex) => (
+                  {wing.features?.map((feature, featureIndex) => (
                     <li
                       key={featureIndex}
                       className="flex items-center text-gray-700 text-sm"

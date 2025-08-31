@@ -38,7 +38,7 @@ const BlogSection = () => {
 
       {loading || isLoading ? ( // লোডিং হলে স্পিনার দেখাবে
        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-       {Array.from({ length: 3 }).map((_, index) => (
+       {Array.from({ length: 3 })?.map((_, index) => (
          <BlogCardSkeleton key={index} />
        ))}
      </div>

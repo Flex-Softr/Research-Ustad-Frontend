@@ -77,7 +77,7 @@ const TeamMembersSections = ({
 
   return (
     <div className="space-y-12">
-      {DESIGNATION_OPTIONS.map((designation) => {
+      {DESIGNATION_OPTIONS?.map((designation) => {
         const sectionMembers = groupedMembers[designation] || [];
         const isExpanded = expandedSections.has(designation);
         const displayCount = isExpanded ? sectionMembers?.length : Math.min(6, sectionMembers?.length);
@@ -112,7 +112,7 @@ const TeamMembersSections = ({
 
             {/* Members Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sectionMembers.slice(0, displayCount).map((member) => (
+              {sectionMembers?.slice(0, displayCount)?.map((member) => (
                 <TeamMemberCard key={member.id} member={member} />
               ))}
             </div>

@@ -18,7 +18,7 @@ export function ConferencesSection({
         Conferences & Speaking Engagements
       </h3> */}
       <div className="space-y-4">
-        {conferencesList.map((conference, i) => (
+        {conferencesList?.map((conference, i) => (
           <div key={i} className="border rounded-lg p-4 space-y-3 bg-gray-50">
             <div className="flex justify-between items-start">
               <h4 className="text-sm font-medium text-gray-700">Conference {i + 1}</h4>

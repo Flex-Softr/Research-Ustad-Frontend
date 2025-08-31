@@ -181,7 +181,7 @@ const ContactSection = () => {
               </p>
 
               <div className="space-y-6">
-                {contactInfo.map((info, index) => (
+                {contactInfo?.map((info, index) => (
                   <div key={index} className="flex items-start space-x-4">
                     <div className="w-10 h-10 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <info.icon className="h-5 w-5 text-brand-primary" />
@@ -190,7 +190,7 @@ const ContactSection = () => {
                       <h4 className="text-sm font-semibold text-brand-primary mb-1">
                         {info.title}
                       </h4>
-                      {info.details.map((detail, detailIndex) => (
+                      {info.details?.map((detail, detailIndex) => (
                         <p
                           key={detailIndex}
                           className="text-sm text-gray-600 leading-relaxed"

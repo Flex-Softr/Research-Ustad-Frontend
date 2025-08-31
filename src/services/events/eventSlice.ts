@@ -181,7 +181,7 @@ const eventSlice = createSlice({
         state.error = null;
       })
       .addCase(updateEvent.fulfilled, (state, action) => {
-        state.events = state.events.map((event) =>
+        state.events = state.events?.map((event) =>
           event._id === action.payload._id ? action.payload : event
         );
         state.isLoading = false;

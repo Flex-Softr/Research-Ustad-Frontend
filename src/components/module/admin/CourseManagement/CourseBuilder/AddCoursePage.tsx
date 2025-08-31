@@ -239,7 +239,7 @@ export default function AddCoursePage() {
         certificate: formData.certificate,
         lifetimeAccess: formData.lifetimeAccess,
         enrollLink: formData.enrollLink,
-        instructors: formData.instructors.map((instructor) => ({
+        instructors: formData.instructors?.map((instructor) => ({
           name: instructor.name,
           imageUrl: instructor.imageUrl || "", // Keep existing image URL if no new file
           specialization: instructor.specialization,

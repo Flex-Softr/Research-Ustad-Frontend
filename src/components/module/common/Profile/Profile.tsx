@@ -106,7 +106,7 @@ const Profile = () => {
                 )}`}
               >
                 {user.role.charAt(0).toUpperCase() +
-                  user.role.slice(1).replace(/_/g, " ")}
+                  user.role?.slice(1).replace(/_/g, " ")}
               </Badge>
             </div>
           )}
@@ -298,7 +298,7 @@ const Profile = () => {
                       ?.filter(
                         (expertise) => expertise && expertise.trim() !== ""
                       )
-                      .map((expertise, index) => (
+                      ?.map((expertise, index) => (
                         <span
                           key={index}
                           className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
@@ -326,7 +326,7 @@ const Profile = () => {
                   <ul className="space-y-2">
                     {user.awards
                       ?.filter((award) => award && award.trim() !== "")
-                      .map((award, index) => (
+                      ?.map((award, index) => (
                         <li key={index} className="flex items-start gap-2">
                           <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
                           <span className="text-gray-700">{award}</span>
@@ -362,7 +362,7 @@ const Profile = () => {
                           (conf.role && conf.role.trim() !== "") ||
                           (conf.topic && conf.topic.trim() !== "")
                       )
-                      .map((conference, index) => (
+                      ?.map((conference, index) => (
                         <div
                           key={index}
                           className="border rounded-lg p-4 bg-gray-50"

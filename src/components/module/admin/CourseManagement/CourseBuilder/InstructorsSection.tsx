@@ -30,7 +30,7 @@ export function InstructorsSection({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {instructors.map((instructor, i) => (
+        {instructors?.map((instructor, i) => (
           <div key={i} className="border rounded-lg p-4 space-y-4">
             <div className="flex justify-between items-center">
               <h4 className="font-medium">Instructor {i + 1}</h4>

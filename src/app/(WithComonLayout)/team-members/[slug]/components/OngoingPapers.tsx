@@ -99,7 +99,7 @@ const OngoingPapers = ({ member, paginatedData }: OngoingPapersProps) => {
     <Card className="rounded-none border-0">
       <CardContent>
       <div className="space-y-6">
-          {ongoingPapers.map((publication, index) => (
+          {ongoingPapers?.map((publication, index) => (
             <div
               key={publication._id || index}
               className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white/50"

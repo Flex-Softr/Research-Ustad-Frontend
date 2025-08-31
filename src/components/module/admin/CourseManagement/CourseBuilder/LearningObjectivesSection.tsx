@@ -25,7 +25,7 @@ export function LearningObjectivesSection({
         <CardTitle>What You Will Learn</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {objectives.map((objective, i) => (
+        {objectives?.map((objective, i) => (
           <div key={i} className="flex gap-2 items-start">
             <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
             <Input

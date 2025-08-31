@@ -28,7 +28,7 @@ const InstructorTab = ({ course }) => {
       </div>
 
       <div className="grid grid-cols-1 gap-6">
-        {instructors.map((instructor, index) => (
+        {instructors?.map((instructor, index) => (
           <div
             key={index}
             className="flex items-start gap-6 p-6 bg-gray-50 rounded-2xl"

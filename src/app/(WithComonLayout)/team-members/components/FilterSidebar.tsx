@@ -71,7 +71,7 @@ const FilterSidebar = ({
       icon: Users,
       count: members?.length,
     },
-    ...availableDesignations.map((designation) => ({
+    ...availableDesignations?.map((designation) => ({
       id: designation,
       label: formatDesignationLabel(designation),
       icon: getIconForDesignation(designation),
@@ -87,7 +87,7 @@ const FilterSidebar = ({
           Categories
         </h3>
         <div className="space-y-3">
-          {filterOptions.map((option) => (
+          {filterOptions?.map((option) => (
             <button
               key={option.id}
               onClick={() => onFilterChange(option.id)}

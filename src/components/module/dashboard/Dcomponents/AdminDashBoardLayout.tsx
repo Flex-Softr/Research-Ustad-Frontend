@@ -228,7 +228,7 @@ const AdminDashBoardLayout = () => {
 
         {/* Primary Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {primaryMetrics.map((metric, index) => (
+          {primaryMetrics?.map((metric, index) => (
             <Card
               key={index}
               className="border-0 shadow-sm hover:shadow-md transition-shadow bg-white"

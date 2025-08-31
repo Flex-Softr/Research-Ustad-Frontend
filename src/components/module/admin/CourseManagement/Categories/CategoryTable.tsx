@@ -70,13 +70,13 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   };
 
   // Get categories with calculated stats
-  const categoriesWithStats = categories.map(getCategoryStats);
+  const categoriesWithStats = categories?.map(getCategoryStats);
 
   // Get paginated categories
   const getPaginatedCategories = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return categoriesWithStats.slice(startIndex, endIndex);
+    return categoriesWithStats?.slice(startIndex, endIndex);
   };
 
   const totalPages = Math.ceil(categoriesWithStats?.length / itemsPerPage);
@@ -84,7 +84,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const currentPageCategoryIds = getPaginatedCategories().map(
+      const currentPageCategoryIds = getPaginatedCategories()?.map(
         (category) => category._id
       );
       setSelectedCategories(currentPageCategoryIds);
@@ -107,7 +107,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
 
     try {
       // Delete all selected categories
-      const deletePromises = selectedCategories.map(categoryId => 
+      const deletePromises = selectedCategories?.map(categoryId => 
         dispatch(deleteCategory(categoryId)).unwrap()
       );
       
@@ -280,7 +280,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedCategories.map((category) => (
+                {paginatedCategories?.map((category) => (
                   <TableRow key={category._id}>
                     <TableCell>
                       <Checkbox

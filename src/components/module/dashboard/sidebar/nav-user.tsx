@@ -59,7 +59,7 @@ export function NavUser() {
     if (name) {
       return name
         .split(" ")
-        .map((n) => n[0])
+        ?.map((n) => n[0])
         .join("")
         .toUpperCase();
     }

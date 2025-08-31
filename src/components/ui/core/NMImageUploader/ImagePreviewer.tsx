@@ -23,7 +23,7 @@ const ImagePreviewer = ({
 
   return (
     <div className={className}>
-      {imagePreview.map((preview, index) => (
+      {imagePreview?.map((preview, index) => (
         <div
           key={index}
           className="relative w-36 h-36 rounded-md overflow-hidden border border-dashed border-gray-300"

@@ -97,7 +97,7 @@ export default function EditDesignationModal({
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {DESIGNATION_OPTIONS.map((option) => (
+                {DESIGNATION_OPTIONS?.map((option) => (
                   <SelectItem key={option} value={option}>
                     {option}
                   </SelectItem>

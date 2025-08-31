@@ -15,7 +15,7 @@ const CourseTabs = ({ activeTab, setActiveTab }: CourseTabsProps) => {
   return (
     <div className="border-b border-gray-200">
       <nav className="flex space-x-8 px-8">
-        {tabs.map((tab) => {
+        {tabs?.map((tab) => {
           const Icon = tab.icon;
           return (
             <button

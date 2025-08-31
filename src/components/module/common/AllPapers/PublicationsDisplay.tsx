@@ -61,7 +61,7 @@ export default function PublicationsDisplay() {
 
   const formatAuthors = (authors: UserWithPublications['publications'][0]['authors']) => {
     if (!authors || authors?.length === 0) return "No authors listed";
-    return authors.map(author => {
+    return authors?.map(author => {
       if (author.user) {
         return author.user.fullName;
       }
@@ -71,7 +71,7 @@ export default function PublicationsDisplay() {
 
   const formatAuthorsWithRoles = (authors: UserWithPublications['publications'][0]['authors']) => {
     if (!authors || authors?.length === 0) return "No authors listed";
-    return authors.map(author => {
+    return authors?.map(author => {
       const name = author.user ? author.user.fullName : (author.name || "Unknown Author");
       return `${name} (${author.role})`;
     }).join(", ");

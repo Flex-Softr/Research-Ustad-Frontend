@@ -111,7 +111,7 @@ const FilterSection = ({
       ? filteredOptions
       : isExpanded
       ? filteredOptions
-      : filteredOptions.slice(0, 3);
+      : filteredOptions?.slice(0, 3);
   const showMoreButton = config.showMore && filteredOptions?.length > 3;
 
   if (filteredOptions?.length === 0) return null;
@@ -120,7 +120,7 @@ const FilterSection = ({
     <div className="mb-6">
       <h4 className="font-semibold text-gray-900 mb-3">{config.title}</h4>
       <div className="space-y-2">
-        {displayedOptions.map((option) => (
+        {displayedOptions?.map((option) => (
           <FilterButton
             key={option.id}
             option={option}
@@ -201,7 +201,7 @@ const FilterSidebar = ({
         { id: "all", name: "All", count: papers?.length },
         ...Array.from(
           new Set(papers?.map((paper) => paper.researchArea)?.filter(Boolean))
-        ).map((area) => ({
+        )?.map((area) => ({
           id: area,
           name: area,
           count: getFilterCount("category", area),
@@ -216,7 +216,7 @@ const FilterSidebar = ({
         { id: "all", name: "All Years", count: papers?.length },
         ...Array.from(new Set(papers?.map((paper) => paper.year.toString())))
           .sort((a, b) => parseInt(b) - parseInt(a))
-          .map((year) => ({
+          ?.map((year) => ({
             id: year,
             name: year,
             count: getFilterCount("year", year),
@@ -270,7 +270,7 @@ const FilterSidebar = ({
         </div>
 
         {/* Filter Sections */}
-        {filterConfigs.map((config) => (
+        {filterConfigs?.map((config) => (
           <FilterSection
             key={config.key}
             config={config}

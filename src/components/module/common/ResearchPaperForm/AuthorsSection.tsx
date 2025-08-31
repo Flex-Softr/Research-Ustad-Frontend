@@ -51,7 +51,7 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
       </div>
 
       <div className="space-y-4">
-        {authors.map((author, index) => (
+        {authors?.map((author, index) => (
           <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex-1">
               <Label className="text-sm text-gray-600 mb-2 block">

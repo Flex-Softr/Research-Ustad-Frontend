@@ -16,7 +16,7 @@ export function AwardsSection({
     <div className="space-y-4">
       <h4 className="text-sm font-semibold">Awards & Achievements</h4>
       <div className="space-y-3">
-        {awardsList.map((award, i) => (
+        {awardsList?.map((award, i) => (
           <div key={i} className="flex gap-2 items-start">
             <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
             <Input

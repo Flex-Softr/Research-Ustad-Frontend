@@ -25,7 +25,7 @@ const KeywordsSection: React.FC<KeywordsSectionProps> = ({
       </div>
       
       <div className="space-y-4">
-        {keywords.map((keyword, index) => (
+        {keywords?.map((keyword, index) => (
           <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
             <div className="flex-1">
               <Label className="text-sm text-gray-600 mb-2 block">

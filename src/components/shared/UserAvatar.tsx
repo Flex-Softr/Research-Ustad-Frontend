@@ -22,7 +22,7 @@ const UserAvatar = ({
   const getInitials = (fullName: string) => {
     return fullName
       .split(" ")
-      .map((n) => n[0])
+      ?.map((n) => n[0])
       .join("")
       .toUpperCase();
   };

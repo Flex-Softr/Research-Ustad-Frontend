@@ -29,13 +29,13 @@ export const InternationalConferenceGallery = ({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedConferences = conferences.slice(startIndex, endIndex);
+  const paginatedConferences = conferences?.slice(startIndex, endIndex);
 
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item) => (
             <div
               key={item}
               className="relative h-64 bg-gray-200 animate-pulse rounded-2xl overflow-hidden"
@@ -97,7 +97,7 @@ export const InternationalConferenceGallery = ({
 
       {/* Conferences Gallery */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {paginatedConferences.map((conference, index) => (
+        {paginatedConferences?.map((conference, index) => (
           <div
             key={conference._id}
             className="group relative h-64 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"

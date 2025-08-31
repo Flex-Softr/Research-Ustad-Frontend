@@ -82,7 +82,7 @@ const SingleResearchPaper = ({
           );
 
           // Limit to 3 related papers
-          setRelatedPapers(related.slice(0, 3));
+          setRelatedPapers(related?.slice(0, 3));
         }
       } catch (error) {
         console.error("Failed to load related papers:", error);
@@ -266,7 +266,7 @@ const SingleResearchPaper = ({
                       Keywords
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      {paper.keywords.map((keyword, index) => (
+                      {paper.keywords?.map((keyword, index) => (
                         <Badge
                           key={index}
                           variant="outline"

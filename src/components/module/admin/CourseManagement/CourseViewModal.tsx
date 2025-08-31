@@ -275,7 +275,7 @@ const CourseViewModal = ({
                 <CardTitle className="text-lg">Instructors</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {course.instructors.map((instructor, index) => (
+                {course.instructors?.map((instructor, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <div className="relative w-10 h-10 rounded-full overflow-hidden">
                       <Image
@@ -316,7 +316,7 @@ const CourseViewModal = ({
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {course.tags.map((tag, index) => (
+                  {course?.tags?.map((tag, index) => (
                     <Badge key={index} variant="secondary">
                       {tag}
                     </Badge>
@@ -334,7 +334,7 @@ const CourseViewModal = ({
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {course.whatYouWillLearn.map((item, index) => (
+                  {course?.whatYouWillLearn?.map((item, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
                       <span className="text-gray-700">{item}</span>
@@ -346,14 +346,14 @@ const CourseViewModal = ({
           )}
 
           {/* Requirements */}
-          {course.requirements && course.requirements?.length > 0 && (
+          {course?.requirements && course?.requirements?.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Requirements</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {course.requirements.map((requirement, index) => (
+                  {course?.requirements?.map((requirement, index) => (
                     <li key={index} className="flex items-start gap-2">
                       <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                       <span className="text-gray-700">{requirement}</span>

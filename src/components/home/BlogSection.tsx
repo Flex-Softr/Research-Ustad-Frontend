@@ -94,7 +94,7 @@ const LoadingState = () => (
         description="Stay informed with the latest trends, best practices, and insights from our data experts."
       />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 3 })?.map((_, index) => (
           <div
             key={index}
             className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse"
@@ -156,7 +156,7 @@ const BlogSection = () => {
   }
 
   // Get only 3 blogs
-  const displayBlogs = blogs.slice(0, 3);
+  const displayBlogs = blogs?.slice(0, 3);
 
   return (
     <section className="py-20 bg-white">
@@ -168,7 +168,7 @@ const BlogSection = () => {
 
         {/* Blog Grid - Only 3 items */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {displayBlogs.map((post, index) => (
+          {displayBlogs?.map((post, index) => (
             <BlogCard key={post._id || index} post={post} />
           ))}
         </div>

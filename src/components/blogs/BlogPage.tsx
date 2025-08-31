@@ -67,7 +67,7 @@ const BlogPage = () => {
       const totalPages = Math.ceil(total / itemsPerPage);
       const startIndex = (page - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const paginatedData = filteredData.slice(startIndex, endIndex);
+      const paginatedData = filteredData?.slice(startIndex, endIndex);
 
       // Update states
       setData(paginatedData);
@@ -86,9 +86,9 @@ const BlogPage = () => {
 
       const dynamicCategories: Category[] = [
         { _id: "all", name: "All Posts", blogCount: allData?.length },
-        ...Object.entries(categoryCounts).map(([id, count]) => ({
+        ...Object.entries(categoryCounts)?.map(([id, count]) => ({
           _id: id,
-          name: id.charAt(0).toUpperCase() + id.slice(1).replace(/-/g, " "),
+          name: id.charAt(0).toUpperCase() + id?.slice(1).replace(/-/g, " "),
           blogCount: count,
         })),
       ];
@@ -165,7 +165,7 @@ const BlogPage = () => {
                 </div>
 
                 <div className="space-y-2">
-                  {categories.map((category) => (
+                  {categories?.map((category) => (
                     <button
                       key={category._id}
                       onClick={() => handleCategoryChange(category._id)}
@@ -267,14 +267,14 @@ const BlogPage = () => {
                 <>
                   {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {Array.from({ length: itemsPerPage }).map((_, index) => (
+                      {Array.from({ length: itemsPerPage })?.map((_, index) => (
                         <BlogCardSkeleton key={index} />
                       ))}
                     </div>
                   ) : data?.length > 0 ? (
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {data.map((post) => (
+                        {data?.map((post) => (
                           <BlogCard key={post._id} post={post} />
                         ))}
                       </div>

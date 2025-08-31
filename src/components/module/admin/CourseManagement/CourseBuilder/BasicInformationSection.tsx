@@ -86,7 +86,7 @@ export function BasicInformationSection({
               disabled={isLoading}
             >
               <option value="">Select a category</option>
-              {activeCategories.map((category) => (
+              {activeCategories?.map((category) => (
                 <option key={category._id} value={category._id}>
                   {category.name}
                 </option>

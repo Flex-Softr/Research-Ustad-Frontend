@@ -34,7 +34,7 @@ const requiredEnvVars = {
 // Check for missing environment variables (only warn, don't throw)
 const missingEnvVars = Object.entries(requiredEnvVars)
   ?.filter(([_, value]) => !value)
-  .map(([key]) => key);
+  ?.map(([key]) => key);
 
 if (missingEnvVars?.length > 0) {
   console.warn(

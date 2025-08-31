@@ -107,7 +107,7 @@ const CategorySelection: React.FC<CategorySelectionProps> = ({
           disabled={isLoading}
         >
           <option value="">Select a category</option>
-          {allCategories.map((category, index) => (
+          {allCategories?.map((category, index) => (
             <option key={index} value={category.value}>
               {category.name}
             </option>

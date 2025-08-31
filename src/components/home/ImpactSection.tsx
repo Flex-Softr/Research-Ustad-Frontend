@@ -34,7 +34,7 @@ const ImpactSection = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {metrics.map((metric, index) => (
+          {metrics?.map((metric, index) => (
             <MetricCard key={index} value={metric.value} label={metric.label} />
           ))}
         </div>

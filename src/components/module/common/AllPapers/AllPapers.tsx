@@ -40,7 +40,7 @@ const AllPapers = ({ papers }: { papers: TPapers[] }) => {
         <PageTitle link={"home"} title={"Research Papers"} />
       </div>
       <div className="research_papers max-w-7xl mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {papers.map((paper: TPapers) => (
+        {papers?.map((paper: TPapers) => (
           <Card
             key={paper._id}
             className="max-w-sm shadow-lg rounded-lg bg-white"
@@ -53,7 +53,7 @@ const AllPapers = ({ papers }: { papers: TPapers[] }) => {
                 <p>
                   Authors:{" "}
                   {paper.authors
-                    .map((author: any) =>
+                    ?.map((author: any) =>
                       typeof author === "string"
                         ? author
                         : author?.name || "Unknown Author"

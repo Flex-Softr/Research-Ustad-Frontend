@@ -62,7 +62,7 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const currentPageCategoryIds = getPaginatedCategories().map(
+      const currentPageCategoryIds = getPaginatedCategories()?.map(
         (category) => category._id
       );
       setSelectedCategories(currentPageCategoryIds);
@@ -81,16 +81,16 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
 
   // Handle bulk delete
   const handleBulkDelete = async () => {
-    if (selectedCategories.length === 0) return;
+    if (selectedCategories?.length === 0) return;
 
     try {
       // Delete all selected categories
-      const deletePromises = selectedCategories.map(categoryId => 
+      const deletePromises = selectedCategories?.map(categoryId => 
         dispatch(deleteBlogCategory(categoryId)).unwrap()
       );
       
       await Promise.all(deletePromises);
-      toast.success(`Successfully deleted ${selectedCategories.length} blog categories`);
+      toast.success(`Successfully deleted ${selectedCategories?.length} blog categories`);
     } catch (error) {
       console.error("Error deleting blog categories:", error);
       toast.error("Failed to delete blog categories");
@@ -241,11 +241,11 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedCategories.map((category) => (
+                {paginatedCategories?.map((category) => (
                   <TableRow key={category._id}>
                     <TableCell>
                       <Checkbox
-                        checked={selectedCategories.includes(category._id)}
+                        checked={selectedCategories?.includes(category._id)}
                         onCheckedChange={(checked) =>
                           handleSelectCategory(category._id, checked as boolean)
                         }

@@ -46,7 +46,7 @@ const Profile = () => {
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-800">Research Areas</h3>
           <ul className="list-disc list-inside text-gray-600 text-md mt-2 space-y-1">
-            {profileData.research.map((topic, index) => (
+            {profileData.research?.map((topic, index) => (
               <li key={index}>{topic}</li>
             ))}
           </ul>

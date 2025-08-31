@@ -330,7 +330,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div className="px-4 py-6">
           <div className="w-full h-8 bg-gray-200 rounded-md animate-pulse mb-6"></div>
           <div className="space-y-4">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(6)]?.map((_, i) => (
               <div key={i} className="flex items-center space-x-3">
                 <div className="w-5 h-5 bg-gray-200 rounded-full animate-pulse"></div>
                 <div className="w-full h-4 bg-gray-200 rounded-md animate-pulse"></div>
@@ -349,12 +349,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ...adminRoute,
     navMain:
       user.role === "superAdmin"
-        ? adminRoute.navMain.map(item => {
+        ? adminRoute.navMain?.map(item => {
             // Add pending count to "Pending Research Paper" item
             if (item.title === "Manage Research Paper" && item.items) {
               return {
                 ...item,
-                items: item.items.map(subItem => {
+                items: item.items?.map(subItem => {
                   if (subItem.title === "Pending Research Paper") {
                     return {
                       ...subItem,
@@ -369,12 +369,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           })
         : adminRoute.navMain
             ?.filter((item) => item.title !== "SuperAdmin Management")
-            .map(item => {
+            ?.map(item => {
               // Add pending count to "Pending Research Paper" item
               if (item.title === "Manage Research Paper" && item.items) {
                 return {
                   ...item,
-                  items: item.items.map(subItem => {
+                  items: item.items?.map(subItem => {
                     if (subItem.title === "Pending Research Paper") {
                       return {
                         ...subItem,

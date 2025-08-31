@@ -42,7 +42,7 @@ const CoreValuesSection = () => {
         />
 
         <div className="grid md:grid-cols-3 gap-8">
-          {values.map((value, index) => (
+          {values?.map((value, index) => (
             <ValueCard
               key={index}
               title={value.title}

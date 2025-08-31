@@ -22,7 +22,7 @@ const TeamMembersGrid = ({
   const totalPages = Math.ceil(members?.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedMembers = members.slice(startIndex, endIndex);
+  const paginatedMembers = members?.slice(startIndex, endIndex);
 
   // Filter options for display
   const filterOptions = [
@@ -41,7 +41,7 @@ const TeamMembersGrid = ({
       {paginatedMembers?.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {paginatedMembers.map((member) => (
+            {paginatedMembers?.map((member) => (
               <TeamMemberCard key={member.id} member={member} />
             ))}
           </div>

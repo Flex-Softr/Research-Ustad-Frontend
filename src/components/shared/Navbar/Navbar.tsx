@@ -281,7 +281,7 @@ const Navbar = () => {
                     <div className="flex-1 overflow-y-auto">
                       <nav className="py-2">
                         {/* Main Menu Items */}
-                        {navLinks.map((link) => (
+                        {navLinks?.map((link) => (
                           <div
                             key={link.name}
                             className="border-b border-gray-100"
@@ -327,7 +327,7 @@ const Navbar = () => {
 
                           {isCategoryExpanded("researchWing") && (
                             <div className="bg-gray-50 px-5">
-                              {researchWingItems.map((item) => (
+                              {researchWingItems?.map((item) => (
                                 <Link
                                   key={item.name}
                                   href={item.href}

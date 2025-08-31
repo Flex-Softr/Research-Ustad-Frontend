@@ -156,7 +156,7 @@ const CreateBlogForm: React.FC<CreateBlogFormProps> = ({
             value: categoryValue,
             name:
               categoryName.charAt(0).toUpperCase() +
-              categoryName.slice(1).replace(/-/g, " "),
+              categoryName?.slice(1).replace(/-/g, " "),
           };
           // Note: Custom categories are no longer supported
         }

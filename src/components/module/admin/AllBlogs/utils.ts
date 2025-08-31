@@ -14,7 +14,7 @@ export const getPaginatedItems = <T>(
   if (!items || items?.length === 0) return [];
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  return items.slice(startIndex, endIndex);
+  return items?.slice(startIndex, endIndex);
 };
 
 // Calculate total pages

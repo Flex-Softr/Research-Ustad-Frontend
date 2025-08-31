@@ -32,7 +32,7 @@ const Breadcrumb = ({
               </>
             )}
 
-            {items.map((item, index) => (
+            {items?.map((item, index) => (
               <div key={index} className="flex items-center">
                 {index > 0 && (
                   <ChevronRight className="w-4 h-4 text-white/60" />

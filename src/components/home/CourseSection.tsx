@@ -137,7 +137,7 @@ const CoursesSection = () => {
 
           {/* Skeleton grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: 3 })?.map((_, index) => (
               <CourseCardSkeleton key={index} />
             ))}
           </div>
@@ -164,7 +164,7 @@ const CoursesSection = () => {
   }
 
   // Get featured courses (first 3 courses)
-  const featuredCourses = courses.slice(0, 3);
+  const featuredCourses = courses?.slice(0, 3);
 
   return (
     <section className="py-20 bg-gray-100">
@@ -175,7 +175,7 @@ const CoursesSection = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {featuredCourses.map((course) => (
+          {featuredCourses?.map((course) => (
             <div
               key={course._id}
               className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300"

@@ -22,7 +22,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {member.expertise.map((skill, index) => (
+              {member.expertise?.map((skill, index) => (
                 <Badge
                   key={index}
                   variant="outline"
@@ -47,7 +47,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {member.awards.map((award, index) => (
+              {member.awards?.map((award, index) => (
                 <div
                   key={index}
                   className="flex items-start gap-3 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200"
@@ -72,7 +72,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {member?.conferences.map((conference, index) => (
+              {member?.conferences?.map((conference, index) => (
                 <div
                   key={index}
                   className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"

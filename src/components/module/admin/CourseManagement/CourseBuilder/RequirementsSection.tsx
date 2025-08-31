@@ -26,7 +26,7 @@ export function RequirementsSection({
         <CardTitle>Requirements</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {requirements.map((requirement, i) => (
+        {requirements?.map((requirement, i) => (
           <div key={i} className="flex gap-2 items-start">
             <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
             <Input

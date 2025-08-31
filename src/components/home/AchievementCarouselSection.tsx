@@ -30,7 +30,7 @@ const AchievementCarouselSection = () => {
 
         if (response?.success && response?.data) {
           // Limit to 12 achievements for homepage
-          setAchievements(response.data.slice(0, 12));
+          setAchievements(response.data?.slice(0, 12));
         } else {
           setAchievements([]);
         }
@@ -55,7 +55,7 @@ const AchievementCarouselSection = () => {
             description="Celebrating the milestones and recognition that showcase our team's dedication and excellence in research and innovation."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: 4 })?.map((_, index) => (
               <div
                 key={index}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
@@ -99,7 +99,7 @@ const AchievementCarouselSection = () => {
             className="w-full"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
-              {achievements.map((achievement, index) => (
+              {achievements?.map((achievement, index) => (
                 <CarouselItem
                   key={achievement._id}
                   className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4"

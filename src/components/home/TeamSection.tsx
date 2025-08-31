@@ -116,7 +116,7 @@ const TeamSection = () => {
           Array.isArray(response.data)
         ) {
           // Transform API data to match TeamMember interface
-          const transformedMembers = response.data.map((member: any) => {
+          const transformedMembers = response.data?.map((member: any) => {
             // Normalize designation to capitalized format
             let normalizedDesignation = member.designation || member.role || "";
             
@@ -138,11 +138,11 @@ const TeamSection = () => {
 
           // Generate categories dynamically from the data using designation
           const uniqueCategories = [
-            ...new Set(transformedMembers.map((m) => m.category)),
+            ...new Set(transformedMembers?.map((m) => m.category)),
           ];
           const dynamicCategories = [
             { id: "all", label: "All" },
-            ...uniqueCategories.map((cat) => ({
+            ...uniqueCategories?.map((cat) => ({
               id: String(cat),
               label: getDesignationDisplayName(String(cat)),
             })),
@@ -152,7 +152,7 @@ const TeamSection = () => {
           setMembers(transformedMembers);
         } else if (response?.data && Array.isArray(response.data)) {
           // If no success flag but data exists
-          const transformedMembers = response.data.map((member: any) => {
+          const transformedMembers = response.data?.map((member: any) => {
             // Normalize designation to capitalized format
             let normalizedDesignation = member.designation || member.role || "";
             
@@ -174,11 +174,11 @@ const TeamSection = () => {
 
           // Generate categories dynamically from the data using designation
           const uniqueCategories = [
-            ...new Set(transformedMembers.map((m) => m.category)),
+            ...new Set(transformedMembers?.map((m) => m.category)),
           ];
           const dynamicCategories = [
             { id: "all", label: "All" },
-            ...uniqueCategories.map((cat) => ({
+            ...uniqueCategories?.map((cat) => ({
               id: String(cat),
               label: getDesignationDisplayName(String(cat)),
             })),
@@ -257,7 +257,7 @@ const TeamSection = () => {
         </div>
         {/* Team Members Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredMembers.map((member) => (
+          {filteredMembers?.map((member) => (
             <div
               key={member.id}
               className="bg-white shadow-xl rounded-lg border border-gray-100 text-center"

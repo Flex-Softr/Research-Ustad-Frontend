@@ -250,12 +250,12 @@ const SuperAdminManagement = () => {
                 <SelectTrigger className="w-full">
                   <SelectValue>
                     {selectedUserId
-                      ? users.find((u) => u._id === selectedUserId)?.fullName
+                      ? users?.find((u) => u._id === selectedUserId)?.fullName
                       : "Choose a user to promote to SuperAdmin"}
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {users.map((user) => (
+                  {users?.map((user) => (
                     <SelectItem key={user._id} value={user._id}>
                       <div className="flex items-center gap-2">
                         <User className="h-4 w-4" />
@@ -280,7 +280,7 @@ const SuperAdminManagement = () => {
                 </div>
                 <div className="flex items-center gap-3">
                   <UserAvatar
-                    src={users.find((u) => u._id === selectedUserId)?.image}
+                    src={users?.find((u) => u._id === selectedUserId)?.image}
                     alt={users.find((u) => u._id === selectedUserId)?.fullName || ""}
                     name={users.find((u) => u._id === selectedUserId)?.fullName || ""}
                     size="md"
@@ -288,12 +288,12 @@ const SuperAdminManagement = () => {
                   <div>
                     <p className="text-sm text-blue-700">
                       <strong>
-                        {users.find((u) => u._id === selectedUserId)?.fullName}
+                        {users?.find((u) => u._id === selectedUserId)?.fullName}
                       </strong>{" "}
                       will be promoted to SuperAdmin role.
                     </p>
                     <p className="text-xs text-blue-600">
-                      {users.find((u) => u._id === selectedUserId)?.email}
+                      {users?.find((u) => u._id === selectedUserId)?.email}
                     </p>
                   </div>
                 </div>

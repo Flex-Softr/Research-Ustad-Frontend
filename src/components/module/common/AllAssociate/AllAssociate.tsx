@@ -25,7 +25,7 @@ export default function AllAssociates(data:TResearchAssociate[]) {
     <section className="container mx-auto py-12">
       <h2 className="text-4xl font-bold text-center mb-10">Team Member</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {associates.map((associate, index) => (
+        {associates?.map((associate, index) => (
           <Card key={index} className="flex items-center p-4 bg-white shadow-md rounded-lg">
             <Image
               src={associate.img}

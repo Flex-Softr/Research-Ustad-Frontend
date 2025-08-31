@@ -96,7 +96,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
         {/* Page Numbers */}
         <div className="flex items-center gap-1">
-          {generatePageNumbers().map((page) => (
+          {generatePageNumbers()?.map((page) => (
             <button
               key={page}
               onClick={() => handlePageChange(page)}

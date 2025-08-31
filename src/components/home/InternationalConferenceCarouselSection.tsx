@@ -30,7 +30,7 @@ const InternationalConferenceCarouselSection = () => {
 
         if (response?.success && response?.data) {
           // Limit to 12 conferences for homepage
-          setConferences(response.data.slice(0, 12));
+          setConferences(response.data?.slice(0, 12));
         } else {
           setConferences([]);
         }
@@ -55,7 +55,7 @@ const InternationalConferenceCarouselSection = () => {
             description="Exploring global research collaborations and academic excellence through international conferences and symposiums."
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: 4 })?.map((_, index) => (
               <div
                 key={index}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
@@ -99,7 +99,7 @@ const InternationalConferenceCarouselSection = () => {
             className="w-full"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
-              {conferences.map((conference, index) => (
+              {conferences?.map((conference, index) => (
                 <CarouselItem
                   key={conference._id}
                   className="pl-2 md:pl-4 basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4"

@@ -118,7 +118,7 @@ const ManageInternationalConferences = ({
       {/* Conferences Grid */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
+          {[1, 2, 3, 4, 5, 6]?.map((item) => (
             <Card
               key={item}
               className="overflow-hidden border-0 shadow-lg bg-white"
@@ -161,7 +161,7 @@ const ManageInternationalConferences = ({
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredConferences.map((conference, index) => (
+          {filteredConferences?.map((conference, index) => (
             <Card
               key={conference._id}
               className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white flex flex-col h-full"

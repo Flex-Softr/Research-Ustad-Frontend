@@ -77,7 +77,7 @@ const OverviewTab = ({ course }) => {
           What you'll learn
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {(course.whatYouWillLearn || []).map((item, index) => (
+          {(course.whatYouWillLearn || [])?.map((item, index) => (
             <div key={index} className="flex items-start gap-3">
               <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
               <span className="text-gray-700">{item}</span>
@@ -89,7 +89,7 @@ const OverviewTab = ({ course }) => {
       <div>
         <h3 className="text-xl font-bold text-gray-900 mb-4">Requirements</h3>
         <ul className="space-y-2">
-          {(course.requirements || []).map((req, index) => (
+          {(course.requirements || [])?.map((req, index) => (
             <li key={index} className="flex items-start gap-3">
               <div className="w-2 h-2 bg-brand-secondary rounded-full mt-2 flex-shrink-0"></div>
               <span className="text-gray-700">{req}</span>
@@ -103,7 +103,7 @@ const OverviewTab = ({ course }) => {
           Course Features
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {courseFeatures.map((feature, index) => {
+          {courseFeatures?.map((feature, index) => {
             const IconComponent = getIconComponent(feature.icon);
 
             return (

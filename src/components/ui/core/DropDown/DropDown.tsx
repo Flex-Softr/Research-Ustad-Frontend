@@ -82,7 +82,7 @@ export function DroopDown() {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="w-[200px] bg-white ">
-              {researchWingItems.map((item, index) => (
+              {researchWingItems?.map((item, index) => (
                 <ListItem
                   key={item.name}
                   title={item.name}

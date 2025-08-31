@@ -98,7 +98,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
             // Set authors and keywords - handle both old and new formats
             let authors: Author[];
             if (paperData.authors && paperData.authors?.length > 0) {
-              authors = paperData.authors.map((author: any) => {
+              authors = paperData.authors?.map((author: any) => {
                 if (typeof author === 'string') {
                   // Old format: just a string
                   return { name: author, role: "Author", isRegisteredUser: false };

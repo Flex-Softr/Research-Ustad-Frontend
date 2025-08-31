@@ -46,7 +46,7 @@ const Blogs = ({ member, paginatedData }: BlogsProps) => {
     <Card className="rounded-none border-0">
       <CardContent className="">
         <div className="space-y-6">
-          {blogs.map((blog, index) => (
+          {blogs?.map((blog, index) => (
             <div
               key={blog._id || blog.id || index}
               className="p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-all duration-300 bg-white"

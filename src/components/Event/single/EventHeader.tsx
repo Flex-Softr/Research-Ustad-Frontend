@@ -55,7 +55,7 @@ const EventHeader = ({ event }: EventHeaderProps) => {
       {/* Tags */}
       {event.tags && event.tags?.length > 0 && (
         <div className="flex flex-wrap gap-2 pt-2">
-          {event.tags.map((tag, index) => (
+          {event.tags?.map((tag, index) => (
             <Badge
               key={index}
               variant="outline"

@@ -61,7 +61,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
             new Date(b.publishedDate || b.createdAt).getTime() -
             new Date(a.publishedDate || a.createdAt).getTime()
         )
-        .slice(0, 5);
+        ?.slice(0, 5);
       setLatestPosts(latest);
     }
   }, [blogs, id]);
@@ -106,7 +106,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
             <div className="lg:w-80">
               <div className="animate-pulse space-y-4">
                 <div className="h-6 bg-gray-300 rounded w-32"></div>
-                {Array.from({ length: 5 }).map((_, index) => (
+                {Array.from({ length: 5 })?.map((_, index) => (
                   <div
                     key={index}
                     className="h-20 bg-gray-300 rounded-lg"
@@ -273,7 +273,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
 
               <div className="">
                 {latestPosts?.length > 0 ? (
-                  latestPosts.map((latestPost) => (
+                  latestPosts?.map((latestPost) => (
                     <Link
                       key={latestPost._id}
                       href={`/blog/${latestPost._id}`}

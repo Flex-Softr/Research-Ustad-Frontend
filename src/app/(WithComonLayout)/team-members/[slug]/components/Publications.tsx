@@ -39,7 +39,7 @@ const Publications = ({ member, paginatedData }: PublicationsProps) => {
       <CardContent>
         
         <div className="space-y-6">
-          {publishedPapers.map((publication, index) => (
+          {publishedPapers?.map((publication, index) => (
             <div
               key={publication._id || index}
               className="p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white/50"

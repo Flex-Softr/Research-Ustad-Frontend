@@ -109,7 +109,7 @@ const ResearchPapersPage = ({
   const paginatedPapers = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredPapers.slice(startIndex, endIndex);
+    return filteredPapers?.slice(startIndex, endIndex);
   }, [filteredPapers, currentPage, itemsPerPage]);
 
   const totalPages = Math.ceil(filteredPapers?.length / itemsPerPage);
@@ -160,7 +160,7 @@ const ResearchPapersPage = ({
       <Breadcrumb
         items={[
           {
-            label: initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus.slice(1)} Research Papers` : "Research Papers",
+            label: initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus?.slice(1)} Research Papers` : "Research Papers",
           },
         ]}
       />
@@ -185,7 +185,7 @@ const ResearchPapersPage = ({
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-2">
                 <h2 className="text-xl font-bold text-gray-900">
-                  {initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus.slice(1)} Research Papers` : "Research Papers"}
+                  {initialStatus ? `${initialStatus.charAt(0).toUpperCase() + initialStatus?.slice(1)} Research Papers` : "Research Papers"}
                 </h2>
                 <span className="px-3 py-1 bg-brand-secondary/10 text-brand-secondary rounded-full text-sm font-semibold">
                   {filteredPapers?.length} papers

@@ -62,7 +62,7 @@ const ResearchStats = ({ member }: ResearchStatsProps) => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
+          {stats?.map((stat, index) => (
             <div
               key={index}
               className={`p-4 rounded-lg border ${stat.bgColor} ${stat.borderColor} text-center`}

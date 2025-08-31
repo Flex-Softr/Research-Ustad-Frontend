@@ -123,7 +123,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
       {/* Achievements Grid */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
+          {[1, 2, 3, 4, 5, 6]?.map((item) => (
             <Card
               key={item}
               className="animate-pulse overflow-hidden border-0 shadow-lg"
@@ -175,7 +175,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredAchievements.map((achievement, index) => (
+          {filteredAchievements?.map((achievement, index) => (
             <Card
               key={achievement._id}
               className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 bg-white flex flex-col h-full"

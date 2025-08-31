@@ -79,7 +79,7 @@ const AllCoursesTable = ({
   const getPaginatedCourses = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return courses.slice(startIndex, endIndex);
+    return courses?.slice(startIndex, endIndex);
   };
 
   const totalPages = Math.ceil(courses?.length / itemsPerPage);
@@ -87,7 +87,7 @@ const AllCoursesTable = ({
   // Handle bulk selection
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const currentPageCourseIds = getPaginatedCourses().map(
+      const currentPageCourseIds = getPaginatedCourses()?.map(
         (course) => course._id
       );
       setSelectedCourses(currentPageCourseIds);
@@ -113,7 +113,7 @@ const AllCoursesTable = ({
   const confirmBulkDelete = async () => {
     try {
       // Delete all selected courses
-      const deletePromises = selectedCourses.map((courseId) =>
+      const deletePromises = selectedCourses?.map((courseId) =>
         dispatch(deleteCourse(courseId)).unwrap()
       );
 
@@ -206,7 +206,7 @@ const AllCoursesTable = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {getPaginatedCourses().map((course, index) => {
+                {getPaginatedCourses()?.map((course, index) => {
                   const isSelected = selectedCourses.includes(course._id);
                   const enrollmentPercentage = Math.round(
                     (course.enrolled / course.capacity) * 100

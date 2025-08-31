@@ -253,7 +253,7 @@ const AllBlogsTable = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedBlogs.map((blog) => (
+                {paginatedBlogs?.map((blog) => (
                   <BlogTableRow
                     key={blog._id || "temp-key"}
                     blog={blog}

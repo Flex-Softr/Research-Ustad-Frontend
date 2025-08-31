@@ -123,7 +123,7 @@ const EventContent = ({ event }: EventContentProps) => {
              <h3 style="font-size: 1.125rem; font-weight: 500; color: #374151; margin-bottom: 0.75rem;">Event Day</h3>
              <ul style="margin: 0; padding: 0; list-style: none;">
                ${sessions
-                 .map(
+                 ?.map(
                    (session) => `
                  <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background-color: white; border-radius: 0.5rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); margin-bottom: 0.75rem;">
                    <div style="display: flex; align-items: center;">
@@ -170,7 +170,7 @@ const EventContent = ({ event }: EventContentProps) => {
              }</h3>
              <ul style="margin: 0; padding: 0; list-style: none;">
                ${sessions
-                 .map(
+                 ?.map(
                    (session) => `
                  <li style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; background-color: white; border-radius: 0.5rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); margin-bottom: 0.75rem;">
                    <div style="display: flex; align-items: center;">
@@ -296,7 +296,7 @@ const EventContent = ({ event }: EventContentProps) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {event.speakers.map((speaker, index) => (
+            {event.speakers?.map((speaker, index) => (
               <div
                 key={index}
                 className="flex items-start space-x-4 p-4 rounded-lg bg-gray-50/50"

@@ -94,7 +94,7 @@ const Members = ({ data: initialData }: MembersProps) => {
     // Update the local data immediately for instant feedback
     if (selectedMember && updatedDesignation) {
       setData((prevData) =>
-        prevData.map((member) =>
+        prevData?.map((member) =>
           member._id === selectedMember._id
             ? { ...member, designation: updatedDesignation }
             : member

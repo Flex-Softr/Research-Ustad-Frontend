@@ -52,7 +52,7 @@ const CurriculumTab = ({ course }) => {
 
             <h3>What You'll Learn</h3>
             <ul>
-              {(course.whatYouWillLearn || []).map((item, index) => (
+              {(course.whatYouWillLearn || [])?.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
             </ul>
@@ -63,14 +63,14 @@ const CurriculumTab = ({ course }) => {
               modules, each focusing on specific aspects of the subject matter:
             </p>
 
-            {(course.modules || []).map((module, index) => (
+            {(course.modules || [])?.map((module, index) => (
               <div key={index} className="mb-6 p-4 bg-gray-50 rounded-lg">
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">
                   Module {index + 1}: {module.title}
                 </h4>
                 <p className="text-gray-600 mb-3">{module.description}</p>
                 <ul className="space-y-1">
-                  {module.lessons.map((lesson, lessonIndex) => (
+                  {module.lessons?.map((lesson, lessonIndex) => (
                     <li
                       key={lessonIndex}
                       className="flex items-center gap-2 text-sm"
@@ -92,7 +92,7 @@ const CurriculumTab = ({ course }) => {
             <h3>Learning Outcomes</h3>
             <p>By the end of this course, you will have:</p>
             <ul>
-              {(course.learningOutcomes || []).map((outcome, index) => (
+              {(course.learningOutcomes || [])?.map((outcome, index) => (
                 <li key={index}>{outcome}</li>
               ))}
             </ul>

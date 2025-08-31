@@ -79,7 +79,7 @@ const UserDashBoardLayout = () => {
         setUser(userResponse?.data || null);
         setRecentPapers(
           Array.isArray(papersResponse?.data)
-            ? papersResponse.data.slice(0, 5)
+            ? papersResponse?.data?.slice(0, 5)
             : []
         );
 
@@ -89,7 +89,7 @@ const UserDashBoardLayout = () => {
           blogsResponse.success &&
           Array.isArray(blogsResponse.data)
         ) {
-          setRecentBlogs(blogsResponse.data.slice(0, 3));
+          setRecentBlogs(blogsResponse?.data?.slice(0, 3));
         } else {
           console.warn(
             "Blogs response is not in expected format:",
@@ -113,7 +113,7 @@ const UserDashBoardLayout = () => {
       <div className="space-y-6">
         <div className="h-8 bg-gray-200 rounded-md animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[...Array(4)].map((_, i) => (
+          {[...Array(4)]?.map((_, i) => (
             <div
               key={i}
               className="h-32 bg-gray-200 rounded-xl animate-pulse"
@@ -261,7 +261,7 @@ const UserDashBoardLayout = () => {
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
+        {stats?.map((stat, index) => (
           <div
             key={index}
             className={`relative p-6 rounded-2xl border ${stat.borderColor} ${stat.bgColor} ${stat.hoverBg} transition-all duration-300 transform hover:scale-105 hover:shadow-lg group cursor-pointer`}
@@ -299,7 +299,7 @@ const UserDashBoardLayout = () => {
               Quick Actions
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {quickActions.map((action, index) => (
+              {quickActions?.map((action, index) => (
                 <Link
                   key={index}
                   href={action.href}
@@ -341,7 +341,7 @@ const UserDashBoardLayout = () => {
             </div>
             <div className="space-y-4">
               {recentPapers?.length > 0 ? (
-                recentPapers.map((paper) => (
+                recentPapers?.map((paper) => (
                   <div
                     key={paper._id}
                     className="p-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-all duration-300 transform hover:scale-[1.02] group"
@@ -353,7 +353,7 @@ const UserDashBoardLayout = () => {
                         </h3>
                         <p className="text-sm text-gray-600 mt-1">
                           {paper.authors
-                            .map((author: any) =>
+                            ?.map((author: any) =>
                               typeof author === "string"
                                 ? author
                                 : author?.name || "Unknown Author"

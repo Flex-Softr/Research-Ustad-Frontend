@@ -74,7 +74,7 @@ const Achievement = () => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedAchievements = achievements.slice(startIndex, endIndex);
+  const paginatedAchievements = achievements?.slice(startIndex, endIndex);
 
   // Reset to first page when achievements change
   useEffect(() => {
@@ -85,7 +85,7 @@ const Achievement = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9]?.map((item) => (
             <div
               key={item}
               className="relative h-64 bg-gray-200 animate-pulse rounded-2xl overflow-hidden"
@@ -146,7 +146,7 @@ const Achievement = () => {
 
       {/* Achievements Gallery */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {paginatedAchievements.map((achievement, index) => (
+        {paginatedAchievements?.map((achievement, index) => (
           <div
             key={achievement._id}
             className="group relative h-64 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer"
