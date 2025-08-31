@@ -303,7 +303,7 @@ const MyAllBlog = () => {
               </p>
               <Button
                 onClick={handleCreateBlog}
-                className="flex items-center gap-2 cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer bg-brand-primary hover:bg-brand-primary/80"
               >
                 <Plus className="w-4 h-4" />
                 Create Your First Blog

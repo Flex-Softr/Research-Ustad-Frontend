@@ -58,7 +58,7 @@ export function DroopDown() {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/") && "text-brand-secondary font-semibold "
+                isActive("/") && "text-brand-secondary font-semibold bg-gray-100"
               )}
             >
               Home
@@ -67,15 +67,15 @@ export function DroopDown() {
         </NavigationMenuItem>
 
         {/* Research Wing Dropdown */}
-        <NavigationMenuItem className="cursor-pointer hover:text-brand-secondary">
+        <NavigationMenuItem className="cursor-pointer">
           <NavigationMenuTrigger
             className={cn(
-              "hover:text-brand-secondary focus:text-brand-secondary",
+              "hover:!text-brand-secondary focus:!text-brand-secondary",
               (isActive("/published") ||
                 isActive("/ongoing-projects") ||
                 isActive("/international-conferences") ||
                 isActive("/achievements")) &&
-                "text-brand-secondary font-semibold"
+                "text-brand-secondary font-semibold bg-gray-100"
             )}
           >
             Research Wing
@@ -101,7 +101,7 @@ export function DroopDown() {
                 navigationMenuTriggerStyle(),
                 "hover:text-brand-secondary focus:text-brand-secondary",
                 isActive("/team-members") &&
-                  "text-brand-secondary font-semibold"
+                  "text-brand-secondary font-semibold bg-gray-100"
               )}
             >
               Team Member
@@ -114,7 +114,7 @@ export function DroopDown() {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/blog") && "text-brand-secondary font-semibold"
+                isActive("/blog") && "text-brand-secondary font-semibold bg-gray-100"
               )}
             >
               Blog
@@ -127,7 +127,7 @@ export function DroopDown() {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/course") && "text-brand-secondary font-semibold"
+                isActive("/course") && "text-brand-secondary font-semibold bg-gray-100"
               )}
             >
               Courses
@@ -140,7 +140,7 @@ export function DroopDown() {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/event") && "text-brand-secondary font-semibold"
+                isActive("/event") && "text-brand-secondary font-semibold bg-gray-100"
               )}
             >
               Events
@@ -153,7 +153,7 @@ export function DroopDown() {
               className={cn(
                 navigationMenuTriggerStyle(),
                 "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/contact") && "text-brand-secondary font-semibold"
+                isActive("/contact") && "text-brand-secondary font-semibold bg-gray-100"
               )}
             >
               Contact Us
@@ -174,17 +174,17 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink className="rounded-none" asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none p-3 leading-none no-underline  outline-none transition-colors hover:bg-gray-50 rounded-none",
-            !isLast && "border-b border-gray-300 ",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm  text-black">{title}</div>
-        </a>
+                  <a
+            ref={ref}
+            className={cn(
+              "block select-none p-3 leading-none no-underline  outline-none transition-colors  rounded-none",
+              !isLast && "border-b border-gray-300 ",
+              className
+            )}
+            {...props}
+          >
+            <div className="text-sm text-black hover:text-brand-secondary transition-colors">{title}</div>
+          </a>
       </NavigationMenuLink>
     </li>
   );

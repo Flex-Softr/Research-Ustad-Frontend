@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { deleteCategory, fetchCategories } from "@/services/categories/categoriesSlice";
+import {
+  deleteCategory,
+  fetchCategories,
+} from "@/services/categories/categoriesSlice";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -65,7 +68,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
       courseCount: category.courseCount || 0,
       totalEnrollments: category.totalEnrollments || 0,
       averageRating: category.averageRating || 0,
-      totalRevenue: category.totalRevenue || 0
+      totalRevenue: category.totalRevenue || 0,
     };
   };
 
@@ -107,12 +110,14 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
 
     try {
       // Delete all selected categories
-      const deletePromises = selectedCategories?.map(categoryId => 
+      const deletePromises = selectedCategories?.map((categoryId) =>
         dispatch(deleteCategory(categoryId)).unwrap()
       );
-      
+
       await Promise.all(deletePromises);
-      toast.success(`Successfully deleted ${selectedCategories?.length} categories`);
+      toast.success(
+        `Successfully deleted ${selectedCategories?.length} categories`
+      );
     } catch (error) {
       console.error("Error deleting categories:", error);
       toast.error("Failed to delete categories");
@@ -169,9 +174,18 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     selectedCategories?.length === paginatedCategories?.length;
 
   // Calculate overall statistics
-  const totalCourses = categoriesWithStats?.reduce((sum, cat) => sum + cat.courseCount, 0);
-  const totalEnrollments = categoriesWithStats?.reduce((sum, cat) => sum + cat.totalEnrollments, 0);
-  const totalRevenue = categoriesWithStats?.reduce((sum, cat) => sum + cat.totalRevenue, 0);
+  const totalCourses = categoriesWithStats?.reduce(
+    (sum, cat) => sum + cat.courseCount,
+    0
+  );
+  const totalEnrollments = categoriesWithStats?.reduce(
+    (sum, cat) => sum + cat.totalEnrollments,
+    0
+  );
+  const totalRevenue = categoriesWithStats?.reduce(
+    (sum, cat) => sum + cat.totalRevenue,
+    0
+  );
 
   return (
     <div className="space-y-6">
@@ -182,8 +196,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
             <div className="flex items-center gap-3">
               <BookOpen className="w-8 h-8 text-blue-600" />
               <div>
-                <p className="text-sm font-medium text-blue-600">Total Courses</p>
-                <p className="text-2xl font-bold text-blue-900">{totalCourses}</p>
+                <p className="text-sm font-medium text-blue-600">
+                  Total Courses
+                </p>
+                <p className="text-2xl font-bold text-blue-900">
+                  {totalCourses}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -193,8 +211,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
             <div className="flex items-center gap-3">
               <Users className="w-8 h-8 text-green-600" />
               <div>
-                <p className="text-sm font-medium text-green-600">Total Enrollments</p>
-                <p className="text-2xl font-bold text-green-900">{totalEnrollments?.toLocaleString()}</p>
+                <p className="text-sm font-medium text-green-600">
+                  Total Enrollments
+                </p>
+                <p className="text-2xl font-bold text-green-900">
+                  {totalEnrollments?.toLocaleString()}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -206,8 +228,12 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                 <span className="text-white text-sm font-bold">$</span>
               </div>
               <div>
-                <p className="text-sm font-medium text-purple-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-purple-900">${totalRevenue?.toLocaleString()}</p>
+                <p className="text-sm font-medium text-purple-600">
+                  Total Revenue
+                </p>
+                <p className="text-2xl font-bold text-purple-900">
+                  ${totalRevenue?.toLocaleString()}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -258,125 +284,154 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
-                    <Checkbox
-                      checked={isAllSelected}
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead>
-                  <TableHead>Category Name</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Courses</TableHead>
-                  <TableHead>Enrollments</TableHead>
-                  <TableHead>Avg Rating</TableHead>
-                  <TableHead>Revenue</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Created</TableHead>
-                  <TableHead className="w-12">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {paginatedCategories?.map((category) => (
-                  <TableRow key={category._id}>
-                    <TableCell>
+          {categoriesWithStats?.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <BookOpen className="h-10 w-10 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                No Categories Found
+              </h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                There are no course categories in the system yet. 
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-12">
                       <Checkbox
-                        checked={selectedCategories.includes(category._id)}
-                        onCheckedChange={(checked) =>
-                          handleSelectCategory(category._id, checked as boolean)
-                        }
+                        checked={isAllSelected}
+                        onCheckedChange={handleSelectAll}
                       />
-                    </TableCell>
-                    <TableCell>
-                      <div className="font-medium text-gray-900">
-                        {category.name}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm text-gray-600">
-                        {category.description  ?.replace(/<[^>]*>/g, "")
-                                .substring(0, 10) || "No description"}...
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4 text-brand-secondary" />
-                        <span className="font-medium">
-                          {category.courseCount}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-brand-secondary" />
-                        <span className="font-medium">
-                          {category.totalEnrollments?.toLocaleString()}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
-                        <span className="text-yellow-500">★</span>
-                        <span className="font-medium">
-                          {category.averageRating}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="font-medium text-green-600">
-                        ${category.totalRevenue?.toLocaleString()}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        category.status === 'active' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {category.status}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm text-gray-600">
-                        {new Date(category.createdAt).toLocaleDateString()}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="cursor-pointer">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem className="cursor-pointer"
-                            onClick={() => {
-                              setTimeout(() => onEditCategory(category), 0);
-                            }}
-                          >
-                            <Edit className="w-4 h-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setTimeout(() => handleDeleteCategory(category), 0);
-                            }}
-                            className="text-red-600 cursor-pointer"
-                          >
-                            <Trash2 className="w-4 h-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
+                    </TableHead>
+                    <TableHead>Category Name</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>Courses</TableHead>
+                    <TableHead>Enrollments</TableHead>
+                    <TableHead>Avg Rating</TableHead>
+                    <TableHead>Revenue</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Created</TableHead>
+                    <TableHead className="w-12">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                </TableHeader>
+                <TableBody>
+                  {paginatedCategories?.map((category) => (
+                    <TableRow key={category._id}>
+                      <TableCell>
+                        <Checkbox
+                          checked={selectedCategories.includes(category._id)}
+                          onCheckedChange={(checked) =>
+                            handleSelectCategory(
+                              category._id,
+                              checked as boolean
+                            )
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium text-gray-900">
+                          {category.name}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm text-gray-600">
+                          {category.description
+                            ?.replace(/<[^>]*>/g, "")
+                            .substring(0, 10) || "No description"}
+                          ...
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <BookOpen className="w-4 h-4 text-brand-secondary" />
+                          <span className="font-medium">
+                            {category.courseCount}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4 text-brand-secondary" />
+                          <span className="font-medium">
+                            {category.totalEnrollments?.toLocaleString()}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1">
+                          <span className="text-yellow-500">★</span>
+                          <span className="font-medium">
+                            {category.averageRating}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium text-green-600">
+                          ${category.totalRevenue?.toLocaleString()}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            category.status === "active"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {category.status}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm text-gray-600">
+                          {new Date(category.createdAt).toLocaleDateString()}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="cursor-pointer"
+                            >
+                              <MoreHorizontal className="w-4 h-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              className="cursor-pointer"
+                              onClick={() => {
+                                setTimeout(() => onEditCategory(category), 0);
+                              }}
+                            >
+                              <Edit className="w-4 h-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                setTimeout(
+                                  () => handleDeleteCategory(category),
+                                  0
+                                );
+                              }}
+                              className="text-red-600 cursor-pointer"
+                            >
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
 
           {/* Pagination */}
           {categoriesWithStats?.length > 10 && (

@@ -28,6 +28,7 @@ import {
   Users,
   Star,
   Calendar,
+  Plus,
 } from "lucide-react";
 import FallbackImage from "@/components/shared/FallbackImage";
 import { AllCoursesTableProps, Course } from "@/type";
@@ -38,6 +39,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { fetchCourses, deleteCourse } from "@/services/courses/coursesSlice";
 import { fetchCategories } from "@/services/categories/categoriesSlice";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const AllCoursesTable = ({
   onEditCourse,
@@ -182,160 +184,185 @@ const AllCoursesTable = ({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12">
-                    <Checkbox
-                      checked={
-                        selectedCourses?.length ===
-                          getPaginatedCourses()?.length &&
-                        getPaginatedCourses()?.length > 0
-                      }
-                      onCheckedChange={handleSelectAll}
-                    />
-                  </TableHead>
-                  <TableHead>Course</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Level</TableHead>
-                  <TableHead>Enrolled</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="w-12">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {getPaginatedCourses()?.map((course, index) => {
-                  const isSelected = selectedCourses.includes(course._id);
-                  const enrollmentPercentage = Math.round(
-                    (course.enrolled / course.capacity) * 100
-                  );
+        {courses?.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Calendar className="h-10 w-10 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                No Courses Found
+              </h3>
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
+                There are no courses in the system yet. Create your first course to get started!
+              </p>
+              <div className="flex items-center justify-center gap-4">
+               
+                <Link href="/admin/dashboard/managecourse/add-course">
+                <Button
+                  className="flex items-center gap-2 bg-brand-primary hover:bg-brand-primary/90"
+                >
+                  <Plus className="w-4 h-4" />
+                  Create First Course
+                </Button>
+                </Link>
+              
+              </div>
+            </div>
+          ) :   <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox
+                    checked={
+                      selectedCourses?.length ===
+                        getPaginatedCourses()?.length &&
+                      getPaginatedCourses()?.length > 0
+                    }
+                    onCheckedChange={handleSelectAll}
+                  />
+                </TableHead>
+                <TableHead>Course</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Level</TableHead>
+                <TableHead>Enrolled</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="w-12">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {getPaginatedCourses()?.map((course, index) => {
+                const isSelected = selectedCourses.includes(course._id);
+                const enrollmentPercentage = Math.round(
+                  (course.enrolled / course.capacity) * 100
+                );
 
-                  return (
-                    <TableRow key={course._id || index}>
-                      <TableCell>
-                        <Checkbox
-                          checked={isSelected}
-                          onCheckedChange={(checked) =>
-                            handleSelectCourse(course._id, checked as boolean)
-                          }
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-3">
-                          <div className="relative w-12 h-12 rounded-lg overflow-hidden">
-                            <FallbackImage
-                              src={course?.imageUrl}
-                              alt={course?.title}
-                              className="object-cover w-full h-full"
-                            />
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-900 line-clamp-1">
-                              {course?.title}
-                            </p>
-                            <p className="text-sm text-gray-500 line-clamp-1">
-                              {course.description
-                                ?.replace(/<[^>]*>/g, "")
-                                .substring(0, 10)}
-                              ...
-                            </p>
-                          </div>
+                return (
+                  <TableRow key={course._id || index}>
+                    <TableCell>
+                      <Checkbox
+                        checked={isSelected}
+                        onCheckedChange={(checked) =>
+                          handleSelectCourse(course._id, checked as boolean)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden">
+                          <FallbackImage
+                            src={course?.imageUrl}
+                            alt={course?.title}
+                            className="object-cover w-full h-full"
+                          />
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-                          {getCategoryName(course.category)}
+                        <div>
+                          <p className="font-medium text-gray-900 line-clamp-1">
+                            {course?.title}
+                          </p>
+                          <p className="text-sm text-gray-500 line-clamp-1">
+                            {course.description
+                              ?.replace(/<[^>]*>/g, "")
+                              .substring(0, 10)}
+                            ...
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                        {getCategoryName(course.category)}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                        {course.level}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <Users className="h-4 w-4 text-gray-500" />
+                        <span className="text-sm">
+                          {course.enrolled}/{course.capacity}
                         </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                          {course.level}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-2">
-                          <Users className="h-4 w-4 text-gray-500" />
-                          <span className="text-sm">
-                            {course.enrolled}/{course.capacity}
+                      </div>
+                      {/* <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
+                        <div
+                          className="bg-blue-600 h-1 rounded-full"
+                          style={{
+                            width: `${enrollmentPercentage}%`,
+                          }}
+                        ></div>
+                      </div> */}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        {course.isFree ? (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Free
                           </span>
-                        </div>
-                        {/* <div className="w-full bg-gray-200 rounded-full h-1 mt-1">
-                          <div
-                            className="bg-blue-600 h-1 rounded-full"
-                            style={{
-                              width: `${enrollmentPercentage}%`,
+                        ) : (
+                          <span className="font-medium text-green-600">
+                            ${course.fee}
+                          </span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 text-yellow-500" />
+                        <span className="text-sm font-medium">
+                          {course.rating}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          ({course.totalReviews})
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu key={course._id}>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" className="cursor-pointer">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem className="cursor-pointer"
+                            onClick={() => onViewCourse(course)}
+                          >
+                            <Eye className="h-4 w-4 mr-2" />
+                            View
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => onEditCourse(course)}
+                          >
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+
+                          <DropdownMenuItem
+                            className="text-red-600 focus:bg-red-50 cursor-pointer"
+                            onClick={() => {
+                              setTimeout(() => handleDeleteCourse(course), 0);
                             }}
-                          ></div>
-                        </div> */}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col">
-                          {course.isFree ? (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              Free
-                            </span>
-                          ) : (
-                            <span className="font-medium text-green-600">
-                              ${course.fee}
-                            </span>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-4 w-4 text-yellow-500" />
-                          <span className="text-sm font-medium">
-                            {course.rating}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            ({course.totalReviews})
-                          </span>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu key={course._id}>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="cursor-pointer">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem className="cursor-pointer"
-                              onClick={() => onViewCourse(course)}
-                            >
-                              <Eye className="h-4 w-4 mr-2" />
-                              View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              className="cursor-pointer"
-                              onClick={() => onEditCourse(course)}
-                            >
-                              <Edit className="h-4 w-4 mr-2" />
-                              Edit
-                            </DropdownMenuItem>
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>}
+        
 
-                            <DropdownMenuItem
-                              className="text-red-600 focus:bg-red-50 cursor-pointer"
-                              onClick={() => {
-                                setTimeout(() => handleDeleteCourse(course), 0);
-                              }}
-                            >
-                              <Trash2 className="h-4 w-4 mr-2" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
-
-          {courses?.length === 0 && (
+          {/* {courses?.length === 0 && (
             <div className="text-center py-12">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calendar className="h-8 w-8 text-gray-400" />
@@ -347,7 +374,7 @@ const AllCoursesTable = ({
                 Get started by creating your first course.
               </p>
             </div>
-          )}
+          )} */}
         </CardContent>
       </Card>
 
