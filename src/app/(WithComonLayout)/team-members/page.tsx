@@ -97,7 +97,7 @@ const TeamMembersPage = () => {
   }, []);
 
   // Filter and search members
-  const filteredMembers = members.filter((member) => {
+  const filteredMembers = members?.filter((member) => {
     const matchesSearch =
       member.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (member.designation || "")

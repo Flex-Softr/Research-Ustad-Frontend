@@ -89,7 +89,7 @@ const AllBlogsTable = ({
 
     const searchLower = searchTerm.toLowerCase();
 
-    return blogs.filter(
+    return blogs?.filter(
       (blog) =>
         blog.title?.toLowerCase().includes(searchLower) ||
         blog.author?.fullName?.toLowerCase().includes(searchLower) ||

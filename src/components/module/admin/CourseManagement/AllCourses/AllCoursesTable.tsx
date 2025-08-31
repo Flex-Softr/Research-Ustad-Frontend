@@ -100,7 +100,7 @@ const AllCoursesTable = ({
     if (checked) {
       setSelectedCourses([...selectedCourses, courseId]);
     } else {
-      setSelectedCourses(selectedCourses.filter((id) => id !== courseId));
+      setSelectedCourses(selectedCourses?.filter((id) => id !== courseId));
     }
   };
 

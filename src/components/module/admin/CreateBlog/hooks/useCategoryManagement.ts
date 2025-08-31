@@ -58,7 +58,7 @@ export const useCategoryManagement = () => {
     if (blogCategories?.length > 0) {
       // Transform API categories to dropdown format
       const apiCategories = blogCategories
-        .filter(cat => cat.status === 'active') // Only show active categories
+        ?.filter(cat => cat.status === 'active') // Only show active categories
         .map(cat => ({
           value: cat._id, // Use ObjectId as value
           name: cat.name, // Use 'name' from API response

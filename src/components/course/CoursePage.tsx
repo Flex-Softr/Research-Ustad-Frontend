@@ -61,7 +61,7 @@ const CoursePage = () => {
   };
 
   // Filter courses based on selected filters
-  const filteredCourses = courses.filter((course) => {
+  const filteredCourses = courses?.filter((course) => {
     const statusMatch =
       selectedStatus === "all" || course.status === selectedStatus;
 
@@ -200,13 +200,13 @@ const CoursePage = () => {
                       {
                         id: "upcoming",
                         name: "Upcoming",
-                        count: courses.filter((c) => c.status === "upcoming")
+                        count: courses?.filter((c) => c.status === "upcoming")
                           ?.length,
                       },
                       {
                         id: "ongoing",
                         name: "Ongoing",
-                        count: courses.filter((c) => c.status === "ongoing")
+                        count: courses?.filter((c) => c.status === "ongoing")
                           ?.length,
                       },
                     ].map((filter, index) => (
@@ -261,12 +261,12 @@ const CoursePage = () => {
                                 ? c.category._id
                                 : c.category;
                             })
-                            .filter(Boolean)
+                            ?.filter(Boolean)
                         )
                       ).map((categoryId) => ({
                         id: categoryId,
                         name: getCategoryName(categoryId),
-                        count: courses.filter((c) => {
+                        count: courses?.filter((c) => {
                           if (!c.category) return false;
                           const courseCategoryId =
                             typeof c.category === "object"

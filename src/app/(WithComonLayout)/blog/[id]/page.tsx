@@ -55,7 +55,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     if (blogs && blogs?.length > 0) {
       const latest = blogs
-        .filter((blog) => blog._id !== id)
+        ?.filter((blog) => blog._id !== id)
         .sort(
           (a, b) =>
             new Date(b.publishedDate || b.createdAt).getTime() -

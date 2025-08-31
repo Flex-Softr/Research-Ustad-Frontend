@@ -17,7 +17,7 @@ const FilterSidebar = ({
 }: FilterSidebarProps) => {
   // Get available designations that have members
   const getAvailableDesignations = () => {
-    return DESIGNATION_OPTIONS.filter((designation) => {
+    return DESIGNATION_OPTIONS?.filter((designation) => {
       return members.some((member) => member.designation === designation);
     });
   };

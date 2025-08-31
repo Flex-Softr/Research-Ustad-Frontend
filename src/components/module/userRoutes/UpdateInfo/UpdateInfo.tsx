@@ -76,7 +76,7 @@ const UpdateInfo = () => {
   };
 
   const removeExpertise = (index: number) => {
-    const newList = expertiseList.filter((_, i) => i !== index);
+    const newList = expertiseList?.filter((_, i) => i !== index);
     setExpertiseList(newList);
     setValue("expertise", newList);
   };
@@ -95,7 +95,7 @@ const UpdateInfo = () => {
   };
 
   const removeAward = (index: number) => {
-    const newList = awardsList.filter((_, i) => i !== index);
+    const newList = awardsList?.filter((_, i) => i !== index);
     setAwardsList(newList);
     setValue("awards", newList);
   };
@@ -115,7 +115,7 @@ const UpdateInfo = () => {
   };
 
   const removeConference = (index: number) => {
-    const newList = conferencesList.filter((_, i) => i !== index);
+    const newList = conferencesList?.filter((_, i) => i !== index);
     setConferencesList(newList);
     setValue("conferences", newList);
   };
@@ -229,13 +229,13 @@ const UpdateInfo = () => {
     // Helper function to clean arrays
     const cleanArray = (arr: string[] | undefined) => {
       if (!arr || arr?.length === 0) return [];
-      return arr.filter((item) => item && item.trim() !== "");
+      return arr?.filter((item) => item && item.trim() !== "");
     };
 
     // Helper function to clean conference objects
     const cleanConferences = (conferences: Conference[] | undefined) => {
       if (!conferences || conferences?.length === 0) return [];
-      return conferences.filter(
+      return conferences?.filter(
         (conf) =>
           (conf.name && conf.name.trim() !== "") ||
           (conf.role && conf.role.trim() !== "") ||

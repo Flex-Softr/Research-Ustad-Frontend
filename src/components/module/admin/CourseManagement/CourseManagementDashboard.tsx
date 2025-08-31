@@ -65,13 +65,13 @@ const CourseManagementDashboard = () => {
     return sum + (course.fee * course.enrolled);
   }, 0);
   
-  const upcomingCourses = courses.filter(course => {
+  const upcomingCourses = courses?.filter(course => {
     const startDate = new Date(course.startDate);
     const now = new Date();
     return startDate > now;
   })?.length;
 
-  const ongoingCourses = courses.filter(course => {
+  const ongoingCourses = courses?.filter(course => {
     const startDate = new Date(course.startDate);
     const endDate = new Date(course.endDate || "2100-01-01");
     const now = new Date();

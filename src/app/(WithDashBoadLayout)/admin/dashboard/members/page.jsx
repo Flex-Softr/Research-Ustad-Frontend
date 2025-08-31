@@ -7,7 +7,7 @@ const page = async () => {
     const allData = response?.data || [];
 
     // Filter out admin and superAdmin users
-    const data = allData.filter(
+    const data = allData?.filter(
       (member) => member.role !== "admin" && member.role !== "superAdmin"
     );
 

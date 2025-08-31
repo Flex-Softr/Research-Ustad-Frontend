@@ -76,7 +76,7 @@ const SingleResearchPaper = ({
 
         if (data?.success && data?.data) {
           // Find papers with the same research area, excluding the current paper
-          const related = data.data.filter(
+          const related = data.data?.filter(
             (p: RelatedPaper) =>
               p?.researchArea === paper.researchArea && p?._id !== paper._id
           );

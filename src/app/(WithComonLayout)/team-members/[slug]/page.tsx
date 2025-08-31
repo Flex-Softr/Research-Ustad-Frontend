@@ -199,7 +199,7 @@ const SingleMemberPage = () => {
   ];
 
   // Filter tabs to only show those with content
-  const visibleTabs = tabs.filter((tab) => tab.show);
+  const visibleTabs = tabs?.filter((tab) => tab.show);
 
   // Get current tab data and pagination info
   const getCurrentTabData = () => {

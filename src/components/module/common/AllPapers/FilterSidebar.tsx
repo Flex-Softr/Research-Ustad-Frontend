@@ -101,7 +101,7 @@ const FilterSection = ({
   const filteredOptions =
     config.key === "paperType"
       ? config.options
-      : config.options.filter(
+      : config.options?.filter(
           (option) => option.count > 0 || option.id === "all"
         );
 
@@ -156,13 +156,13 @@ const FilterSidebar = ({
 
     switch (filterType) {
       case "status":
-        return papers.filter((p) => p.status === value)?.length;
+        return papers?.filter((p) => p.status === value)?.length;
       case "category":
-        return papers.filter((p) => p.researchArea === value)?.length;
+        return papers?.filter((p) => p.researchArea === value)?.length;
       case "year":
-        return papers.filter((p) => p.year.toString() === value)?.length;
+        return papers?.filter((p) => p.year.toString() === value)?.length;
       case "paperType":
-        return papers.filter((p) => p.paperType === value)?.length;
+        return papers?.filter((p) => p.paperType === value)?.length;
       default:
         return 0;
     }
@@ -200,7 +200,7 @@ const FilterSidebar = ({
       options: [
         { id: "all", name: "All", count: papers?.length },
         ...Array.from(
-          new Set(papers.map((paper) => paper.researchArea).filter(Boolean))
+          new Set(papers?.map((paper) => paper.researchArea)?.filter(Boolean))
         ).map((area) => ({
           id: area,
           name: area,
@@ -214,7 +214,7 @@ const FilterSidebar = ({
       showMore: true,
       options: [
         { id: "all", name: "All Years", count: papers?.length },
-        ...Array.from(new Set(papers.map((paper) => paper.year.toString())))
+        ...Array.from(new Set(papers?.map((paper) => paper.year.toString())))
           .sort((a, b) => parseInt(b) - parseInt(a))
           .map((year) => ({
             id: year,

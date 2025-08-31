@@ -198,7 +198,7 @@ const eventSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteEvent.fulfilled, (state, action) => {
-        state.events = state.events.filter((e) => e._id !== action.payload);
+        state.events = state.events?.filter((e) => e._id !== action.payload);
         state.isLoading = false;
         state.error = null;
       })

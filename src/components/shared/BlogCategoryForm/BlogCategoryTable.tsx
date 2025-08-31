@@ -75,7 +75,7 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
     if (checked) {
       setSelectedCategories((prev) => [...prev, categoryId]);
     } else {
-      setSelectedCategories((prev) => prev.filter((id) => id !== categoryId));
+      setSelectedCategories((prev) => prev?.filter((id) => id !== categoryId));
     }
   };
 
@@ -148,7 +148,7 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
 
   // Calculate overall statistics
   const totalBlogs = categories?.reduce((sum, cat) => sum + cat.blogCount, 0);
-  const activeCategories = categories.filter(cat => cat.status === 'active')?.length;
+  const activeCategories = categories?.filter(cat => cat.status === 'active')?.length;
 
   return (
     <div className="space-y-6">

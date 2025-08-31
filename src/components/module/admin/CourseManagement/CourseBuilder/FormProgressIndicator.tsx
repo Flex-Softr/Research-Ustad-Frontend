@@ -77,7 +77,7 @@ export function FormProgressIndicator({
         case "instructors":
           if (formData.instructors?.length > 0) {
             // In edit mode, check if instructors have valid data
-            const validInstructors = formData.instructors.filter((instructor: any) => {
+            const validInstructors = formData.instructors?.filter((instructor: any) => {
               const hasName = instructor.name && instructor.name.trim()?.length > 0;
               const hasSpecialization = instructor.specialization && instructor.specialization.trim()?.length > 0;
               const hasImage = instructor.imageFile || (isEditMode && instructor.imageUrl);

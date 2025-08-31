@@ -37,7 +37,7 @@ export function Combobox({
     if (searchValue.trim() === "") {
       setFilteredOptions(options);
     } else {
-      const filtered = options.filter((option) =>
+      const filtered = options?.filter((option) =>
         option.label.toLowerCase().includes(searchValue.toLowerCase())
       );
       setFilteredOptions(filtered);

@@ -51,7 +51,7 @@ const ManageInternationalConferences = ({
     setConferences(initialData);
   }, [initialData]);
 
-  const filteredConferences = conferences.filter(
+  const filteredConferences = conferences?.filter(
     (conference) =>
       conference.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       conference.description.toLowerCase().includes(searchQuery.toLowerCase())

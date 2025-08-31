@@ -208,7 +208,7 @@ const coursesSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteCourse.fulfilled, (state, action) => {
-        state.courses = state.courses.filter(
+        state.courses = state.courses?.filter(
           (course) => course._id !== action.payload
         );
         state.isLoading = false;

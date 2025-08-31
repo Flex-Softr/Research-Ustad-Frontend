@@ -84,7 +84,7 @@ const Navbar = () => {
   const toggleCategory = (category: string) => {
     setExpandedCategories((prev) =>
       prev.includes(category)
-        ? prev.filter((cat) => cat !== category)
+        ? prev?.filter((cat) => cat !== category)
         : [...prev, category]
     );
   };

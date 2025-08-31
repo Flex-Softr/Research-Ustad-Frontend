@@ -226,7 +226,7 @@ const blogCategoriesSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteBlogCategory.fulfilled, (state, action) => {
-        state.categories = state.categories.filter(
+        state.categories = state.categories?.filter(
           (c) => c._id !== action.payload
         );
         state.isLoading = false;

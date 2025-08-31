@@ -125,7 +125,7 @@ const EventForm = ({
       }
 
       // Validate that all speakers have required fields
-      const invalidSpeakers = data.speakers.filter(
+      const invalidSpeakers = data.speakers?.filter(
         (speaker) => !speaker.name.trim() || !speaker.bio.trim()
       );
 

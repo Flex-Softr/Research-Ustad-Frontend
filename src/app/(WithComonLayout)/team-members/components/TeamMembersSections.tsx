@@ -19,7 +19,7 @@ const TeamMembersSections = ({
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
 
   // Filter members based on search query
-  const filteredMembers = members.filter((member) => {
+  const filteredMembers = members?.filter((member) => {
     if (!searchQuery) return true;
     
     return (
@@ -34,7 +34,7 @@ const TeamMembersSections = ({
 
   // Group members by designation
   const groupedMembers = DESIGNATION_OPTIONS.reduce((acc, designation) => {
-    const sectionMembers = filteredMembers.filter(
+    const sectionMembers = filteredMembers?.filter(
       (member) => member.designation === designation
     );
     acc[designation] = sectionMembers;

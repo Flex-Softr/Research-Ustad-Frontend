@@ -79,7 +79,7 @@ export default function PublicationsDisplay() {
 
   // Get all unique publications from all users
   const allPublications = users?.flatMap(user => user.publications);
-  const uniquePublications = allPublications.filter((paper, index, self) => 
+  const uniquePublications = allPublications?.filter((paper, index, self) => 
     index === self.findIndex(p => p._id === paper._id)
   );
 

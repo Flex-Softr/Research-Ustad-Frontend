@@ -368,7 +368,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             return item;
           })
         : adminRoute.navMain
-            .filter((item) => item.title !== "SuperAdmin Management")
+            ?.filter((item) => item.title !== "SuperAdmin Management")
             .map(item => {
               // Add pending count to "Pending Research Paper" item
               if (item.title === "Manage Research Paper" && item.items) {

@@ -56,7 +56,7 @@ const ManageAchievements = ({ data: initialData }: ManageAchievementsProps) => {
     }
   }, [initialData]);
 
-  const filteredAchievements = achievements.filter(
+  const filteredAchievements = achievements?.filter(
     (achievement) =>
       achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       achievement.description.toLowerCase().includes(searchQuery.toLowerCase())

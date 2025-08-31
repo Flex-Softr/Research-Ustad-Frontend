@@ -32,7 +32,7 @@ export function BasicInformationSection({
   };
 
   // Filter only active categories
-  const activeCategories = categories.filter(cat => cat.status === 'active');
+  const activeCategories = categories?.filter(cat => cat.status === 'active');
 
 
 

@@ -339,7 +339,7 @@ const blogsSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteBlog.fulfilled, (state, action) => {
-        state.blogs = state.blogs.filter((b) => b._id !== action.payload);
+        state.blogs = state.blogs?.filter((b) => b._id !== action.payload);
         state.isLoading = false;
         state.error = null;
       })

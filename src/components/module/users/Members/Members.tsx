@@ -31,7 +31,7 @@ const Members = ({ data: initialData }: MembersProps) => {
         try {
           const response = await GetAllResearchAssociate();
           // Filter out admin and superAdmin users
-          const filteredData = (response?.data || []).filter(
+          const filteredData = (response?.data || [])?.filter(
             (member: TResearchAssociate) =>
               member.role !== "admin" && member.role !== "superAdmin"
           );
@@ -46,7 +46,7 @@ const Members = ({ data: initialData }: MembersProps) => {
       fetchData();
     } else {
       // Filter out admin and superAdmin users from initial data
-      const filteredData = initialData.filter(
+      const filteredData = initialData?.filter(
         (member: TResearchAssociate) =>
           member.role !== "admin" && member.role !== "superAdmin"
       );
@@ -70,7 +70,7 @@ const Members = ({ data: initialData }: MembersProps) => {
       if (res?.success) {
         // Remove member from local state immediately for instant feedback
         setData((prevData) =>
-          prevData.filter((member) => member._id !== memberToDelete._id)
+          prevData?.filter((member) => member._id !== memberToDelete._id)
         );
         toast.success(`Successfully deleted member ${memberToDelete.fullName}`);
       } else {
@@ -106,7 +106,7 @@ const Members = ({ data: initialData }: MembersProps) => {
     const fetchData = async () => {
       try {
         const response = await GetAllResearchAssociate();
-        const filteredData = (response?.data || []).filter(
+        const filteredData = (response?.data || [])?.filter(
           (member: TResearchAssociate) =>
             member.role !== "admin" && member.role !== "superAdmin"
         );

@@ -43,7 +43,7 @@ const EventPage = () => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  const filteredEvents = events.filter((event) => {
+  const filteredEvents = events?.filter((event) => {
     const statusInfo = getEventStatus(event);
     return filter === "all" || statusInfo.status === filter;
   });

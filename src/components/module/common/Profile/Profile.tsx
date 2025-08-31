@@ -295,7 +295,7 @@ const Profile = () => {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {user.expertise
-                      .filter(
+                      ?.filter(
                         (expertise) => expertise && expertise.trim() !== ""
                       )
                       .map((expertise, index) => (
@@ -325,7 +325,7 @@ const Profile = () => {
                   </div>
                   <ul className="space-y-2">
                     {user.awards
-                      .filter((award) => award && award.trim() !== "")
+                      ?.filter((award) => award && award.trim() !== "")
                       .map((award, index) => (
                         <li key={index} className="flex items-start gap-2">
                           <span className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></span>
@@ -356,7 +356,7 @@ const Profile = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {user.conferences
-                      .filter(
+                      ?.filter(
                         (conf) =>
                           (conf.name && conf.name.trim() !== "") ||
                           (conf.role && conf.role.trim() !== "") ||

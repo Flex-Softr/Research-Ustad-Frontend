@@ -97,7 +97,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     if (checked) {
       setSelectedCategories((prev) => [...prev, categoryId]);
     } else {
-      setSelectedCategories((prev) => prev.filter((id) => id !== categoryId));
+      setSelectedCategories((prev) => prev?.filter((id) => id !== categoryId));
     }
   };
 

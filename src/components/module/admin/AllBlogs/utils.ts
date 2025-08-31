@@ -31,7 +31,7 @@ export const filterBlogsByCategory = <T extends { category?: string | { _id: str
   if (selectedCategory === "all") {
     return blogs;
   }
-  return blogs.filter((blog) => {
+  return blogs?.filter((blog) => {
     if (typeof blog.category === 'string') {
       return blog.category === selectedCategory;
     } else if (blog.category && typeof blog.category === 'object' && '_id' in blog.category) {

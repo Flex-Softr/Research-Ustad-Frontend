@@ -56,7 +56,7 @@ const BlogPage = () => {
       const filteredData =
         category === "all"
           ? allData
-          : allData.filter((post) => {
+          : allData?.filter((post) => {
               // Handle category as object with name property
               const categoryName = post.category?.name;
               return categoryName?.toLowerCase() === category.toLowerCase();

@@ -174,7 +174,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
   };
 
   const handleRemoveResearch = (index: number): void => {
-    setauthorReaseachpaper(authorReaseachpaper.filter((_, i) => i !== index));
+    setauthorReaseachpaper(authorReaseachpaper?.filter((_, i) => i !== index));
   };
 
   const handleAddKeyword = (): void => {
@@ -188,14 +188,14 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
   };
 
   const handleRemoveKeyword = (index: number): void => {
-    setKeywords(keywords.filter((_, i) => i !== index));
+    setKeywords(keywords?.filter((_, i) => i !== index));
   };
 
   const onSubmit: SubmitHandler<ResearchPaperFormData> = async (data) => {
     setLoading(true);
 
     // Filter out empty author entries
-    const validAuthors = authorReaseachpaper.filter(
+    const validAuthors = authorReaseachpaper?.filter(
       (author) => author.name && author.name.trim() !== ""
     );
 
@@ -206,7 +206,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
     }
 
     // Validate each author name and role
-    const invalidAuthors = validAuthors.filter(
+    const invalidAuthors = validAuthors?.filter(
       (author) => (author.name && author.name.trim()?.length < 2) || !author.role || author.role.trim() === ""
     );
     if (invalidAuthors?.length > 0) {
@@ -216,10 +216,10 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
     }
 
     // Filter out empty keyword entries
-    const validKeywords = keywords.filter((keyword) => keyword.trim() !== "");
+    const validKeywords = keywords?.filter((keyword) => keyword.trim() !== "");
 
     // Validate each keyword (minimum 2 characters as per backend)
-    const invalidKeywords = validKeywords.filter(
+    const invalidKeywords = validKeywords?.filter(
       (keyword) => keyword.trim()?.length < 2
     );
     if (invalidKeywords?.length > 0) {

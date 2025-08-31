@@ -18,9 +18,9 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
   blogs,
 }) => {
   // Calculate counts for each status
-  const pendingCount = blogs.filter(blog => blog.status === "pending")?.length;
-  const approvedCount = blogs.filter(blog => blog.status === "approved")?.length;
-  const rejectedCount = blogs.filter(blog => blog.status === "rejected")?.length;
+  const pendingCount = blogs?.filter(blog => blog.status === "pending")?.length;
+  const approvedCount = blogs?.filter(blog => blog.status === "approved")?.length;
+  const rejectedCount = blogs?.filter(blog => blog.status === "rejected")?.length;
 
   const statusOptions = [
     { value: "all", label: "All", count: totalCount },

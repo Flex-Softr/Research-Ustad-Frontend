@@ -16,7 +16,7 @@ const OngoingProject = ({data}:{data:TPapers[]}) => {
       const res = await DeletePaper(id);
       if (res) {
         toast.success("Research paper deleted successfully");
-        setOngoingProjects(prev => prev.filter(paper => paper._id !== id));
+        setOngoingProjects(prev => prev?.filter(paper => paper._id !== id));
       }
     } catch (error) {
       console.error("Error deleting paper:", error);

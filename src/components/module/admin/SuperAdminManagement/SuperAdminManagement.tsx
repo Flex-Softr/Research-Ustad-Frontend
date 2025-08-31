@@ -86,7 +86,7 @@ const SuperAdminManagement = () => {
 
       if (usersResponse?.success) {
         // Filter out the current superAdmin and only show admin and user roles
-        const filteredUsers = usersResponse.data.filter(
+        const filteredUsers = usersResponse.data?.filter(
           (user: User) => user.role !== "superAdmin"
         );
         setUsers(filteredUsers);

@@ -58,7 +58,7 @@ const ResearchPapersPage = ({
 
   // Filter papers based on search and filters
   const filteredPapers = useMemo(() => {
-    return papersData.filter((paper) => {
+    return papersData?.filter((paper) => {
       // Search filter
       const searchMatch =
         paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
