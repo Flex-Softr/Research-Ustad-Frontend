@@ -89,7 +89,7 @@ export const CellRenderer: React.FC<CellRendererProps> = ({
 }) => {
   const cellValue = column.value
     .split(".")
-    .reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item);
+    ?.reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item);
 
   if (column.value === "authors") {
     const authors = cellValue || [];

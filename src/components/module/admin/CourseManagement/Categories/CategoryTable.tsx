@@ -169,9 +169,9 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     selectedCategories?.length === paginatedCategories?.length;
 
   // Calculate overall statistics
-  const totalCourses = categoriesWithStats.reduce((sum, cat) => sum + cat.courseCount, 0);
-  const totalEnrollments = categoriesWithStats.reduce((sum, cat) => sum + cat.totalEnrollments, 0);
-  const totalRevenue = categoriesWithStats.reduce((sum, cat) => sum + cat.totalRevenue, 0);
+  const totalCourses = categoriesWithStats?.reduce((sum, cat) => sum + cat.courseCount, 0);
+  const totalEnrollments = categoriesWithStats?.reduce((sum, cat) => sum + cat.totalEnrollments, 0);
+  const totalRevenue = categoriesWithStats?.reduce((sum, cat) => sum + cat.totalRevenue, 0);
 
   return (
     <div className="space-y-6">

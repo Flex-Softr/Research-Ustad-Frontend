@@ -97,7 +97,7 @@ export function FormProgressIndicator({
   };
 
   const overallProgress =
-    sections.reduce((acc, section) => {
+    sections?.reduce((acc, section) => {
       const progress = calculateSectionProgress(section);
       return acc + progress.percentage;
     }, 0) / sections?.length;

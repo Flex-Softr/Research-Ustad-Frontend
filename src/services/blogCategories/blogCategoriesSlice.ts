@@ -239,4 +239,4 @@ const blogCategoriesSlice = createSlice({
   },
 });
 
-export default blogCategoriesSlice.reducer;
+export default blogCategoriesSlice?.reducer;

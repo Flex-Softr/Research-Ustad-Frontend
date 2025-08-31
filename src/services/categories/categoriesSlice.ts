@@ -241,4 +241,4 @@ const categoriesSlice = createSlice({
   },
 });
 
-export default categoriesSlice.reducer;
+export default categoriesSlice?.reducer;

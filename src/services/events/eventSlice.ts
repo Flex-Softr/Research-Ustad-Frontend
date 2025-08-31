@@ -210,4 +210,4 @@ const eventSlice = createSlice({
 });
 
 export const { updateEventsRealtime } = eventSlice.actions;
-export default eventSlice.reducer;
+export default eventSlice?.reducer;

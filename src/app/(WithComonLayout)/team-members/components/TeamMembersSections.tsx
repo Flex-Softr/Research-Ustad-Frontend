@@ -33,7 +33,7 @@ const TeamMembersSections = ({
   });
 
   // Group members by designation
-  const groupedMembers = DESIGNATION_OPTIONS.reduce((acc, designation) => {
+  const groupedMembers = DESIGNATION_OPTIONS?.reduce((acc, designation) => {
     const sectionMembers = filteredMembers?.filter(
       (member) => member.designation === designation
     );

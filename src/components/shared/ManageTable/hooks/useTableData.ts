@@ -34,7 +34,7 @@ export const useTableData = ({
     const matchesSearch = columns.some((column) =>
       column.value
         .split(".")
-        .reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item)
+        ?.reduce((o: any, k: string) => (o?.[k] ? o[k] : ""), item)
         ?.toString()
         ?.toLowerCase()
         .includes(searchTerm.toLowerCase())

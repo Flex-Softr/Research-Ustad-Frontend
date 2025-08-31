@@ -222,4 +222,4 @@ const coursesSlice = createSlice({
 });
 
 export const { updateCoursesRealtime } = coursesSlice.actions;
-export default coursesSlice.reducer;
+export default coursesSlice?.reducer;
