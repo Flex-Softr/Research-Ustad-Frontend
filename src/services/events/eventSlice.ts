@@ -30,7 +30,8 @@ export const fetchEvents = createAsyncThunk(
       if (!res.ok) throw new Error(events.message || "Failed to fetch events");
       return events.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -44,7 +45,8 @@ export const fetchSingleEvent = createAsyncThunk(
       const event = await res.json();
       return event.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
