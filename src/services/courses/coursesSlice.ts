@@ -33,7 +33,8 @@ export const fetchCourses = createAsyncThunk(
       if (!res.ok) throw new Error(data.message || "Failed to fetch courses");
       return data.data || [];
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -48,7 +49,8 @@ export const fetchSingleCourse = createAsyncThunk(
       if (!res.ok) throw new Error(data.message || "Failed to fetch course");
       return data.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

@@ -44,7 +44,8 @@ export const fetchCategories = createAsyncThunk(
         throw new Error(data.message || "Failed to fetch categories");
       return data.data || [];
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -59,7 +60,8 @@ export const fetchSingleCategory = createAsyncThunk(
       if (!res.ok) throw new Error(data.message || "Failed to fetch category");
       return data.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

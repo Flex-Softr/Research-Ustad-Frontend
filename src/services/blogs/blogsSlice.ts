@@ -38,7 +38,8 @@ export const fetchBlogs = createAsyncThunk(
       return data.data.blogs || [];
     } catch (error: any) {
       console.error("Blog fetch error:", error);
-      return thunkAPI.rejectWithValue(handleNetworkError(error));
+      return null;
+      // return thunkAPI.rejectWithValue(handleNetworkError(error));
     }
   }
 );
@@ -61,7 +62,8 @@ export const fetchAllBlogsForAdmin = createAsyncThunk(
       return data.data.blogs || [];
     } catch (error: any) {
       console.error("Admin blog fetch error:", error);
-      return thunkAPI.rejectWithValue(handleNetworkError(error));
+      return null;
+      // return thunkAPI.rejectWithValue(handleNetworkError(error));
     }
   }
 );
@@ -85,7 +87,8 @@ export const fetchUserBlogs = createAsyncThunk(
       return data.data.blogs || [];
     } catch (error: any) {
       console.error("User blog fetch error:", error);
-      return thunkAPI.rejectWithValue(error.message);
+      // return thunkAPI.rejectWithValue(error.message);
+      return null;
     }
   }
 );
@@ -100,7 +103,8 @@ export const fetchSingleBlog = createAsyncThunk(
       if (!res.ok) throw new Error(data.message || "Failed to fetch blog");
       return data.data.blog;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

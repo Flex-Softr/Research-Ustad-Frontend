@@ -42,7 +42,8 @@ export const fetchBlogCategories = createAsyncThunk(
         throw new Error(data.message || "Failed to fetch blog categories");
       return data.data || [];
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -57,7 +58,8 @@ export const fetchSingleBlogCategory = createAsyncThunk(
       if (!res.ok) throw new Error(data.message || "Failed to fetch blog category");
       return data.data;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+      return null;
+      // return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
