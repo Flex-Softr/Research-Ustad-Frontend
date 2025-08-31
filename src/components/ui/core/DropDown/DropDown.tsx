@@ -170,21 +170,21 @@ const ListItem = React.forwardRef<
   React.ComponentPropsWithoutRef<"a"> & {
     isLast?: boolean;
   }
->(({ className, title, children, isLast, ...props }, ref) => {
+>(({ className, title, children, isLast, href, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink className="rounded-none" asChild>
-                  <a
-            ref={ref}
-            className={cn(
-              "block select-none p-3 leading-none no-underline  outline-none transition-colors  rounded-none",
-              !isLast && "border-b border-gray-300 ",
-              className
-            )}
-            {...props}
-          >
-            <div className="text-sm text-black hover:text-brand-secondary transition-colors">{title}</div>
-          </a>
+        <Link
+          href={href}
+          className={cn(
+            "block select-none p-3 leading-none no-underline outline-none transition-colors rounded-none",
+            !isLast && "border-b border-gray-300",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm text-black hover:text-brand-secondary transition-colors">{title}</div>
+        </Link>
       </NavigationMenuLink>
     </li>
   );
