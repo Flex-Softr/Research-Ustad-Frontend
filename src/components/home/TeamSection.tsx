@@ -95,8 +95,8 @@ const TeamSection = () => {
         return "Mentor Panel";
       case DESIGNATION_OPTIONS[2]: // "Team Lead"
         return "Team Lead";
-      case DESIGNATION_OPTIONS[3]: // "Executive Board"
-        return "Executive Board";
+      case DESIGNATION_OPTIONS[3]: // "Research Associate"
+        return "Research Associate";
       default:
         return designation;
     }
@@ -124,7 +124,7 @@ const TeamSection = () => {
             if (normalizedDesignation === "ADVISOR") normalizedDesignation = DESIGNATION_OPTIONS[0];
             if (normalizedDesignation === "MENTOR") normalizedDesignation = DESIGNATION_OPTIONS[1];
             if (normalizedDesignation === "TEAM LEAD") normalizedDesignation = DESIGNATION_OPTIONS[2];
-            if (normalizedDesignation === "EXECUTIVE BOARD") normalizedDesignation = DESIGNATION_OPTIONS[3];
+            if (normalizedDesignation === "RESEARCH ASSOCIATE") normalizedDesignation = DESIGNATION_OPTIONS[3];
             
             return {
               id: member._id,
@@ -160,7 +160,7 @@ const TeamSection = () => {
             if (normalizedDesignation === "ADVISOR") normalizedDesignation = DESIGNATION_OPTIONS[0];
             if (normalizedDesignation === "MENTOR") normalizedDesignation = DESIGNATION_OPTIONS[1];
             if (normalizedDesignation === "TEAM LEAD") normalizedDesignation = DESIGNATION_OPTIONS[2];
-            if (normalizedDesignation === "EXECUTIVE BOARD") normalizedDesignation = DESIGNATION_OPTIONS[3];
+            if (normalizedDesignation === "RESEARCH ASSOCIATE") normalizedDesignation = DESIGNATION_OPTIONS[3];
             
             return {
               id: member._id,

@@ -3,7 +3,7 @@ export const DESIGNATION_OPTIONS = [
   "Advisor",
   "Mentor", 
   "Team Lead",
-  "Executive Board",
+  "Research Associate",
 ] as const;
 
 // Type for designation values

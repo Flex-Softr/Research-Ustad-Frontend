@@ -56,8 +56,8 @@ const FilterSidebar = ({
         return "Mentor Panel";
       case "Team Lead":
         return "Team Lead";
-      case "Executive Board":
-        return "Executive Board";
+      case "Research Associate":
+        return "Research Associate";
       default:
         return designation;
     }
