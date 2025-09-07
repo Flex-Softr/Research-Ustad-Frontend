@@ -271,7 +271,8 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                 </h3>
               </div>
 
-              <div className="">
+
+              <div>
                 {latestPosts?.length > 0 ? (
                   latestPosts?.map((latestPost) => (
                     <Link
