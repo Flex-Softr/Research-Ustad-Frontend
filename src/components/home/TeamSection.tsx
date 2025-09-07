@@ -206,7 +206,7 @@ const TeamSection = () => {
   const filteredMembers =
     activeCategory === "all"
       ? members?.slice(0, 3) // Show first 3 items by default without filtering
-      : members?.filter((member) => member.category === activeCategory);
+      : members?.filter((member) => member.category === activeCategory).slice(0, 3); // Show max 3 items even after filtering
 
   // Error state
   if (error) {
