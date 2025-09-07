@@ -92,7 +92,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
             </div>
 
             {/* Contact & Location Info */}
-            <div className="flex mb-6 gap-4">
+            <div className="flex flex-col md:flex-row mb-6 items-center md:justify-start justify-center md:gap-4 gap-2">
               {member?.email && (
                 <div className="flex items-center gap-1">
                   <Mail className="h-5 w-5 md:block hidden text-brand-secondary" />
