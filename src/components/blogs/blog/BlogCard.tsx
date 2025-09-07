@@ -1,8 +1,8 @@
 import { Blog } from "@/type";
-import Image from "next/image";
 import Link from "next/link";
 import { Calendar, User } from "lucide-react";
 import FallbackImage from "@/components/shared/FallbackImage";
+import UserAvatar from "@/components/shared/UserAvatar";
 
 const BlogCard = ({ post }: { post: Blog }) => {
   // Format date
@@ -60,17 +60,14 @@ const BlogCard = ({ post }: { post: Blog }) => {
         {/* Author Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
           <div className="flex items-center">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
-              <Image
-                className="object-cover"
-                src={post?.author?.image || "/default-avatar.png"}
+            <div className="border-2 border-white/20 rounded-full">
+              <UserAvatar
+                src={post?.author?.image}
                 alt={post.author?.fullName || "Author"}
-                fill
-                sizes="40px"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "/default-avatar.png";
-                }}
+                name={post.author?.fullName || "Unknown Author"}
+                size="md"
+                className="w-10 h-10"
+                fallbackClassName="bg-gradient-to-br from-blue-500 to-purple-600 text-white"
               />
             </div>
             <div className="ml-3">
