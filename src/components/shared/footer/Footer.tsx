@@ -47,7 +47,7 @@ const Footer = () => {
         ></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand Section */}
@@ -258,9 +258,9 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-center items-center">
-            <p className="text-gray-300 text-sm">
-              © 2025 ResearchUstad. All rights reserved.
-            </p>
+            <div className="text-gray-300 flex items-center gap-2 text-sm">
+             <p> © 2024 - Ikram BD - All Rights Reserved. Developed by </p> <span className="font-bold hover:underline text-brand-secondary"><a href="https://www.flexsoftr.com/" target="_blank" rel="noopener noreferrer">Flex Softr</a></span>
+            </div>
             {/* <div className="flex space-x-6 mt-4 md:mt-0">
               <a
                 href="#"

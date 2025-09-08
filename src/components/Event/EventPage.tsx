@@ -111,6 +111,9 @@ const EventPage = () => {
                   <SelectItem value="ongoing" className="capitalize">
                     Ongoing
                   </SelectItem>
+                  <SelectItem value="finished" className="capitalize">
+                    Finished
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

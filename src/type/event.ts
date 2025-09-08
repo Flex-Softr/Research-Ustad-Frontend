@@ -53,7 +53,7 @@ export interface PaginatedEventsResponse {
 }
 
 export interface EventsFilter {
-  status?: "all" | "upcoming" | "past";
+  status?: "all" | "upcoming" | "ongoing" | "finished";
   category?: string;
   page?: number;
   limit?: number;

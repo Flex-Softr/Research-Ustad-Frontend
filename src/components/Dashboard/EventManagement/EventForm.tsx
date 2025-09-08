@@ -61,6 +61,19 @@ const EventForm = ({
     (!agenda || agenda.trim()?.length < 50)
       ? "Event agenda must be at least 50 characters"
       : undefined;
+
+  // Add validation for date fields
+  const startDate = watch("startDate");
+  const endDate = watch("endDate");
+  
+  // Validate that end date is not older than start date
+  const dateValidationError = 
+    (touchedFields.endDate || isSubmitted) &&
+    startDate && 
+    endDate && 
+    new Date(endDate) < new Date(startDate)
+      ? "End date cannot be older than start date"
+      : undefined;
   const { fields, append, remove } = useFieldArray({
     control,
     name: "speakers",
@@ -115,6 +128,12 @@ const EventForm = ({
       // Validate agenda
       if (!data.agenda || data.agenda.trim()?.length < 50) {
         toast.error("Event agenda must be at least 50 characters");
+        return;
+      }
+
+      // Validate date range
+      if (data.startDate && data.endDate && new Date(data.endDate) < new Date(data.startDate)) {
+        toast.error("End date cannot be older than start date");
         return;
       }
 
@@ -298,10 +317,14 @@ const EventForm = ({
               <Input
                 id="endDate"
                 type="date"
+                min={startDate || undefined}
                 {...register("endDate", { required: true })}
               />
               {errors.endDate && (
                 <p className="text-sm text-red-500">End date is required</p>
+              )}
+              {dateValidationError && (
+                <p className="text-sm text-red-500">{dateValidationError}</p>
               )}
             </div>
 
