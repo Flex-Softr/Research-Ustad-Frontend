@@ -155,9 +155,6 @@ const EventManagement = () => {
                 >
                   {statusInfo.status}
                 </Badge>
-                <Badge className="absolute top-3 right-3 bg-white text-gray-800">
-                  {event.category}
-                </Badge>
               </div>
 
               <CardHeader>

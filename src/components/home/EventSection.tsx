@@ -14,7 +14,7 @@ import UserAvatar from "@/components/shared/UserAvatar";
 
 // Skeleton component for event cards
 const EventCardSkeleton = () => (
-  <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden animate-pulse">
+  <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden animate-pulse flex flex-col h-full">
     {/* Image skeleton */}
     <div className="relative h-48 overflow-hidden">
       <Skeleton className="w-full h-full bg-gray-200" />
@@ -27,7 +27,7 @@ const EventCardSkeleton = () => (
     </div>
 
     {/* Content skeleton */}
-    <div className="p-6">
+    <div className="p-6 flex flex-col flex-grow">
       <Skeleton className="h-6 w-3/4 mb-3 bg-gray-300" />
       <Skeleton className="h-4 w-full mb-2 bg-gray-300" />
       <Skeleton className="h-4 w-2/3 mb-6 bg-gray-300" />
@@ -57,8 +57,10 @@ const EventCardSkeleton = () => (
         </div>
       </div>
 
-      {/* CTA skeleton */}
-      <Skeleton className="w-full h-12 rounded-lg bg-gray-300" />
+      {/* CTA skeleton - pushed to bottom */}
+      <div className="mt-auto">
+        <Skeleton className="w-full h-12 rounded-lg bg-gray-300" />
+      </div>
     </div>
   </div>
 );
@@ -78,7 +80,7 @@ const EventCard = ({ event }: { event: any }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
       {/* Event Image */}
       <div className="relative h-48 overflow-hidden">
         <FallbackImage
@@ -87,12 +89,6 @@ const EventCard = ({ event }: { event: any }) => {
           className="w-full h-full object-cover"
         />
 
-        {/* Category Badge */}
-        <div className="absolute top-4 left-4">
-          <span className="bg-brand-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
-            {event.category}
-          </span>
-        </div>
 
         {/* Date Badge */}
         <div className="absolute top-4 right-4">
@@ -110,7 +106,7 @@ const EventCard = ({ event }: { event: any }) => {
       </div>
 
       {/* Event Content */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-xl font-bold font-serif text-brand-primary mb-3 line-clamp-1">
           {event.title}
         </h3>
@@ -157,7 +153,7 @@ const EventCard = ({ event }: { event: any }) => {
                 />
               ))}
             {event.speakers && event.speakers?.length > 3 && (
-              <div className="w-8 h-8 rounded-full bg-brand-primary/20 border-2 border-white flex items-center justify-center">
+              <div className="w-7 h-7 rounded-full bg-brand-primary/20 border-2 border-white flex items-center justify-center">
                 <span className="text-xs text-brand-primary font-bold">
                   +{event.speakers?.length - 3}
                 </span>
@@ -166,13 +162,15 @@ const EventCard = ({ event }: { event: any }) => {
           </div>
         </div>
 
-        {/* CTA Button */}
-        <Link
-          href={`/event/${event._id}`}
-          className="block w-full bg-brand-primary text-white py-3 px-6 rounded-lg text-center font-semibold hover:bg-brand-primary/80 transition-colors duration-300"
-        >
-          View Event Details
-        </Link>
+        {/* CTA Button - This will be pushed to the bottom */}
+        <div className="mt-auto">
+          <Link
+            href={`/event/${event._id}`}
+            className="block w-full bg-brand-primary text-white py-3 px-6 rounded-lg text-center font-semibold hover:bg-brand-primary/80 transition-colors duration-300"
+          >
+            View Event Details
+          </Link>
+        </div>
       </div>
     </div>
   );

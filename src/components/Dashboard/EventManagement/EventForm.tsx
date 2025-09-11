@@ -42,7 +42,6 @@ const EventForm = ({
       location: event?.location || "",
       maxAttendees: event?.maxAttendees || 100,
       status: event?.status || "upcoming",
-      category: event?.category || "",
       imageUrl: event?.imageUrl || "",
       registrationLink: event?.registrationLink || "",
       eventDuration: event?.eventDuration || 60,
@@ -104,9 +103,11 @@ const EventForm = ({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files![0];
+      console.log(`📁 File selected for speaker ${index}:`, file.name);
       setSpeakerFiles((prev) => ({
         ...prev,
-        [index]: e.target.files![0],
+        [index]: file,
       }));
       // Clear error when file is selected
       setImageErrors((prev) => ({
@@ -180,9 +181,15 @@ const EventForm = ({
         const hasExistingImage =
           isEditing && event?.speakers?.[index]?.imageUrl;
 
-        if (!hasFile && !hasExistingImage) {
+        // For new events, all speakers must have images
+        // For updates, speakers can be added without images initially
+        if (!isEditing && !hasFile) {
           speakerImageErrors[index] = "Speaker image is required";
           hasSpeakerImageError = true;
+        } else if (isEditing && !hasFile && !hasExistingImage) {
+          // For updates, only require images if the speaker is being updated and had an image before
+          // New speakers can be added without images initially
+          console.log(`Speaker ${index} has no image - this is allowed for updates`);
         }
       });
 
@@ -202,19 +209,48 @@ const EventForm = ({
         formData.append("file", selectedFile);
       }
 
-      // Add speaker images
-      Object.entries(speakerFiles).forEach(([index, file]) => {
+      // Add speaker images in order
+      console.log('🔍 Frontend - Processing speaker files:', {
+        speakersCount: data.speakers?.length,
+        speakerFiles: Object.keys(speakerFiles).map(key => ({
+          index: key,
+          fileName: speakerFiles[parseInt(key)]?.name
+        })),
+        allSpeakerFiles: speakerFiles
+      });
+      
+      data.speakers?.forEach((speaker, index) => {
+        const file = speakerFiles[index];
+        console.log(`🔍 Speaker ${index}:`, {
+          name: speaker.name,
+          hasFile: !!file,
+          fileName: file?.name
+        });
         if (file) {
           formData.append(`speakerFiles`, file);
+          console.log(`✅ Added file for speaker ${index}:`, file.name);
+        } else {
+          console.log(`❌ No file for speaker ${index}`);
         }
       });
 
       // Prepare speakers data with imageUrl field
-      const speakersData = data.speakers?.map((speaker) => ({
-        name: speaker.name.trim(),
-        bio: speaker.bio.trim(),
-        imageUrl: speaker.imageUrl || "", // Include imageUrl field
-      }));
+      const speakersData = data.speakers?.map((speaker, index) => {
+        const speakerData: any = {
+          name: speaker.name.trim(),
+          bio: speaker.bio.trim(),
+        };
+        
+        // For existing speakers, include imageUrl if it exists
+        // For new speakers, don't include imageUrl - let backend handle it from uploaded files
+        if (isEditing && speaker.imageUrl && speaker.imageUrl.trim()) {
+          speakerData.imageUrl = speaker.imageUrl.trim();
+        }
+        // For new speakers or when creating new events, don't set imageUrl
+        // The backend will set it from the uploaded files
+        
+        return speakerData;
+      });
 
       const eventData = {
         ...data,
@@ -263,43 +299,26 @@ const EventForm = ({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            <div className="space-y-2">
-              <Label htmlFor="title">Event Title</Label>
-              <Input
-                id="title"
-                {...register("title", {
-                  required: "Title is required",
-                  minLength: {
-                    value: 3,
-                    message: "Title must be at least 3 characters",
-                  },
-                })}
-              />
-              {errors.title && (
-                <p className="text-sm text-red-500">{errors.title.message}</p>
-              )}
-            </div>
+          {/* Event Title - Full Width */}
+          <div className="space-y-2">
+            <Label htmlFor="title">Event Title</Label>
+            <Input
+              id="title"
+              {...register("title", {
+                required: "Title is required",
+                minLength: {
+                  value: 3,
+                  message: "Title must be at least 3 characters",
+                },
+              })}
+            />
+            {errors.title && (
+              <p className="text-sm text-red-500">{errors.title.message}</p>
+            )}
+          </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Input
-                id="category"
-                {...register("category", {
-                  required: "Category is required",
-                  minLength: {
-                    value: 2,
-                    message: "Category must be at least 2 characters",
-                  },
-                })}
-              />
-              {errors.category && (
-                <p className="text-sm text-red-500">
-                  {errors.category.message}
-                </p>
-              )}
-            </div>
-
+          {/* Start Date and End Date - Same Line */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="startDate">Start Date</Label>
               <Input
@@ -327,6 +346,10 @@ const EventForm = ({
                 <p className="text-sm text-red-500">{dateValidationError}</p>
               )}
             </div>
+          </div>
+
+          {/* Other Fields - Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
 
             <div className="space-y-2">
               <Label htmlFor="eventDuration">Event Duration (in minutes)</Label>
@@ -589,10 +612,21 @@ const EventForm = ({
                     size="sm"
                     onClick={() => {
                       remove(index);
-                      // Remove the file from state when speaker is removed
+                      // Remove the file from state when speaker is removed and reindex remaining files
                       setSpeakerFiles((prev) => {
-                        const newFiles = { ...prev };
-                        delete newFiles[index];
+                        const newFiles: { [key: number]: File | null } = {};
+                        Object.keys(prev).forEach(key => {
+                          const fileIndex = parseInt(key);
+                          if (fileIndex < index) {
+                            // Keep files before the removed index
+                            newFiles[fileIndex] = prev[fileIndex];
+                          } else if (fileIndex > index) {
+                            // Shift files after the removed index down by 1
+                            newFiles[fileIndex - 1] = prev[fileIndex];
+                          }
+                          // Skip the file at the removed index
+                        });
+                        console.log('🔄 Reindexed speaker files after removal:', newFiles);
                         return newFiles;
                       });
                       setImageErrors((prev) => ({

@@ -133,9 +133,6 @@ const EventPage = () => {
                         alt={event.title}
                         className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
                       />
-                      <span className="absolute top-4 left-4 bg-brand-primary text-white px-3 py-1 rounded-full text-xs">
-                        {event.category}
-                      </span>
                       <span
                         className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs ${statusInfo.bgColor} ${statusInfo.color}`}
                       >

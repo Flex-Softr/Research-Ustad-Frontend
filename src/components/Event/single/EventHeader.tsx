@@ -32,11 +32,8 @@ const EventHeader = ({ event }: EventHeaderProps) => {
 
   return (
     <div className="space-y-4">
-      {/* Category and Status Badges */}
+      {/* Status Badge */}
       <div className="flex items-center gap-3">
-        <Badge className="bg-brand-secondary text-white px-3 py-1">
-          {event.category}
-        </Badge>
         <Badge className={`${statusInfo.color} text-white px-3 py-1`}>
           {statusInfo.status === "upcoming" ? "Upcoming" : "Past"}
         </Badge>

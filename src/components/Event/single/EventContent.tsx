@@ -75,10 +75,8 @@ const EventContent = ({ event }: EventContentProps) => {
         duration: "30 min",
       });
 
-      // Add workshop sessions based on event category
-      const workshopTitle = event.category
-        ? `${event.category} Workshop`
-        : "Workshop Sessions";
+      // Add workshop sessions
+      const workshopTitle = "Workshop Sessions";
       sessions.push({
         title: workshopTitle,
         time: isFirstDay ? "1:00 PM" : "12:00 PM",
@@ -114,9 +112,7 @@ const EventContent = ({ event }: EventContentProps) => {
                <strong>Event Duration:</strong> ${
                  event.eventDuration
                } minutes | 
-               <strong>Location:</strong> ${event.location} | 
-               <strong>Category:</strong> ${event.category}
-             </p>
+               <strong>Location:</strong> ${event.location}             </p>
            </div>
            
            <div style="background-color: #f9fafb; border-radius: 0.5rem; padding: 1.5rem;">
@@ -213,7 +209,6 @@ const EventContent = ({ event }: EventContentProps) => {
                  event.eventDuration
                } minutes | 
                <strong>Location:</strong> ${event.location} | 
-               <strong>Category:</strong> ${event.category} | 
                <strong>Duration:</strong> ${daysDiff + 1} day${
         daysDiff > 0 ? "s" : ""
       }

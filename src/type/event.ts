@@ -23,7 +23,6 @@ export interface CustomEvent {
   speakers: EventSpeaker[];
   imageUrl: string;
   registrationLink: string;
-  category: string;
   maxAttendees: number;
   status: 'upcoming' | 'ongoing' | 'finished';
 }
@@ -54,7 +53,6 @@ export interface PaginatedEventsResponse {
 
 export interface EventsFilter {
   status?: "all" | "upcoming" | "ongoing" | "finished";
-  category?: string;
   page?: number;
   limit?: number;
 }
