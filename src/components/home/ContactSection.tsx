@@ -71,7 +71,7 @@ const ContactSection = () => {
     try {
       await CreateContact(formData);
       toast.success("Message sent successfully! We'll get back to you soon.");
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error: any) {
       console.error("Contact Form Error:", error);
       if (error.message) {
@@ -195,7 +195,16 @@ const ContactSection = () => {
                           key={detailIndex}
                           className="text-sm text-gray-600 leading-relaxed"
                         >
-                          {detail}
+                          {info.title === "Email Us" ? (
+                            <a
+                              href={`mailto:${detail}`}
+                              className="text-brand-primary underline"
+                            >
+                              {detail}
+                            </a>
+                          ) : (
+                            detail
+                          )}
                         </p>
                       ))}
                     </div>

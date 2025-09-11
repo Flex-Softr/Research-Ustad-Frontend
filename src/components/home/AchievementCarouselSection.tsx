@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button, Container, SectionHeader } from "@/components/ui/core";
-import { Trophy, ArrowRight } from "lucide-react";
+import { Trophy, ArrowRight, Star } from "lucide-react";
 import Link from "next/link";
 import type { Achievement } from "@/type/achievement";
 import { GetAllAchievementsPublic } from "@/services/achievements";
@@ -73,8 +73,43 @@ const AchievementCarouselSection = () => {
     );
   }
 
-  if (error || achievements?.length === 0) {
-    return null; // Don't show section if no achievements
+  // Error state component
+  if (error) {
+    return (
+      <section className="bg-gradient-to-br from-gray-50 via-white to-blue-50/30 py-16">
+        <Container>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trophy className="w-6 h-6 text-red-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-brand-primary mb-2">
+              Failed to load achievements
+            </h3>
+            <p className="text-gray-600 mb-4">{error}</p>
+            <Button variant="primary" onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
+  // Empty state component
+  if (achievements?.length === 0) {
+    return (
+      <section className="py-20 bg-gray-100">
+      <Container>
+        <div className="text-center">
+          <Star className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-[var(--color-brand-primary)] mb-2">
+            No achievements available
+          </h3>
+          <p className="text-gray-600">Check back later for new achievements!</p>
+        </div>
+      </Container>
+    </section>
+    );
   }
 
   return (

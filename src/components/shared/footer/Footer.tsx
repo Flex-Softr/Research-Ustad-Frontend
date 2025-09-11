@@ -101,6 +101,15 @@ const Footer = () => {
 
               <li>
                 <a
+                  href="#achievements"
+                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
+                >
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  Achievements
+                </a>
+              </li>
+              <li>
+                <a
                   href="#team"
                   className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
                 >
