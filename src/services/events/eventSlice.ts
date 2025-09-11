@@ -69,7 +69,19 @@ export const addEvent = createAsyncThunk(
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to add event");
+      if (!res.ok) {
+        // Handle specific HTTP status codes
+        if (res.status === 413) {
+          throw new Error("413 Request Entity Too Large - File size exceeds server limits");
+        } else if (res.status === 400 && data.message?.includes('File too large')) {
+          throw new Error("File too large. Maximum size is 50MB per file.");
+        } else if (res.status === 400 && data.message?.includes('Only image files')) {
+          throw new Error("Only image files are allowed");
+        } else if (res.status === 400 && data.message?.includes('Too many files')) {
+          throw new Error("Too many files. Maximum 20 files per request.");
+        }
+        throw new Error(data.message || "Failed to add event");
+      }
       return data.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
@@ -95,7 +107,19 @@ export const updateEvent = createAsyncThunk(
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to update event");
+      if (!res.ok) {
+        // Handle specific HTTP status codes
+        if (res.status === 413) {
+          throw new Error("413 Request Entity Too Large - File size exceeds server limits");
+        } else if (res.status === 400 && data.message?.includes('File too large')) {
+          throw new Error("File too large. Maximum size is 50MB per file.");
+        } else if (res.status === 400 && data.message?.includes('Only image files')) {
+          throw new Error("Only image files are allowed");
+        } else if (res.status === 400 && data.message?.includes('Too many files')) {
+          throw new Error("Too many files. Maximum 20 files per request.");
+        }
+        throw new Error(data.message || "Failed to update event");
+      }
 
       return data.data;
     } catch (error: any) {

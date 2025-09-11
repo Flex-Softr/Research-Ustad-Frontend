@@ -92,7 +92,19 @@ const EventForm = ({
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length > 0) {
-      setSelectedFile(e.target.files[0]);
+      const file = e.target.files[0];
+      
+      // Check file size
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error("File is too large! Maximum size allowed is 50MB.");
+        setImageErrors((prev) => ({ 
+          ...prev, 
+          eventImage: "File is too large (max 50MB)" 
+        }));
+        return;
+      }
+      
+      setSelectedFile(file);
       // Clear error when file is selected
       setImageErrors((prev) => ({ ...prev, eventImage: undefined }));
     }
@@ -104,6 +116,20 @@ const EventForm = ({
   ) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files![0];
+      
+      // Check file size
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error(`Speaker ${index + 1} image is too large! Maximum size allowed is 50MB.`);
+        setImageErrors((prev) => ({
+          ...prev,
+          speakerImages: {
+            ...prev.speakerImages,
+            [index]: "File is too large (max 50MB)",
+          },
+        }));
+        return;
+      }
+      
       console.log(`📁 File selected for speaker ${index}:`, file.name);
       setSpeakerFiles((prev) => ({
         ...prev,
@@ -172,6 +198,16 @@ const EventForm = ({
         return;
       }
 
+      // Validate event image size
+      if (selectedFile && selectedFile.size > 50 * 1024 * 1024) {
+        setImageErrors((prev) => ({
+          ...prev,
+          eventImage: "Event image is too large (max 50MB)",
+        }));
+        toast.error("Event image is too large! Maximum size allowed is 50MB.");
+        return;
+      }
+
       // Validate speaker images
       const speakerImageErrors: { [key: number]: string } = {};
       let hasSpeakerImageError = false;
@@ -180,6 +216,12 @@ const EventForm = ({
         const hasFile = speakerFiles[index];
         const hasExistingImage =
           isEditing && event?.speakers?.[index]?.imageUrl;
+
+        // Validate speaker image size
+        if (hasFile && hasFile.size > 50 * 1024 * 1024) {
+          speakerImageErrors[index] = "Speaker image is too large (max 50MB)";
+          hasSpeakerImageError = true;
+        }
 
         // For new events, all speakers must have images
         // For updates, speakers can be added without images initially
@@ -280,7 +322,22 @@ const EventForm = ({
       setSpeakerFiles({});
       setImageErrors({}); // Clear errors on successful submission
     } catch (error: any) {
-      toast.error(error || "Failed to save event");
+      console.error('Event submission error:', error);
+      
+      // Handle specific error types
+      if (error?.includes('413') || error?.includes('Request Entity Too Large')) {
+        toast.error("File size too large! Please reduce image sizes or use smaller images. Maximum allowed: 50MB per file.");
+      } else if (error?.includes('CORS') || error?.includes('blocked by CORS policy')) {
+        toast.error("Connection error! Please check your internet connection and try again.");
+      } else if (error?.includes('File too large')) {
+        toast.error("Image file is too large! Maximum size allowed is 50MB per image.");
+      } else if (error?.includes('Only image files are allowed')) {
+        toast.error("Please select only image files (JPG, PNG, GIF, WebP).");
+      } else if (error?.includes('Too many files')) {
+        toast.error("Too many files! Maximum 20 files allowed per request.");
+      } else {
+        toast.error(error || "Failed to save event. Please try again.");
+      }
     }
   };
 
