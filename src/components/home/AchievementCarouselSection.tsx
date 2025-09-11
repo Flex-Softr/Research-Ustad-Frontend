@@ -113,7 +113,7 @@ const AchievementCarouselSection = () => {
   }
 
   return (
-    <section className="bg-gray-50 py-16">
+    <section className="bg-gray-50 py-10">
       <Container>
         <SectionHeader
           title="Our Achievements"

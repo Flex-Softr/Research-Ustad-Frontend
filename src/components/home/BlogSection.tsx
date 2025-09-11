@@ -159,7 +159,7 @@ const BlogSection = () => {
   const displayBlogs = blogs?.slice(0, 3);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-10 bg-white">
       <Container>
         <SectionHeader
           title="Latest Insights"

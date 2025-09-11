@@ -85,7 +85,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-14 bg-gray-50">
+    <section className="py-10 bg-gray-50">
       <Container>
         {/* Section Header */}
         <SectionHeader title="Get In Touch" />

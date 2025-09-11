@@ -226,7 +226,7 @@ const TeamSection = () => {
   }
 
   return (
-    <section className="py-20 bg-gray-100">
+    <section className="py-10 bg-gray-100">
       <Container>
         {/* Section Header */}
         <SectionHeader

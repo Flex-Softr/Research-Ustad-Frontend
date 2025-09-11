@@ -113,7 +113,7 @@ const InternationalConferenceCarouselSection = () => {
   }
 
   return (
-    <section className="bg-gradient-to-br from-gray-50 via-white to-blue-50/30 py-16">
+    <section className="bg-gradient-to-br from-gray-50 via-white to-blue-50/30 py-10">
       <Container>
         <SectionHeader
           title="International Conferences"
