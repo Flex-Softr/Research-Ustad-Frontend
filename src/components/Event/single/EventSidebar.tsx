@@ -39,7 +39,6 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
   const capacity = event?.maxAttendees ?? 100;
   const registrationPercentage = Math.round((registered / capacity) * 100);
 
-
   return (
     <div className="space-y-6">
       {/* Countdown Timer Card */}
@@ -174,33 +173,29 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </div>
 
           {/* Registration Button */}
-     <div className="flex items-center justify-center">
-     {statusInfo.status === "upcoming" ? (
-            <Button
-              size="sm"
-             variant="primary"
-             className="flex items-center justify-center"
-            >
-              <a
-                href={event?.registrationLink ?? "#"}
-                target="_blank"
-                rel="noopener noreferrer"
+          <div className="flex items-center justify-center">
+            {statusInfo.status === "upcoming" ? (
+              <Button
+                size="sm"
+                variant="primary"
                 className="flex items-center justify-center"
               >
-                Register Now
-                <ExternalLink className="h-4 w-4 ml-2" />
-              </a>
-            </Button>
-          ) : (
-            <Button
-             variant="primary"
-             size="sm"
-              disabled
-            >
-              Registration Closed
-            </Button>
-          )}
-     </div>
+                <a
+                  href={event?.registrationLink ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center"
+                >
+                  Register Now
+                  <ExternalLink className="h-4 w-4 ml-2" />
+                </a>
+              </Button>
+            ) : (
+              <Button variant="primary" size="sm" disabled>
+                Registration Closed
+              </Button>
+            )}
+          </div>
         </CardContent>
       </Card>
 
@@ -212,12 +207,6 @@ const EventSidebar = ({ event }: EventSidebarProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600">Category</span>
-            <span className="font-medium text-gray-900">
-              {event?.category ?? "General"}
-            </span>
-          </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Status</span>
             <span
