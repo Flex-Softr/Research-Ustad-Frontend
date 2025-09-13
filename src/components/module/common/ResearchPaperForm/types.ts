@@ -20,7 +20,7 @@ export interface ResearchPaperFormData {
   volume?: string;
   impactFactor?: number;
   journalRank?: string;
-  visitLink: string;
+  visitLink?: string;
   paperType: "journal" | "conference" | "book chapter";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;

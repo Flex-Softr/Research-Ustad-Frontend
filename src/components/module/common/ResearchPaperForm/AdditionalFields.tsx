@@ -41,7 +41,6 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
           <div className="md:col-span-2">
             <Label htmlFor="visitLink" className="mb-2 flex items-center gap-2">
               <Link className="h-4 w-4 text-gray-500" />
-              <span className="text-red-500">*</span>
               Research Paper Link
             </Label>
             <Input
@@ -49,11 +48,14 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
               type="url"
               placeholder="https://example.com/paper"
               {...register("visitLink", {
-                required: "Research paper link is required",
-                pattern: {
-                  value: /^https?:\/\/.+/,
-                  message:
-                    "Please enter a valid URL starting with http:// or https://",
+                validate: (value) => {
+                  if (!value || value.trim() === "") {
+                    return true; // Allow empty values
+                  }
+                  if (!/^https?:\/\/.+/.test(value)) {
+                    return "Please enter a valid URL starting with http:// or https://";
+                  }
+                  return true;
                 },
               })}
               className={`${errors.visitLink ? "border-red-500 focus:border-red-500" : "focus:border-blue-500"} transition-colors`}

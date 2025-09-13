@@ -132,15 +132,17 @@ const PapersTable = ({ papers }: PapersTableProps) => {
                     </Badge>
                   </td>
                   <td className="px-6 py-4">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => window.open(paper.visitLink, "_blank")}
-                      className="h-8 px-3 text-xs cursor-pointer"
+                  {paper?.visitLink && (
+                    <a
+                      href={paper?.visitLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 border rounded-md px-2 py-1"
                     >
                       <ExternalLink className="h-3 w-3 mr-1" />
                       View
-                    </Button>
+                    </a>
+                  )}
                   </td>
                 </tr>
               ))}

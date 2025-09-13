@@ -144,7 +144,7 @@ const SingleResearchPaper = ({
       />
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Back Button */}
         <div className="mb-8">
           <Button
@@ -319,7 +319,9 @@ const SingleResearchPaper = ({
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2 capitalize">
-                        {paper?.status === "published" ? "Published Year" : "Started Year"}
+                        {paper?.status === "published"
+                          ? "Published Year"
+                          : "Started Year"}
                       </h4>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-gray-400" />
@@ -366,7 +368,10 @@ const SingleResearchPaper = ({
                 {paper?.researchArea && (
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Research Area</span>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge
+                      variant="outline"
+                      className="text-xs w-fit"
+                    >
                       {paper.researchArea}
                     </Badge>
                   </div>

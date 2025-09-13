@@ -86,7 +86,7 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
               volume: paperData.volume || "",
               impactFactor: paperData.impactFactor || 0,
               journalRank: paperData.journalRank || "",
-              visitLink: paperData.visitLink || "",
+              visitLink: paperData.visitLink || undefined,
               paperType: paperData.paperType || "",
               status: paperData.status || "ongoing",
               abstract: paperData.abstract || "",
@@ -247,10 +247,14 @@ export const useResearchPaperForm = (onSuccess?: (result: any) => void, onError?
       title: data.title,
       authors: validAuthors,
       journal: data.journal,
-      visitLink: data.visitLink,
       paperType: data.paperType,
       status: data.status,
     };
+
+    // Only include visitLink if it has a value
+    if (data.visitLink && data.visitLink.trim() !== "") {
+      formData.visitLink = data.visitLink;
+    }
 
     // Only include optional fields if they have content
     if (data.volume && data.volume.trim() !== "") {

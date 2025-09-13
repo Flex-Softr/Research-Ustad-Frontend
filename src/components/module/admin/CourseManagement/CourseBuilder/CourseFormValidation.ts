@@ -74,11 +74,7 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
       field: "curriculum",
       message: "Course curriculum is required",
     });
-  // } else if (data.curriculum.length < 50) {
-  //   errors.push({
-  //     field: "curriculum",
-  //     message: "Course curriculum must be at least 50 characters",
-  //   });
+
   }
 
   if (!data.category.trim()) {

@@ -22,7 +22,7 @@ const SingleMemberPage = () => {
   const [member, setMember] = useState<TeamMember | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState("publications");
+  const [activeTab, setActiveTab] = useState<string>("publications");
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -101,6 +101,32 @@ const SingleMemberPage = () => {
       fetchMember();
     }
   }, [params.slug]);
+
+  // Set initial active tab based on available data
+  useEffect(() => {
+    if (member) {
+      const hasPublishedPapers =
+        (member.publications?.filter(
+          (pub) => pub.status === "published" || pub.status === "Published"
+        ).length || 0) > 0;
+      const hasOngoingPapers =
+        (member.publications?.filter(
+          (pub) => pub.status !== "published" && pub.status !== "Published"
+        ).length || 0) > 0;
+      const hasBlogs = (member.blogs?.length || 0) > 0;
+
+      // Set active tab based on priority: publications > ongoing > blogs
+      if (hasPublishedPapers) {
+        setActiveTab("publications");
+      } else if (hasOngoingPapers) {
+        setActiveTab("ongoing");
+      } else if (hasBlogs) {
+        setActiveTab("blogs");
+      } else {
+        setActiveTab("publications"); // Default fallback
+      }
+    }
+  }, [member]);
 
   // Reset pagination when tab changes
   useEffect(() => {

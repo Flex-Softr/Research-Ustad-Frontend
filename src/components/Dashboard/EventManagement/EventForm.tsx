@@ -57,8 +57,8 @@ const EventForm = ({
   // Show error only if field is touched or form is submitted
   const agendaError =
     (touchedFields.agenda || isSubmitted) &&
-    (!agenda || agenda.trim()?.length < 50)
-      ? "Event agenda must be at least 50 characters"
+    (!agenda || agenda.trim()?.length < 10)
+      ? "Event agenda must be at least 10 characters"
       : undefined;
 
   // Add validation for date fields
@@ -165,8 +165,8 @@ const EventForm = ({
       setImageErrors({});
 
       // Validate agenda
-      if (!data.agenda || data.agenda.trim()?.length < 50) {
-        toast.error("Event agenda must be at least 50 characters");
+      if (!data.agenda || data.agenda.trim()?.length < 10) {
+        toast.error("Event agenda must be at least 10 characters");
         return;
       }
 

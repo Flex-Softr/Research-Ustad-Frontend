@@ -77,7 +77,7 @@ const CourseSidebar = ({ course }) => {
 
           {course.status === "upcoming" ? (
             <Button
-              className="w-full bg-brand-primary hover:shadow-lg transition-all duration-300 mb-4"
+              className="w-full bg-brand-primary hover:bg-brand-primary/80 hover:shadow-lg transition-all duration-300 mb-4"
               asChild
             >
               <a

@@ -8,7 +8,7 @@ export type ResearchPaper = {
   volume: string;
   impactFactor: number;
   journalRank: string;
-  visitLink: string;
+  visitLink?: string;
 };
 
 // Author interface to match API response
@@ -36,7 +36,7 @@ export type TPapers = {
   volume: string;
   impactFactor?: number;
   journalRank?: string;
-  visitLink: string;
+  visitLink?: string;
   paperType: "journal" | "conference" | "book chapter";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   isApproved: boolean;
@@ -64,7 +64,7 @@ export interface ResearchPaperForm {
   volume?: string;
   impactFactor?: number;
   journalRank?: string;
-  visitLink: string;
+  visitLink?: string;
   paperType: "journal" | "conference" | "book chapter";
   status: "published" | "ongoing" | "under_review" | "in_preparation" | "revision";
   abstract?: string;
