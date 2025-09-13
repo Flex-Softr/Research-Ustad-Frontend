@@ -12,7 +12,7 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Our Location",
-    details: ["100 Bermuda Run Rd, Statesboro, GA 30458"],
+    details: ["100 Bermuda Run Rd, Statesboro, GA 30458, USA"],
   },
   {
     icon: Mail,

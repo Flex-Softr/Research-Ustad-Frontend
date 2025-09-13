@@ -1,9 +1,4 @@
 const CurriculumTab = ({ course }) => {
-  const totalLessons =
-    course.modules?.reduce(
-      (total, module) => total + module.lessons?.length,
-      0
-    ) || 0;
 
   return (
     <div className="space-y-6">
@@ -17,7 +12,7 @@ const CurriculumTab = ({ course }) => {
           )}
         </h3>
         <div className="text-sm text-gray-600">
-          {course.duration} • {totalLessons} lessons
+         Duration: {course.duration} 
         </div>
       </div>
 
@@ -100,7 +95,9 @@ const CurriculumTab = ({ course }) => {
             <h3>Assessment and Certification</h3>
             <p>
               {course.assessmentInfo ||
-                "Complete assessments to earn your certificate."}
+                (course.certificate
+                  ? "Complete assessments to earn your certificate."
+                  : "Complete assessments to track your progress.")}
             </p>
 
             <div className="bg-brand-secondary/10 border border-brand-secondary/20 rounded-lg p-4 mt-6">
@@ -112,8 +109,10 @@ const CurriculumTab = ({ course }) => {
                 <li>✓ Downloadable resources and materials</li>
                 <li>✓ Interactive quizzes and assessments</li>
                 <li>✓ Hands-on projects and exercises</li>
-                <li>✓ Certificate of completion</li>
-                <li>✓ Lifetime access to course materials</li>
+                {course.certificate && <li>✓ Certificate of completion</li>}
+                {course.lifetimeAccess && (
+                  <li>✓ Lifetime access to course materials</li>
+                )}
               </ul>
             </div>
           </div>

@@ -98,18 +98,22 @@ const CourseSidebar = ({ course }) => {
           )}
 
           <div className="space-y-3 text-sm">
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-4 h-4 text-green-500" />
-              <span>Full lifetime access</span>
-            </div>
+            {course.lifetimeAccess && (
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <span>Full lifetime access</span>
+              </div>
+            )}
             <div className="flex items-center gap-3">
               <CheckCircle className="w-4 h-4 text-green-500" />
               <span>Access on mobile and TV</span>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-4 h-4 text-green-500" />
-              <span>Certificate of completion</span>
-            </div>
+            {course.certificate && (
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <span>Certificate of completion</span>
+              </div>
+            )}
             <div className="flex items-center gap-3">
               <CheckCircle className="w-4 h-4 text-green-500" />
               <span>Downloadable resources</span>

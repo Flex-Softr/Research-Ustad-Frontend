@@ -182,7 +182,7 @@ const MyAllBlog = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={handleCreateBlog} className="cursor-pointer">
+          <Button onClick={handleCreateBlog} className="cursor-pointer bg-brand-primary hover:bg-brand-primary/80">
             <Plus className="w-4 h-4 mr-2" />
             Create Blog
           </Button>

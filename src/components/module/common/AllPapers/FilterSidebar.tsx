@@ -44,7 +44,7 @@ const FilterButton = ({
         : "bg-gray-50 hover:bg-gray-100 text-gray-700"
     }`}
   >
-    <span className="font-medium">{option.name}</span>
+    <span className="font-medium text-start">{option.name}</span>
     <span
       className={`px-2 py-1 rounded-full text-xs font-semibold ${
         isSelected

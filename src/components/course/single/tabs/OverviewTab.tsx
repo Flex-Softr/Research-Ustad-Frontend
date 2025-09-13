@@ -56,16 +56,16 @@ const OverviewTab = ({ course }) => {
       description: "Access to course materials and resources",
       icon: "FileText",
     },
-    {
+    ...(course.certificate ? [{
       title: "Certificate of Completion",
       description: "Earn a certificate upon course completion",
       icon: "Award",
-    },
-    {
+    }] : []),
+    ...(course.lifetimeAccess ? [{
       title: "Lifetime Access",
       description: "Access course content forever",
       icon: "Globe",
-    },
+    }] : []),
   ];
 
   const courseFeatures = course.courseFeatures || defaultCourseFeatures;

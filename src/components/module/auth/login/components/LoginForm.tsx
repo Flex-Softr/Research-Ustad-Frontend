@@ -119,6 +119,7 @@ const LoginForm = () => {
 
         <Button
           type="submit"
+          disabled={isSubmitting}
           className="w-full bg-brand-primary hover:bg-brand-secondary cursor-pointer text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           {isSubmitting ? "Processing..." : "SIGN IN"}
