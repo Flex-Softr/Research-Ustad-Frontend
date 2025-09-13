@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, Container, SectionHeader } from "@/components/ui/core";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { toast } from "sonner";
 import { CreateContact } from "@/services/contact";
@@ -12,12 +12,17 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Our Location",
-    details: ["Nabinagar, Savar, Dhaka, Bangladesh"],
+    details: ["100 Bermuda Run Rd, Statesboro, GA 30458"],
   },
   {
     icon: Mail,
     title: "Email Us",
     details: ["info@researchustad.org"],
+  },
+  {
+    icon: Phone,
+    title: "Phone",
+    details: ["(912) 794-1871"],
   },
   {
     icon: FaWhatsapp,

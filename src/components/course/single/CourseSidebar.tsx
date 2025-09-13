@@ -118,23 +118,6 @@ const CourseSidebar = ({ course }) => {
         </CardContent>
       </Card>
 
-      {/* Share Course */}
-      <Card className="bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
-        <CardContent className="p-6">
-          <h3 className="font-semibold text-gray-900 mb-4">
-            Share this course
-          </h3>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="flex-1">
-              <Share2 className="w-4 h-4 mr-2" />
-              Share
-            </Button>
-            <Button variant="outline" size="sm">
-              <Heart className="w-4 h-4" />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };

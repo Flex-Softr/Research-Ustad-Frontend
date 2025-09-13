@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsUpDown, LogOut, User, Settings } from "lucide-react";
+import { ChevronsUpDown, LogOut, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -143,14 +143,12 @@ export function NavUser() {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="px-3 py-2 text-sm">
+          <DropdownMenuItem 
+            className="px-3 py-2 text-sm cursor-pointer"
+            onClick={() => router.push(user?.role === 'superAdmin' || user?.role === 'admin' ? '/admin/dashboard/profile' : '/user/dashboard/profileinfo')}
+          >
             <User className="h-4 w-4 mr-3 text-gray-400" />
             Profile
-          </DropdownMenuItem>
-
-          <DropdownMenuItem className="px-3 py-2 text-sm">
-            <Settings className="h-4 w-4 mr-3 text-gray-400" />
-            Settings
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />

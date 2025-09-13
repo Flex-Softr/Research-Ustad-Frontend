@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { BsWhatsapp } from "react-icons/bs";
 
 const Footer = () => {
   return (
@@ -51,7 +52,7 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand Section */}
-          <div className="lg:col-span-1">
+          <div className="">
             <Link href="/" className="group flex items-center gap-2">
               <Image
                 src="/logo.png"
@@ -67,9 +68,7 @@ const Footer = () => {
               </h2>
             </Link>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              Empowering researchers and students with cutting-edge tools and
-              collaborative platforms to accelerate innovation and knowledge
-              discovery.
+            We connect the dots between passion and profession. Stay connected with the cutting-edge tools and unlock opportunities globally. Dare to dream big!
             </p>
           </div>
 
@@ -148,19 +147,38 @@ const Footer = () => {
               <div className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 text-brand-secondary mt-1 flex-shrink-0" />
                 <p className="text-gray-300 text-sm leading-relaxed">
-                  Nabinagar, Savar, Dhaka, Bangladesh
+                  100 Bermuda Run Rd, Statesboro, GA 30458
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                <BsWhatsapp className="h-5 w-5 text-brand-secondary flex-shrink-0" />
+                <p className="text-gray-300 text-sm ">
+                  WhatsApp:{" "}
+                  <a
+                    className="hover:underline "
+                    href="https://wa.me/8801724653054"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +880 1724-653054
+                  </a>
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-brand-secondary flex-shrink-0" />
-                <p className="text-gray-300 text-sm">
-                  WhatsApp: +880 1724-653054
-                </p>
+                <p className="text-gray-300 text-sm">Phone: (912) 794-1871</p>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-brand-secondary flex-shrink-0" />
-                <p className="text-gray-300 text-sm">
-                  Email: info@researchustad.org
+
+                <p className="text-gray-300 text-sm ">
+                  Email:
+                  <a
+                    href="mailto:info@researchustad.org"
+                    className="underline ml-1"
+                  >
+                    info@researchustad.org
+                  </a>
                 </p>
               </div>
               <div className="flex items-center gap-3">
@@ -268,28 +286,20 @@ const Footer = () => {
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-center items-center">
             <div className="text-gray-300 flex items-center gap-2 text-sm">
-             <p> © 2024 - Ikram BD - All Rights Reserved. Developed by </p> <span className="font-bold hover:underline text-brand-secondary"><a href="https://www.flexsoftr.com/" target="_blank" rel="noopener noreferrer">Flex Softr</a></span>
+              <p>
+                {" "}
+                © 2025 - ResearchUstad - All Rights Reserved. Developed by{" "}
+              </p>{" "}
+              <span className="font-bold hover:underline text-brand-secondary">
+                <a
+                  href="https://www.flexsoftr.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Flex Softr
+                </a>
+              </span>
             </div>
-            {/* <div className="flex space-x-6 mt-4 md:mt-0">
-              <a
-                href="#"
-                className="text-gray-300 hover:text-brand-secondary text-sm transition-colors duration-300"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-brand-secondary text-sm transition-colors duration-300"
-              >
-                Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-brand-secondary text-sm transition-colors duration-300"
-              >
-                Cookie Policy
-              </a>
-            </div> */}
           </div>
         </div>
       </div>

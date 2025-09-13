@@ -11,26 +11,14 @@ const AboutSection = () => {
           {/* Left Content - Text */}
           <div className="space-y-6 text-justify">
             <p className="text-lg text-gray-700 leading-relaxed">
-              Research Ustad is a premier academic platform dedicated to
-              transforming how students approach research. We combine expert
-              mentorship with innovative tools to simplify the research process
-              while maintaining scholarly excellence.
+            Research Ustad is a platform dedicated to sharpening your intellectuality. Our interdisciplinary team brings together decades of experience across Humanities, Sciences, and Social Sciences to provide comprehensive support tailored to your academic needs. The platform might be the gateway to the emerging world of Innovation and Invention. 
             </p>
 
-            <p className="text-lg text-gray-700 leading-relaxed">
+            {/* <p className="text-lg text-gray-700 leading-relaxed">
               Our interdisciplinary team brings together decades of experience
               across humanities, sciences, and social sciences to provide
               comprehensive support tailored to your academic needs.
-            </p>
-
-            {/* <div className="pt-4">
-              <Button
-                variant="primary"
-                size="lg"
-              >
-                DISCOVER OUR APPROACH
-              </Button>
-            </div> */}
+            </p> */}
           </div>
 
           {/* Right Content - Image */}
