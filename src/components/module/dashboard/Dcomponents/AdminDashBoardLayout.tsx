@@ -323,7 +323,7 @@ const AdminDashBoardLayout = () => {
                       </div>
                       <div className="flex-1">
                         <p className="font-medium text-gray-900">
-                          Research Papers Submitted
+                          Research Papers
                         </p>
                         <p className="text-sm text-gray-500">
                           {allInfo.totalResearchPapers} papers in total
