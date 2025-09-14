@@ -22,7 +22,7 @@ const ImageUploadSection: React.FC<ImageUploadSectionProps> = ({
         Blog Cover Image *
       </Label>
       <p className="text-sm text-gray-500 mb-3">
-        A cover image is required for your blog post. Please upload an image to continue.
+        A cover image is required for your blog post. Please upload an image to continue. Maximum file size: 1MB.
       </p>
       <div className="w-full">
         <div className="space-y-2">

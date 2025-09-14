@@ -94,15 +94,15 @@ const EventForm = ({
     if (e.target.files && e.target.files?.length > 0) {
       const file = e.target.files[0];
       
-      // Check file size (5MB limit for better user experience)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("Image too large! Please choose a different image under 5MB.", {
+      // Check file size (1MB limit)
+      if (file.size > 1 * 1024 * 1024) {
+        toast.error("Image too large! Please choose a different image under 1MB.", {
           description: `Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Try compressing the image or choosing a smaller file.`,
           duration: 6000,
         });
         setImageErrors((prev) => ({ 
           ...prev, 
-          eventImage: "File is too large (max 5MB)" 
+          eventImage: "File is too large (max 1MB)" 
         }));
         // Clear the input
         e.target.value = "";
@@ -123,9 +123,9 @@ const EventForm = ({
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files![0];
       
-      // Check file size (5MB limit for better user experience)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`Speaker ${index + 1} image too large! Please choose a different image under 5MB.`, {
+      // Check file size (1MB limit)
+      if (file.size > 1 * 1024 * 1024) {
+        toast.error(`Speaker ${index + 1} image too large! Please choose a different image under 1MB.`, {
           description: `Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Try compressing the image or choosing a smaller file.`,
           duration: 6000,
         });
@@ -133,7 +133,7 @@ const EventForm = ({
           ...prev,
           speakerImages: {
             ...prev.speakerImages,
-            [index]: "File is too large (max 5MB)",
+            [index]: "File is too large (max 1MB)",
           },
         }));
         // Clear the input
@@ -211,12 +211,12 @@ const EventForm = ({
       }
 
       // Validate event image size
-      if (selectedFile && selectedFile.size > 50 * 1024 * 1024) {
+      if (selectedFile && selectedFile.size > 1 * 1024 * 1024) {
         setImageErrors((prev) => ({
           ...prev,
-          eventImage: "Event image is too large (max 50MB)",
+          eventImage: "Event image is too large (max 1MB)",
         }));
-        toast.error("Event image is too large! Maximum size allowed is 50MB.");
+        toast.error("Event image is too large! Maximum size allowed is 1MB.");
         return;
       }
 
@@ -230,8 +230,8 @@ const EventForm = ({
           isEditing && event?.speakers?.[index]?.imageUrl;
 
         // Validate speaker image size
-        if (hasFile && hasFile.size > 50 * 1024 * 1024) {
-          speakerImageErrors[index] = "Speaker image is too large (max 50MB)";
+        if (hasFile && hasFile.size > 1 * 1024 * 1024) {
+          speakerImageErrors[index] = "Speaker image is too large (max 1MB)";
           hasSpeakerImageError = true;
         }
 
@@ -325,11 +325,11 @@ const EventForm = ({
       
       // Handle specific error types
       if (error?.includes('413') || error?.includes('Request Entity Too Large')) {
-        toast.error("File size too large! Please reduce image sizes or use smaller images. Maximum allowed: 50MB per file.");
+        toast.error("File size too large! Please reduce image sizes or use smaller images. Maximum allowed: 1MB per file.");
       } else if (error?.includes('CORS') || error?.includes('blocked by CORS policy')) {
         toast.error("Connection error! Please check your internet connection and try again.");
       } else if (error?.includes('File too large')) {
-        toast.error("Image file is too large! Maximum size allowed is 50MB per image.");
+        toast.error("Image file is too large! Maximum size allowed is 1MB per image.");
       } else if (error?.includes('Only image files are allowed')) {
         toast.error("Please select only image files (JPG, PNG, GIF, WebP).");
       } else if (error?.includes('Too many files')) {
@@ -341,7 +341,7 @@ const EventForm = ({
   };
 
   return (
-    <Card className="w-full max-w-3xl mx-auto">
+    <Card className="w-full container mx-auto">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{isEditing ? "Edit Event" : "Create New Event"}</CardTitle>
         <Button
@@ -580,8 +580,7 @@ const EventForm = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Event Image Upload */}
               <div className="space-y-2">
-                <Label htmlFor="file">Upload Event Image *</Label>
-                <p className="text-xs text-gray-500">Maximum file size: 5MB</p>
+                <Label htmlFor="file">Upload Event Image</Label>
                 <Input
                   type="file"
                   id="file"
@@ -591,11 +590,6 @@ const EventForm = ({
                 {imageErrors.eventImage && (
                   <p className="text-sm text-red-500">
                     {imageErrors.eventImage}
-                  </p>
-                )}
-                {selectedFile && (
-                  <p className="text-sm text-green-600">
-                    Selected: {selectedFile.name} ({(selectedFile.size / (1024 * 1024)).toFixed(1)}MB)
                   </p>
                 )}
               </div>
@@ -748,7 +742,7 @@ const EventForm = ({
                   <Label htmlFor={`speaker-file-${index}`}>
                     Upload Speaker Image *
                   </Label>
-                  <p className="text-xs text-gray-500">Maximum file size: 5MB</p>
+              
                   <Input
                     type="file"
                     id={`speaker-file-${index}`}

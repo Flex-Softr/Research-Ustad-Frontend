@@ -38,6 +38,12 @@ export function CourseThumbnailUpload({ onChange, value, existingImageUrl, isEdi
       return false;
     }
 
+    // Check file size (1MB limit)
+    if (file.size > 1 * 1024 * 1024) {
+      setError("Image too large! Please choose a different image under 1MB.");
+      return false;
+    }
+
     setError(null);
     return true;
   };

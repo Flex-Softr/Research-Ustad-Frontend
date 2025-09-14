@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, X, User, Camera } from "lucide-react";
 import { InstructorImageUploadProps } from "@/type";
+import { toast } from "sonner";
 
 export function InstructorImageUpload({
   onChange,
@@ -39,6 +40,12 @@ export function InstructorImageUpload({
 
     if (!allowedTypes.includes(file.type)) {
       setError("Please upload an image file (JPEG, PNG, or WebP)");
+      return false;
+    }
+
+    // Check file size (1MB limit)
+    if (file.size > 1 * 1024 * 1024) {
+      setError("Image too large! Please choose a different image under 1MB.");
       return false;
     }
 

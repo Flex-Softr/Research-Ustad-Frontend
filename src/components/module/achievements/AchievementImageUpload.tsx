@@ -45,7 +45,7 @@ export function AchievementImageUpload({
 
   const validateFile = (file: File): boolean => {
     const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 1 * 1024 * 1024; // 1MB
 
     if (!allowedTypes.includes(file.type)) {
       setError("Please upload an image file (JPEG, PNG, or WebP)");
@@ -53,7 +53,7 @@ export function AchievementImageUpload({
     }
 
     if (file.size > maxSize) {
-      setError("File size must be less than 5MB");
+      setError("Image too large! Please choose a different image under 1MB.");
       return false;
     }
 
@@ -171,7 +171,7 @@ export function AchievementImageUpload({
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    PNG, JPG, WebP up to 5MB
+                    PNG, JPG, WebP up to 1MB
                   </p>
                   {required && (
                     <p className="text-xs text-red-500 mt-1">

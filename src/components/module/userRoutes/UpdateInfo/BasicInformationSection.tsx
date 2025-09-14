@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UpdateInfoBasicSectionProps } from "@/type";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function BasicInformationSection({
   register,
@@ -15,6 +16,22 @@ export function BasicInformationSection({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length > 0) {
       const file = e.target.files[0];
+
+      // Check file size (1MB limit)
+      if (file.size > 1 * 1024 * 1024) {
+        toast.error(
+          "Profile image too large! Please choose a different image under 1MB.",
+          {
+            description: `Your file is ${(file.size / (1024 * 1024)).toFixed(
+              1
+            )}MB. Try compressing the image or choosing a smaller file.`,
+            duration: 6000,
+          }
+        );
+        e.target.value = ""; // Clear the input
+        return;
+      }
+
       onFileChange?.(file);
     }
   };
@@ -70,6 +87,7 @@ export function BasicInformationSection({
 
         <label className="space-y-1">
           <span className="text-sm font-medium">Profile Image</span>
+          <p className="text-xs text-gray-500">Maximum file size: 1MB</p>
           <div className="space-y-2">
             {/* File Upload */}
             <Input
