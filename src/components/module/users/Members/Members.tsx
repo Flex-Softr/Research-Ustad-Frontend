@@ -15,9 +15,13 @@ interface MembersProps {
   data?: TResearchAssociate[];
 }
 
-const Members = ({ data: initialData }: MembersProps) => {
-  const [data, setData] = useState<TResearchAssociate[]>(initialData || []);
-  const [loading, setLoading] = useState<boolean>(!initialData);
+const Members = ({ data }: MembersProps) => {
+  // Filter data directly without state
+  const filteredData = data?.filter(
+    (member: TResearchAssociate) =>
+      member.role !== "admin" && member.role !== "superAdmin"
+  ) || [];
+
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] =
     useState<TResearchAssociate | null>(null);
@@ -25,37 +29,8 @@ const Members = ({ data: initialData }: MembersProps) => {
   const [memberToDelete, setMemberToDelete] =
     useState<TResearchAssociate | null>(null);
 
-  useEffect(() => {
-    if (!initialData) {
-      const fetchData = async () => {
-        try {
-          const response = await GetAllResearchAssociate();
-          // Filter out admin and superAdmin users
-          const filteredData = (response?.data || [])?.filter(
-            (member: TResearchAssociate) =>
-              member.role !== "admin" && member.role !== "superAdmin"
-          );
-          setData(filteredData);
-        } catch (error) {
-          console.error("Error fetching research members:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchData();
-    } else {
-      // Filter out admin and superAdmin users from initial data
-      const filteredData = initialData?.filter(
-        (member: TResearchAssociate) =>
-          member.role !== "admin" && member.role !== "superAdmin"
-      );
-      setData(filteredData);
-    }
-  }, [initialData]);
-
   const handleDelete = async (id: string) => {
-    const member = data.find((m) => m._id === id);
+    const member = filteredData.find((m) => m._id === id);
     if (member) {
       setMemberToDelete(member);
       setDeleteDialogOpen(true);
@@ -68,11 +43,10 @@ const Members = ({ data: initialData }: MembersProps) => {
     try {
       const res = await DeleteMember(memberToDelete._id);
       if (res?.success) {
-        // Remove member from local state immediately for instant feedback
-        setData((prevData) =>
-          prevData?.filter((member) => member._id !== memberToDelete._id)
-        );
         toast.success(`Successfully deleted member ${memberToDelete.fullName}`);
+        
+        // Refresh the page to get updated data
+        window.location.reload();
       } else {
         toast.error(res?.message || "Failed to delete member");
       }
@@ -91,31 +65,8 @@ const Members = ({ data: initialData }: MembersProps) => {
   };
 
   const handleEditSuccess = (updatedDesignation?: string) => {
-    // Update the local data immediately for instant feedback
-    if (selectedMember && updatedDesignation) {
-      setData((prevData) =>
-        prevData?.map((member) =>
-          member._id === selectedMember._id
-            ? { ...member, designation: updatedDesignation }
-            : member
-        )
-      );
-    }
-
-    // Also refresh from server to ensure consistency
-    const fetchData = async () => {
-      try {
-        const response = await GetAllResearchAssociate();
-        const filteredData = (response?.data || [])?.filter(
-          (member: TResearchAssociate) =>
-            member.role !== "admin" && member.role !== "superAdmin"
-        );
-        setData(filteredData);
-      } catch (error) {
-        console.error("Error fetching research members:", error);
-      }
-    };
-    fetchData();
+    // Refresh the page to get updated data
+    window.location.reload();
   };
 
   const columns = [
@@ -209,14 +160,14 @@ const Members = ({ data: initialData }: MembersProps) => {
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-gray-500" />
           <span className="text-sm text-gray-500">
-            {data?.length} member{data?.length !== 1 ? "s" : ""}
+            {filteredData?.length} member{filteredData?.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>
 
       <ManageTable
-        data={data}
-        loading={loading}
+        data={filteredData}
+        loading={false}
         columns={columns}
         isvalue="researhMembar"
         onDelete={handleDelete}
