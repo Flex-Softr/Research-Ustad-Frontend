@@ -85,9 +85,9 @@ const SuperAdminManagement = () => {
       }
 
       if (usersResponse?.success) {
-        // Filter out the current superAdmin and only show admin and user roles
+        // Filter to only show admin users (only admins can be promoted to superAdmin)
         const filteredUsers = usersResponse.data?.filter(
-          (user: User) => user.role !== "superAdmin"
+          (user: User) => user.role === "admin"
         );
         setUsers(filteredUsers);
       }
@@ -131,6 +131,15 @@ const SuperAdminManagement = () => {
         setCurrentSuperAdmin(response.data.newSuperAdmin);
         setSelectedUserId("");
         setShowConfirmDialog(false);
+
+        // Show serious logout alert
+        toast.error(
+          "⚠️ CRITICAL: Both users must logout and login again for role changes to take effect!",
+          { 
+            duration: 10000,
+            description: "The previous SuperAdmin and new SuperAdmin must both logout and login again to get the best experience."
+          }
+        );
 
         // Refresh the users list
         await fetchData();
@@ -326,12 +335,22 @@ const SuperAdminManagement = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5 text-green-500" />
-            Available Users ({users?.length})
+            Available Admins ({users?.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-3">
-            {users?.map((user) => (
+          {users?.length === 0 ? (
+            <div className="text-center p-8 text-gray-500">
+              <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+              <h3 className="text-lg font-medium mb-2">No Admin Users Available</h3>
+              <p className="text-sm">
+                There are no admin users available for SuperAdmin promotion. 
+                Please promote some users to admin role first.
+              </p>
+            </div>
+          ) : (
+            <div className="grid gap-3">
+              {users?.map((user) => (
               <div
                 key={user._id}
                 className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
@@ -351,14 +370,13 @@ const SuperAdminManagement = () => {
                     <p className="text-xs text-gray-500">{user?.designation}</p>
                   </div>
                 </div>
-                <Badge
-                  variant={user?.role === "admin" ? "default" : "secondary"}
-                >
+                <Badge variant="default">
                   {user?.role}
                 </Badge>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -373,10 +391,13 @@ const SuperAdminManagement = () => {
             <AlertDialogDescription className="space-y-4">
               <span className="block bg-red-50 p-4 rounded-lg border border-red-200">
                 <span className="block text-sm text-red-800 font-medium mb-2">
-                  Are you absolutely sure you want to replace yourself as SuperAdmin?
+                  Are you absolutely sure you want to replace?
                 </span>
                 <span className="block text-xs text-red-700">
                   This action cannot be undone and will permanently change your role.
+                </span>
+                <span className="block text-xs text-red-700 font-bold mt-2">
+                  ⚠️ IMPORTANT: Both you and the new SuperAdmin will need to logout and login again after this action!
                 </span>
               </span>
               

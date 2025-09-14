@@ -153,10 +153,12 @@ export function InstructorsSection({
             </div>
           </div>
         ))}
-        <Button variant="outline" onClick={onAddInstructor} className="w-full">
-          <Plus className="w-4 h-4 mr-2" />
-          Add Instructor
-        </Button>
+        {!isEditMode && (
+          <Button variant="outline" onClick={onAddInstructor} className="w-full">
+            <Plus className="w-4 h-4 mr-2" />
+            Add Instructor
+          </Button>
+        )}
         {getFieldError("instructors") && hasAttemptedSubmit && (
           <p className="text-sm text-red-600">{getFieldError("instructors")}</p>
         )}
