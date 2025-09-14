@@ -346,22 +346,7 @@ const AdminDashBoardLayout = () => {
                     {/* <span className="text-sm text-gray-400">This month</span> */}
                   </div>
                 )}
-                {allInfo?.totalBlogs && allInfo.totalBlogs > 0 && (
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                      <PenSquare className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">
-                        Blogs Published
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {allInfo.totalBlogs} articles published
-                      </p>
-                    </div>
-                    {/* <span className="text-sm text-gray-400">This week</span> */}
-                  </div>
-                )}
+        
                 {(!allInfo?.totalResearchPapers ||
                   allInfo.totalResearchPapers === 0) &&
                   (!allInfo?.totalUsers || allInfo.totalUsers === 0) &&
