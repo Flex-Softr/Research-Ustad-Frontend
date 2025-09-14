@@ -3,13 +3,9 @@
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import io from "socket.io-client";
 import { Clock, Calendar, Play, Pause, CheckCircle } from "lucide-react";
-import { api } from "@/config";
 
 dayjs.extend(duration);
-
-const socket = io(api.baseUrl);
 
 interface CountdownTimerProps {
   startDate: string;
@@ -187,7 +183,7 @@ const CountdownTimer = ({
     updateTimer();
     const timerInterval = setInterval(updateTimer, 1000);
 
-    // Emit status change when countdown reaches zero
+    // Check status change when countdown reaches zero
     const checkStatusChange = () => {
       const now = dayjs();
       const start = dayjs(startDate);
@@ -195,33 +191,9 @@ const CountdownTimer = ({
 
       if (now.isAfter(start) && status === "upcoming") {
         setStatus("ongoing");
-        // Emit the correct event based on item type
-        if (itemType === "course") {
-          socket.emit("updateCourseStatus", {
-            courseId: itemId,
-            status: "ongoing",
-          });
-        } else if (itemType === "event") {
-          socket.emit("updateEventStatus", {
-            eventId: itemId,
-            status: "ongoing",
-          });
-        }
         onStatusChange?.("ongoing");
       } else if (end && now.isAfter(end) && status === "ongoing") {
         setStatus("finished");
-        // Emit the correct event based on item type
-        if (itemType === "course") {
-          socket.emit("updateCourseStatus", {
-            courseId: itemId,
-            status: "finished",
-          });
-        } else if (itemType === "event") {
-          socket.emit("updateEventStatus", {
-            eventId: itemId,
-            status: "finished",
-          });
-        }
         onStatusChange?.("finished");
       }
     };
