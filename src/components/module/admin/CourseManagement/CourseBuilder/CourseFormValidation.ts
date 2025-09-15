@@ -113,12 +113,12 @@ export const validateCourseForm = (data: CourseFormData, isEditMode = false): Va
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    if (selectedDate < today) {
-      errors.push({
-        field: "startDate",
-        message: "Start date cannot be in the past",
-      });
-    }
+    // if (selectedDate < today) {
+    //   errors.push({
+    //     field: "startDate",
+    //     message: "Start date cannot be in the past",
+    //   });
+    // }
   }
 
   // Only require thumbnail for new courses, not for editing

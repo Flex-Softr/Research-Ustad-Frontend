@@ -238,7 +238,7 @@ const AllBlogsTable = ({
     <div className="space-y-6">
       {/* Blogs Table */}
       <Card>
-        <CardHeader></CardHeader>
+        <CardHeader><h4 className="flex items-center justify-between font-semibold">Total Blogs ({blogs?.length})</h4></CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <Table>

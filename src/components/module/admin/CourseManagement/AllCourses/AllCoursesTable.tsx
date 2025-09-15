@@ -169,19 +169,21 @@ const AllCoursesTable = ({
   return (
     <>
       <Card>
-        <CardHeader>
+        <CardHeader className="border-b">
           <CardTitle className="flex items-center justify-between">
-            <span>Course Management</span>
+            {/* <div className="flex items-center gap-2 justify-between"></div> */}
+            <h2>Course Management</h2><h2>Total Courses ({courses?.length})</h2>
+          </CardTitle>
             {selectedCourses?.length > 0 && (
               <Button
                 variant="destructive"
                 size="sm"
                 onClick={handleBulkDelete}
+                className="cursor-pointer flex mt-5 w-fit"
               >
                 Delete Selected ({selectedCourses?.length})
               </Button>
             )}
-          </CardTitle>
         </CardHeader>
         <CardContent>
         {courses?.length === 0 ? (

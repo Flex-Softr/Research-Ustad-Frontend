@@ -152,31 +152,7 @@ const BlogCategoryTable = ({ onEditCategory }: BlogCategoryTableProps) => {
 
   return (
     <div className="space-y-6">
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="bg-blue-50 border-blue-200">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-blue-600" />
-              <div>
-                <p className="text-sm font-medium text-blue-600">Total Blogs</p>
-                <p className="text-2xl font-bold text-blue-900">{totalBlogs}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-green-50 border-green-200">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <Eye className="w-8 h-8 text-green-600" />
-              <div>
-                <p className="text-sm font-medium text-green-600">Active Categories</p>
-                <p className="text-2xl font-bold text-green-900">{activeCategories}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+  
 
       {/* Bulk Actions */}
       {selectedCategories?.length > 0 && (

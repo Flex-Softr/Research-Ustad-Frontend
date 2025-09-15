@@ -174,18 +174,14 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
     selectedCategories?.length === paginatedCategories?.length;
 
   // Calculate overall statistics
+  const totalCategories = categoriesWithStats?.length || 0;
   const totalCourses = categoriesWithStats?.reduce(
     (sum, cat) => sum + cat.courseCount,
     0
   );
-  const totalEnrollments = categoriesWithStats?.reduce(
-    (sum, cat) => sum + cat.totalEnrollments,
-    0
-  );
-  const totalRevenue = categoriesWithStats?.reduce(
-    (sum, cat) => sum + cat.totalRevenue,
-    0
-  );
+  const totalActiveCategories = categoriesWithStats?.filter(
+    (cat) => cat.status === "active"
+  ).length || 0;
 
   return (
     <div className="space-y-6">
@@ -197,10 +193,10 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
               <BookOpen className="w-8 h-8 text-blue-600" />
               <div>
                 <p className="text-sm font-medium text-blue-600">
-                  Total Courses
+                  Total Categories
                 </p>
                 <p className="text-2xl font-bold text-blue-900">
-                  {totalCourses}
+                  {totalCategories}
                 </p>
               </div>
             </div>
@@ -212,10 +208,10 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
               <Users className="w-8 h-8 text-green-600" />
               <div>
                 <p className="text-sm font-medium text-green-600">
-                  Total Enrollments
+                  Total Courses
                 </p>
                 <p className="text-2xl font-bold text-green-900">
-                  {totalEnrollments?.toLocaleString()}
+                  {totalCourses}
                 </p>
               </div>
             </div>
@@ -225,21 +221,20 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-bold">$</span>
+                <span className="text-white text-sm font-bold">✓</span>
               </div>
               <div>
                 <p className="text-sm font-medium text-purple-600">
-                  Total Revenue
+                  Active Categories
                 </p>
                 <p className="text-2xl font-bold text-purple-900">
-                  ${totalRevenue?.toLocaleString()}
+                  {totalActiveCategories}
                 </p>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-
       {/* Bulk Actions */}
       {selectedCategories?.length > 0 && (
         <Card className="bg-yellow-50 border-yellow-200">
@@ -293,7 +288,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                 No Categories Found
               </h3>
               <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                There are no course categories in the system yet. 
+                There are no course categories in the system yet.
               </p>
             </div>
           ) : (
@@ -310,9 +305,9 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                     <TableHead>Category Name</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Courses</TableHead>
-                    <TableHead>Enrollments</TableHead>
-                    <TableHead>Avg Rating</TableHead>
-                    <TableHead>Revenue</TableHead>
+                    {/* <TableHead>Enrollments</TableHead> */}
+                    {/* <TableHead>Avg Rating</TableHead> */}
+                    {/* <TableHead>Revenue</TableHead> */}
                     <TableHead>Status</TableHead>
                     <TableHead>Created</TableHead>
                     <TableHead className="w-12">Actions</TableHead>
@@ -353,27 +348,27 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
                           </span>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <div className="flex items-center gap-2">
                           <Users className="w-4 h-4 text-brand-secondary" />
                           <span className="font-medium">
                             {category.totalEnrollments?.toLocaleString()}
                           </span>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </TableCell> */}
+                      {/* <TableCell>
                         <div className="flex items-center gap-1">
                           <span className="text-yellow-500">★</span>
                           <span className="font-medium">
                             {category.averageRating}
                           </span>
                         </div>
-                      </TableCell>
-                      <TableCell>
+                      </TableCell> */}
+                      {/* <TableCell>
                         <div className="font-medium text-green-600">
                           ${category.totalRevenue?.toLocaleString()}
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <span
                           className={`px-2 py-1 text-xs font-medium rounded-full ${

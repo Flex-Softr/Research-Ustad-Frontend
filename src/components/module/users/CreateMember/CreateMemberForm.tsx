@@ -113,7 +113,7 @@ const CreateMemberForm: React.FC = () => {
         <Button
           variant="outline"
           onClick={() => router.push("/admin/dashboard/allusers")}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 hover:text-brand-secondary cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to All Users
