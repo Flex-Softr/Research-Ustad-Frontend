@@ -149,7 +149,6 @@ const EventCard = ({ event }: { event: any }) => {
                   name={speaker.name}
                   size="sm"
                   className="border-2 border-white shadow-lg"
-                  fallbackClassName="bg-brand-primary text-white"
                 />
               ))}
             {event.speakers && event.speakers?.length > 3 && (

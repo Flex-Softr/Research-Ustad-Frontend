@@ -119,13 +119,17 @@ const TeamSection = () => {
           const transformedMembers = response.data?.map((member: any) => {
             // Normalize designation to capitalized format
             let normalizedDesignation = member.designation || member.role || "";
-            
+
             // Convert old uppercase designations to new format
-            if (normalizedDesignation === "ADVISOR") normalizedDesignation = DESIGNATION_OPTIONS[0];
-            if (normalizedDesignation === "MENTOR") normalizedDesignation = DESIGNATION_OPTIONS[1];
-            if (normalizedDesignation === "TEAM LEAD") normalizedDesignation = DESIGNATION_OPTIONS[2];
-            if (normalizedDesignation === "RESEARCH ASSOCIATE") normalizedDesignation = DESIGNATION_OPTIONS[3];
-            
+            if (normalizedDesignation === "ADVISOR")
+              normalizedDesignation = DESIGNATION_OPTIONS[0];
+            if (normalizedDesignation === "MENTOR")
+              normalizedDesignation = DESIGNATION_OPTIONS[1];
+            if (normalizedDesignation === "TEAM LEAD")
+              normalizedDesignation = DESIGNATION_OPTIONS[2];
+            if (normalizedDesignation === "RESEARCH ASSOCIATE")
+              normalizedDesignation = DESIGNATION_OPTIONS[3];
+
             return {
               id: member._id,
               name: member.fullName || "Unknown Member",
@@ -155,19 +159,25 @@ const TeamSection = () => {
           const transformedMembers = response.data?.map((member: any) => {
             // Normalize designation to capitalized format
             let normalizedDesignation = member.designation || member.role || "";
-            
+
             // Convert old uppercase designations to new format
-            if (normalizedDesignation === "ADVISOR") normalizedDesignation = DESIGNATION_OPTIONS[0];
-            if (normalizedDesignation === "MENTOR") normalizedDesignation = DESIGNATION_OPTIONS[1];
-            if (normalizedDesignation === "TEAM LEAD") normalizedDesignation = DESIGNATION_OPTIONS[2];
-            if (normalizedDesignation === "RESEARCH ASSOCIATE") normalizedDesignation = DESIGNATION_OPTIONS[3];
-            
+            if (normalizedDesignation === "ADVISOR")
+              normalizedDesignation = DESIGNATION_OPTIONS[0];
+            if (normalizedDesignation === "MENTOR")
+              normalizedDesignation = DESIGNATION_OPTIONS[1];
+            if (normalizedDesignation === "TEAM LEAD")
+              normalizedDesignation = DESIGNATION_OPTIONS[2];
+            if (normalizedDesignation === "RESEARCH ASSOCIATE")
+              normalizedDesignation = DESIGNATION_OPTIONS[3];
+
             return {
               id: member._id,
               name: member.fullName || "Unknown Member",
               title: normalizedDesignation,
               institution: member.current?.institution || "",
-              image: member.image || "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg",
+              image:
+                member.image ||
+                "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg",
               category: normalizedDesignation || "Other",
             };
           });
@@ -206,7 +216,9 @@ const TeamSection = () => {
   const filteredMembers =
     activeCategory === "all"
       ? members?.slice(0, 3) // Show first 3 items by default without filtering
-      : members?.filter((member) => member.category === activeCategory).slice(0, 3); // Show max 3 items even after filtering
+      : members
+          ?.filter((member) => member.category === activeCategory)
+          .slice(0, 3); // Show max 3 items even after filtering
 
   // Error state
   if (error) {
@@ -237,9 +249,6 @@ const TeamSection = () => {
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {categories?.map((category) => {
-            // const categoryCount = members.filter(
-            //   (member) => member.category === category.id
-            // ).length;
             return (
               <Button
                 key={category.id}
@@ -265,10 +274,10 @@ const TeamSection = () => {
               {/* Member Image */}
               <div className="relative w-full h-60 mx-auto">
                 <div className="w-full h-full rounded-t-lg overflow-hidden border border-gray-200">
-                  {member.image && member.image !== "/default-avatar.jpg" ? (
+                  {member?.image && member?.image !== "/default-avatar.jpg" ? (
                     <Image
-                      src={member.image}
-                      alt={member.name}
+                      src={member?.image}
+                      alt={member?.name}
                       width={1000}
                       height={1000}
                       className="w-full h-full rounded-t-lg object-cover"
@@ -276,9 +285,9 @@ const TeamSection = () => {
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-100">
                       <UserAvatar
-                        src={member.image}
-                        alt={member.name}
-                        name={member.name}
+                        src={member?.image}
+                        alt={member?.name}
+                        name={member?.name}
                         size="4xl"
                         className="w-32 h-32"
                       />
@@ -295,7 +304,6 @@ const TeamSection = () => {
                 {member?.title && (
                   <p className="text-base text-gray-600">{member.title}</p>
                 )}
-               
               </div>
             </div>
           ))}

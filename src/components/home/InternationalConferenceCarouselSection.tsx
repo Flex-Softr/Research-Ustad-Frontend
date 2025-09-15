@@ -96,7 +96,7 @@ const InternationalConferenceCarouselSection = () => {
   }
 
   // Empty state component
-  if (conferences?.length !== 0) {
+  if (conferences?.length === 0) {
     return (
       <section className="py-20">
       <Container>

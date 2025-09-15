@@ -67,7 +67,6 @@ const BlogCard = ({ post }: { post: Blog }) => {
                 name={post.author?.fullName || "Unknown Author"}
                 size="md"
                 className="w-10 h-10"
-                fallbackClassName="bg-gradient-to-br from-blue-500 to-purple-600 text-white"
               />
             </div>
             <div className="ml-3">

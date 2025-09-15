@@ -54,7 +54,7 @@ const UserAvatar = ({
       <AvatarImage src={src} alt={alt} className="object-cover" />
       <AvatarFallback
         className={cn(
-          "bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold",
+          "bg-gradient-to-br from-brand-primary to-brand-secondary text-white font-semibold",
           fallbackSizeClasses[size],
           fallbackClassName
         )}
