@@ -24,29 +24,6 @@ const FilterSidebar = ({
 
   const availableDesignations = getAvailableDesignations();
 
-  // Helper function to get appropriate icon based on designation
-  const getIconForDesignation = (designation: string) => {
-    const lowerDesignation = designation.toLowerCase();
-    if (
-      lowerDesignation.includes("advisor") ||
-      lowerDesignation.includes("mentor")
-    ) {
-      return Award;
-    } else if (
-      lowerDesignation.includes("lead") ||
-      lowerDesignation.includes("head")
-    ) {
-      return UserCheck;
-    } else if (
-      lowerDesignation.includes("research") ||
-      lowerDesignation.includes("associate")
-    ) {
-      return GraduationCap;
-    } else {
-      return Users;
-    }
-  };
-
   // Helper function to format designation label
   const formatDesignationLabel = (designation: string) => {
     switch (designation) {
@@ -74,7 +51,6 @@ const FilterSidebar = ({
     ...availableDesignations?.map((designation) => ({
       id: designation,
       label: formatDesignationLabel(designation),
-      icon: getIconForDesignation(designation),
       count: members?.filter((m) => m.designation === designation)?.length,
     })),
   ];
@@ -98,7 +74,7 @@ const FilterSidebar = ({
               }`}
             >
               <div className="flex items-center">
-                <option.icon className="h-4 w-4 mr-3" />
+                {option.id === "all" && <Users className="h-4 w-4 mr-3" />}
                 <span className="font-medium">{option.label}</span>
               </div>
               <Badge

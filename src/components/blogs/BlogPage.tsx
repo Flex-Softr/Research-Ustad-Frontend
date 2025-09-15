@@ -166,7 +166,7 @@ const BlogPage = () => {
                     <button
                       key={category._id}
                       onClick={() => handleCategoryChange(category._id)}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
+                      className={`w-full cursor-pointer flex items-center justify-between p-3 rounded-xl transition-all duration-300 group ${
                         selectedCategory === category._id
                           ? "bg-brand-primary text-white shadow-lg"
                           : "bg-gray-50 hover:bg-gray-100 text-gray-700"
