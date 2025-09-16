@@ -285,12 +285,10 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-center items-center">
-            <div className="text-gray-300 flex items-center gap-2 text-sm">
+            <div className="text-gray-300 text-center flex items-center gap-2 text-sm">
               <p>
-                {" "}
-                © 2025 - ResearchUstad - All Rights Reserved. Developed by{" "}
-              </p>{" "}
-              <span className="font-bold hover:underline text-brand-secondary">
+                
+                © 2025 - ResearchUstad - All Rights Reserved. Developed by <span className="font-bold hover:underline text-brand-secondary ml-1">
                 <a
                   href="https://www.flexsoftr.com/"
                   target="_blank"
@@ -299,6 +297,8 @@ const Footer = () => {
                   Flex Softr
                 </a>
               </span>
+              </p>
+              
             </div>
           </div>
         </div>
