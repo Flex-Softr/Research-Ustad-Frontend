@@ -300,9 +300,11 @@ const TeamSection = () => {
 
               {/* Member Info */}
               <div className="p-6 space-y-2">
-                <h3 className="text-xl font-bold text-gray-900">
+               <Link href={`/team-members/${member.id}`}>
+               <h3 className="text-xl font-bold text-gray-900 hover:underline">
                   {member?.name}
                 </h3>
+                </Link>
                 <p className="text-base text-gray-600">{member?.shortBio ? member?.shortBio : member.title}</p>
               
               </div>
