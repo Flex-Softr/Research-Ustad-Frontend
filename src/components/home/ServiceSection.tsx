@@ -77,11 +77,11 @@ const ServicesSection = () => {
           description="Explore our specialized programs designed to support your academic journey and professional development."
           
         />
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 items-stretch">
           {wings?.map((wing, index) => (
             <div
               key={index}
-              className="group relative bg-white shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 rounded-2xl p-6 overflow-hidden"
+              className="group relative bg-white shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 rounded-2xl p-6 overflow-hidden h-full flex flex-col"
             >
               {/* Visible Hover Background */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -98,7 +98,7 @@ const ServicesSection = () => {
                 ></div>
               </div>
               {/* Content */}
-              <div className="relative z-10">
+              <div className="relative z-10 flex h-full flex-col">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-6">
                   <div
@@ -158,7 +158,7 @@ const ServicesSection = () => {
                 </ul>
 
                 {/* Action Button */}
-                <div className="flex w-full items-center justify-between pt-6 border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300">
+                <div className="flex w-full items-center justify-between pt-6 border-t border-gray-100 group-hover:border-gray-200 transition-colors duration-300 mt-auto">
                   <Link href={wing.link} className="w-full">
                     <Button className="w-full cursor-pointer text-sm font-semibold px-4 py-2 h-auto bg-brand-primary hover:bg-brand-primary/90 text-white transition-all duration-300">
                       Explore Now
