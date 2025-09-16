@@ -240,7 +240,7 @@ const UserDashBoardLayout = () => {
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+      <div className="bg-gradient-to-r from-brand-primary to-brand-secondary rounded-2xl p-8 text-white">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
@@ -257,36 +257,6 @@ const UserDashBoardLayout = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats?.map((stat, index) => (
-          <div
-            key={index}
-            className={`relative p-6 rounded-2xl border ${stat.borderColor} ${stat.bgColor} ${stat.hoverBg} transition-all duration-300 transform hover:scale-105 hover:shadow-lg group cursor-pointer`}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">
-                  {stat.title}
-                </p>
-                <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-              </div>
-              <div
-                className={`p-3 rounded-xl ${stat.bgColor} group-hover:scale-110 transition-transform duration-300`}
-              >
-                <stat.icon className={`w-6 h-6 ${stat.color}`} />
-              </div>
-            </div>
-            <div className="mt-4 flex items-center text-sm text-gray-500">
-              <TrendingUp className="w-4 h-4 mr-1" />
-              <span className={stat.trendColor}>
-                {stat.trend} from last month
-              </span>
-            </div>
-          </div>
-        ))}
       </div>
 
       {/* Main Content Grid */}
