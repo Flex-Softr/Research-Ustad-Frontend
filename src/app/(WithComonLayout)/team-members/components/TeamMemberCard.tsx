@@ -96,7 +96,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
             {member.fullName}
           </h3>
           <p className="text-sm text-brand-secondary font-medium mb-2">
-            {member.designation}
+            {member?.shortBio ? member?.shortBio : member?.designation}
           </p>
 
           {/* Research Stats */}

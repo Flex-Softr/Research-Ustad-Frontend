@@ -279,72 +279,72 @@ const Navbar = () => {
 
                     {/* Navigation Menu */}
                     <div className="flex-1 overflow-y-auto">
-                      <nav className="py-2">
+                    <nav className="py-2">
                         {/* Main Menu Items */}
-                        {navLinks?.map((link) => (
-                          <div
-                            key={link.name}
-                            className="border-b border-gray-100"
-                          >
-                            <Link
-                              href={link.href}
-                              className={cn(
-                                "flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors duration-200",
-                                isActive(link.href)
-                                  ? "text-brand-secondary bg-brand-primary/5"
-                                  : "text-gray-700 hover:text-brand-secondary hover:bg-gray-50"
-                              )}
-                              onClick={() => setOpen(false)}
-                            >
-                              <span>{link.name}</span>
-                            </Link>
+
+                        {navLinks?.map((link, index) => (
+                          <div key={link.name}>
+                            <div className="border-b border-gray-100">
+                              <Link
+                                href={link.href}
+                                className={cn(
+                                  "flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors duration-200",
+                                  isActive(link.href)
+                                    ? "text-brand-secondary bg-brand-primary/5"
+                                    : "text-gray-700 hover:text-brand-secondary hover:bg-gray-50"
+                                )}
+                                onClick={() => setOpen(false)}
+                              >
+                                <span>{link.name}</span>
+                              </Link>
+                            </div>
+
+                            {/* Insert Research Wing right after Home */}
+                            {index === 0 && (
+                              <div className="border-b border-gray-100">
+                                <button
+                                  onClick={() => toggleCategory("researchWing")}
+                                  className={cn(
+                                    "flex items-center justify-between w-full px-4 py-3 text-sm font-medium transition-colors duration-200",
+                                    isActive("/published") ||
+                                      isActive("/ongoing-projects") ||
+                                      isActive("/international-conferences") ||
+                                      isActive("/achievements")
+                                      ? "text-brand-secondary bg-brand-primary/5"
+                                      : "text-gray-700 hover:text-brand-secondary hover:bg-gray-50"
+                                  )}
+                                >
+                                  <span>Research Wing</span>
+                                  {isCategoryExpanded("researchWing") ? (
+                                    <ChevronDown className="w-4 h-4 text-gray-400" />
+                                  ) : (
+                                    <ChevronRight className="w-4 h-4 text-gray-400" />
+                                  )}
+                                </button>
+
+                                {isCategoryExpanded("researchWing") && (
+                                  <div className="bg-gray-50 px-5">
+                                    {researchWingItems?.map((item) => (
+                                      <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        className={cn(
+                                          "block px-5 py-2 text-sm transition-colors duration-200 border-b border-gray-300 last:border-b-0",
+                                          isActive(item.href)
+                                            ? "text-brand-secondary font-medium"
+                                            : "text-gray-600 hover:text-brand-secondary"
+                                        )}
+                                        onClick={() => setOpen(false)}
+                                      >
+                                        {item.name}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         ))}
-
-
-
-                        {/* Research Wing Collapsible Section */}
-                        <div className="border-b border-gray-100">
-                          <button
-                            onClick={() => toggleCategory("researchWing")}
-                            className={cn(
-                              "flex items-center justify-between w-full px-4 py-3 text-sm font-medium transition-colors duration-200",
-                              isActive("/published") ||
-                                isActive("/ongoing-projects") ||
-                                isActive("/international-conferences") ||
-                                isActive("/achievements")
-                                ? "text-brand-secondary bg-brand-primary/5"
-                                : "text-gray-700 hover:text-brand-secondary hover:bg-gray-50"
-                            )}
-                          >
-                            <span>Research Wing</span>
-                            {isCategoryExpanded("researchWing") ? (
-                              <ChevronDown className="w-4 h-4 text-gray-400" />
-                            ) : (
-                              <ChevronRight className="w-4 h-4 text-gray-400" />
-                            )}
-                          </button>
-
-                          {isCategoryExpanded("researchWing") && (
-                            <div className="bg-gray-50 px-5">
-                              {researchWingItems?.map((item) => (
-                                <Link
-                                  key={item.name}
-                                  href={item.href}
-                                  className={cn(
-                                    "block px-5 py-2 text-sm transition-colors duration-200 border-b border-gray-300 last:border-b-0",
-                                    isActive(item.href)
-                                      ? "text-brand-secondary font-medium"
-                                      : "text-gray-600 hover:text-brand-secondary"
-                                  )}
-                                  onClick={() => setOpen(false)}
-                                >
-                                  {item.name}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </div>
                       </nav>
                     </div>
 

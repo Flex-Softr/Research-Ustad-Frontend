@@ -317,7 +317,7 @@ const TeamSection = () => {
               size="md"
               className="px-8 py-4 cursor-pointer"
             >
-              VIEW FULL FACULTY
+              VIEW ALL TEAM MEMBERS
             </Button>
           </Link>
         </div>

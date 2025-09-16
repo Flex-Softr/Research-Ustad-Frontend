@@ -87,7 +87,6 @@ export function BasicInformationSection({
 
         <label className="space-y-1">
           <span className="text-sm font-medium">Profile Image</span>
-          <p className="text-xs text-gray-500">Maximum file size: 1MB</p>
           <div className="space-y-2">
             {/* File Upload */}
             <Input
@@ -119,19 +118,20 @@ export function BasicInformationSection({
             <p className="text-red-500 text-sm">{errors.profileImg.message}</p>
           )}
         </label>
-      </div>
 
-      <label className="space-y-1">
-        <span className="text-sm font-medium">Short Bio</span>
-        <Textarea
-          {...register("shortBio")}
-          placeholder="Enter a short bio (you can clear this field to remove it)"
-          className="min-h-[100px]"
-        />
-        {errors.shortBio && (
-          <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
-        )}
-      </label>
+        {/* short bio */}
+        <label className="space-y-1">
+          <span className="text-sm font-medium">Short Bio</span>
+          <Input
+            {...register("shortBio")}
+            placeholder="Enter a short bio"
+            // className="min-h-[100px]"
+          />
+          {errors.shortBio && (
+            <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
+          )}
+        </label>
+      </div>
     </div>
   );
 }
