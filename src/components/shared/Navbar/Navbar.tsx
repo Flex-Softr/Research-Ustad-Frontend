@@ -132,7 +132,7 @@ const Navbar = () => {
           : "bg-white/90 backdrop-blur-sm"
       }`}
     >
-      <div className="max-w-7xl mx-auto hidden lg:flex justify-between items-center px-6">
+      <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center px-6">
         <Link href="/" className="group flex items-center gap-2">
           <Image
             src="/logo.png"
@@ -204,7 +204,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="lg:hidden block">
+      <div className="md:hidden block">
         <div className=" bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100">
           <div className="flex justify-between items-center">
             <Link href="/" className="group">
