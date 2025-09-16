@@ -2,15 +2,21 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Award, Star, Users, Calendar } from "lucide-react";
 import { TeamMember } from "../../components";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface ExpertiseProps {
   member: TeamMember;
 }
 
 const Expertise = ({ member }: ExpertiseProps) => {
-  // console.log("member", member);
+  const [showAllAwards, setShowAllAwards] = useState(false);
+  const [showAllConferences, setShowAllConferences] = useState(false);
+
   return (
     <div className="space-y-6">
+
+
       {/* Expertise */}
       {member.expertise && member.expertise?.length > 0 && (
         <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
@@ -47,7 +53,10 @@ const Expertise = ({ member }: ExpertiseProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {member.awards?.map((award, index) => (
+              {(showAllAwards
+                ? member.awards
+                : member.awards.slice(0, 2)
+              ).map((award, index) => (
                 <div
                   key={index}
                   className="flex items-start gap-3 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200"
@@ -57,6 +66,19 @@ const Expertise = ({ member }: ExpertiseProps) => {
                 </div>
               ))}
             </div>
+
+            {member.awards.length > 2 && (
+              <div className="mt-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={() => setShowAllAwards(!showAllAwards)}
+                >
+                  {showAllAwards ? "Show Less" : "Show More"}
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
@@ -72,7 +94,10 @@ const Expertise = ({ member }: ExpertiseProps) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {member?.conferences?.map((conference, index) => (
+              {(showAllConferences
+                ? member.conferences
+                : member.conferences.slice(0, 2)
+              ).map((conference, index) => (
                 <div
                   key={index}
                   className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
@@ -93,6 +118,19 @@ const Expertise = ({ member }: ExpertiseProps) => {
                 </div>
               ))}
             </div>
+
+            {member.conferences.length > 2 && (
+              <div className="mt-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer"
+                  onClick={() => setShowAllConferences(!showAllConferences)}
+                >
+                  {showAllConferences ? "Show Less" : "Show More"}
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
