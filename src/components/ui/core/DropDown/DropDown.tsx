@@ -109,19 +109,6 @@ export function DroopDown() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/blog" legacyBehavior passHref>
-            <NavigationMenuLink
-              className={cn(
-                navigationMenuTriggerStyle(),
-                "hover:text-brand-secondary focus:text-brand-secondary",
-                isActive("/blog") && "text-brand-secondary font-semibold bg-gray-100"
-              )}
-            >
-              Blog
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
           <Link href="/course" legacyBehavior passHref>
             <NavigationMenuLink
               className={cn(
@@ -147,6 +134,21 @@ export function DroopDown() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/blog" legacyBehavior passHref>
+            <NavigationMenuLink
+              className={cn(
+                navigationMenuTriggerStyle(),
+                "hover:text-brand-secondary focus:text-brand-secondary",
+                isActive("/blog") && "text-brand-secondary font-semibold bg-gray-100"
+              )}
+            >
+              Blogs
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
+    
         <NavigationMenuItem>
           <Link href="/contact" legacyBehavior passHref>
             <NavigationMenuLink

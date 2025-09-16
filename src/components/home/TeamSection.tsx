@@ -48,7 +48,7 @@ const LoadingState = () => (
   <section className="py-20 bg-gray-100">
     <Container>
       <SectionHeader
-        title="Our Academic Team"
+        title="Meet Our Team"
         description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
       />
       <div className="flex items-center justify-center h-64">
@@ -138,7 +138,7 @@ const TeamSection = () => {
       <Container className="max-w-5xl">
         {/* Section Header */}
         <SectionHeader
-          title="Our Academic Team"
+          title="Meet Our Team"
           description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
         />
 
