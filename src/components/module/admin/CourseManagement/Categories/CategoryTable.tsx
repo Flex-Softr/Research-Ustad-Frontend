@@ -186,7 +186,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
   return (
     <div className="space-y-6">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -234,7 +234,7 @@ const CategoryTable = ({ onEditCategory }: CategoryTableProps) => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </div> */}
       {/* Bulk Actions */}
       {selectedCategories?.length > 0 && (
         <Card className="bg-yellow-50 border-yellow-200">
