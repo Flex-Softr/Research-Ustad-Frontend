@@ -1,9 +1,6 @@
 "use client";
 
-import BlogSection from "@/components/home/BlogSection";
 import ContactSection from "@/components/home/ContactSection";
-import CoursesSection from "@/components/home/CourseSection";
-import EventsSection from "@/components/home/EventSection";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServiceSection";
 import AboutSection from "@/components/home/AboutSection";
@@ -29,6 +26,9 @@ const HomePage = () => {
       </div>
       <div id="team">
         <TeamSection />
+      </div>
+      <div id="contact">
+        <ContactSection />
       </div>
     </div>
   );
