@@ -123,6 +123,7 @@ export interface TUser {
   role: string;
   isDeleted: boolean;
   image: string;
+  shortBio: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

@@ -17,6 +17,7 @@ interface TeamMember {
   institution: string;
   image: string;
   category: string;
+  shortBio: string;
 }
 
 // Error state component
@@ -137,6 +138,7 @@ const TeamSection = () => {
               institution: member.current?.institution || "",
               image: member.image || "/default-avatar.jpg",
               category: normalizedDesignation || "Other",
+              shortBio: member.shortBio || ""
             };
           });
 
@@ -301,9 +303,8 @@ const TeamSection = () => {
                 <h3 className="text-xl font-bold text-gray-900">
                   {member?.name}
                 </h3>
-                {member?.title && (
-                  <p className="text-base text-gray-600">{member.title}</p>
-                )}
+                <p className="text-base text-gray-600">{member?.shortBio ? member?.shortBio : member.title}</p>
+              
               </div>
             </div>
           ))}

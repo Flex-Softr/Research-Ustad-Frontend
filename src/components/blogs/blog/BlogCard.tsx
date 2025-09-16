@@ -74,7 +74,7 @@ const BlogCard = ({ post }: { post: Blog }) => {
                 {post.author?.fullName || "Unknown Author"}
               </h3>
               <p className="text-xs text-gray-200">
-                {post.author?.designation || "Author"}
+                {post.author?.email || ""}
               </p>
             </div>
           </div>

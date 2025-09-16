@@ -88,12 +88,19 @@ const Members = ({ data }: MembersProps) => {
           />
           <div>
             <div className="font-medium text-gray-900">{item.fullName}</div>
-            {item.shortBio && (
+            {item.shortBio ? (
               <div
                 className="text-xs text-gray-500 truncate max-w-[200px]"
                 title={item.shortBio}
               >
                 {item.shortBio}
+              </div>
+            ) : (
+              <div
+                className="text-xs text-gray-500 truncate max-w-[200px]"
+                title={item.designation}
+              >
+                {item.designation}
               </div>
             )}
           </div>

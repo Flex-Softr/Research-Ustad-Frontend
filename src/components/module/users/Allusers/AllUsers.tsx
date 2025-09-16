@@ -100,7 +100,7 @@ const ManageAllUser = ({ data: initialData }: ManageAllUserProps) => {
           <div>
             <div className="font-medium text-gray-900">{item.fullName}</div>
             {item.designation && (
-              <div className="text-xs text-gray-500">{item.designation}</div>
+              <div className="text-xs text-gray-500">{item?.shortBio ? item?.shortBio : item.designation}</div>
             )}
           </div>
         </div>

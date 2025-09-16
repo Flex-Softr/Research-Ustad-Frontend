@@ -85,7 +85,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     <h2 className="text-gray-700  font-semibold capitalize">
                       Role:
                     </h2>
-                    <p className="text-gray-700">{member?.designation}</p>
+                    <p className="text-gray-700">{member?.shortBio ? member.shortBio : member?.designation}</p>
                   </div>
                 </div>
               )}

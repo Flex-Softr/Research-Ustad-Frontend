@@ -205,9 +205,7 @@ function SingleBlogPage({ params }: { params: Promise<{ id: string }> }) {
                   <p className="font-semibold text-gray-900">
                     {post.author?.fullName || "Unknown Author"}
                   </p>
-                  <p className="text-sm text-gray-500">
-                    {post.author?.designation || "Author"}
-                  </p>
+                
                   {post.author?.email && (
                     <p className="text-xs text-gray-400">{post.author.email}</p>
                   )}
