@@ -15,19 +15,18 @@ import Image from "next/image";
 import { BsWhatsapp } from "react-icons/bs";
 
 const Footer = () => {
-
   // Define quick links array
-const quickLinks = [
-  { href: "#about", label: "About Us" },
-  { href: "#services", label: "Our Wings" },
-  { href: "/team-members", label: "Our Team" },
-  { href: "/achievements", label: "Achievements" },
-  { href: "/international-conferences", label: "International Conferences" },
-  { href: "/blog", label: "Blog" },
-  { href: "/course", label: "Courses" },
-  { href: "/event", label: "Event" },
-  { href: "/contact", label: "Contact" },
-];
+  const quickLinks = [
+    { href: "#about", label: "About Us" },
+    { href: "#services", label: "Our Wings" },
+    { href: "/team-members", label: "Our Team" },
+    { href: "/achievements", label: "Achievements" },
+    { href: "/international-conferences", label: "International Conferences" },
+    { href: "/course", label: "Courses" },
+    { href: "/event", label: "Events" },
+    { href: "/blog", label: "Blogs" },
+    { href: "/contact", label: "Contact" },
+  ];
 
   return (
     <footer className="relative bg-gradient-to-br from-brand-primary via-black-400/30 to-brand-primary overflow-hidden">
@@ -51,7 +50,9 @@ const quickLinks = [
               </h2>
             </Link>
             <p className="text-gray-300 mb-8 leading-relaxed">
-            We connect the dots between passion and profession. Stay connected with the cutting-edge tools and unlock opportunities globally. Dare to dream big!
+              We connect the dots between passion and profession. Stay connected
+              with the cutting-edge tools and unlock opportunities globally.
+              Dare to dream big!
             </p>
           </div>
 
@@ -62,72 +63,17 @@ const quickLinks = [
               Quick Links
             </h3>
             <ul className="space-y-4">
-            {quickLinks.map((link, index) => (
-      <li key={index}>
-        <Link
-          href={link.href}
-          className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-        >
-          <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          {link.label}
-        </Link>
-      </li>
-    ))}
-              {/* <li>
-                <a
-                  href="#about"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#services"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Our Wings
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#achievements"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Achievements
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#team"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Our Team
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#blog"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
-                >
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  Contact
-                </a>
-              </li> */}
+              {quickLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
+                  >
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -281,18 +227,17 @@ const quickLinks = [
           <div className="flex flex-col md:flex-row justify-center items-center">
             <div className="text-gray-300 text-center flex items-center gap-2 text-sm">
               <p>
-                
-                © 2025 - ResearchUstad - All Rights Reserved. Developed by <span className="font-bold hover:underline text-brand-secondary ml-1">
-                <a
-                  href="https://www.flexsoftr.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Flex Softr
-                </a>
-              </span>
+                © 2025 - ResearchUstad - All Rights Reserved. Developed by{" "}
+                <span className="font-bold hover:underline text-brand-secondary ml-1">
+                  <a
+                    href="https://www.flexsoftr.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Flex Softr
+                  </a>
+                </span>
               </p>
-              
             </div>
           </div>
         </div>
