@@ -86,11 +86,11 @@ export function NavUser() {
       </Avatar>
       {!isCollapsed && (
         <>
-          <div className="flex-1 text-left">
+          <div className="flex-1 text-left truncate">
             <p className="text-sm font-medium text-gray-900 truncate">
               {user?.name || user?.email || "User"}
             </p>
-            <p className="text-xs text-gray-500 truncate capitalize">
+            <p className="text-xs text-gray-500 truncate capitalize ">
               {user?.role || "User"}
             </p>
           </div>
