@@ -208,7 +208,13 @@ const Navbar = () => {
         <div className=" bg-white/95 backdrop-blur-md shadow-md border-b border-gray-100">
           <div className="flex justify-between items-center">
             <Link href="/" className="group">
-            <Image src="/logo.png" alt="logo" width={1000} height={100} className="w-20 h-20" />
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={1000}
+                height={100}
+                className="w-20 h-20"
+              />
               {/* <h2 className="font-bold text-brand-secondary text-[20px] flex items-center transition-colors duration-300">
                 Research
                 <span className="text-brand-primary group-hover:text-brand-secondary transition-colors duration-300">
@@ -279,7 +285,7 @@ const Navbar = () => {
 
                     {/* Navigation Menu */}
                     <div className="flex-1 overflow-y-auto">
-                    <nav className="py-2">
+                      <nav className="py-2">
                         {/* Main Menu Items */}
 
                         {navLinks?.map((link, index) => (
@@ -351,7 +357,19 @@ const Navbar = () => {
                     {/* Footer */}
                     <div className="p-4 border-t border-gray-200">
                       <div className="text-xs text-gray-500 text-center">
-                        © 2024 Research Ustad. All rights reserved.
+                        <p>
+                          © 2025 - ResearchUstad - All Rights Reserved.
+                          Developed by{" "}
+                          <span className="font-bold hover:underline text-brand-secondary ml-1">
+                            <a
+                              href="https://www.flexsoftr.com/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Flex Softr
+                            </a>
+                          </span>
+                        </p>
                       </div>
                     </div>
                   </div>
