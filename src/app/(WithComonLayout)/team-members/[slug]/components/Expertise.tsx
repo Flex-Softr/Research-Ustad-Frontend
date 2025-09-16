@@ -27,7 +27,7 @@ const Expertise = ({ member }: ExpertiseProps) => {
     </CardHeader>
     <CardContent>
       <div className="space-y-4">
-        <h1 className="font-medium  text-gray-700">{member?.education?.degree}, {member?.education?.field}, {member?.education?.institution} {member?.education?.status !== "Completed" && <span>({member?.education?.status})</span>}</h1>
+        <h1 className="font-medium  text-gray-700">{member?.education?.degree}  of {member?.education?.field}, {member?.education?.institution} {member?.education?.status !== "Completed" && <span>({member?.education?.status})</span>}</h1>
         
       </div>
     </CardContent>
