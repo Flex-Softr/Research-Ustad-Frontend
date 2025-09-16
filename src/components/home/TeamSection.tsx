@@ -135,7 +135,7 @@ const TeamSection = () => {
 
   return (
     <section className="py-10 bg-gray-100">
-      <Container>
+      <Container className="max-w-5xl">
         {/* Section Header */}
         <SectionHeader
           title="Our Academic Team"
@@ -143,46 +143,39 @@ const TeamSection = () => {
         />
 
         {/* Team Members Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {members?.slice(0, 8)?.map((member) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {members?.slice(0, 6)?.map((member) => (
             <div
               key={member.id}
               className="bg-white shadow-xl rounded-lg border border-gray-100 text-center"
             >
+           
               {/* Member Image */}
-              <div className="relative w-full h-64 mx-auto">
-                <div className="w-full h-full rounded-t-lg overflow-hidden border border-gray-200">
-                  {member?.image && member?.image !== "/default-avatar.jpg" ? (
-                    <Image
-                      src={member?.image}
-                      alt={member?.name}
-                      width={1000}
-                      height={1000}
-                      className="w-full h-full rounded-t-lg object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <UserAvatar
-                        src={member?.image}
-                        alt={member?.name}
-                        name={member?.name}
-                        size="4xl"
-                        className="w-32 h-32"
-                      />
-                    </div>
-                  )}
+              <div className="relative w-full py-2 flex items-center justify-center mx-auto">
+              
+
+                <div className=" w-56 h-56 border-2 border-gray-200 rounded-full flex items-center justify-center m-auto">
+                  <UserAvatar
+                    src={member?.image}
+                    alt={member?.name}
+                    name={member?.name}
+                    size="lg"
+                    className="object-cover ring-gray-200 shadow-lg w-full h-full"
+                    fallbackClassName="text-5xl font-bold"
+                  />
                 </div>
               </div>
 
               {/* Member Info */}
               <div className="p-6 space-y-2">
-               <Link href={`/team-members/${member.id}`}>
-               <h3 className="text-xl font-bold text-gray-900 hover:underline">
-                  {member?.name}
-                </h3>
+                <Link href={`/team-members/${member.id}`}>
+                  <h3 className="text-xl font-bold text-gray-900 hover:underline">
+                    {member?.name}
+                  </h3>
                 </Link>
-                <p className="text-base text-gray-600">{member?.shortBio ? member?.shortBio : member.title}</p>
-              
+                <p className="text-base text-gray-600">
+                  {member?.shortBio ? member?.shortBio : member.title}
+                </p>
               </div>
             </div>
           ))}
