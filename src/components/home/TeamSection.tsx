@@ -8,7 +8,6 @@ import { GetAllResearchAssociate } from "@/services/reserarchers";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import Link from "next/link";
 import { Star, AlertCircle } from "lucide-react";
-import { DESIGNATION_OPTIONS } from "@/constants/designations";
 
 interface TeamMember {
   id: string;
@@ -79,29 +78,9 @@ const EmptyState = () => (
 );
 
 const TeamSection = () => {
-  const [activeCategory, setActiveCategory] = useState("all");
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [categories, setCategories] = useState<{ id: string; label: string }[]>(
-    [{ id: "all", label: "All" }]
-  );
-
-  // Helper function to get display name for designation
-  const getDesignationDisplayName = (designation: string) => {
-    switch (designation) {
-      case DESIGNATION_OPTIONS[0]: // "Advisor"
-        return "Advisor Panel";
-      case DESIGNATION_OPTIONS[1]: // "Mentor"
-        return "Mentor Panel";
-      case DESIGNATION_OPTIONS[2]: // "Team Lead"
-        return "Team Lead";
-      case DESIGNATION_OPTIONS[3]: // "Research Associate"
-        return "Research Associate";
-      default:
-        return designation;
-    }
-  };
 
   // Load team members data from API
   useEffect(() => {
@@ -111,96 +90,18 @@ const TeamSection = () => {
         setError(null);
         const response = await GetAllResearchAssociate();
 
-        if (
-          response?.success &&
-          response?.data &&
-          Array.isArray(response.data)
-        ) {
-          // Transform API data to match TeamMember interface
-          const transformedMembers = response.data?.map((member: any) => {
-            // Normalize designation to capitalized format
-            let normalizedDesignation = member.designation || member.role || "";
+        if (response?.success && Array.isArray(response.data)) {
+          const transformedMembers = response.data.map((member: any) => ({
+            id: member._id,
+            name: member.fullName || "Unknown Member",
+            title: member.designation || member.role || "Member",
+            institution: member.current?.institution || "",
+            image: member.image || "/default-avatar.jpg",
+            shortBio: member.shortBio || "",
+          }));
 
-            // Convert old uppercase designations to new format
-            if (normalizedDesignation === "ADVISOR")
-              normalizedDesignation = DESIGNATION_OPTIONS[0];
-            if (normalizedDesignation === "MENTOR")
-              normalizedDesignation = DESIGNATION_OPTIONS[1];
-            if (normalizedDesignation === "TEAM LEAD")
-              normalizedDesignation = DESIGNATION_OPTIONS[2];
-            if (normalizedDesignation === "RESEARCH ASSOCIATE")
-              normalizedDesignation = DESIGNATION_OPTIONS[3];
-
-            return {
-              id: member._id,
-              name: member.fullName || "Unknown Member",
-              title: normalizedDesignation,
-              institution: member.current?.institution || "",
-              image: member.image || "/default-avatar.jpg",
-              category: normalizedDesignation || "Other",
-              shortBio: member.shortBio || ""
-            };
-          });
-
-          // Generate categories dynamically from the data using designation
-          const uniqueCategories = [
-            ...new Set(transformedMembers?.map((m) => m.category)),
-          ];
-          const dynamicCategories = [
-            { id: "all", label: "All" },
-            ...uniqueCategories?.map((cat) => ({
-              id: String(cat),
-              label: getDesignationDisplayName(String(cat)),
-            })),
-          ];
-
-          setCategories(dynamicCategories);
-          setMembers(transformedMembers);
-        } else if (response?.data && Array.isArray(response.data)) {
-          // If no success flag but data exists
-          const transformedMembers = response.data?.map((member: any) => {
-            // Normalize designation to capitalized format
-            let normalizedDesignation = member.designation || member.role || "";
-
-            // Convert old uppercase designations to new format
-            if (normalizedDesignation === "ADVISOR")
-              normalizedDesignation = DESIGNATION_OPTIONS[0];
-            if (normalizedDesignation === "MENTOR")
-              normalizedDesignation = DESIGNATION_OPTIONS[1];
-            if (normalizedDesignation === "TEAM LEAD")
-              normalizedDesignation = DESIGNATION_OPTIONS[2];
-            if (normalizedDesignation === "RESEARCH ASSOCIATE")
-              normalizedDesignation = DESIGNATION_OPTIONS[3];
-
-            return {
-              id: member._id,
-              name: member.fullName || "Unknown Member",
-              title: normalizedDesignation,
-              institution: member.current?.institution || "",
-              image:
-                member.image ||
-                "https://www.shutterstock.com/image-vector/avatar-gender-neutral-silhouette-vector-600nw-2470054311.jpg",
-              category: normalizedDesignation || "Other",
-            };
-          });
-
-          // Generate categories dynamically from the data using designation
-          const uniqueCategories = [
-            ...new Set(transformedMembers?.map((m) => m.category)),
-          ];
-          const dynamicCategories = [
-            { id: "all", label: "All" },
-            ...uniqueCategories?.map((cat) => ({
-              id: String(cat),
-              label: getDesignationDisplayName(String(cat)),
-            })),
-          ];
-
-          // console.log("Dynamic categories:", dynamicCategories);
-          setCategories(dynamicCategories);
           setMembers(transformedMembers);
         } else {
-          console.log("No valid members data available from API");
           setMembers([]);
         }
       } catch (error) {
@@ -214,13 +115,6 @@ const TeamSection = () => {
 
     fetchMembers();
   }, []);
-
-  const filteredMembers =
-    activeCategory === "all"
-      ? members?.slice(0, 3) // Show first 3 items by default without filtering
-      : members
-          ?.filter((member) => member.category === activeCategory)
-          .slice(0, 3); // Show max 3 items even after filtering
 
   // Error state
   if (error) {
@@ -248,33 +142,15 @@ const TeamSection = () => {
           description="Meet the distinguished scholars and researchers who form the backbone of Research Ustad."
         />
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories?.map((category) => {
-            return (
-              <Button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300  ${
-                  activeCategory === category.id
-                    ? "bg-brand-primary text-white shadow-md"
-                    : "bg-white text-brand-primary border-2 border-brand-primary hover:bg-brand-primary/5"
-                }`}
-              >
-                {category.label}
-              </Button>
-            );
-          })}
-        </div>
         {/* Team Members Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {filteredMembers?.map((member) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {members?.slice(0, 8)?.map((member) => (
             <div
               key={member.id}
               className="bg-white shadow-xl rounded-lg border border-gray-100 text-center"
             >
               {/* Member Image */}
-              <div className="relative w-full h-60 mx-auto">
+              <div className="relative w-full h-64 mx-auto">
                 <div className="w-full h-full rounded-t-lg overflow-hidden border border-gray-200">
                   {member?.image && member?.image !== "/default-avatar.jpg" ? (
                     <Image

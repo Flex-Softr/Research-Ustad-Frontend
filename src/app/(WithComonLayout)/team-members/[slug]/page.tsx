@@ -360,7 +360,7 @@ const SingleMemberPage = () => {
             <ResearchStats member={member} />
 
             {/* Tabs Section - Only show if there's content */}
-            {hasContent && (
+            {hasContent ? (
               <div className="bg-white rounded-xl shadow-lg border border-gray-100">
                 {/* Tab Navigation */}
                 <div className="border-b border-gray-200">
@@ -394,7 +394,9 @@ const SingleMemberPage = () => {
                   {renderPagination()}
                 </div>
               </div>
-            )}
+            ) : <div>
+              <h1 className="font-medium bg-gray-100 py-5 text-center">There is no content to display</h1>
+              </div>}
           </div>
 
           {/* Sidebar */}

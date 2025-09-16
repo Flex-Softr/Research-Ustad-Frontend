@@ -21,12 +21,6 @@ const HomePage = () => {
       <div id="services">
         <ServicesSection />
       </div>
-      <div id="courses">
-        <CoursesSection />
-      </div>
-      <div id="events">
-        <EventsSection />
-      </div>
       <div id="achievements">
         <AchievementCarouselSection />
       </div>
@@ -35,12 +29,6 @@ const HomePage = () => {
       </div>
       <div id="team">
         <TeamSection />
-      </div>
-      <div id="blog">
-        <BlogSection />
-      </div>
-      <div id="contact">
-        <ContactSection />
       </div>
     </div>
   );

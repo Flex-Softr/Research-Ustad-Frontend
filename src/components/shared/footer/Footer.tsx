@@ -15,39 +15,22 @@ import Image from "next/image";
 import { BsWhatsapp } from "react-icons/bs";
 
 const Footer = () => {
+
+  // Define quick links array
+const quickLinks = [
+  { href: "#about", label: "About Us" },
+  { href: "#services", label: "Our Wings" },
+  { href: "/team-members", label: "Our Team" },
+  { href: "/achievements", label: "Achievements" },
+  { href: "/international-conferences", label: "International Conferences" },
+  { href: "/blog", label: "Blog" },
+  { href: "/course", label: "Courses" },
+  { href: "/event", label: "Event" },
+  { href: "/contact", label: "Contact" },
+];
+
   return (
     <footer className="relative bg-gradient-to-br from-brand-primary via-black-400/30 to-brand-primary overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        {/* Floating Orbs */}
-        <div className="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-brand-primary/20 to-brand-secondary/20 rounded-full blur-3xl animate-pulse"></div>
-        <div
-          className="absolute bottom-20 right-10 w-32 h-32 bg-gradient-to-br from-green-400/15 to-brand-primary/15 rounded-full blur-2xl animate-bounce"
-          style={{ animationDuration: "4s" }}
-        ></div>
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-br from-brand-secondary/10 to-green-400/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDuration: "5s" }}
-        ></div>
-
-        {/* Moving Lines */}
-        <div className="absolute top-1/4 left-0 w-2 h-40 bg-gradient-to-b from-transparent via-brand-primary/30 to-transparent animate-pulse"></div>
-        <div
-          className="absolute bottom-1/3 right-0 w-2 h-32 bg-gradient-to-b from-transparent via-brand-secondary/20 to-transparent animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
-
-        {/* Floating Particles */}
-        <div
-          className="absolute top-1/3 left-1/4 w-2 h-2 bg-white/30 rounded-full animate-ping"
-          style={{ animationDuration: "2s" }}
-        ></div>
-        <div
-          className="absolute bottom-1/4 right-1/3 w-1.5 h-1.5 bg-brand-primary/40 rounded-full animate-ping"
-          style={{ animationDuration: "3s", animationDelay: "1s" }}
-        ></div>
-      </div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
@@ -79,7 +62,18 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-4">
-              <li>
+            {quickLinks.map((link, index) => (
+      <li key={index}>
+        <Link
+          href={link.href}
+          className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
+        >
+          <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          {link.label}
+        </Link>
+      </li>
+    ))}
+              {/* <li>
                 <a
                   href="#about"
                   className="text-gray-300 hover:text-brand-secondary transition-colors duration-300 flex items-center gap-2 group"
@@ -133,7 +127,7 @@ const Footer = () => {
                   <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   Contact
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
 
