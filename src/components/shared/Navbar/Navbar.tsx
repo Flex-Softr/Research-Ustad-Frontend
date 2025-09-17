@@ -142,8 +142,8 @@ const Navbar = () => {
             className="w-20 h-20"
           />
           <h2 className="font-bold text-[22px] flex items-center transition-colors text-brand-primary group-hover:text-brand-secondary duration-300">
-            Research{" "}
-            <span className="group-hover:text-brand-primary text-brand-secondary transition-colors duration-300">
+            Research
+            <span className="group-hover:text-brand-primary text-brand-secondary transition-colors duration-300 ml-2">
               Ustad
             </span>
           </h2>
@@ -358,8 +358,8 @@ const Navbar = () => {
                     <div className="p-4 border-t border-gray-200">
                       <div className="text-xs text-gray-500 text-center">
                         <p>
-                          © 2025 - ResearchUstad - All Rights Reserved.
-                          Developed by{" "}
+                          © {new Date().getFullYear()} - ResearchUstad - All
+                          Rights Reserved. Developed by
                           <span className="font-bold hover:underline text-brand-secondary ml-1">
                             <a
                               href="https://www.flexsoftr.com/"

@@ -17,8 +17,8 @@ import { BsWhatsapp } from "react-icons/bs";
 const Footer = () => {
   // Define quick links array
   const quickLinks = [
-    { href: "#about", label: "About Us" },
-    { href: "#services", label: "Our Wings" },
+    // { href: "#about", label: "About Us" },
+    // { href: "#services", label: "Our Wings" },
     { href: "/team-members", label: "Our Team" },
     { href: "/achievements", label: "Achievements" },
     { href: "/international-conferences", label: "International Conferences" },
@@ -37,22 +37,22 @@ const Footer = () => {
           <div className="flex-1">
             <Link href="/" className="group flex items-center gap-3">
               <div className="">
-              <Image
-                src="/logo3.png"
-                alt="Research Ustad"
-                width={60}
-                height={60}
-                className="object-contain w-full h-full"
-              />
+                <Image
+                  src="/logo3.png"
+                  alt="Research Ustad"
+                  width={60}
+                  height={60}
+                  className="object-contain w-full h-full"
+                />
               </div>
               <h2 className="font-bold text-[28px] flex items-center text-brand-secondary">
                 Research
-                <span className="text-white group-hover:text-brand-secondary transition-colors duration-300 ml-1">
+                <span className="text-white group-hover:text-brand-secondary transition-colors duration-300 ml-2">
                   Ustad
                 </span>
               </h2>
             </Link>
-            <p className="text-gray-300 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed text-justify">
               We connect the dots between passion and profession. Stay connected
               with the cutting-edge tools and unlock opportunities globally.
               Dare to dream big!
@@ -227,9 +227,12 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="border-t border-white/20 pt-8">
-          <div className="flex flex-col md:flex-row justify-center items-center">
-            <div className="text-gray-300 text-center md:flex items-center text-sm gap-1">
-              <p>© 2025 - ResearchUstad - All Rights Reserved.</p>
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-gray-300 text-center text-sm gap-1">
+              <p>
+                © {new Date().getFullYear()} - Research Ustad - All Rights
+                Reserved.
+              </p>
               <p>
                 Developed by
                 <span className="font-bold hover:underline text-brand-secondary ml-1">

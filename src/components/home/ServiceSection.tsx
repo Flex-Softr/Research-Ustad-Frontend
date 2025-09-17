@@ -75,7 +75,6 @@ const ServicesSection = () => {
         <SectionHeader
           title="Our Wings"
           description="Explore our specialized programs designed to support your academic journey and professional development."
-          
         />
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 items-stretch">
           {wings?.map((wing, index) => (
@@ -130,7 +129,7 @@ const ServicesSection = () => {
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-600 mb-6 text-base leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                <p className="text-gray-600 mb-6 text-base leading-relaxed group-hover:text-gray-700 text-justify transition-colors duration-300">
                   {wing.description}
                 </p>
 
