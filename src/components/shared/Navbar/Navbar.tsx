@@ -143,7 +143,7 @@ const Navbar = () => {
           />
           <h2 className="font-bold text-[22px] flex items-center transition-colors text-brand-primary group-hover:text-brand-secondary duration-300">
             Research
-            <span className="group-hover:text-brand-primary text-brand-secondary transition-colors duration-300 ml-2">
+            <span className="group-hover:text-brand-primary text-brand-secondary transition-colors duration-300 ml-[5px]">
               Ustad
             </span>
           </h2>

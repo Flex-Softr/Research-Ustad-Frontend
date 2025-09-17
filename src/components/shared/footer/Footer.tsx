@@ -235,7 +235,7 @@ const Footer = () => {
               </p>
               <p>
                 Developed by
-                <span className="font-bold hover:underline text-brand-secondary ml-1">
+                <span className="font-bold hover:underline text-brand-secondary ml-[5px]">
                   <a
                     href="https://www.flexsoftr.com/"
                     target="_blank"
