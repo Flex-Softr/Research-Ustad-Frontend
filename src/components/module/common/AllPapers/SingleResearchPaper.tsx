@@ -172,45 +172,57 @@ const SingleResearchPaper = ({
                     </CardTitle>
 
                     {/* Authors */}
+
                     <div className="flex items-center gap-2 mb-4">
                       <Users className="h-5 w-5 text-brand-secondary" />
                       <div className="flex flex-wrap gap-1">
                         {paper?.authors?.map((author: any, index: number) => {
-                          // Handle different author formats
                           let authorName = "Unknown Author";
                           let authorRole = "Author";
+                          let userId: string | null = null;
 
                           if (typeof author === "string") {
-                            // Legacy string format
                             authorName = author;
                           } else if (
                             author?.isRegisteredUser &&
                             author?.user?.fullName
                           ) {
-                            // Registered user with populated user data
                             authorName = author.user.fullName;
                             authorRole = author?.role || "Author";
+                            userId = author.user._id;
                           } else if (author?.name) {
-                            // Non-registered user or fallback
                             authorName = author.name;
                             authorRole = author?.role || "Author";
                           }
+
+                          const content = (
+                            <>
+                              {authorName}
+                              {index < (paper?.authors?.length || 0) - 1 &&
+                                ", "}
+                              {/* Hover tooltip */}
+                              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                                {authorName} ({authorRole})
+                                <span className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></span>
+                              </span>
+                            </>
+                          );
 
                           return (
                             <span
                               key={author?._id || index}
                               className="text-sm text-gray-700 font-medium cursor-help relative group"
-                              // title={`${authorName} (${authorRole})`}
                             >
-                              {authorName}
-                              {index < (paper?.authors?.length || 0) - 1 &&
-                                ", "}
-
-                              {/* Hover tooltip */}
-                              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                                {authorName}({authorRole})
-                                <span className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></span>
-                              </span>
+                              {userId ? (
+                                <Link
+                                  href={`/team-members/${userId}`}
+                                  className=" hover:underline"
+                                >
+                                  {content}
+                                </Link>
+                              ) : (
+                                content
+                              )}
                             </span>
                           );
                         }) || (
@@ -270,7 +282,7 @@ const SingleResearchPaper = ({
                         <Badge
                           key={index}
                           variant="outline"
-                          className="text-sm bg-brand-secondary/5 text-brand-secondary border-brand-secondary/20"
+                          className="text-sm bg-brand-secondary/5 text-brand-secondary border-brand-secondary/20 "
                         >
                           {keyword}
                         </Badge>
@@ -370,7 +382,7 @@ const SingleResearchPaper = ({
                     <span className="text-gray-600">Research Area</span>
                     <Badge
                       variant="outline"
-                      className="text-xs w-fit"
+                      className="text-xs w-fit whitespace-normal max-w-[200px]"
                     >
                       {paper.researchArea}
                     </Badge>

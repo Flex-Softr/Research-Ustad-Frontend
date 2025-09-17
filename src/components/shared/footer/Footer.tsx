@@ -32,24 +32,27 @@ const Footer = () => {
     <footer className="relative bg-gradient-to-br from-brand-primary via-black-400/30 to-brand-primary overflow-hidden">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+        <div className="flex flex-col md:flex-row justify-between gap-12 mb-12">
           {/* Brand Section */}
-          <div className="">
-            <Link href="/" className="group flex items-center gap-2">
+          <div className="flex-1">
+            <Link href="/" className="group flex items-center gap-3">
+              <div className="">
               <Image
-                src="/logo.png"
+                src="/logo3.png"
                 alt="Research Ustad"
-                width={80}
-                height={80}
+                width={60}
+                height={60}
+                className="object-contain w-full h-full"
               />
+              </div>
               <h2 className="font-bold text-[28px] flex items-center text-brand-secondary">
                 Research
-                <span className="text-white group-hover:text-brand-secondary transition-colors duration-300">
+                <span className="text-white group-hover:text-brand-secondary transition-colors duration-300 ml-1">
                   Ustad
                 </span>
               </h2>
             </Link>
-            <p className="text-gray-300 mb-8 leading-relaxed">
+            <p className="text-gray-300 leading-relaxed">
               We connect the dots between passion and profession. Stay connected
               with the cutting-edge tools and unlock opportunities globally.
               Dare to dream big!
@@ -57,7 +60,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="flex-1">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Star className="h-5 w-5 text-brand-secondary" />
               Quick Links
@@ -78,7 +81,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Information */}
-          <div>
+          <div className="flex-1">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Star className="h-5 w-5 text-brand-secondary" />
               Contact Information
@@ -225,9 +228,10 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-center items-center">
-            <div className="text-gray-300 text-center flex items-center gap-2 text-sm">
+            <div className="text-gray-300 text-center md:flex items-center text-sm gap-1">
+              <p>© 2025 - ResearchUstad - All Rights Reserved.</p>
               <p>
-                © 2025 - ResearchUstad - All Rights Reserved. Developed by{" "}
+                Developed by
                 <span className="font-bold hover:underline text-brand-secondary ml-1">
                   <a
                     href="https://www.flexsoftr.com/"
