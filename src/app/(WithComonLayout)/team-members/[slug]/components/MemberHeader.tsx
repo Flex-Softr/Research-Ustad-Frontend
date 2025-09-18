@@ -48,14 +48,36 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
           {/* Member social links Section */}
           <div className="flex-1">
             <div className="mb-3 space-y-3">
-              <h1 className="text-3xl text-center lg:text-left font-bold text-gray-900 leading-tight">
+              <h1 className="text-3xl text-center md:text-left font-bold text-gray-900 leading-tight">
                 {member?.fullName}
               </h1>
 
               {(member?.current?.inst_designation ||
                 member?.current?.department ||
                 member?.current?.institution) && (
-                <div className="flex items-center gap-2 text-gray-600 text-center lg:text-left">
+                <div className="flex items-center gap-2 text-gray-600 text-center md:text-left">
+                <div>
+                {/* <p className=" leading-relaxed capitalize">
+                    {member?.current?.inst_designation && (
+                      <span className="font-medium">
+                        {member.current.inst_designation}
+                      </span>
+                    )}
+                    {member?.current?.department &&
+                      member?.current?.inst_designation && <span>, </span>}
+                    {member?.current?.department && (
+                      <span>{member.current.department}</span>
+                    )}
+                    {member?.current?.institution &&
+                      (member?.current?.inst_designation ||
+                        member?.current?.department) && <span>, </span>}
+                    {member?.current?.institution && (
+                      <span className="font-medium text-gray-700">
+                        {member.current.institution}
+                      </span>
+                    )}
+                  </p> */}
+                  {/* <p className=" leading-relaxed capitalize">Phd Researcher, Department of Applied Computing, Georgia Southern University, USA</p> */}
                   <p className=" leading-relaxed capitalize">
                     {member?.current?.inst_designation && (
                       <span className="font-medium">
@@ -76,6 +98,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                       </span>
                     )}
                   </p>
+                </div>
                 </div>
               )}
 
@@ -116,7 +139,7 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                 <div></div>
               )}
             </div>
-            <div className="flex flex-wrap capitalize items-center gap-2 mb-4">
+            <div className="flex flex-wrap capitalize items-center justify-center md:justify-start gap-2 mb-4">
               {member?.socialLinks?.orcid && (
                 <Button
                   asChild

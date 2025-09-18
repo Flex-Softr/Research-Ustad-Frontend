@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { TeamMember } from "../components";
 import {
   MemberHeader,
@@ -46,6 +46,7 @@ const SingleMemberPage = () => {
             designation: response?.data?.designation,
             profileImg: response?.data?.image,
             shortBio: response?.data?.shortBio,
+            aboutYourSelf: response?.data?.aboutYourSelf,
             citations: response?.data?.citations,
             research: response?.data?.research || [],
             isDeleted: response?.data?.isDeleted,
@@ -72,6 +73,7 @@ const SingleMemberPage = () => {
             designation: response?.data?.designation,
             profileImg: response?.data?.image,
             shortBio: response?.data?.shortBio,
+            aboutYourSelf: response?.data?.aboutYourSelf,
             citations: response?.data?.citations,
             research: response?.data?.research || [],
             isDeleted: response?.data?.isDeleted,
@@ -136,7 +138,6 @@ const SingleMemberPage = () => {
   if (loading) {
     return <LoadingSpinner size="lg" variant="border" fullScreen />;
   }
-
 
   if (error || !member) {
     return (
@@ -218,7 +219,7 @@ const SingleMemberPage = () => {
     },
     {
       id: "blogs",
-      label: "Blog Posts",
+      label: "Blogs",
       count: member.blogs?.length || 0,
       show: hasBlogs,
     },
@@ -308,17 +309,19 @@ const SingleMemberPage = () => {
           </Button>
 
           <div className="flex items-center gap-1">
-            {Array.from({ length: totalPages }, (_, i) => i + 1)?.map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
-                onClick={() => handlePageChange(page)}
-                className="w-8 h-8 p-0"
-              >
-                {page}
-              </Button>
-            ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1)?.map(
+              (page) => (
+                <Button
+                  key={page}
+                  variant={currentPage === page ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => handlePageChange(page)}
+                  className="w-8 h-8 p-0"
+                >
+                  {page}
+                </Button>
+              )
+            )}
           </div>
 
           <Button
@@ -349,9 +352,21 @@ const SingleMemberPage = () => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Member Header */}
-        <div className="mb-8">
+        <div>
           <MemberHeader member={member} />
         </div>
+
+        {member?.aboutYourSelf &&  <div className="my-8 bg-white rounded-xl shadow-lg border border-gray-100 p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <BookOpen className="w-5 h-5 text-brand-secondary" />
+            <h3 className="text-xl font-semibold text-gray-800">About</h3>
+          </div>
+          <p className="text-gray-800 text-justify">
+           {member?.aboutYourSelf}
+          </p>
+        </div>}
+
+       
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -376,7 +391,7 @@ const SingleMemberPage = () => {
                         }`}
                       >
                         <div className="flex items-center gap-2">
-                          <span>{tab.label}</span>
+                          <span className="">{tab.label}</span>
                           {tab.count > 0 && (
                             <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-1 rounded-full">
                               {tab.count}
@@ -394,9 +409,13 @@ const SingleMemberPage = () => {
                   {renderPagination()}
                 </div>
               </div>
-            ) : <div>
-              <h1 className="font-medium text-gray-700 bg-gray-100 py-5 text-center">There is no content to display</h1>
-              </div>}
+            ) : (
+              <div>
+                <h1 className="font-medium text-gray-700 bg-gray-100 py-5 text-center">
+                  There is no content to display
+                </h1>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}

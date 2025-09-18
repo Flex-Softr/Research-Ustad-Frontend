@@ -16,6 +16,7 @@ export interface TUser {
   // Research member fields (consolidated from MemberData)
   contactNo?: string;
   shortBio?: string;
+  aboutYourSelf?: string;
   current?: {
     institution?: string;
     department?: string;
@@ -54,6 +55,7 @@ export interface UserProfile {
   role: string;
   profileImg?: string;
   shortBio?: string;
+  aboutYourSelf?: string;
   citations?: number;
   research: string[];
   isDeleted: boolean;
@@ -93,6 +95,7 @@ export interface TResearchAssociate {
   image: string;
   contactNo?: string;
   shortBio?: string;
+  aboutYourSelf?: string;
   citations?: number;
   current?: {
     institution?: string;

@@ -424,54 +424,22 @@ const SingleResearchPaper = ({
                   </div>
                 ) : relatedPapers?.length > 0 ? (
                   <div className="space-y-4">
-                    <p className="text-sm text-gray-600 mb-4">
+                    <p className="text-sm text-gray-600 mb-2">
                       Papers in similar research areas
                     </p>
                     {relatedPapers?.map((relatedPaper) => (
                       <div
                         key={relatedPaper._id}
-                        className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                        className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 group"
                       >
-                        <h4 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2">
-                          {truncateText(
-                            relatedPaper?.title || "Untitled Paper",
-                            80
-                          )}
-                        </h4>
-                        <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
-                          <span>{relatedPaper?.year || "N/A"}</span>
-                          <span>
-                            {relatedPaper?.authors?.[0]
-                              ? (() => {
-                                  const author = relatedPaper.authors[0] as any;
-                                  if (typeof author === "string") {
-                                    return author;
-                                  } else if (
-                                    author?.isRegisteredUser &&
-                                    author?.user?.fullName
-                                  ) {
-                                    return author.user.fullName;
-                                  } else if (author?.name) {
-                                    return author.name;
-                                  }
-                                  return "Unknown Author";
-                                })()
-                              : "Unknown Author"}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            asChild
-                            size="sm"
-                            variant="outline"
-                            className="text-xs border-brand-secondary/30 text-brand-secondary hover:bg-brand-secondary hover:text-white transition-all duration-300"
-                          >
-                            <Link href={`/paper/${relatedPaper._id}`}>
-                              View Paper
-                              <ExternalLinkIcon className="h-3 w-3 ml-1" />
-                            </Link>
-                          </Button>
-                        </div>
+                        <Link href={`/paper/${relatedPaper._id}`}>
+                          <h4 className="font-semibold text-gray-900 group-hover:text-brand-secondary group-hover:underline text-sm mb-2 line-clamp-2">
+                            {truncateText(
+                              relatedPaper?.title || "Untitled Paper",
+                              80
+                            )}
+                          </h4>
+                        </Link>
                       </div>
                     ))}
                     <Button

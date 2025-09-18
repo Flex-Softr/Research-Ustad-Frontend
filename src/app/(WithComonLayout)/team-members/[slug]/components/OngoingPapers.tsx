@@ -1,8 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, FileText, Clock, Users, Quote } from "lucide-react";
+import { Calendar, FileText, Clock, Users, Quote, ExternalLink } from "lucide-react";
 import { TeamMember } from "../../components";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface OngoingPapersProps {
   member: TeamMember;
@@ -141,9 +142,22 @@ const OngoingPapers = ({ member, paginatedData }: OngoingPapersProps) => {
                   </div>
                 </div>
                 <div>
-                  <Badge variant="destructive" className="bg-yellow-100 text-yellow-800 border-yellow-200">
-                    {publication.status}
-                  </Badge>
+                {publication.visitLink ? (
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-2 flex-shrink-0"
+                  >
+                    <a href={publication.visitLink} target="_blank" rel="noopener noreferrer">
+                      View Paper
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </Button>
+                ) : <Badge variant="destructive" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+                {publication.status}
+              </Badge>}
+                  
                 </div>
               </div>
             </div>

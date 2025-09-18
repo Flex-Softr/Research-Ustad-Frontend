@@ -41,6 +41,7 @@ const TeamMembersPage = () => {
             designation: member.designation, // Map role to designation for compatibility
             profileImg: member.image,
             shortBio: member.shortBio,
+            aboutYourSelf: member.aboutYourSelf,
             citations: member.citations,
             research: member.research || [],
             isDeleted: member.isDeleted,
@@ -67,6 +68,7 @@ const TeamMembersPage = () => {
             designation: member.designation, // Map role to designation for compatibility
             profileImg: member.image,
             shortBio: member.shortBio,
+            aboutYourSelf: member.aboutYourSelf,
             citations: member.citations,
             research: member.research || [],
             isDeleted: member.isDeleted,

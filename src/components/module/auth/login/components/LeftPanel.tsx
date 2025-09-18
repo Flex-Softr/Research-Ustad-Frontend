@@ -1,13 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import image1 from "../../../../../../public/logo.png";
 
 const LeftPanel = () => {
   return (
     <div className="lg:w-1/2 bg-brand-primary p-8 lg:p-12 flex flex-col justify-center relative">
       {/* Back to Home Button */}
-      <Link 
+      <Link
         href="/"
         className="absolute top-6 right-6 text-white/80 hover:text-white transition-colors duration-200 flex items-center gap-2 text-sm font-medium"
       >
@@ -30,7 +29,7 @@ const LeftPanel = () => {
       {/* Logo and Brand */}
       <div className="flex items-center gap-3 mb-3">
         <Image
-          src={image1}
+          src={"/logo.png"}
           width={70}
           height={70}
           alt="Research Ustad Logo"
@@ -45,7 +44,8 @@ const LeftPanel = () => {
           Welcome Back!
         </h1>
         <p className="text-white/80 text-lg leading-relaxed">
-          Sign in to access your research dashboard and continue your academic journey with Research Ustad.
+          Sign in to access your research dashboard and continue your academic
+          journey with Research Ustad.
         </p>
       </div>
     </div>

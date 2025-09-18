@@ -14,6 +14,7 @@ export interface UpdateInfoFormData {
   contactNo?: string;
   profileImg?: string;
   shortBio?: string;
+  aboutYourSelf: string;
 
   // Current Institution
   currentInstitution?: string;
@@ -59,6 +60,7 @@ export interface MemberData {
   profileImg?: string;
   shortBio?: string;
   isDeleted?: boolean;
+  aboutYourSelf: string;
   current?: {
     inst_designation: string;
     institution: string;
@@ -95,6 +97,7 @@ export interface UpdateMemberPayload {
     profileImg: string;
     shortBio: string;
     isDeleted: boolean;
+    aboutYourSelf: string;
 
     // Current Institution
     current: {

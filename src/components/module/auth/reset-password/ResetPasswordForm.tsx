@@ -109,7 +109,7 @@ const ResetPasswordForm = () => {
           new password reset.
         </p>
         <Link href="/forget-password">
-          <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+          <Button className="w-full bg-brand-primary text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
             Request New Reset Link
           </Button>
         </Link>

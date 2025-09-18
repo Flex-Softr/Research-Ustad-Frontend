@@ -35,6 +35,8 @@ const FilterSidebar = ({
         return "Team Lead";
       case "Research Associate":
         return "Research Associate";
+      case "Junior Researcher":
+        return "Junior Researcher";
       default:
         return designation;
     }

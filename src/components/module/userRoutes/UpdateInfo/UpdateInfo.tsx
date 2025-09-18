@@ -46,6 +46,7 @@ const UpdateInfo = () => {
       contactNo: "",
       profileImg: "",
       shortBio: "",
+      aboutYourSelf: "",
       currentInstitution: "",
       currentDepartment: "",
       currentDegree: "",
@@ -144,6 +145,7 @@ const UpdateInfo = () => {
         setValue("contactNo", data?.contactNo || "");
         setValue("profileImg", data?.image || "");
         setValue("shortBio", data?.shortBio || "");
+        setValue("aboutYourSelf", data?.aboutYourSelf || "");
 
         // Current Institution - only set if data exists
         setValue("currentInstitution", data?.current?.institution || "");
@@ -261,6 +263,8 @@ const UpdateInfo = () => {
 
     const shortBio = cleanString(formData.shortBio);
     payload.shortBio = shortBio;
+    const aboutYourSelf = cleanString(formData.aboutYourSelf);
+    payload.aboutYourSelf = aboutYourSelf;
 
     // Current Institution - always include (allow clearing)
     const currentInstitution = cleanString(formData.currentInstitution);

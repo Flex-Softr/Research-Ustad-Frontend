@@ -13,6 +13,7 @@ export function BasicInformationSection({
   onFileChange,
   currentProfileImg,
 }: UpdateInfoBasicSectionProps) {
+  const [aboutCount, setAboutCount] = useState(0);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length > 0) {
       const file = e.target.files[0];
@@ -121,14 +122,41 @@ export function BasicInformationSection({
 
         {/* short bio */}
         <label className="space-y-1">
-          <span className="text-sm font-medium">Short Bio</span>
+          <span className="text-sm font-medium">Designation (Role in Research Ustad) </span>
           <Input
             {...register("shortBio")}
-            placeholder="Enter a short bio"
-            // className="min-h-[100px]"
+            placeholder="Enter a Designation (Role in Research Ustad) "
           />
           {errors.shortBio && (
-            <p className="text-red-500 text-sm">{errors.shortBio.message}</p>
+            <p className="text-red-500 text-sm">{errors?.shortBio?.message}</p>
+          )}
+        </label>
+
+        {/* About Yourself (optional, 250-word limit) */}
+        <label className="space-y-1 md:col-span-2">
+          <span className="text-sm font-medium">About yourself</span>
+          <Textarea
+            {...register("aboutYourSelf", {
+              validate: (val) => {
+                if (!val) return true;
+                return val.length <= 250 || "Maximum 250 characters allowed";
+              },
+              onChange: (e) => {
+                const value = e.target.value as string;
+                setAboutCount(value.length);
+              },
+            })}
+            placeholder="Write a brief about yourself..."
+            className={errors.aboutYourSelf ? "border-red-500" : ""}
+            rows={5}
+          />
+          <div className="flex items-center justify-between">
+            <div className={`text-xs ${aboutCount > 250 ? 'text-red-500' : 'text-gray-500'}`}>
+              {aboutCount}/250 characters
+            </div>
+          </div>
+          {errors.aboutYourSelf && (
+            <p className="text-red-500 text-sm">{String(errors.aboutYourSelf.message)}</p>
           )}
         </label>
       </div>

@@ -133,9 +133,10 @@ const Profile = () => {
                 <CardTitle className="text-3xl font-bold text-gray-800 mb-2">
                   {user?.fullName}
                 </CardTitle>
-                <p className="text-xl text-blue-600 font-semibold mb-2">
-                  {user?.designation}
-                </p>
+                <div className="text-md font-medium text-gray-800 flex mb-2">
+                  <p>{user?.designation}</p> {/* Bio Section */}
+                  {user?.shortBio && <p className="">, {user.shortBio}</p>}
+                </div>
 
                 {/* Contact Info */}
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
@@ -157,21 +158,23 @@ const Profile = () => {
           </CardContent>
         </Card>
 
+        {/* about section */}
+        {user?.aboutYourSelf && (
+          <Card className="shadow-lg rounded-lg w-fit">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <BookOpen className="w-5 h-5 text-blue-600" />
+                <h3 className="text-xl font-semibold text-gray-800">About</h3>
+              </div>
+              <p className="text-gray-700 leading-relaxed">
+                {user.aboutYourSelf}
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Detailed Information Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Bio Section */}
-          {user?.shortBio && user.shortBio.trim() !== "" && (
-            <Card className="shadow-lg rounded-lg">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <BookOpen className="w-5 h-5 text-blue-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">About</h3>
-                </div>
-                <p className="text-gray-700 leading-relaxed">{user.shortBio}</p>
-              </CardContent>
-            </Card>
-          )}
-
           {/* Current Institution */}
           {user?.current &&
             ((user.current.institution &&

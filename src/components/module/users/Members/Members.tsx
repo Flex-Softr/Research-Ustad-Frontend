@@ -19,7 +19,7 @@ const Members = ({ data }: MembersProps) => {
   // Filter data directly without state
   const filteredData = data?.filter(
     (member: TResearchAssociate) =>
-      member.role !== "admin" && member.role !== "superAdmin"
+      member.role !== "superAdmin"
   ) || [];
 
   const [editModalOpen, setEditModalOpen] = useState(false);

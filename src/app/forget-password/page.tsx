@@ -13,13 +13,20 @@ const ForgetPasswordPage = () => {
             {/* Left Panel - Branding */}
             <div className="lg:w-1/2 bg-brand-primary p-8 lg:p-12 flex flex-col justify-center relative">
               {/* Logo and Brand */}
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                  <span className="text-brand-primary font-bold text-xl">RU</span>
+              <div className="flex items-center gap-3">
+                {/* Logo and Brand */}
+                <div className="flex items-center gap-3 mb-">
+                  <Image
+                    src={"/logo.png"}
+                    width={70}
+                    height={70}
+                    alt="Research Ustad Logo"
+                    className="rounded-lg"
+                  />
+                  <span className="text-white font-bold text-xl">
+                    Research Ustad
+                  </span>
                 </div>
-                <span className="text-white font-bold text-xl">
-                  ResearchUstad
-                </span>
               </div>
 
               {/* Welcome Content */}

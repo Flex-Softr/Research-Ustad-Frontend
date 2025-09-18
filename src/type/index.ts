@@ -59,6 +59,7 @@ export type TResearchAssociate = {
   citations?: number;
   research: any[]; // Adjust if research has a specific structure
   shortBio: string;
+  aboutYourSelf: string;
   isDeleted: boolean;
   id: string;
 };
@@ -99,6 +100,7 @@ export interface UserProfile {
   role: string;
   profileImg?: string;
   shortBio?: string;
+  aboutYourSelf?: string;
   citations?: number;
   research: string[];
   isDeleted: boolean;
@@ -124,6 +126,7 @@ export interface TUser {
   isDeleted: boolean;
   image: string;
   shortBio: string;
+  aboutYourSelf: string;
   createdAt: string;
   updatedAt: string;
   __v: number;

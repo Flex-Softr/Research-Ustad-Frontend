@@ -31,6 +31,7 @@ const TeamMembersGrid = ({
     { id: "Lead", label: "Lead Members" },
     { id: "Research_Associate", label: "Research Associates" },
     { id: "Mentor_Panel", label: "Mentor Panel" },
+    { id: "Junior_Researcher", label: "Junior Researcher" },
   ];
 
   // console.log("TeamMembersGrid - Members data:", members);
