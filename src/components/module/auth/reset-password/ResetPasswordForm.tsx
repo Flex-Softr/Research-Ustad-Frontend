@@ -131,7 +131,8 @@ const ResetPasswordForm = () => {
           password.
         </p>
         <Link href="/login">
-          <Button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
+          <Button className="w-full bg-brand-primary hover:bg-brand-primary/80
+           text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
             Go to Login
           </Button>
         </Link>
@@ -238,7 +239,8 @@ const ResetPasswordForm = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-brand-primary hover:bg-brand-primary/80
+             text-white py-6 px-8 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center">
