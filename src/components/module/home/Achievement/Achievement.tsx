@@ -227,7 +227,7 @@ const Achievement = () => {
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">
                   {selectedAchievement?.title}
                 </h2>
-                <div className="text-gray-600 leading-relaxed">
+                <div className="text-gray-600 text-justify leading-relaxed">
                   {selectedAchievement?.description}
                 </div>
               </div>
