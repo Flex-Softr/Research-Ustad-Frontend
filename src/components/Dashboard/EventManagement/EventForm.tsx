@@ -94,9 +94,9 @@ const EventForm = ({
     if (e.target.files && e.target.files?.length > 0) {
       const file = e.target.files[0];
       
-      // Check file size (1MB limit)
-      if (file.size > 1 * 1024 * 1024) {
-        toast.error("Image too large! Please choose a different image under 1MB.", {
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image too large! Please choose a different image under 5MB.", {
           description: `Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Try compressing the image or choosing a smaller file.`,
           duration: 6000,
         });
@@ -123,9 +123,9 @@ const EventForm = ({
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files![0];
       
-      // Check file size (1MB limit)
-      if (file.size > 1 * 1024 * 1024) {
-        toast.error(`Speaker ${index + 1} image too large! Please choose a different image under 1MB.`, {
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error(`Speaker ${index + 1} image too large! Please choose a different image under 5MB.`, {
           description: `Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Try compressing the image or choosing a smaller file.`,
           duration: 6000,
         });
@@ -211,7 +211,7 @@ const EventForm = ({
       }
 
       // Validate event image size
-      if (selectedFile && selectedFile.size > 1 * 1024 * 1024) {
+      if (selectedFile && selectedFile.size > 5 * 1024 * 1024) {
         setImageErrors((prev) => ({
           ...prev,
           eventImage: "Event image is too large (max 1MB)",
@@ -230,7 +230,7 @@ const EventForm = ({
           isEditing && event?.speakers?.[index]?.imageUrl;
 
         // Validate speaker image size
-        if (hasFile && hasFile.size > 1 * 1024 * 1024) {
+        if (hasFile && hasFile.size > 5 * 1024 * 1024) {
           speakerImageErrors[index] = "Speaker image is too large (max 1MB)";
           hasSpeakerImageError = true;
         }

@@ -18,10 +18,10 @@ export function BasicInformationSection({
     if (e.target.files && e.target.files?.length > 0) {
       const file = e.target.files[0];
 
-      // Check file size (1MB limit)
-      if (file.size > 1 * 1024 * 1024) {
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
         toast.error(
-          "Profile image too large! Please choose a different image under 1MB.",
+          "Profile image too large! Please choose a different image under 5MB.",
           {
             description: `Your file is ${(file.size / (1024 * 1024)).toFixed(
               1
@@ -132,7 +132,7 @@ export function BasicInformationSection({
           )}
         </label>
 
-        {/* About Yourself (optional, 250-word limit) */}
+        {/* About Yourself (optional, 300-word limit) */}
         <label className="space-y-1 md:col-span-2">
           <span className="text-sm font-medium">About yourself</span>
           <Textarea
@@ -140,7 +140,7 @@ export function BasicInformationSection({
               validate: (val) => {
                 if (!val) return true;
                 const wordCount = val.trim().split(/\s+/).filter(word => word.length > 0).length;
-                return wordCount <= 250 || "Maximum 250 words allowed";
+                return wordCount <= 300 || "Maximum 300 words allowed";
               },
               onChange: (e) => {
                 const value = e.target.value as string;
@@ -153,8 +153,8 @@ export function BasicInformationSection({
             rows={5}
           />
           <div className="flex items-center justify-between">
-            <div className={`text-xs ${aboutCount > 250 ? 'text-red-500' : 'text-gray-500'}`}>
-              {aboutCount}/250 words
+            <div className={`text-xs ${aboutCount > 300 ? 'text-red-500' : 'text-gray-500'}`}>
+              {aboutCount}/300 words
             </div>
           </div>
           {errors.aboutYourSelf && (

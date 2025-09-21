@@ -8,31 +8,7 @@ import FallbackImage from "@/components/shared/FallbackImage";
 import Pagination from "@/components/shared/Pagination";
 
 const Achievement = () => {
-  // const achievements = [
-  //   {
-  //     id: 1,
-  //     image: "/ac1.png",
-  //     title: "AI Research Excellence Award",
-  //     description:
-  //       "Recognized for groundbreaking research in
-  //       artificial intelligence.",
-  //   },
-  //   {
-  //     id: 2,
-  //     image: "/ac2.jpeg",
-  //     title: "Pioneering Chemical Scientist",
-  //     description: "Awarded for significant contributions
-  //     to chemical research.",
-  //   },
-  //   {
-  //     id: 3,
-  //     image: "/ac3.jpeg",
-  //     title: "Machine Learning Innovator",
-  //     description: "Honored for advancements in machine
-  //     learning applications.",
-  //   }
-  // ];
-
+ 
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -134,15 +110,6 @@ const Achievement = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Achievements Count */}
-      {/* <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-yellow-500" />
-            <span>{totalItems} Achievements</span>
-          </div>
-        </div>
-      </div> */}
 
       {/* Achievements Gallery */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -227,10 +194,10 @@ const Achievement = () => {
           onClick={() => setSelectedAchievement(null)}
         >
           <div
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl"
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative h-64 md:h-80">
+            <div className="relative h-64 md:h-80 flex-shrink-0">
               {selectedAchievement.imageUrl ? (
                 <FallbackImage
                   src={selectedAchievement.imageUrl}
@@ -254,21 +221,16 @@ const Achievement = () => {
               </button>
             </div>
 
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
-                <span className="text-sm text-gray-500 uppercase tracking-wide">
-                  Achievement
-                </span>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                  {selectedAchievement?.title}
+                </h2>
+                <div className="text-gray-600 leading-relaxed">
+                  {selectedAchievement?.description}
+                </div>
               </div>
-
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                {selectedAchievement.title}
-              </h2>
-
-              <p className="text-gray-600 leading-relaxed mb-4">
-                {selectedAchievement.description}
-              </p>
             </div>
           </div>
         </div>

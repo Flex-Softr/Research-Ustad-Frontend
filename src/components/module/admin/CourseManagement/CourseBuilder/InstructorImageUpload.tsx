@@ -43,9 +43,9 @@ export function InstructorImageUpload({
       return false;
     }
 
-    // Check file size (1MB limit)
-    if (file.size > 1 * 1024 * 1024) {
-      setError("Image too large! Please choose a different image under 1MB.");
+    // Check file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Image too large! Please choose a different image under 5MB.");
       return false;
     }
 

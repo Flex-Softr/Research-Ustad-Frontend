@@ -45,7 +45,7 @@ export function InternationalConferenceImageUpload({
 
   const validateFile = (file: File): boolean => {
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    const maxSize = 1 * 1024 * 1024; // 1MB
+    const maxSize = 5 * 1024 * 1024; // 5MB
 
     if (!validTypes.includes(file.type)) {
       setError('Please upload a valid image file (JPEG, PNG, or WebP)');
