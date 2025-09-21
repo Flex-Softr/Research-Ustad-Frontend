@@ -302,7 +302,7 @@ const SingleMemberPage = () => {
             size="sm"
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="flex items-center gap-1"
+            className="flex items-center cursor-pointer gap-1"
           >
             <ChevronLeft className="h-4 w-4" />
             Previous
@@ -313,10 +313,14 @@ const SingleMemberPage = () => {
               (page) => (
                 <Button
                   key={page}
-                  variant={currentPage === page ? "default" : "outline"}
+                  variant="outline"
                   size="sm"
                   onClick={() => handlePageChange(page)}
-                  className="w-8 h-8 p-0"
+                  className={`w-8 h-8 p-0 cursor-pointer ${
+                    currentPage === page
+                      ? "bg-brand-secondary text-white border-brand-secondary hover:bg-brand-primary"
+                      : "hover:bg-gray-50"
+                  }`}
                 >
                   {page}
                 </Button>
@@ -329,7 +333,7 @@ const SingleMemberPage = () => {
             size="sm"
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 cursor-pointer"
           >
             Next
             <ChevronRight className="h-4 w-4" />

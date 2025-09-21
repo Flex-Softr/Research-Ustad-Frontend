@@ -348,7 +348,7 @@ const SingleResearchPaper = ({
                       <h4 className="font-semibold text-gray-900 mb-2">
                         Paper Type
                       </h4>
-                      <Badge variant="outline" className="text-sm">
+                      <Badge variant="outline" className="text-sm capitalize">
                         {paper?.paperType || "Not specified"}
                       </Badge>
                     </div>

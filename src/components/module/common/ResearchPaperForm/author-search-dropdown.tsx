@@ -5,8 +5,10 @@ import { Input } from '../../../ui/input';
 import { Button } from '../../../ui/button';
 import { SearchUsers, GetAllUsers } from '@/services/allreserchPaper';
 import { Search, X, User, Plus } from 'lucide-react';
+import UserAvatar from '../../../shared/UserAvatar';
 
 interface User {
+  image: any;
   _id: string;
   fullName: string;
   email: string;
@@ -172,16 +174,19 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
                 onClick={() => handleUserSelect(user)}
                 className="w-full px-3 py-3 text-left hover:bg-gray-50 flex items-center space-x-3 border-b border-gray-100 last:border-b-0 transition-colors duration-150"
               >
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <User className="h-4 w-4 text-blue-600" />
-                </div>
+                <UserAvatar
+                  src={user?.image}
+                  alt={user.fullName}
+                  name={user.fullName}
+                  size="lg"
+                  className="flex-shrink-0"
+                />
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-gray-900 truncate">
                     {user.fullName}
                   </div>
                   <div className="text-sm text-gray-500 truncate">
-                    {user.email}
-                    {user.designation && ` • ${user.designation}`}
+                    {user.designation && ` ${user.designation}`}
                   </div>
                 </div>
               </button>
@@ -242,16 +247,19 @@ const AuthorSearchDropdown: React.FC<AuthorSearchDropdownProps> = ({
                 onClick={() => handleUserSelect(user)}
                 className="w-full px-3 py-2 text-left hover:bg-gray-50 flex items-center space-x-3 border-b border-gray-100 last:border-b-0 transition-colors duration-150"
               >
-                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <User className="h-4 w-4 text-gray-600" />
-                </div>
+                <UserAvatar
+                  src={user?.image}
+                  alt={user.fullName}
+                  name={user.fullName}
+                  size="lg"
+                  className="flex-shrink-0"
+                />
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-gray-900 truncate">
                     {user.fullName}
                   </div>
                   <div className="text-sm text-gray-500 truncate">
-                    {user.email}
-                    {user.designation && ` • ${user.designation}`}
+                    {user.designation && ` ${user.designation}`}
                   </div>
                 </div>
               </button>

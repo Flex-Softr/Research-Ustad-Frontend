@@ -23,7 +23,12 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
     return author.name || "";
   };
 
-  const handleAuthorChange = (index: number, name: string, role: string, userId?: string) => {
+  const handleAuthorChange = (
+    index: number,
+    name: string,
+    role: string,
+    userId?: string
+  ) => {
     const updatedAuthor: Author = {
       name,
       role,
@@ -52,12 +57,15 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
 
       <div className="space-y-4">
         {authors?.map((author, index) => (
-          <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+          <div
+            key={index}
+            className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200"
+          >
             <div className="flex-1">
               <Label className="text-sm text-gray-600 mb-2 block">
                 Author {index + 1}
               </Label>
-              
+
               {/* Author Name/Selection */}
               <div className="mb-3">
                 <AuthorSearchDropdown
@@ -74,9 +82,7 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
 
               {/* Author Role */}
               <div className="mb-3">
-                <Label className="text-sm text-gray-600 mb-2 block">
-                  Role
-                </Label>
+                <Label className="text-sm text-gray-600 mb-2 block">Role</Label>
                 <Input
                   type="text"
                   value={author.role || ""}
@@ -87,22 +93,21 @@ const AuthorsSection: React.FC<AuthorsSectionProps> = ({
               </div>
 
               {/* Validation Messages */}
-              {getAuthorDisplayName(author).trim() !== "" && getAuthorDisplayName(author).trim()?.length < 2 && (
-                <p className="text-sm text-red-500 mt-1">
-                  Author name must be at least 2 characters
-                </p>
-              )}
-              
+              {getAuthorDisplayName(author).trim() !== "" &&
+                getAuthorDisplayName(author).trim()?.length < 2 && (
+                  <p className="text-sm text-red-500 mt-1">
+                    Author name must be at least 2 characters
+                  </p>
+                )}
+
               {author.role && author.role.trim() === "" && (
                 <p className="text-sm text-red-500 mt-1">
                   Author role is required
                 </p>
               )}
-              
+
               {author.isRegisteredUser && (
-                <p className="text-sm text-green-600 mt-1">
-                  ✓ Registered user
-                </p>
+                <p className="text-sm text-green-600 mt-1">✓ Registered user</p>
               )}
             </div>
             {authors?.length > 1 && (

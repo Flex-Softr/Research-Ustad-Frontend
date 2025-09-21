@@ -137,7 +137,7 @@ const OngoingPapers = ({ member, paginatedData }: OngoingPapersProps) => {
                       className="bg-green-100 text-green-800 border-green-200"
                     >
                       <Quote className="h-4 w-4" />
-                      <span>{publication.paperType}</span>
+                      <span className="capitalize">{publication.paperType}</span>
                     </Badge>
                   </div>
                 </div>
