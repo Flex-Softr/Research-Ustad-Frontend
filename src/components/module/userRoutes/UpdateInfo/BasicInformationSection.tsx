@@ -139,11 +139,13 @@ export function BasicInformationSection({
             {...register("aboutYourSelf", {
               validate: (val) => {
                 if (!val) return true;
-                return val.length <= 250 || "Maximum 250 characters allowed";
+                const wordCount = val.trim().split(/\s+/).filter(word => word.length > 0).length;
+                return wordCount <= 250 || "Maximum 250 words allowed";
               },
               onChange: (e) => {
                 const value = e.target.value as string;
-                setAboutCount(value.length);
+                const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
+                setAboutCount(wordCount);
               },
             })}
             placeholder="Write a brief about yourself..."
@@ -152,7 +154,7 @@ export function BasicInformationSection({
           />
           <div className="flex items-center justify-between">
             <div className={`text-xs ${aboutCount > 250 ? 'text-red-500' : 'text-gray-500'}`}>
-              {aboutCount}/250 characters
+              {aboutCount}/250 words
             </div>
           </div>
           {errors.aboutYourSelf && (

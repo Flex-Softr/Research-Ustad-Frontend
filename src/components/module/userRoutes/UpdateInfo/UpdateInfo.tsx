@@ -68,7 +68,6 @@ const UpdateInfo = () => {
     },
   });
 
-
   // Helper functions for array management
   const addExpertise = () => {
     const newList = [...expertiseList, ""];
