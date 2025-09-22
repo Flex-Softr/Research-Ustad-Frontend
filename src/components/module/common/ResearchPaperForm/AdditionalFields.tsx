@@ -41,12 +41,12 @@ const AdditionalFields: React.FC<AdditionalFieldsProps> = ({
           <div className="md:col-span-2">
             <Label htmlFor="visitLink" className="mb-2 flex items-center gap-2">
               <Link className="h-4 w-4 text-gray-500" />
-              Research Paper Link
+              DOI Link
             </Label>
             <Input
               id="visitLink"
               type="url"
-              placeholder="https://example.com/paper"
+              placeholder="https://doi.org/10.1109/1.2345"
               {...register("visitLink", {
                 validate: (value) => {
                   if (!value || value.trim() === "") {
