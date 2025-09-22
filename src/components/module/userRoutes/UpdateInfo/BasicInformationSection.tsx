@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { UpdateInfoBasicSectionProps } from "@/type";
 import { useState } from "react";
 import { toast } from "sonner";
+import ProfileImageUpload from "@/components/shared/ProfileImageUpload";
 
 export function BasicInformationSection({
   register,
@@ -14,28 +15,6 @@ export function BasicInformationSection({
   currentProfileImg,
 }: UpdateInfoBasicSectionProps) {
   const [aboutCount, setAboutCount] = useState(0);
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files?.length > 0) {
-      const file = e.target.files[0];
-
-      // Check file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(
-          "Profile image too large! Please choose a different image under 5MB.",
-          {
-            description: `Your file is ${(file.size / (1024 * 1024)).toFixed(
-              1
-            )}MB. Try compressing the image or choosing a smaller file.`,
-            duration: 6000,
-          }
-        );
-        e.target.value = ""; // Clear the input
-        return;
-      }
-
-      onFileChange?.(file);
-    }
-  };
 
   const handleRequiredFieldChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -86,39 +65,23 @@ export function BasicInformationSection({
           )}
         </label>
 
-        <label className="space-y-1">
-          <span className="text-sm font-medium">Profile Image</span>
-          <div className="space-y-2">
-            {/* File Upload */}
-            <Input
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              id="profileImage"
-            />
-
-            {/* Image Preview - Only show when user selects a file */}
-            {selectedFile && (
-              <div className="w-full mt-4">
-                <img
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="Profile Preview"
-                  className="w-full h-32 object-cover rounded"
-                />
-                <div className="text-sm text-gray-500">
-                  <p>Selected: {selectedFile.name}</p>
-                  <p>Size: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                </div>
-              </div>
-            )}
-
-            {/* Hidden input for form data */}
-            <input type="hidden" {...register("profileImg")} />
-          </div>
+        <div className="space-y-1">
+          <ProfileImageUpload
+            onChange={onFileChange}
+            selectedFile={selectedFile}
+            currentProfileImg={currentProfileImg}
+            label="Profile Image"
+            required={false}
+            aspectRatio={1}
+            cropShape="round"
+          />
+          
+          {/* Hidden input for form data */}
+          <input type="hidden" {...register("profileImg")} />
           {errors.profileImg && (
             <p className="text-red-500 text-sm">{errors.profileImg.message}</p>
           )}
-        </label>
+        </div>
 
         {/* short bio */}
         <label className="space-y-1">
