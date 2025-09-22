@@ -143,7 +143,7 @@ export function InstructorImageUpload({
                     : "Click to upload"}
                 </p>
                 <p className="text-xs text-gray-500">
-                  PNG, JPG, WebP up to 2MB
+                  PNG, JPG, WebP up to 5MB
                 </p>
                 {isEditMode && existingImageUrl && (
                   <p className="text-xs text-blue-600 mt-1">

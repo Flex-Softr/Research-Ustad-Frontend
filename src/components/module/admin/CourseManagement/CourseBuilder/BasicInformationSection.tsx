@@ -180,6 +180,7 @@ export function BasicInformationSection({
               className="w-full h-10 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="English">English</option>
+              <option value="Bangla">Bangla</option>
               <option value="Spanish">Spanish</option>
               <option value="French">French</option>
               <option value="German">German</option>

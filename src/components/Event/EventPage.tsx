@@ -181,9 +181,8 @@ const EventPage = () => {
                             variant="primary"
                             // className="bg-brand-primary"
                           >
-                            {statusInfo.status === "upcoming"
-                              ? "Register"
-                              : "Details"}
+                         
+                              Details
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </Button>
                         </Link>
