@@ -53,7 +53,7 @@ export function InternationalConferenceImageUpload({
     }
 
     if (file.size > maxSize) {
-      setError('Image too large! Please choose a different image under 1MB.');
+      setError('Image too large! Please choose a different image under 5MB.');
       return false;
     }
 
@@ -172,7 +172,7 @@ export function InternationalConferenceImageUpload({
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-gray-500 mt-1">
-                    PNG, JPG, WebP up to 1MB
+                    JPEG, PNG, JPG, WebP up to 5MB
                   </p>
                   {required && (
                     <p className="text-xs text-red-500 mt-1">Image is required</p>

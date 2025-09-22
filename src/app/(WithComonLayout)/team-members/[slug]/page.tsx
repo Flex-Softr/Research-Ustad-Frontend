@@ -415,7 +415,7 @@ const SingleMemberPage = () => {
               </div>
             ) : (
               <div>
-                <h1 className="font-medium text-gray-700 bg-gray-100 py-5 text-center">
+                <h1 className="font-medium text-gray-700 bg-gray-100 py-5 text-center mt-5">
                   There is no content to display
                 </h1>
               </div>

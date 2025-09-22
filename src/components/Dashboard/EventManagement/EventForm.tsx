@@ -64,12 +64,12 @@ const EventForm = ({
   // Add validation for date fields
   const startDate = watch("startDate");
   const endDate = watch("endDate");
-  
+
   // Validate that end date is not older than start date
-  const dateValidationError = 
+  const dateValidationError =
     (touchedFields.endDate || isSubmitted) &&
-    startDate && 
-    endDate && 
+    startDate &&
+    endDate &&
     new Date(endDate) < new Date(startDate)
       ? "End date cannot be older than start date"
       : undefined;
@@ -93,22 +93,27 @@ const EventForm = ({
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length > 0) {
       const file = e.target.files[0];
-      
+
       // Check file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error("Image too large! Please choose a different image under 5MB.", {
-          description: `Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Try compressing the image or choosing a smaller file.`,
-          duration: 6000,
-        });
-        setImageErrors((prev) => ({ 
-          ...prev, 
-          eventImage: "File is too large (max 1MB)" 
+        toast.error(
+          "Image too large! Please choose a different image under 5MB.",
+          {
+            description: `Your file is ${(file.size / (1024 * 1024)).toFixed(
+              1
+            )}MB. Try compressing the image or choosing a smaller file.`,
+            duration: 6000,
+          }
+        );
+        setImageErrors((prev) => ({
+          ...prev,
+          eventImage: "File is too large (max 5MB)",
         }));
         // Clear the input
         e.target.value = "";
         return;
       }
-      
+
       setSelectedFile(file);
       // Clear error when file is selected
       setImageErrors((prev) => ({ ...prev, eventImage: undefined }));
@@ -122,25 +127,32 @@ const EventForm = ({
   ) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files![0];
-      
+
       // Check file size (5MB limit)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error(`Speaker ${index + 1} image too large! Please choose a different image under 5MB.`, {
-          description: `Your file is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Try compressing the image or choosing a smaller file.`,
-          duration: 6000,
-        });
+        toast.error(
+          `Speaker ${
+            index + 1
+          } image too large! Please choose a different image under 5MB.`,
+          {
+            description: `Your file is ${(file.size / (1024 * 1024)).toFixed(
+              1
+            )}MB. Try compressing the image or choosing a smaller file.`,
+            duration: 6000,
+          }
+        );
         setImageErrors((prev) => ({
           ...prev,
           speakerImages: {
             ...prev.speakerImages,
-            [index]: "File is too large (max 1MB)",
+            [index]: "File is too large (max 5MB)",
           },
         }));
         // Clear the input
         e.target.value = "";
         return;
       }
-      
+
       console.log(`📁 File selected for speaker ${index}:`, file.name);
       setSpeakerFiles((prev) => ({
         ...prev,
@@ -171,7 +183,11 @@ const EventForm = ({
       }
 
       // Validate date range
-      if (data.startDate && data.endDate && new Date(data.endDate) < new Date(data.startDate)) {
+      if (
+        data.startDate &&
+        data.endDate &&
+        new Date(data.endDate) < new Date(data.startDate)
+      ) {
         toast.error("End date cannot be older than start date");
         return;
       }
@@ -214,9 +230,9 @@ const EventForm = ({
       if (selectedFile && selectedFile.size > 5 * 1024 * 1024) {
         setImageErrors((prev) => ({
           ...prev,
-          eventImage: "Event image is too large (max 1MB)",
+          eventImage: "Event image is too large (max 5MB)",
         }));
-        toast.error("Event image is too large! Maximum size allowed is 1MB.");
+        toast.error("Event image is too large! Maximum size allowed is 5MB.");
         return;
       }
 
@@ -231,19 +247,14 @@ const EventForm = ({
 
         // Validate speaker image size
         if (hasFile && hasFile.size > 5 * 1024 * 1024) {
-          speakerImageErrors[index] = "Speaker image is too large (max 1MB)";
+          speakerImageErrors[index] = "Speaker image is too large (max 5MB)";
           hasSpeakerImageError = true;
         }
-
-        // For new events, all speakers must have images
         // For updates, speakers can be added without images initially
         if (!isEditing && !hasFile) {
           speakerImageErrors[index] = "Speaker image is required";
           hasSpeakerImageError = true;
         } else if (isEditing && !hasFile && !hasExistingImage) {
-          // For updates, only require images if the speaker is being updated and had an image before
-          // New speakers can be added without images initially
-          // console.log(`Speaker ${index} has no image - this is allowed for updates`);
         }
       });
 
@@ -263,10 +274,9 @@ const EventForm = ({
         formData.append("file", selectedFile);
       }
 
-      
       data.speakers?.forEach((speaker, index) => {
         const file = speakerFiles[index];
-      
+
         if (file) {
           formData.append(`speakerFiles`, file);
           // console.log(`✅ Added file for speaker ${index}:`, file.name);
@@ -281,7 +291,7 @@ const EventForm = ({
           name: speaker.name.trim(),
           bio: speaker.bio.trim(),
         };
-        
+
         // For existing speakers, include imageUrl if it exists
         // For new speakers, don't include imageUrl - let backend handle it from uploaded files
         if (isEditing && speaker.imageUrl && speaker.imageUrl.trim()) {
@@ -289,7 +299,7 @@ const EventForm = ({
         }
         // For new speakers or when creating new events, don't set imageUrl
         // The backend will set it from the uploaded files
-        
+
         return speakerData;
       });
 
@@ -321,18 +331,30 @@ const EventForm = ({
       setSpeakerFiles({});
       setImageErrors({}); // Clear errors on successful submission
     } catch (error: any) {
-      console.error('Event submission error:', error);
-      
+      console.error("Event submission error:", error);
+
       // Handle specific error types
-      if (error?.includes('413') || error?.includes('Request Entity Too Large')) {
-        toast.error("File size too large! Please reduce image sizes or use smaller images. Maximum allowed: 1MB per file.");
-      } else if (error?.includes('CORS') || error?.includes('blocked by CORS policy')) {
-        toast.error("Connection error! Please check your internet connection and try again.");
-      } else if (error?.includes('File too large')) {
-        toast.error("Image file is too large! Maximum size allowed is 1MB per image.");
-      } else if (error?.includes('Only image files are allowed')) {
+      if (
+        error?.includes("413") ||
+        error?.includes("Request Entity Too Large")
+      ) {
+        toast.error(
+          "File size too large! Please reduce image sizes or use smaller images. Maximum allowed: 5MB per file."
+        );
+      } else if (
+        error?.includes("CORS") ||
+        error?.includes("blocked by CORS policy")
+      ) {
+        toast.error(
+          "Connection error! Please check your internet connection and try again."
+        );
+      } else if (error?.includes("File too large")) {
+        toast.error(
+          "Image file is too large! Maximum size allowed is 5MB per image."
+        );
+      } else if (error?.includes("Only image files are allowed")) {
         toast.error("Please select only image files (JPG, PNG, GIF, WebP).");
-      } else if (error?.includes('Too many files')) {
+      } else if (error?.includes("Too many files")) {
         toast.error("Too many files! Maximum 20 files allowed per request.");
       } else {
         toast.error(error || "Failed to save event. Please try again.");
@@ -406,7 +428,6 @@ const EventForm = ({
 
           {/* Other Fields - Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-
             <div className="space-y-2">
               <Label htmlFor="eventDuration">Event Duration (in minutes)</Label>
               <Input
@@ -449,10 +470,18 @@ const EventForm = ({
                   },
                   validate: (value) => {
                     const registeredValue = watch("registered");
-                    return (
-                      Number(value) >= Number(registeredValue) ||
-                      "Max attendees cannot be less than currently registered attendees"
-                    );
+                    // Only validate if both values exist and are greater than 0
+                    if (
+                      registeredValue &&
+                      Number(registeredValue) > 0 &&
+                      Number(value) > 0
+                    ) {
+                      return (
+                        Number(value) >= Number(registeredValue) ||
+                        "Max attendees cannot be less than currently registered attendees"
+                      );
+                    }
+                    return true;
                   },
                 })}
               />
@@ -477,10 +506,18 @@ const EventForm = ({
                   },
                   validate: (value) => {
                     const maxAttendeesValue = watch("maxAttendees");
-                    return (
-                      Number(value) <= Number(maxAttendeesValue) ||
-                      "Registered attendees cannot exceed max attendees"
-                    );
+                    // Only validate if both values exist and are greater than 0
+                    if (
+                      maxAttendeesValue &&
+                      Number(maxAttendeesValue) > 0 &&
+                      Number(value) > 0
+                    ) {
+                      return (
+                        Number(value) <= Number(maxAttendeesValue) ||
+                        "Registered attendees cannot exceed max attendees"
+                      );
+                    }
+                    return true;
                   },
                 })}
               />
@@ -671,7 +708,7 @@ const EventForm = ({
                       // Remove the file from state when speaker is removed and reindex remaining files
                       setSpeakerFiles((prev) => {
                         const newFiles: { [key: number]: File | null } = {};
-                        Object.keys(prev).forEach(key => {
+                        Object.keys(prev).forEach((key) => {
                           const fileIndex = parseInt(key);
                           if (fileIndex < index) {
                             // Keep files before the removed index
@@ -682,7 +719,10 @@ const EventForm = ({
                           }
                           // Skip the file at the removed index
                         });
-                        console.log('🔄 Reindexed speaker files after removal:', newFiles);
+                        console.log(
+                          "🔄 Reindexed speaker files after removal:",
+                          newFiles
+                        );
                         return newFiles;
                       });
                       setImageErrors((prev) => ({
@@ -742,7 +782,7 @@ const EventForm = ({
                   <Label htmlFor={`speaker-file-${index}`}>
                     Upload Speaker Image *
                   </Label>
-              
+
                   <Input
                     type="file"
                     id={`speaker-file-${index}`}

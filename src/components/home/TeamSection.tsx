@@ -154,7 +154,7 @@ const TeamSection = () => {
               <div className="relative w-full py-2 flex items-center justify-center mx-auto">
               
 
-                <div className=" w-56 h-56 border-2 border-gray-200 rounded-full flex items-center justify-center m-auto">
+                <div className="w-56 h-56 border-2 border-gray-200 rounded-full flex items-center justify-center m-auto">
                   <UserAvatar
                     src={member?.image}
                     alt={member?.name}
