@@ -22,6 +22,12 @@ export interface UpdateInfoFormData {
   currentDegree?: string;
   currentInstDesignation?: string;
 
+  // Current Institution Academic
+  currentInstitutionAcademicInstitution?: string;
+  currentInstitutionAcademicDepartment?: string;
+  currentInstitutionAcademicDegree?: string;
+  currentInstitutionAcademicInstDesignation?: string;
+
   // Education
   educationDegree?: string;
   educationField?: string;
@@ -67,6 +73,12 @@ export interface MemberData {
     department: string;
     degree: string;
   };
+  CurrentInstitutionAcademic?: {
+    inst_designation: string;
+    institution: string;
+    department: string;
+    degree: string;
+  };
   education?: {
     degree: string;
     field: string;
@@ -101,6 +113,14 @@ export interface UpdateMemberPayload {
 
     // Current Institution
     current: {
+      inst_designation: string;
+      institution: string;
+      department: string;
+      degree: string;
+    };
+
+    // Current Institution Academic
+    CurrentInstitutionAcademic: {
       inst_designation: string;
       institution: string;
       department: string;

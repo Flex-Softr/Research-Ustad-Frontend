@@ -20,6 +20,7 @@ import {
 } from "./index";
 import { useRouter } from "next/navigation";
 import { useUserStatus } from "@/hooks/useUserStatus";
+import { CurrentInstitutionAcademic } from "./CurrentInstitutionAcademic";
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -51,6 +52,10 @@ const UpdateInfo = () => {
       currentDepartment: "",
       currentDegree: "",
       currentInstDesignation: "",
+      currentInstitutionAcademicInstitution: "",
+      currentInstitutionAcademicDepartment: "",
+      currentInstitutionAcademicDegree: "",
+      currentInstitutionAcademicInstDesignation: "",
       educationDegree: "",
       educationField: "",
       educationInstitution: "",
@@ -153,6 +158,15 @@ const UpdateInfo = () => {
         setValue(
           "currentInstDesignation",
           data?.current?.inst_designation || ""
+        );
+
+        // Current Institution Academic - only set if data exists
+        setValue("currentInstitutionAcademicInstitution", data?.CurrentInstitutionAcademic?.institution || "");
+        setValue("currentInstitutionAcademicDepartment", data?.CurrentInstitutionAcademic?.department || "");
+        setValue("currentInstitutionAcademicDegree", data?.CurrentInstitutionAcademic?.degree || "");
+        setValue(
+          "currentInstitutionAcademicInstDesignation",
+          data?.CurrentInstitutionAcademic?.inst_designation || ""
         );
 
         // Education - only set if data exists
@@ -278,6 +292,19 @@ const UpdateInfo = () => {
       degree: currentDegree,
     };
 
+    // Current Institution Academic - always include (allow clearing)
+    const currentInstitutionAcademicInstitution = cleanString(formData.currentInstitutionAcademicInstitution);
+    const currentInstitutionAcademicDepartment = cleanString(formData.currentInstitutionAcademicDepartment);
+    const currentInstitutionAcademicDegree = cleanString(formData.currentInstitutionAcademicDegree);
+    const currentInstitutionAcademicInstDesignation = cleanString(formData.currentInstitutionAcademicInstDesignation);
+
+    payload.CurrentInstitutionAcademic = {
+      inst_designation: currentInstitutionAcademicInstDesignation,
+      institution: currentInstitutionAcademicInstitution,
+      department: currentInstitutionAcademicDepartment,
+      degree: currentInstitutionAcademicDegree,
+    };
+
     // Education - always include (allow clearing)
     const educationDegree = cleanString(formData.educationDegree);
     const educationField = cleanString(formData.educationField);
@@ -381,15 +408,30 @@ const UpdateInfo = () => {
               </CardContent>
             </Card>
 
-            {/* Current Institution Section */}
+            {/* Current Institution Section professional */}
             <Card className="border border-gray-200">
               <CardHeader className="bg-gray-50">
                 <CardTitle className="text-lg font-semibold">
-                  Current Institution
+                Current Position (Professional)
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <CurrentInstitutionSection
+                  register={register}
+                  errors={errors}
+                />
+              </CardContent>
+            </Card>
+
+              {/* Current Institution Section Academic */}
+              <Card className="border border-gray-200">
+              <CardHeader className="bg-gray-50">
+                <CardTitle className="text-lg font-semibold">
+                  Current Position (Academic)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CurrentInstitutionAcademic
                   register={register}
                   errors={errors}
                 />

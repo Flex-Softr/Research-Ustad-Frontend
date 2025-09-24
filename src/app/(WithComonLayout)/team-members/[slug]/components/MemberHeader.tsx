@@ -52,55 +52,74 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                 {member?.fullName}
               </h1>
 
-              {(member?.current?.inst_designation ||
-                member?.current?.department ||
-                member?.current?.institution) && (
-                <div className="flex items-center gap-2 text-gray-600 text-center md:text-left">
-                <div>
-                {/* <p className=" leading-relaxed capitalize">
-                    {member?.current?.inst_designation && (
-                      <span className="font-medium">
-                        {member.current.inst_designation}
-                      </span>
-                    )}
-                    {member?.current?.department &&
-                      member?.current?.inst_designation && <span>, </span>}
-                    {member?.current?.department && (
-                      <span>{member.current.department}</span>
-                    )}
-                    {member?.current?.institution &&
-                      (member?.current?.inst_designation ||
-                        member?.current?.department) && <span>, </span>}
-                    {member?.current?.institution && (
-                      <span className="font-medium text-gray-700">
-                        {member.current.institution}
-                      </span>
-                    )}
-                  </p> */}
-                  {/* <p className=" leading-relaxed capitalize">Phd Researcher, Department of Applied Computing, Georgia Southern University, USA</p> */}
-                  <p className=" leading-relaxed capitalize">
-                    {member?.current?.inst_designation && (
-                      <span className="font-medium">
-                        {member.current.inst_designation}
-                      </span>
-                    )}
-                    {member?.current?.department &&
-                      member?.current?.inst_designation && <span>, </span>}
-                    {member?.current?.department && (
-                      <span>{member.current.department}</span>
-                    )}
-                    {member?.current?.institution &&
-                      (member?.current?.inst_designation ||
-                        member?.current?.department) && <span>, </span>}
-                    {member?.current?.institution && (
-                      <span className="font-medium text-gray-700">
-                        {member.current.institution}
-                      </span>
-                    )}
-                  </p>
-                </div>
-                </div>
-              )}
+              <div>
+                {/* Current Position (Academic) */}
+                {(member?.CurrentInstitutionAcademic?.inst_designation ||
+                  member?.CurrentInstitutionAcademic?.department ||
+                  member?.CurrentInstitutionAcademic?.institution) && (
+                  <div className="flex items-center gap-2 text-gray-600 text-center md:text-left">
+                    <div>
+                      <p className=" leading-relaxed capitalize">
+                        {member?.CurrentInstitutionAcademic
+                          ?.inst_designation && (
+                          <span className="font-medium">
+                            {member.CurrentInstitutionAcademic.inst_designation}
+                          </span>
+                        )}
+                        {member?.CurrentInstitutionAcademic?.department &&
+                          member?.CurrentInstitutionAcademic
+                            ?.inst_designation && <span>, </span>}
+                        {member?.CurrentInstitutionAcademic?.department && (
+                          <span>
+                            {member.CurrentInstitutionAcademic.department}
+                          </span>
+                        )}
+                        {member?.CurrentInstitutionAcademic?.institution &&
+                          (member?.CurrentInstitutionAcademic
+                            ?.inst_designation ||
+                            member?.CurrentInstitutionAcademic?.department) && (
+                            <span>, </span>
+                          )}
+                        {member?.CurrentInstitutionAcademic?.institution && (
+                          <span className="font-medium text-gray-700">
+                            {member.CurrentInstitutionAcademic.institution}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Current Position (professional) */}
+                {(member?.current?.inst_designation ||
+                  member?.current?.department ||
+                  member?.current?.institution) && (
+                  <div className="flex items-center gap-2 text-gray-600 text-center md:text-left">
+                    <div>
+                      <p className=" leading-relaxed capitalize">
+                        {member?.current?.inst_designation && (
+                          <span className="font-medium">
+                            {member.current.inst_designation}
+                          </span>
+                        )}
+                        {member?.current?.department &&
+                          member?.current?.inst_designation && <span>, </span>}
+                        {member?.current?.department && (
+                          <span>{member.current.department}</span>
+                        )}
+                        {member?.current?.institution &&
+                          (member?.current?.inst_designation ||
+                            member?.current?.department) && <span>, </span>}
+                        {member?.current?.institution && (
+                          <span className="font-medium text-gray-700">
+                            {member.current.institution}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {member?.designation && (
                 <div className="flex items-center gap-2 md:justify-start justify-center">
@@ -108,7 +127,9 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
                     <h2 className="text-gray-700  font-semibold capitalize">
                       Role:
                     </h2>
-                    <p className="text-gray-700">{member?.shortBio ? member.shortBio : member?.designation}</p>
+                    <p className="text-gray-700">
+                      {member?.shortBio ? member.shortBio : member?.designation}
+                    </p>
                   </div>
                 </div>
               )}

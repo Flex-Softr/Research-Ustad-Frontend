@@ -7,6 +7,7 @@ import UserAvatar from "@/components/shared/UserAvatar";
 
 // Extended interface for the JSON data structure
 export interface TeamMember extends UserProfile {
+  CurrentInstitutionAcademic: any;
   citations?: number;
   researchStats?: {
     totalPapers: number;

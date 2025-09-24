@@ -189,7 +189,7 @@ const Profile = () => {
                   <div className="flex items-center gap-2 mb-4">
                     <Briefcase className="w-5 h-5 text-green-600" />
                     <h3 className="text-xl font-semibold text-gray-800">
-                      Current Position
+                      Current Position (Professional)
                     </h3>
                   </div>
                   <div className="space-y-2">
@@ -219,6 +219,57 @@ const Profile = () => {
                         <p>
                           <span className="font-semibold">Designation:</span>{" "}
                           {user.current.inst_designation}
+                        </p>
+                      )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Current Institution Academic */}
+            {user?.CurrentInstitutionAcademic &&
+            ((user.CurrentInstitutionAcademic.institution &&
+              user.CurrentInstitutionAcademic.institution.trim() !== "") ||
+              (user.CurrentInstitutionAcademic.department &&
+                user.CurrentInstitutionAcademic.department.trim() !== "") ||
+              (user.CurrentInstitutionAcademic.degree && user.CurrentInstitutionAcademic.degree.trim() !== "") ||
+              (user.CurrentInstitutionAcademic.inst_designation &&
+                user.CurrentInstitutionAcademic.inst_designation.trim() !== "")) && (
+              <Card className="shadow-lg rounded-lg">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Briefcase className="w-5 h-5 text-green-600" />
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Current Position (Academic)
+                    </h3>
+                  </div>
+                  <div className="space-y-2">
+                    {user.CurrentInstitutionAcademic.institution &&
+                      user.CurrentInstitutionAcademic.institution.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Institution:</span>{" "}
+                          {user.CurrentInstitutionAcademic.institution}
+                        </p>
+                      )}
+                    {user.CurrentInstitutionAcademic.department &&
+                      user.CurrentInstitutionAcademic.department.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Department:</span>{" "}
+                          {user.CurrentInstitutionAcademic.department}
+                        </p>
+                      )}
+                    {user.CurrentInstitutionAcademic.degree &&
+                      user.CurrentInstitutionAcademic.degree.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Degree:</span>{" "}
+                          {user.CurrentInstitutionAcademic.degree}
+                        </p>
+                      )}
+                    {user.CurrentInstitutionAcademic.inst_designation &&
+                      user.CurrentInstitutionAcademic.inst_designation.trim() !== "" && (
+                        <p>
+                          <span className="font-semibold">Designation:</span>{" "}
+                          {user.CurrentInstitutionAcademic.inst_designation}
                         </p>
                       )}
                   </div>
