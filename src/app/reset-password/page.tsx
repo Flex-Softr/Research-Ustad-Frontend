@@ -37,7 +37,7 @@ const ResetPasswordPage = () => {
                   Set New Password
                 </h1>
                 <p className="text-emerald-100 text-lg mb-6">
-                  Create a strong, secure password for your ResearchUstad
+                  Create a strong, secure password for your Research Ustad
                   account. Make sure it's something you'll remember but others
                   can't guess.
                 </p>

@@ -288,7 +288,7 @@ const CreateMemberForm: React.FC = () => {
               htmlFor="designation"
               className="text-lg font-semibold mb-2 block"
             >
-              Designation of ResearchUstad *
+              Designation of Research Ustad *
             </Label>
             <Select
               value={selectedDesignation}

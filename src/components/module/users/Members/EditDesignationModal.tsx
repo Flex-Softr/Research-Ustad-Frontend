@@ -86,7 +86,7 @@ export default function EditDesignationModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="designation">Designation of ResearchUstad</Label>
+            <Label htmlFor="designation">Designation of Research Ustad</Label>
             <Select
               value={designation}
               onValueChange={(value) => setDesignation(value)}
