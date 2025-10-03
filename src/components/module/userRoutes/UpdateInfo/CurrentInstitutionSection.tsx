@@ -6,10 +6,7 @@ import { UpdateInfoCurrentInstitutionSectionProps } from "@/type";
 export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurrentInstitutionSectionProps) {
   return (
     <div className="space-y-4">
-      {/* <h3 className="text-lg font-medium border-b pb-2">
-        Current Institution
-      </h3> */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid gap-4">
         <label className="space-y-1">
           <span className="text-sm font-medium">Institution</span>
           <Input
@@ -24,7 +21,8 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
           )}
         </label>
 
-        <label className="space-y-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <label className="space-y-1">
           <span className="text-sm font-medium">Department</span>
           <Input
             type="text"
@@ -34,20 +32,6 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
           {errors.currentDepartment && (
             <p className="text-red-500 text-sm">
               {String(errors.currentDepartment.message || "Invalid department")}
-            </p>
-          )}
-        </label>
-
-        <label className="space-y-1">
-          <span className="text-sm font-medium">Degree</span>
-          <Input
-            type="text"
-            {...register("currentDegree")}
-            placeholder="Enter current degree"
-          />
-          {errors.currentDegree && (
-            <p className="text-red-500 text-sm">
-              {String(errors.currentDegree.message || "Invalid degree")}
             </p>
           )}
         </label>
@@ -67,6 +51,7 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
             </p>
           )}
         </label>
+      </div>
       </div>
     </div>
   );

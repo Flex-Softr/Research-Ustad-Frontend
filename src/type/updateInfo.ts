@@ -26,14 +26,8 @@ export interface UpdateInfoFormData {
   currentInstitutionAcademicInstitution?: string;
   currentInstitutionAcademicDepartment?: string;
   currentInstitutionAcademicDegree?: string;
-  currentInstitutionAcademicInstDesignation?: string;
+  currentInstitutionAcademicStatus?: "Ongoing" | "Completed";
 
-  // Education
-  educationDegree?: string;
-  educationField?: string;
-  educationInstitution?: string;
-  educationStatus?: "Ongoing" | "Completed" | "";
-  scholarship?: string;
 
   // Social Links
   linkedin?: string;
@@ -71,20 +65,12 @@ export interface MemberData {
     inst_designation: string;
     institution: string;
     department: string;
-    degree: string;
   };
   CurrentInstitutionAcademic?: {
-    inst_designation: string;
     institution: string;
     department: string;
     degree: string;
-  };
-  education?: {
-    degree: string;
-    field: string;
-    institution: string;
-    status: string;
-    scholarship: string;
+    status: "Ongoing" | "Completed";
   };
   research?: string[];
   socialLinks?: {
@@ -116,25 +102,16 @@ export interface UpdateMemberPayload {
       inst_designation: string;
       institution: string;
       department: string;
-      degree: string;
     };
 
     // Current Institution Academic
     CurrentInstitutionAcademic: {
-      inst_designation: string;
       institution: string;
       department: string;
       degree: string;
+      status: "Ongoing" | "Completed";
     };
 
-    // Education
-    education: {
-      degree: string;
-      field: string;
-      institution: string;
-      status: string;
-      scholarship: string;
-    };
 
     // Keep existing research data
     research: string[];

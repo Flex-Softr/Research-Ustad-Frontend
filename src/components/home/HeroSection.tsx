@@ -38,7 +38,7 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-5">
-              <Link href="/contact">
+              <Link href="/course">
                 <Button variant="primary" size="lg">
                   START YOUR RESEARCH
                 </Button>

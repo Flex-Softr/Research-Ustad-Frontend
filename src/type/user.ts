@@ -20,15 +20,7 @@ export interface TUser {
   current?: {
     institution?: string;
     department?: string;
-    degree?: string;
     inst_designation?: string;
-  };
-  education?: {
-    degree?: string;
-    field?: string;
-    institution?: string;
-    status?: string;
-    scholarship?: string;
   };
   research?: string[];
   socialLinks?: {
@@ -62,20 +54,11 @@ export interface UserProfile {
   current: {
     institution: string;
     department: string;
-    degree: string;
   };
-  education: Education;
   socialLinks: SocialLinks;
   designation: string;
 }
 
-export interface Education {
-  degree: string;
-  field: string;
-  institution: string;
-  status: string;
-  scholarship?: string;
-}
 
 export interface SocialLinks {
   google_scholar?: string;
@@ -100,7 +83,6 @@ export interface TResearchAssociate {
   current?: {
     institution?: string;
     department?: string;
-    degree?: string;
     inst_designation?: string;
   };
   education?: {

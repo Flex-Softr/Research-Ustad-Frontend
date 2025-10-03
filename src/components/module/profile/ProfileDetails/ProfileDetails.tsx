@@ -48,10 +48,6 @@ const ProfileDetails = ({
             {currentUser?.fullName}
           </h2>
           <p className="text-base sm:text-lg text-gray-600">
-            {currentUser?.education?.degree},{" "}
-            {currentUser?.education?.institution}
-          </p>
-          <p className="text-sm sm:text-base text-[#bc986b] font-medium uppercase tracking-wide">
             {currentUser?.designation}
           </p>
         </div>

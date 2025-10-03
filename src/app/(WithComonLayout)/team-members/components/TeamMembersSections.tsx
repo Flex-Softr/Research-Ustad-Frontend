@@ -26,7 +26,6 @@ const TeamMembersSections = ({
       member.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (member.designation || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
       member.current?.institution?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      member.education?.field?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       member.expertise?.some((exp) => exp.toLowerCase().includes(searchQuery.toLowerCase())) ||
       member.shortBio?.toLowerCase().includes(searchQuery.toLowerCase())
     );

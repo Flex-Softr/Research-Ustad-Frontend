@@ -175,13 +175,12 @@ const Profile = () => {
 
         {/* Detailed Information Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Current Institution */}
+          {/* Current Institution Professional */}
           {user?.current &&
             ((user.current.institution &&
               user.current.institution.trim() !== "") ||
               (user.current.department &&
                 user.current.department.trim() !== "") ||
-              (user.current.degree && user.current.degree.trim() !== "") ||
               (user.current.inst_designation &&
                 user.current.inst_designation.trim() !== "")) && (
               <Card className="shadow-lg rounded-lg">
@@ -189,7 +188,7 @@ const Profile = () => {
                   <div className="flex items-center gap-2 mb-4">
                     <Briefcase className="w-5 h-5 text-green-600" />
                     <h3 className="text-xl font-semibold text-gray-800">
-                      Current Position (Professional)
+                    Professional Status
                     </h3>
                   </div>
                   <div className="space-y-2">
@@ -205,13 +204,6 @@ const Profile = () => {
                         <p>
                           <span className="font-semibold">Department:</span>{" "}
                           {user.current.department}
-                        </p>
-                      )}
-                    {user.current.degree &&
-                      user.current.degree.trim() !== "" && (
-                        <p>
-                          <span className="font-semibold">Degree:</span>{" "}
-                          {user.current.degree}
                         </p>
                       )}
                     {user.current.inst_designation &&
@@ -232,15 +224,13 @@ const Profile = () => {
               user.CurrentInstitutionAcademic.institution.trim() !== "") ||
               (user.CurrentInstitutionAcademic.department &&
                 user.CurrentInstitutionAcademic.department.trim() !== "") ||
-              (user.CurrentInstitutionAcademic.degree && user.CurrentInstitutionAcademic.degree.trim() !== "") ||
-              (user.CurrentInstitutionAcademic.inst_designation &&
-                user.CurrentInstitutionAcademic.inst_designation.trim() !== "")) && (
+              (user.CurrentInstitutionAcademic.degree && user.CurrentInstitutionAcademic.degree.trim() !== "")) && (
               <Card className="shadow-lg rounded-lg">
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-4">
                     <Briefcase className="w-5 h-5 text-green-600" />
                     <h3 className="text-xl font-semibold text-gray-800">
-                      Current Position (Academic)
+                      Academic Status
                     </h3>
                   </div>
                   <div className="space-y-2">
@@ -265,11 +255,11 @@ const Profile = () => {
                           {user.CurrentInstitutionAcademic.degree}
                         </p>
                       )}
-                    {user.CurrentInstitutionAcademic.inst_designation &&
-                      user.CurrentInstitutionAcademic.inst_designation.trim() !== "" && (
+                    {user.CurrentInstitutionAcademic.status &&
+                      user.CurrentInstitutionAcademic.status.trim() !== "" && (
                         <p>
-                          <span className="font-semibold">Designation:</span>{" "}
-                          {user.CurrentInstitutionAcademic.inst_designation}
+                          <span className="font-semibold">Status:</span>{" "}
+                          {user.CurrentInstitutionAcademic.status}
                         </p>
                       )}
                   </div>
@@ -277,63 +267,6 @@ const Profile = () => {
               </Card>
             )}
 
-          {/* Education */}
-          {user?.education &&
-            ((user.education.degree && user.education.degree.trim() !== "") ||
-              (user.education.field && user.education.field.trim() !== "") ||
-              (user.education.institution &&
-                user.education.institution.trim() !== "") ||
-              // (user.education.status && user.education.status.trim() !== "") ||
-              (user.education.scholarship &&
-                user.education.scholarship.trim() !== "")) && (
-              <Card className="shadow-lg rounded-lg">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <GraduationCap className="w-5 h-5 text-purple-600" />
-                    <h3 className="text-xl font-semibold text-gray-800">
-                      Education
-                    </h3>
-                  </div>
-                  <div className="space-y-2">
-                    {user.education.degree &&
-                      user.education.degree.trim() !== "" && (
-                        <p>
-                          <span className="font-semibold">Degree:</span>{" "}
-                          {user.education.degree}
-                        </p>
-                      )}
-                    {user.education.field &&
-                      user.education.field.trim() !== "" && (
-                        <p>
-                          <span className="font-semibold">Field:</span>{" "}
-                          {user.education.field}
-                        </p>
-                      )}
-                    {user.education.institution &&
-                      user.education.institution.trim() !== "" && (
-                        <p>
-                          <span className="font-semibold">Institution:</span>{" "}
-                          {user.education.institution}
-                        </p>
-                      )}
-                    {user.education.degree &&
-                      user.education.status.trim() !== "" && (
-                        <p>
-                          <span className="font-semibold">Status:</span>{" "}
-                          {user.education.status}
-                        </p>
-                      )}
-                    {user.education.scholarship &&
-                      user.education.scholarship.trim() !== "" && (
-                        <p>
-                          <span className="font-semibold">Scholarship:</span>{" "}
-                          {user.education.scholarship}
-                        </p>
-                      )}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
 
           {/* Expertise */}
           {user?.expertise &&

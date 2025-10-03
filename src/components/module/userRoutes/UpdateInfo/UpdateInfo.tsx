@@ -11,7 +11,6 @@ import { UpdateInfoFormData, Conference } from "@/type";
 import {
   BasicInformationSection,
   CurrentInstitutionSection,
-  EducationSection,
   SocialLinksSection,
   CitationsSection,
   ExpertiseSection,
@@ -21,6 +20,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useUserStatus } from "@/hooks/useUserStatus";
 import { CurrentInstitutionAcademic } from "./CurrentInstitutionAcademic";
+import { Loader } from "lucide-react";
 
 const UpdateInfo = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,17 +50,11 @@ const UpdateInfo = () => {
       aboutYourSelf: "",
       currentInstitution: "",
       currentDepartment: "",
-      currentDegree: "",
       currentInstDesignation: "",
       currentInstitutionAcademicInstitution: "",
       currentInstitutionAcademicDepartment: "",
       currentInstitutionAcademicDegree: "",
-      currentInstitutionAcademicInstDesignation: "",
-      educationDegree: "",
-      educationField: "",
-      educationInstitution: "",
-      educationStatus: "",
-      scholarship: "",
+      currentInstitutionAcademicStatus: "Ongoing",
       linkedin: "",
       researchgate: "",
       googleScholar: "",
@@ -154,34 +148,29 @@ const UpdateInfo = () => {
         // Current Institution - only set if data exists
         setValue("currentInstitution", data?.current?.institution || "");
         setValue("currentDepartment", data?.current?.department || "");
-        setValue("currentDegree", data?.current?.degree || "");
         setValue(
           "currentInstDesignation",
           data?.current?.inst_designation || ""
         );
 
         // Current Institution Academic - only set if data exists
-        setValue("currentInstitutionAcademicInstitution", data?.CurrentInstitutionAcademic?.institution || "");
-        setValue("currentInstitutionAcademicDepartment", data?.CurrentInstitutionAcademic?.department || "");
-        setValue("currentInstitutionAcademicDegree", data?.CurrentInstitutionAcademic?.degree || "");
         setValue(
-          "currentInstitutionAcademicInstDesignation",
-          data?.CurrentInstitutionAcademic?.inst_designation || ""
+          "currentInstitutionAcademicInstitution",
+          data?.CurrentInstitutionAcademic?.institution || ""
+        );
+        setValue(
+          "currentInstitutionAcademicDepartment",
+          data?.CurrentInstitutionAcademic?.department || ""
+        );
+        setValue(
+          "currentInstitutionAcademicDegree",
+          data?.CurrentInstitutionAcademic?.degree || ""
+        );
+        setValue(
+          "currentInstitutionAcademicStatus",
+          data?.CurrentInstitutionAcademic?.status || "Ongoing"
         );
 
-        // Education - only set if data exists
-        setValue("educationDegree", data?.education?.degree || "");
-        setValue("educationField", data?.education?.field || "");
-        setValue("educationInstitution", data?.education?.institution || "");
-        // Only set education status if it's a valid value, otherwise keep empty
-        const validStatuses = ["Ongoing", "Completed"];
-        setValue(
-          "educationStatus",
-          validStatuses.includes(data?.education?.status)
-            ? data?.education?.status
-            : ""
-        );
-        setValue("scholarship", data?.education?.scholarship || "");
 
         // Social Links - only set if data exists
         setValue("linkedin", data?.socialLinks?.linkedin || "");
@@ -282,46 +271,33 @@ const UpdateInfo = () => {
     // Current Institution - always include (allow clearing)
     const currentInstitution = cleanString(formData.currentInstitution);
     const currentDepartment = cleanString(formData.currentDepartment);
-    const currentDegree = cleanString(formData.currentDegree);
     const currentInstDesignation = cleanString(formData.currentInstDesignation);
 
     payload.current = {
       inst_designation: currentInstDesignation,
       institution: currentInstitution,
       department: currentDepartment,
-      degree: currentDegree,
     };
 
     // Current Institution Academic - always include (allow clearing)
-    const currentInstitutionAcademicInstitution = cleanString(formData.currentInstitutionAcademicInstitution);
-    const currentInstitutionAcademicDepartment = cleanString(formData.currentInstitutionAcademicDepartment);
-    const currentInstitutionAcademicDegree = cleanString(formData.currentInstitutionAcademicDegree);
-    const currentInstitutionAcademicInstDesignation = cleanString(formData.currentInstitutionAcademicInstDesignation);
+    const currentInstitutionAcademicInstitution = cleanString(
+      formData.currentInstitutionAcademicInstitution
+    );
+    const currentInstitutionAcademicDepartment = cleanString(
+      formData.currentInstitutionAcademicDepartment
+    );
+    const currentInstitutionAcademicDegree = cleanString(
+      formData.currentInstitutionAcademicDegree
+    );
+    const currentInstitutionAcademicStatus = formData.currentInstitutionAcademicStatus || "Ongoing";
 
     payload.CurrentInstitutionAcademic = {
-      inst_designation: currentInstitutionAcademicInstDesignation,
       institution: currentInstitutionAcademicInstitution,
       department: currentInstitutionAcademicDepartment,
       degree: currentInstitutionAcademicDegree,
+      status: currentInstitutionAcademicStatus,
     };
 
-    // Education - always include (allow clearing)
-    const educationDegree = cleanString(formData.educationDegree);
-    const educationField = cleanString(formData.educationField);
-    const educationInstitution = cleanString(formData.educationInstitution);
-    const scholarship = cleanString(formData.scholarship);
-
-    // Handle education status - allow empty string for "Select status (optional)"
-    const educationStatus =
-      formData.educationStatus === "" ? "" : formData.educationStatus;
-
-    payload.education = {
-      degree: educationDegree,
-      field: educationField,
-      institution: educationInstitution,
-      status: educationStatus,
-      scholarship: scholarship,
-    };
 
     // Keep existing research data
     payload.research = data?.research || [];
@@ -412,7 +388,7 @@ const UpdateInfo = () => {
             <Card className="border border-gray-200">
               <CardHeader className="bg-gray-50">
                 <CardTitle className="text-lg font-semibold">
-                Current Position (Professional)
+                Professional Status
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -423,11 +399,11 @@ const UpdateInfo = () => {
               </CardContent>
             </Card>
 
-              {/* Current Institution Section Academic */}
-              <Card className="border border-gray-200">
+            {/* Current Institution Section Academic */}
+            <Card className="border border-gray-200">
               <CardHeader className="bg-gray-50">
                 <CardTitle className="text-lg font-semibold">
-                  Current Position (Academic)
+                Academic Status
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -438,17 +414,6 @@ const UpdateInfo = () => {
               </CardContent>
             </Card>
 
-            {/* Education Section */}
-            <Card className="border border-gray-200">
-              <CardHeader className="bg-gray-50">
-                <CardTitle className="text-lg font-semibold">
-                  Education
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <EducationSection register={register} errors={errors} />
-              </CardContent>
-            </Card>
 
             {/* Social Links Section */}
             <Card className="border border-gray-200">
@@ -525,13 +490,13 @@ const UpdateInfo = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-brand-primary hover:bg-brand-secondary text-white font-semibold w-full py-3 px-8 rounded-lg transition-all duration-200 cursor-pointer"
+                className="bg-brand-primary hover:bg-brand-secondary text-white font-semibold w-full py-3 px-8 rounded-lg transition-all duration-200 flex items-center justify-center cursor-pointer"
               >
                 {loading ? (
-                  <>
-                    <LoadingSpinner size="sm" variant="icon" className="mr-2" />
+                  <div className="flex items-center justify-center">
+                    <Loader className="animate-spin mr-2" />
                     Updating...
-                  </>
+                  </div>
                 ) : (
                   "Update Profile"
                 )}

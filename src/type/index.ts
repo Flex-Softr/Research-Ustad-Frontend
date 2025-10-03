@@ -110,7 +110,6 @@ export interface UserProfile {
     department: string;
     degree: string;
   };
-  education: Education;
   socialLinks: SocialLinks;
   designation: string;
 }

@@ -1,13 +1,7 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Award,
-  Calendar,
-  MapPin,
   Mail,
-  Phone,
-  Globe,
   ExternalLink,
   LinkedinIcon,
   Microscope,
@@ -54,41 +48,116 @@ const MemberHeader = ({ member }: MemberHeaderProps) => {
 
               <div>
                 {/* Current Position (Academic) */}
-                {(member?.CurrentInstitutionAcademic?.inst_designation ||
-                  member?.CurrentInstitutionAcademic?.department ||
-                  member?.CurrentInstitutionAcademic?.institution) && (
-                  <div className="flex items-center gap-2 text-gray-600 text-center md:text-left">
-                    <div>
-                      <p className=" leading-relaxed capitalize">
-                        {member?.CurrentInstitutionAcademic
-                          ?.inst_designation && (
-                          <span className="font-medium">
-                            {member.CurrentInstitutionAcademic.inst_designation}
-                          </span>
+                {member?.CurrentInstitutionAcademic &&
+                  ((member.CurrentInstitutionAcademic.institution &&
+                    member.CurrentInstitutionAcademic.institution.trim() !==
+                      "") ||
+                    (member.CurrentInstitutionAcademic.department &&
+                      member.CurrentInstitutionAcademic.department.trim() !==
+                        "") ||
+                    (member.CurrentInstitutionAcademic.degree &&
+                      member.CurrentInstitutionAcademic.degree.trim() !==
+                        "")) && (
+                    <div className="flex items-center gap-2 text-gray-600 text-center md:text-left">
+                      <div>
+                        {/* Show status first if Ongoing, hide if Completed */}
+                        {member.CurrentInstitutionAcademic.status ===
+                          "Ongoing" && (
+                          <p className="leading-relaxed capitalize">
+                            {member.CurrentInstitutionAcademic.degree &&
+                              member.CurrentInstitutionAcademic.degree.trim() !==
+                                "" && (
+                                <>
+                                  {member.CurrentInstitutionAcademic.status ===
+                                    "Ongoing" && (
+                                    <span className="mr-1">
+                                      {member.CurrentInstitutionAcademic.status}
+                                    </span>
+                                  )}
+                                  {member.CurrentInstitutionAcademic.degree}
+                                  {member.CurrentInstitutionAcademic.degree &&
+                                    member.CurrentInstitutionAcademic
+                                      .department && <span>, </span>}
+                                  {member.CurrentInstitutionAcademic
+                                    .department &&
+                                    member.CurrentInstitutionAcademic.department.trim() !==
+                                      "" && (
+                                      <>
+                                        {
+                                          member.CurrentInstitutionAcademic
+                                            .department
+                                        }
+                                      </>
+                                    )}
+                                  {member.CurrentInstitutionAcademic
+                                    .institution &&
+                                    member.CurrentInstitutionAcademic.institution.trim() !==
+                                      "" && (
+                                      <>
+                                        ,{" "}
+                                        {
+                                          member.CurrentInstitutionAcademic
+                                            .institution
+                                        }
+                                      </>
+                                    )}
+                                </>
+                              )}
+                          </p>
                         )}
-                        {member?.CurrentInstitutionAcademic?.department &&
-                          member?.CurrentInstitutionAcademic
-                            ?.inst_designation && <span>, </span>}
-                        {member?.CurrentInstitutionAcademic?.department && (
-                          <span>
-                            {member.CurrentInstitutionAcademic.department}
-                          </span>
+
+                        {/* Show individual fields if status is Completed or if no status */}
+                        {member.CurrentInstitutionAcademic.status !==
+                          "Ongoing" && (
+                          <p className="leading-relaxed capitalize">
+                            {member.CurrentInstitutionAcademic.degree &&
+                              member.CurrentInstitutionAcademic.degree.trim() !==
+                                "" && (
+                                <span className="font-medium">
+                                  {member.CurrentInstitutionAcademic.degree}
+                                </span>
+                              )}
+                            {member.CurrentInstitutionAcademic.department &&
+                              member.CurrentInstitutionAcademic.department.trim() !==
+                                "" && (
+                                <>
+                                  {member.CurrentInstitutionAcademic.degree &&
+                                    member.CurrentInstitutionAcademic.degree.trim() !==
+                                      "" && <span>, </span>}
+                                  <span>
+                                    {
+                                      member.CurrentInstitutionAcademic
+                                        .department
+                                    }
+                                  </span>
+                                </>
+                              )}
+                            {member.CurrentInstitutionAcademic.institution &&
+                              member.CurrentInstitutionAcademic.institution.trim() !==
+                                "" && (
+                                <>
+                                  {(member.CurrentInstitutionAcademic.degree &&
+                                    member.CurrentInstitutionAcademic.degree.trim() !==
+                                      "") ||
+                                  (member.CurrentInstitutionAcademic
+                                    .department &&
+                                    member.CurrentInstitutionAcademic.department.trim() !==
+                                      "") ? (
+                                    <span>, </span>
+                                  ) : null}
+                                  <span className="font-medium text-gray-700">
+                                    {
+                                      member.CurrentInstitutionAcademic
+                                        .institution
+                                    }
+                                  </span>
+                                </>
+                              )}
+                          </p>
                         )}
-                        {member?.CurrentInstitutionAcademic?.institution &&
-                          (member?.CurrentInstitutionAcademic
-                            ?.inst_designation ||
-                            member?.CurrentInstitutionAcademic?.department) && (
-                            <span>, </span>
-                          )}
-                        {member?.CurrentInstitutionAcademic?.institution && (
-                          <span className="font-medium text-gray-700">
-                            {member.CurrentInstitutionAcademic.institution}
-                          </span>
-                        )}
-                      </p>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* Current Position (professional) */}
                 {(member?.current?.inst_designation ||

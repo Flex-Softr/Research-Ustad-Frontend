@@ -46,7 +46,6 @@ const TeamMembersPage = () => {
             research: member.research || [],
             isDeleted: member.isDeleted,
             current: member.current,
-            education: member.education,
             socialLinks: member.socialLinks,
             expertise: member.expertise || [],
             awards: member.awards || [],
@@ -73,7 +72,6 @@ const TeamMembersPage = () => {
             research: member.research || [],
             isDeleted: member.isDeleted,
             current: member.current,
-            education: member.education,
             socialLinks: member.socialLinks,
             expertise: member.expertise || [],
             awards: member.awards || [],
@@ -106,9 +104,6 @@ const TeamMembersPage = () => {
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       member.current?.institution
-        ?.toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      member.education?.field
         ?.toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       member.expertise?.some((exp) =>

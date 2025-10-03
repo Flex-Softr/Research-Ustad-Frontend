@@ -15,26 +15,6 @@ const Expertise = ({ member }: ExpertiseProps) => {
 
   return (
     <div className="space-y-6">
-{/* education */}
-{
-  member?.education && member?.education?.degree && (
-    <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
-    <CardHeader>
-      <CardTitle className="flex items-center gap-2 text-xl font-bold text-gray-900">
-        <Star className="h-6 w-6 text-brand-secondary" />
-        Education
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="space-y-4">
-        <h1 className="font-medium  text-gray-700">{member?.education?.degree}  of {member?.education?.field}, {member?.education?.institution} {member?.education?.status !== "Completed" && <span>({member?.education?.status})</span>}</h1>
-        
-      </div>
-    </CardContent>
-  </Card>
-  )
-}
-
       {/* Expertise */}
       {member.expertise && member.expertise?.length > 0 && (
         <Card className="bg-white/80 backdrop-blur-sm border border-gray-100">
