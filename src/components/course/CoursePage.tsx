@@ -356,7 +356,7 @@ const CoursePage = () => {
                         return (
                           <div
                             key={course._id || index}
-                            className="group bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden"
+                            className="group bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col h-full"
                           >
                             {/* Image Section */}
                             <div className="relative overflow-hidden">
@@ -384,8 +384,8 @@ const CoursePage = () => {
                             </div>
 
                             {/* Content Section */}
-                            <div className="p-6">
-                              <div className="mb-4">
+                            <div className="p-6 flex-1 flex flex-col">
+                              <div className="mb-4 flex-shrink-0">
                                 <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-brand-primary transition-colors duration-300 line-clamp-2">
                                   {course.title}
                                 </h3>
@@ -398,7 +398,7 @@ const CoursePage = () => {
                               </div>
 
                               {/* Course Stats */}
-                              <div className="space-y-3 mb-6">
+                              <div className="space-y-3 mb-6 flex-1">
                                 <div className="flex items-center text-sm text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
                                   <div className="w-6 h-6 bg-blue-100 rounded-lg flex items-center justify-center mr-2">
                                     <Users className="h-3 w-3 text-blue-600" />
@@ -431,7 +431,7 @@ const CoursePage = () => {
                               </div>
 
                               {/* Price and CTA */}
-                              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                              <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
                                 <div className="flex items-center text-xl font-black text-brand-primary">
                                   {course.isFree ? (
                                     <>

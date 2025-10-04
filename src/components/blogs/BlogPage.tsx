@@ -135,7 +135,6 @@ const BlogPage = () => {
     }
   };
 
-
   return (
     <>
       {/* Breadcrumb Section */}

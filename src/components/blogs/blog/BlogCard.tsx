@@ -21,12 +21,14 @@ const BlogCard = ({ post }: { post: Blog }) => {
   // Clean content for preview
   const getContentPreview = (content: string) => {
     if (!content) return "No content available";
-    const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-    return cleanContent?.length > 120 ? cleanContent?.slice(0, 120) + "..." : cleanContent;
+    const cleanContent = content.replace(/<[^>]*>/g, "").trim();
+    return cleanContent?.length > 120
+      ? cleanContent?.slice(0, 120) + "..."
+      : cleanContent;
   };
 
   return (
-    <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200">
+    <div className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-gray-200 flex flex-col h-full">
       <div className="relative overflow-hidden">
         {/* Blog Image */}
         <div className="relative w-full h-64 lg:h-80">
@@ -34,18 +36,15 @@ const BlogCard = ({ post }: { post: Blog }) => {
             className="object-cover object-center w-full h-full group-hover:scale-105 transition-transform duration-300"
             src={post.imageUrl}
             alt={post.title || "Blog post"}
-            
-           
           />
         </div>
 
         {/* Category Badge */}
         <div className="absolute top-4 left-4">
           <span className="bg-brand-primary to-brand-secondary text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-            {typeof post.category === 'string' 
-              ? post.category 
-              : post.category?.name || "Blog"
-            }
+            {typeof post.category === "string"
+              ? post.category
+              : post.category?.name || "Blog"}
           </span>
         </div>
 
@@ -82,43 +81,48 @@ const BlogCard = ({ post }: { post: Blog }) => {
       </div>
 
       {/* Blog Content */}
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors duration-300 mb-3 line-clamp-2">
-          {post.title || "Untitled Post"}
-        </h2>
-
-        {/* Meta Information */}
-        <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
-          <div className="flex items-center gap-2">
-            <User className="w-4 h-4" />
-            <span>{post.author?.fullName || "Unknown"}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span>{formatDate(post.publishedDate || post.createdAt)}</span>
-          </div>
+      <div className="p-6 flex-1 flex flex-col">
+        <div className="flex-1">
+          <h2 className="text-xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors duration-300 mb-3 line-clamp-2">
+            {post.title || "Untitled Post"}
+          </h2>
         </div>
 
-        {/* Read More Button */}
-        <Link
-          href={`/blog/${post._id}`}
-          className="inline-flex items-center text-brand-primary hover:text-brand-secondary font-semibold group-hover:translate-x-1 transition-all duration-300"
-        >
-          Read more
-          <svg
-            className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {/* Meta Information and Read More Button - Bottom Section */}
+        <div className="mt-auto pt-4 border-t border-gray-100">
+          {/* Meta Information */}
+          <div className="flex items-center justify-between mb-4 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              <span>{post.author?.fullName || "Unknown"}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              <span>{formatDate(post.publishedDate || post.createdAt)}</span>
+            </div>
+          </div>
+
+          {/* Read More Button */}
+          <Link
+            href={`/blog/${post._id}`}
+            className="inline-flex items-center text-brand-primary hover:text-brand-secondary font-semibold group-hover:translate-x-1 transition-all duration-300"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Link>
+            Read more
+            <svg
+              className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
 
       {/* Hover Effect Overlay */}

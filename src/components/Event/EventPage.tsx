@@ -10,7 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, MapPin, Users, Clock, ExternalLink, AlertCircle } from "lucide-react";
+import {
+  Calendar,
+  MapPin,
+  Users,
+  Clock,
+  ExternalLink,
+  AlertCircle,
+} from "lucide-react";
 import Breadcrumb from "@/components/shared/Breadcrumb";
 import Link from "next/link";
 import { fetchEvents } from "@/services/events/eventSlice";
@@ -124,7 +131,7 @@ const EventPage = () => {
                 return (
                   <Card
                     key={`event-card-${event._id}`}
-                    className="overflow-hidden group"
+                    className="overflow-hidden group flex flex-col h-full"
                   >
                     <div className="relative h-48">
                       <FallbackImage
@@ -140,36 +147,38 @@ const EventPage = () => {
                       </span>
                     </div>
 
-                    <CardHeader>
+                    <CardHeader className="flex-shrink-0">
                       <CardTitle>{event.title}</CardTitle>
                       <CardDescription>{event.description}</CardDescription>
                     </CardHeader>
 
-                    <CardContent className="space-y-3">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Calendar className="h-4 w-4 mr-2" />
-                        {new Date(event.startDate).toLocaleDateString()} -{" "}
-                        {new Date(event.endDate).toLocaleDateString()}
+                    <CardContent className="space-y-3 flex-1 flex flex-col">
+                      <div className="space-y-3">
+                        <div className="flex items-center text-sm text-gray-600">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          {new Date(event.startDate).toLocaleDateString()} -{" "}
+                          {new Date(event.endDate).toLocaleDateString()}
+                        </div>
+
+                        <div className="flex items-center text-sm text-gray-600">
+                          <MapPin className="h-4 w-4 mr-2" />
+                          {event.location}
+                        </div>
+
+                        <div className="flex items-center text-sm text-gray-600">
+                          <Users className="h-4 w-4 mr-2" />
+                          {event.speakers?.length} Speakers
+                        </div>
+
+                        <div className="flex items-center text-sm text-gray-600">
+                          <Clock className="h-4 w-4 mr-2" />
+                          <span className={statusInfo.color}>
+                            {statusInfo.text}
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="h-4 w-4 mr-2" />
-                        {event.location}
-                      </div>
-
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Users className="h-4 w-4 mr-2" />
-                        {event.speakers?.length} Speakers
-                      </div>
-
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Clock className="h-4 w-4 mr-2" />
-                        <span className={statusInfo.color}>
-                          {statusInfo.text}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-4">
+                      <div className="flex items-center justify-between pt-4 mt-auto">
                         <span className="text-lg font-bold text-brand-secondary">
                           {event.registrationFee === 0
                             ? "Free"
@@ -181,8 +190,7 @@ const EventPage = () => {
                             variant="primary"
                             // className="bg-brand-primary"
                           >
-                         
-                              Details
+                            Details
                             <ExternalLink className="w-4 h-4 ml-2" />
                           </Button>
                         </Link>
