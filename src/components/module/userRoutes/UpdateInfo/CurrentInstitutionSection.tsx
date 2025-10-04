@@ -8,7 +8,7 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
     <div className="space-y-4">
       <div className="grid gap-4">
         <label className="space-y-1">
-          <span className="text-sm font-medium">Institution</span>
+          <span className="text-sm font-medium">University/Institute</span>
           <Input
             type="text"
             {...register("currentInstitution")}
@@ -38,7 +38,7 @@ export function CurrentInstitutionSection({ register, errors }: UpdateInfoCurren
 
         <label className="space-y-1">
           <span className="text-sm font-medium">
-            Institution Designation
+            Designation
           </span>
           <Input
             type="text"
