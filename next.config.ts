@@ -30,11 +30,11 @@ const nextConfig = {
         port: "5000",
       },
       {
-        protocol: "https",
+        protocol: "http",
         hostname: "api.researchustad.org",
       },
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "api.researchustad.org",
       },
       {
