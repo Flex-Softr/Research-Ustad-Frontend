@@ -34,6 +34,10 @@ const nextConfig = {
         hostname: "api.researchustad.org",
       },
       {
+        protocol: "http",
+        hostname: "api.researchustad.org",
+      },
+      {
         protocol: "https",
         hostname: "researchustad.org",
       },
